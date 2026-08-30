@@ -1,0 +1,1 @@
+20cfafe7de8ebfdda7953337788395ecf1b260b937c9ef17cd32a6a857ed2161  rustchain_secure_observer_v0.1.1.zip
