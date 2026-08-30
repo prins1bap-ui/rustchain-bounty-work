@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" role="img" aria-labelledby="title desc">
+  <title id="title">Legend of Elya N64 Transformer Walkthrough</title>
+  <desc id="desc">Syndication cover for a source-backed walkthrough of the Legend of Elya Nintendo 64 transformer implementation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1000" height="420" fill="url(#bg)"/>
+  <rect width="1000" height="420" fill="url(#grid)"/>
+  <rect x="58" y="54" width="92" height="28" rx="14" fill="#f59e0b"/>
+  <text x="104" y="73" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#111827">N64</text>
+  <text x="58" y="142" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" fill="#ffffff">Legend of Elya</text>
+  <text x="58" y="198" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#c7d2fe">Transformer Walkthrough</text>
+  <text x="58" y="252" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e5e7eb">Architecture • libdragon build path • reproducible ares rate probe</text>
+  <text x="58" y="326" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#9ca3af">Source-backed technical tutorial</text>
+  <text x="58" y="354" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#9ca3af">by prins1bap-ui</text>
+  <g transform="translate(760 92)">
+    <rect x="0" y="0" width="160" height="160" rx="24" fill="#111827" stroke="#818cf8" stroke-width="3"/>
+    <circle cx="80" cy="80" r="52" fill="none" stroke="#f59e0b" stroke-width="8"/>
+    <path d="M52 80h56M80 52v56" stroke="#e5e7eb" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="80" cy="80" r="12" fill="#818cf8"/>
+    <text x="80" y="194" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#c7d2fe">NINTENDO 64</text>
+  </g>
+</svg>
