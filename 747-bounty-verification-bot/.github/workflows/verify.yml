@@ -1,9 +1,8 @@
-name: bounty-verifier-ci
+name: rustchain-bounty-verifier
+
 on:
-  push:
-    paths: ['747-bounty-verification-bot/**']
-  pull_request:
-    paths: ['747-bounty-verification-bot/**']
+  issue_comment:
+    types: [created]
   workflow_dispatch:
     inputs:
       user:
@@ -12,23 +11,36 @@ on:
       claim_text:
         description: Claim text to verify
         required: true
+
 permissions:
   contents: read
-  issues: read
+  issues: write
+
 jobs:
-  test:
+  verify-comment:
+    if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 747-bounty-verification-bot
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
-      - if: github.event_name == 'workflow_dispatch'
-        env:
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL }}
+        run: python issue_comment_handler.py
+
+  manual-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+      - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL }}
         run: python verifier.py --user '${{ inputs.user }}' --claim-text '${{ inputs.claim_text }}'
