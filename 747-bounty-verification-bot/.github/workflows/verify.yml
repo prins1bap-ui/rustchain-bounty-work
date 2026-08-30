@@ -1,0 +1,34 @@
+name: bounty-verifier-ci
+on:
+  push:
+    paths: ['747-bounty-verification-bot/**']
+  pull_request:
+    paths: ['747-bounty-verification-bot/**']
+  workflow_dispatch:
+    inputs:
+      user:
+        description: GitHub claimant username
+        required: true
+      claim_text:
+        description: Claim text to verify
+        required: true
+permissions:
+  contents: read
+  issues: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 747-bounty-verification-bot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+      - if: github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL }}
+        run: python verifier.py --user '${{ inputs.user }}' --claim-text '${{ inputs.claim_text }}'
