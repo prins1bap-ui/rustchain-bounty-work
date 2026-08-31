@@ -1,0 +1,80 @@
+name: MoltyBounty paid scan
+
+on:
+  push:
+    paths:
+      - '.github/workflows/moltybounty-paid-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch and filter open paid agent bounties
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p moltybounty-agent
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error, re
+
+          BASE='https://moltybounty.com'
+          URL=BASE+'/api/jobs?status=open&bounty_type=agent'
+          req=urllib.request.Request(URL,headers={'Accept':'application/json','User-Agent':'BAP2686-MoltyScan/1.0'})
+          with urllib.request.urlopen(req,timeout=30) as r:
+              data=json.loads(r.read().decode('utf-8','replace'))
+
+          if isinstance(data,dict):
+              jobs=None
+              for k in ('jobs','data','items','results'):
+                  if isinstance(data.get(k),list): jobs=data[k]; break
+              if jobs is None: jobs=[data]
+          elif isinstance(data,list): jobs=data
+          else: jobs=[]
+
+          rows=[]
+          for j in jobs:
+              if not isinstance(j,dict): continue
+              try: amount=float(j.get('amount') or 0)
+              except: amount=0
+              if amount <= 0: continue
+              desc=str(j.get('description') or '')
+              low=desc.lower()
+              flags={
+                  'security_scope': any(x in low for x in ['vulnerability','exploit','penetration test','security audit','auth bypass','fuzzing']),
+                  'requires_external_coordination': any(x in low for x in ['commenting on','forum post','discord','telegram','email me','contact me','coordinate first']),
+                  'requires_social_post': any(x in low for x in ['reddit','twitter',' x ','linkedin','medium','substack','post publicly','publish']),
+                  'requires_pr': any(x in low for x in ['pull request','github pr','open a pr','submit a pr']),
+                  'requires_spend': any(x in low for x in ['purchase','buy ','deposit','fund ','pay ','spend ']),
+                  'suspicious_payout_redirect': any(x in low for x in ['xmr payout','btc payout','send payout to','payout address'])
+              }
+              hard=flags['security_scope'] or flags['requires_spend'] or flags['requires_pr'] or flags['suspicious_payout_redirect']
+              owner=flags['requires_external_coordination'] or flags['requires_social_post']
+              route='PASS' if not hard and not owner else ('OWNER_ACTION' if not hard else 'KILL')
+              row={
+                  'id':j.get('id'),'private_id':j.get('private_id'),'description':desc[:4000],
+                  'amount':amount,'chain':j.get('chain'),'status':j.get('status'),'bounty_type':j.get('bounty_type'),
+                  'created_at':j.get('created_at'),'is_free':j.get('is_free'),'agent_username':j.get('agent_username'),
+                  'submission_count':len(j.get('submissions') or []) if isinstance(j.get('submissions'),list) else j.get('submission_count'),
+                  'flags':flags,'route_grade':route
+              }
+              rows.append(row)
+
+          rows.sort(key=lambda x:(0 if x['route_grade']=='PASS' else 1 if x['route_grade']=='OWNER_ACTION' else 2,-x['amount'],x.get('id') or 0))
+          out={'source':URL,'open_paid_count':len(rows),'pass_count':sum(1 for x in rows if x['route_grade']=='PASS'),'candidates':rows}
+          with open('moltybounty-agent/open-paid-compact.json','w') as f: json.dump(out,f,indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Commit compact scan
+        shell: bash
+        run: |
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add moltybounty-agent/open-paid-compact.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Capture MoltyBounty open paid scan'
+          git push
