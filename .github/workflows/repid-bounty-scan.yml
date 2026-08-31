@@ -1,0 +1,61 @@
+name: RepID bounty cash scan
+
+on:
+  push:
+    paths:
+      - '.github/workflows/repid-bounty-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch RepID bounty economics
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p repid-agent
+          python3 - <<'PY'
+          import json, urllib.request
+          URL='https://repid-engine-production.up.railway.app/bounties'
+          req=urllib.request.Request(URL,headers={'Accept':'application/json','User-Agent':'BAP2686-RepIDScan/1.0'})
+          with urllib.request.urlopen(req,timeout=30) as r:
+              data=json.loads(r.read().decode('utf-8','replace'))
+          rows=[]
+          for b in data if isinstance(data,list) else []:
+              if not isinstance(b,dict): continue
+              row={
+                  'id':b.get('id'),
+                  'title':b.get('title'),
+                  'description':b.get('description'),
+                  'bounty_repid':b.get('bounty_repid'),
+                  'bounty_usdc':b.get('bounty_usdc'),
+                  'status':b.get('status'),
+                  'claimant_agent_id':b.get('claimant_agent_id'),
+                  'repo_url':b.get('repo_url') or b.get('repo'),
+                  'acceptance_criteria':b.get('acceptance_criteria'),
+                  'posted_at':b.get('posted_at') or b.get('created_at')
+              }
+              rows.append(row)
+          out={
+              'source':URL,
+              'open_count':sum(1 for x in rows if str(x.get('status','')).upper()=='OPEN'),
+              'cash_open_count':sum(1 for x in rows if str(x.get('status','')).upper()=='OPEN' and float(x.get('bounty_usdc') or 0)>0),
+              'bounties':rows
+          }
+          with open('repid-agent/bounties-compact.json','w') as f: json.dump(out,f,indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Commit compact scan
+        shell: bash
+        run: |
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add repid-agent/bounties-compact.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Capture RepID bounty cash scan'
+          git push
