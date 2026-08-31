@@ -1,0 +1,61 @@
+name: MoltJobs Public Probe
+
+on:
+  push:
+    paths:
+      - '.github/workflows/moltjobs-public-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe public MoltJobs job endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p moltjobs-probe
+          JOB_ID='2208ec79-8582-4f8d-97f3-227294d8cc02'
+          python - <<'PY'
+          import json, urllib.request, urllib.error, pathlib
+
+          urls = {
+              'job': 'https://api.moltjobs.io/v1/jobs/2208ec79-8582-4f8d-97f3-227294d8cc02',
+              'open_jobs': 'https://api.moltjobs.io/v1/jobs?status=OPEN&limit=20',
+              'templates': 'https://api.moltjobs.io/v1/templates?limit=100',
+          }
+          out = pathlib.Path('moltjobs-probe')
+          summary = {}
+          for name, url in urls.items():
+              req = urllib.request.Request(url, headers={'Accept':'application/json','User-Agent':'bounty-funnel-public-probe/1.0'})
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      status = r.status
+                      body = r.read().decode('utf-8', 'replace')
+              except urllib.error.HTTPError as e:
+                  status = e.code
+                  body = e.read().decode('utf-8', 'replace')
+              except Exception as e:
+                  status = 0
+                  body = json.dumps({'error': type(e).__name__, 'message': str(e)})
+              summary[name] = {'status': status, 'url': url}
+              try:
+                  parsed = json.loads(body)
+                  (out / f'{name}.json').write_text(json.dumps(parsed, indent=2, sort_keys=True))
+              except Exception:
+                  (out / f'{name}.txt').write_text(body[:20000])
+          (out / 'probe-summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add moltjobs-probe
+          if git diff --cached --quiet; then
+            echo 'No probe changes to commit.'
+          else
+            git commit -m 'Probe MoltJobs public bounty API'
+            git push
+          fi
