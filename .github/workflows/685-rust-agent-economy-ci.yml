@@ -1,0 +1,29 @@
+name: 685 Rust Agent Economy SDK CI
+
+on:
+  push:
+    paths:
+      - '685-rust-agent-economy-sdk/**'
+      - '.github/workflows/685-rust-agent-economy-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 685-rust-agent-economy-sdk
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Test
+        run: cargo test --all-targets
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
