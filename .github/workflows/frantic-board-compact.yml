@@ -1,0 +1,116 @@
+name: Frantic compact board scan
+
+on:
+  push:
+    paths:
+      - '.github/workflows/frantic-board-compact.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan and qualify current board
+        shell: bash
+        run: |
+          mkdir -p frantic-agent
+          cat > /tmp/scan.py <<'PY'
+          import json, urllib.request, urllib.error
+          URL='https://api.gofrantic.com/mcp'
+
+          def decode(raw, ctype=''):
+              text=raw.decode('utf-8','replace')
+              if 'text/event-stream' in ctype or text.lstrip().startswith(('event:','data:')):
+                  vals=[]
+                  for line in text.splitlines():
+                      if line.startswith('data:'):
+                          s=line[5:].strip()
+                          if s and s!='[DONE]':
+                              try: vals.append(json.loads(s))
+                              except: pass
+                  return vals[-1] if vals else {}
+              try: return json.loads(text)
+              except: return {}
+
+          def post(payload, session=None):
+              h={'Content-Type':'application/json','Accept':'application/json, text/event-stream','User-Agent':'bap2686-frantic-scan/1.0'}
+              if session: h['Mcp-Session-Id']=session
+              req=urllib.request.Request(URL,data=json.dumps(payload).encode(),headers=h,method='POST')
+              with urllib.request.urlopen(req,timeout=30) as r:
+                  return decode(r.read(),r.headers.get('Content-Type','')), r.headers.get('Mcp-Session-Id') or session
+
+          def text_payload(resp):
+              try:
+                  items=((resp.get('result') or {}).get('content') or [])
+                  for x in items:
+                      if isinstance(x,dict) and x.get('text'):
+                          return json.loads(x['text'])
+              except: pass
+              return {}
+
+          init,s=post({'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-03-26','capabilities':{},'clientInfo':{'name':'bap2686-frantic-scan','version':'1.0'}}})
+          post({'jsonrpc':'2.0','method':'notifications/initialized','params':{}},s)
+          tools,s=post({'jsonrpc':'2.0','id':2,'method':'tools/list','params':{}},s)
+          tool_list=((tools.get('result') or {}).get('tools') or [])
+          names=[t.get('name') for t in tool_list if isinstance(t,dict)]
+          read=next(n for n in names if str(n).endswith('.read_board'))
+          getb=next((n for n in names if str(n).endswith('.get_bounty')),None)
+          br,s=post({'jsonrpc':'2.0','id':3,'method':'tools/call','params':{'name':read,'arguments':{}}},s)
+          board=text_payload(br).get('board') or {}
+
+          out={'live':board.get('live'),'bounties_open':board.get('bounties_open'),'funded_usd':board.get('funded_usd'),'candidates':[]}
+          for i,b in enumerate(board.get('open_bounties') or []):
+              num=b.get('number'); note=b.get('note') or ''; low=note.lower()
+              detail={}
+              if getb and num is not None:
+                  try:
+                      dr,s=post({'jsonrpc':'2.0','id':100+i,'method':'tools/call','params':{'name':getb,'arguments':{'id':str(num)}}},s)
+                      detail=text_payload(dr)
+                  except Exception as e:
+                      detail={'detail_error':type(e).__name__}
+              dlow=json.dumps(detail).lower()
+              combined=(low+' '+dlow)
+              flags={
+                  'requires_pr': ('pull request' in combined or 'pr_url' in combined or 'github pr' in combined),
+                  'requires_reddit_posting': ('reddit' in combined and ('post' in combined or 'comment' in combined or 'answer' in combined)),
+                  'requires_external_publication': any(x in combined for x in ['external site','guest piece','publish an original','public_url=<the citing page>','linkedin article','medium post','substack']),
+                  'requires_spend': any(x in combined for x in ['fund $','spend $','purchase','buy ','payment you make','pay another','deposit']),
+                  'requires_existing_account_age': ('account' in combined and any(x in combined for x in ['90 days','earlier public posts','comment karma','account age'])),
+                  'security_scope': any(x in combined for x in ['vulnerability','exploit','security audit','penetration','auth bypass'])
+              }
+              claim=((b.get('actions') or {}).get('claim') or {})
+              slots=b.get('claim_slots') or {}
+              # Preserve only compact, decision-relevant public detail fields.
+              detail_root=detail.get('bounty') if isinstance(detail.get('bounty'),dict) else detail
+              row={
+                  'number':num,'title':b.get('title'),'price_usd':b.get('price_usd'),'funded':b.get('funded'),
+                  'available_slots':slots.get('available'),'capacity':slots.get('capacity'),
+                  'claim_state':claim.get('state'),'claim_requires':claim.get('requires'),'claim_reason':claim.get('reason'),
+                  'url':b.get('url'),'flags':flags,
+                  'required_artifacts':detail_root.get('required_artifacts') if isinstance(detail_root,dict) else None,
+                  'claim_window_minutes':detail_root.get('claim_window_minutes') if isinstance(detail_root,dict) else None,
+                  'deliverable':detail_root.get('deliverable') if isinstance(detail_root,dict) else None,
+                  'acceptance_criteria':detail_root.get('acceptance_criteria') if isinstance(detail_root,dict) else None
+              }
+              hard=flags['requires_spend'] or flags['security_scope'] or flags['requires_pr']
+              owner=flags['requires_reddit_posting'] or flags['requires_external_publication'] or flags['requires_existing_account_age']
+              row['route_grade']='PASS' if not hard and not owner else ('OWNER_ACTION' if not hard else 'KILL')
+              out['candidates'].append(row)
+          out['candidates'].sort(key=lambda x:(0 if x['route_grade']=='PASS' else 1 if x['route_grade']=='OWNER_ACTION' else 2,-(x.get('price_usd') or 0)))
+          with open('frantic-agent/board-compact.json','w') as f: json.dump(out,f,indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2))
+          PY
+          python /tmp/scan.py
+      - name: Commit compact public scan
+        shell: bash
+        run: |
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add frantic-agent/board-compact.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Capture compact Frantic bounty qualification scan'
+          git push
