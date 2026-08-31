@@ -1,0 +1,43 @@
+name: RustChain miner dry-run evidence
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/rustchain-miner-dry-run.yml'
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record runner hardware
+        run: |
+          echo "=== OS ==="
+          uname -a
+          echo "=== CPU ==="
+          lscpu | sed -n '1,25p'
+          echo "=== Python ==="
+          python3 --version
+
+      - name: Check out RustChain
+        uses: actions/checkout@v4
+        with:
+          repository: Scottcjn/Rustchain
+          path: Rustchain
+
+      - name: Install miner dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r Rustchain/miners/linux/requirements-miner.txt
+
+      - name: Run miner dry-run
+        working-directory: Rustchain/miners/linux
+        run: |
+          set -o pipefail
+          python3 rustchain_linux_miner.py --dry-run --show-payload 2>&1 | tee ../../../rustchain-miner-dry-run-output.txt
+
+      - name: Save evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: rustchain-miner-dry-run-evidence
+          path: rustchain-miner-dry-run-output.txt
