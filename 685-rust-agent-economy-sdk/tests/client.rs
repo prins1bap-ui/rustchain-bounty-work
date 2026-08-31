@@ -199,7 +199,10 @@ async fn invalid_inputs_fail_before_network() {
         })
         .await
         .is_err());
-    assert!(client.accept_job("job_1", &json!(["not", "an", "object"])).await.is_err());
+    assert!(client
+        .accept_job("job_1", &json!(["not", "an", "object"]))
+        .await
+        .is_err());
 }
 
 #[tokio::test]
