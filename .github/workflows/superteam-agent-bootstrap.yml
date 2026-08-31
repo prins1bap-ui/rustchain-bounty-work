@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Register agent and fetch agent-eligible bounties
+      - name: Register one replacement agent and persist credentials safely
         shell: bash
         run: |
           set -euo pipefail
@@ -27,7 +27,7 @@ jobs:
           import urllib.request
 
           url = "https://superteam.fun/api/agents"
-          payload = json.dumps({"name": "BAP2686Agent"}).encode()
+          payload = json.dumps({"name": "BAP2686Agent2"}).encode()
           request = urllib.request.Request(
               url,
               data=payload,
@@ -35,7 +35,7 @@ jobs:
               headers={
                   "Content-Type": "application/json",
                   "Accept": "application/json",
-                  "User-Agent": "BAP2686Agent/1.0",
+                  "User-Agent": "BAP2686Agent2/1.0",
               },
           )
           try:
@@ -57,34 +57,20 @@ jobs:
             echo "Superteam registration failed with HTTP $HTTP_CODE"
             if jq -e . "$REG_FILE" >/dev/null 2>&1; then
               jq 'del(.apiKey,.claimCode,.token,.secret)' "$REG_FILE"
-            else
-              sed -E 's/(apiKey|claimCode|token|secret)[^[:space:]]*/[REDACTED]/Ig' "$REG_FILE"
             fi
             exit 1
           fi
 
-          REGISTRATION=$(cat "$REG_FILE")
-          API_KEY=$(printf '%s' "$REGISTRATION" | jq -r '.apiKey // empty')
-          CLAIM_CODE=$(printf '%s' "$REGISTRATION" | jq -r '.claimCode // empty')
-          AGENT_ID=$(printf '%s' "$REGISTRATION" | jq -r '.agentId // empty')
-          USERNAME=$(printf '%s' "$REGISTRATION" | jq -r '.username // empty')
-
+          API_KEY=$(jq -r '.apiKey // empty' "$REG_FILE")
+          CLAIM_CODE=$(jq -r '.claimCode // empty' "$REG_FILE")
+          AGENT_ID=$(jq -r '.agentId // empty' "$REG_FILE")
+          USERNAME=$(jq -r '.username // empty' "$REG_FILE")
           test -n "$API_KEY"
           test -n "$CLAIM_CODE"
           echo "::add-mask::$API_KEY"
           echo "::add-mask::$CLAIM_CODE"
-
-          curl -q --fail-with-body -sS \
-            "https://superteam.fun/api/agents/listings/live?take=100&type=bounty&deadline=2026-12-31" \
-            -H "Authorization: Bearer $API_KEY" \
-            -o superteam-agent/live-listings.json
-
-          jq -n \
-            --arg agentId "$AGENT_ID" \
-            --arg username "$USERNAME" \
-            --arg generatedAt "$(date -u +%FT%TZ)" \
-            '{agentId:$agentId,username:$username,generatedAt:$generatedAt}' \
-            > superteam-agent/agent-public-meta.json
+          printf '%s' "$API_KEY" > /tmp/superteam-api-key
+          printf '%s' "$CLAIM_CODE" > /tmp/superteam-claim-code
 
           cat > /tmp/superteam-public.pem <<'PEM'
           -----BEGIN PUBLIC KEY-----
@@ -100,9 +86,51 @@ jobs:
 
           printf '%s' "$API_KEY" | openssl pkeyutl -encrypt -pubin -inkey /tmp/superteam-public.pem | base64 -w0 > superteam-agent/api-key.enc
           printf '%s' "$CLAIM_CODE" | openssl pkeyutl -encrypt -pubin -inkey /tmp/superteam-public.pem | base64 -w0 > superteam-agent/claim-code.enc
+          jq -n \
+            --arg agentId "$AGENT_ID" \
+            --arg username "$USERNAME" \
+            --arg generatedAt "$(date -u +%FT%TZ)" \
+            --arg note "Replacement for unusable bootstrap credential; use only this identity for submissions." \
+            '{agentId:$agentId,username:$username,generatedAt:$generatedAt,note:$note}' \
+            > superteam-agent/agent-public-meta.json
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add superteam-agent/live-listings.json superteam-agent/agent-public-meta.json superteam-agent/api-key.enc superteam-agent/claim-code.enc
-          git commit -m "Bootstrap Superteam agent bounty feed"
+          git add superteam-agent/api-key.enc superteam-agent/claim-code.enc superteam-agent/agent-public-meta.json
+          git commit -m "Persist Superteam replacement agent credentials"
+          git push
+
+      - name: Fetch agent and public listing feeds
+        shell: bash
+        run: |
+          set -euo pipefail
+          API_KEY=$(cat /tmp/superteam-api-key)
+          echo "::add-mask::$API_KEY"
+          python - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+
+          api_key = open('/tmp/superteam-api-key').read().strip()
+          headers = {"Authorization": f"Bearer {api_key}", "User-Agent": "BAP2686Agent2/1.0"}
+          urls = {
+              "superteam-agent/agent-listings.json": "https://superteam.fun/api/agents/listings/live?take=100&type=bounty&deadline=2026-08-30T00:00:00.000Z",
+              "superteam-agent/public-listings.json": "https://earn.superteam.fun/api/listings?take=100",
+          }
+          for path, url in urls.items():
+              req = urllib.request.Request(url, headers=headers if '/api/agents/' in url else {"User-Agent": "BAP2686Agent2/1.0"})
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      body = response.read()
+              except urllib.error.HTTPError as exc:
+                  body = json.dumps({"httpStatus": exc.code, "error": exc.read().decode(errors='replace')}).encode()
+              with open(path, 'wb') as f:
+                  f.write(body)
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add superteam-agent/agent-listings.json superteam-agent/public-listings.json
+          git commit -m "Capture Superteam agent-eligible bounty feeds"
           git push
