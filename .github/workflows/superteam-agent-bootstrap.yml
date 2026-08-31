@@ -21,14 +21,38 @@ jobs:
           set -euo pipefail
           mkdir -p superteam-agent
 
-          AGENT_NAME="BAP2686Agent"
-          REG_FILE=$(mktemp)
-          HTTP_CODE=$(curl -q -sS -o "$REG_FILE" -w '%{http_code}' -X POST "https://superteam.fun/api/agents" \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/json" \
-            -H "User-Agent: BAP2686Agent/1.0" \
-            -d "$(jq -nc --arg name "$AGENT_NAME" '{name:$name}')")
+          python - <<'PY'
+          import json
+          import urllib.error
+          import urllib.request
 
+          url = "https://superteam.fun/api/agents"
+          payload = json.dumps({"name": "BAP2686Agent"}).encode()
+          request = urllib.request.Request(
+              url,
+              data=payload,
+              method="POST",
+              headers={
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+                  "User-Agent": "BAP2686Agent/1.0",
+              },
+          )
+          try:
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  status = response.status
+                  body = response.read()
+          except urllib.error.HTTPError as exc:
+              status = exc.code
+              body = exc.read()
+          with open("/tmp/superteam-registration-status", "w") as f:
+              f.write(str(status))
+          with open("/tmp/superteam-registration.json", "wb") as f:
+              f.write(body)
+          PY
+
+          HTTP_CODE=$(cat /tmp/superteam-registration-status)
+          REG_FILE=/tmp/superteam-registration.json
           if [[ "$HTTP_CODE" -lt 200 || "$HTTP_CODE" -ge 300 ]]; then
             echo "Superteam registration failed with HTTP $HTTP_CODE"
             if jq -e . "$REG_FILE" >/dev/null 2>&1; then
