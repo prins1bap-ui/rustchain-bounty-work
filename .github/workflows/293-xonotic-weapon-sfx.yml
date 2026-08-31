@@ -1,0 +1,44 @@
+name: Build bounty 293 weapon SFX
+
+on:
+  push:
+    paths:
+      - '293-xonotic-weapon-sfx/generate.py'
+      - '293-xonotic-weapon-sfx/validate.py'
+      - '293-xonotic-weapon-sfx/README.md'
+      - '293-xonotic-weapon-sfx/LICENSE-CC0.txt'
+      - '.github/workflows/293-xonotic-weapon-sfx.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install audio tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Generate original OGG files
+        run: python3 293-xonotic-weapon-sfx/generate.py
+
+      - name: Validate package
+        run: python3 293-xonotic-weapon-sfx/validate.py
+
+      - name: Publish generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 293-xonotic-weapon-sfx/sounds 293-xonotic-weapon-sfx/MANIFEST.json
+          if git diff --cached --quiet; then
+            echo "Generated assets already match repository state."
+            exit 0
+          fi
+          git commit -m "build: publish generated bounty 293 OGG assets"
+          git push
