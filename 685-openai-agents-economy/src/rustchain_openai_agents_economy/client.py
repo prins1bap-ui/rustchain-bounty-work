@@ -1,12 +1,11 @@
 """Read-only async client for the RIP-302 Agent Economy marketplace."""
 
-from __future__ import annotations
-
 import math
 import re
 from typing import Any
 
 import httpx
+from typing_extensions import Self
 
 _SEGMENT = re.compile(r"^[A-Za-z0-9_.:-]{1,128}$")
 _STATUSES = {"open", "claimed", "delivered", "completed", "disputed", "cancelled", "expired"}
@@ -46,7 +45,7 @@ class AgentEconomyReadClient:
     async def aclose(self) -> None:
         await self._http.aclose()
 
-    async def __aenter__(self) -> "AgentEconomyReadClient":
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(self, *_: object) -> None:
