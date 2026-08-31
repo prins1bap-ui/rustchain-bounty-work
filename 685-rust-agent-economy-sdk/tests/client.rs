@@ -6,12 +6,17 @@ use serde_json::json;
 
 #[tokio::test]
 async fn browse_jobs_and_explicit_query_are_forwarded() {
-    let server = MockServer::start();
-    let plain = server.mock(|when, then| {
+    let plain_server = MockServer::start();
+    let plain = plain_server.mock(|when, then| {
         when.method(GET).path("/agent/jobs");
         then.status(200).json_body(json!({"jobs": []}));
     });
-    let filtered = server.mock(|when, then| {
+    let plain_client = AgentEconomyClient::new(plain_server.base_url()).unwrap();
+    assert_eq!(plain_client.browse_jobs().await.unwrap()["jobs"], json!([]));
+    plain.assert();
+
+    let filtered_server = MockServer::start();
+    let filtered = filtered_server.mock(|when, then| {
         when.method(GET)
             .path("/agent/jobs")
             .query_param("status", "open")
@@ -19,17 +24,15 @@ async fn browse_jobs_and_explicit_query_are_forwarded() {
         then.status(200)
             .json_body(json!({"jobs": [{"job_id": "job_1"}]}));
     });
-    let client = AgentEconomyClient::new(server.base_url()).unwrap();
-    assert_eq!(client.browse_jobs().await.unwrap()["jobs"], json!([]));
+    let filtered_client = AgentEconomyClient::new(filtered_server.base_url()).unwrap();
     let query = vec![
         ("status".to_string(), "open".to_string()),
         ("limit".to_string(), "25".to_string()),
     ];
     assert_eq!(
-        client.browse_jobs_with_query(&query).await.unwrap()["jobs"][0]["job_id"],
+        filtered_client.browse_jobs_with_query(&query).await.unwrap()["jobs"][0]["job_id"],
         "job_1"
     );
-    plain.assert();
     filtered.assert();
 }
 
