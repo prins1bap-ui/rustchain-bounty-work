@@ -19,8 +19,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p clawlancer-agent
+          if [ -f clawlancer-agent/agent-public-meta.json ] || [ -f clawlancer-agent/api-key.enc.b64 ]; then
+            echo 'Existing successful bootstrap artifacts found; refusing duplicate registration.'
+            exit 0
+          fi
           python3 - <<'PY'
-          import base64, json, subprocess, urllib.error, urllib.request
+          import base64, json, os, subprocess, urllib.error, urllib.request
 
           BASE = "https://clawlancer.ai/api"
           PUB_B64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQm9qQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FZOEFNSUlCaWdLQ0FZRUExTW56aU1ST25nWkJSL1V2QmNzTgpsYXJ5M0ZRakIyYVQvNWtOaGkwRUQwcDBVWmR1SXpuRGc1ZHF5RityUGpaY3FCZSsrTmxQZTdQdTU5MEMzam9kCmp0aSthaU93aU1FY2JXTGdKSC9GWUxyM0g4STBhVXlwQ0hobTRhTXdOcFFQeVpTMUUrTEhPR0ljUGR3TzQxT0sKSHcxbmQrOXUrL1FtZ3l6WTRBMk05a3VNaXpSV3U4Z2NyWWFlR3dZbjhYSlhMS3JmeFg2RFROQzdGM3ZCUDQyZAp3N3QxUlNQU3YyQ0t5Q0wyZ3B1N1IrMDdwWmJ2SEpUc2p0aXIvUTE5T1pyZkt5RUl2K01PbmtaSlRBSUUxUkdKCmk4T0pGVE5jclVMMDU1ejhZQnlIMkJ2ZWlnL0ora1NySkg5eEw0dEZxSnBVTjR0TitDT0RxUUlZcHV6bjlMdVgKck91L2dJTUlPbXBVNlVJd0dsZTBOUjY4OUZhM2ViS2I2ZEc2VE02YSt5SUMvdjE5akZZOFFGcC96K3FtRUxvaAplZ284UHZNN3FncGJuSGEvc3FrcjdzZitrNk9UVWNERCt5QmZ1OWFXNVZId2Z3OG9KSUQrVk54dlpwV2ZiVFRUCno3YkllaTBUVE1mK1l4SVNFU1BpNE8xQXRNc21wald5Yk5zOTdVRG51SWlEQWdNQkFBRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
@@ -40,21 +44,18 @@ jobs:
                       return r.status, (json.loads(raw) if raw.strip() else {})
               except urllib.error.HTTPError as e:
                   raw = e.read().decode("utf-8", "replace")
-                  try:
-                      parsed = json.loads(raw)
-                  except Exception:
-                      parsed = {"error_text": raw[:2000]}
+                  try: parsed = json.loads(raw)
+                  except Exception: parsed = {"error_text": raw[:2000]}
                   return e.code, parsed
 
           status, reg = call("/agents/register", "POST", {
-              "name":"BAP2686Worker",
+              "agent_name":"BAP2686Worker",
               "bio":"Autonomous research, writing, coding, QA, documentation, and data agent. Non-security work only."
           })
-
           if not (200 <= status < 300):
               with open("clawlancer-agent/bootstrap-error.json", "w") as f:
                   json.dump({"registration_status":status, "response":reg}, f, indent=2, sort_keys=True)
-              print("Registration failed; preserving exact public error and not retrying.")
+              print("Registration failed; exact public error preserved. No retry.")
               raise SystemExit(0)
 
           def walk(obj, prefix=""):
@@ -69,14 +70,16 @@ jobs:
 
           api_key = None
           for path, key, value in walk(reg):
-              k = key.lower()
-              if isinstance(value, str) and k in {"api_key","apikey","api-key","agent_api_key"} and value:
+              lk = key.lower()
+              if not isinstance(value, str) or not value:
+                  continue
+              if lk in {"api_key","apikey","api-key","agent_api_key"} or (("api" in path.lower()) and ("key" in lk or "token" in lk)):
                   api_key = value
                   break
           if api_key is None:
               with open("clawlancer-agent/bootstrap-error.json", "w") as f:
                   json.dump({"registration_status":status, "reason":"registration succeeded but API key field was not recognized", "top_level_keys":list(reg.keys()) if isinstance(reg,dict) else []}, f, indent=2, sort_keys=True)
-              print("Registration succeeded but API key field was not recognized. No second registration will be attempted.")
+              print("Registration succeeded but key field was not recognized. No second registration will be attempted.")
               raise SystemExit(0)
 
           print("::add-mask::" + api_key)
@@ -98,14 +101,15 @@ jobs:
                           continue
                       out[k] = redact(v)
                   return out
-              if isinstance(obj, list):
-                  return [redact(x) for x in obj]
+              if isinstance(obj, list): return [redact(x) for x in obj]
               return obj
 
           public = redact(reg)
           public["_bootstrap"] = {"agent_name":"BAP2686Worker", "registration_status":status, "api_key_encrypted":True}
           with open("clawlancer-agent/agent-public-meta.json", "w") as f:
               json.dump(public, f, indent=2, sort_keys=True)
+          if os.path.exists("clawlancer-agent/bootstrap-error.json"):
+              os.remove("clawlancer-agent/bootstrap-error.json")
 
           lstatus, listings = call("/listings?listing_type=BOUNTY", token=api_key)
           with open("clawlancer-agent/live-bounties-raw.json", "w") as f:
@@ -118,7 +122,7 @@ jobs:
         run: |
           git config user.name 'bap2686-bounty-bot'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add clawlancer-agent/ 2>/dev/null || true
+          git add -A clawlancer-agent/ 2>/dev/null || true
           if git diff --cached --quiet; then
             echo 'No bootstrap output to commit.'
           else
