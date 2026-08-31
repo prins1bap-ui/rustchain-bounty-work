@@ -1,0 +1,59 @@
+name: Build bounty 315 production assets
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-bounty315-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pillow
+          ffmpeg -version | head -1
+
+      - name: Generate original assets
+        run: python3 bounty315/generate_assets.py
+
+      - name: Validate outputs
+        run: |
+          set -e
+          test "$(find bounty315/assets -maxdepth 1 -name '*.png' | wc -l)" -eq 5
+          test "$(find bounty315/assets -maxdepth 1 -name '*.mp4' | wc -l)" -eq 3
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          import subprocess, json
+          root=Path('bounty315/assets')
+          for p in sorted(root.glob('*.png')):
+              with Image.open(p) as im:
+                  assert im.size == (1200,675), (p,im.size)
+                  print(p, im.size)
+          for p in sorted(root.glob('*.mp4')):
+              raw=subprocess.check_output(['ffprobe','-v','quiet','-print_format','json','-show_streams','-show_format',str(p)])
+              data=json.loads(raw)
+              v=next(s for s in data['streams'] if s['codec_type']=='video')
+              assert int(v['width'])==720 and int(v['height'])==1280
+              dur=float(data['format']['duration'])
+              assert 8.0 <= dur <= 15.0, (p,dur)
+              assert v['codec_name']=='h264', (p,v['codec_name'])
+              print(p, v['codec_name'], f'{dur:.2f}s', f"{v['width']}x{v['height']}")
+          PY
+          sha256sum bounty315/assets/* > bounty315/ASSET_SHA256SUMS.txt
+
+      - name: Commit generated assets
+        run: |
+          git config user.name 'prins1bap-ui'
+          git config user.email 'prins1bap@gmail.com'
+          git add bounty315/assets bounty315/ASSET_SHA256SUMS.txt
+          git commit -m 'assets: publish bounty 315 production pack'
+          git push
