@@ -1,0 +1,5 @@
+CC0 1.0 Universal dedication applies to the original package-specific generator code, documentation, and generated audio outputs in this directory, to the extent legally possible.
+
+The eSpeak NG program is used only as a local synthesis tool and is not redistributed in this directory.
+
+Canonical CC0 legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
