@@ -1,0 +1,90 @@
+{
+  "bounty": 293,
+  "set": "RustChain Arena Announcer Voice Lines",
+  "license": "CC0-1.0 dedication for this package; generated locally with eSpeak NG",
+  "sample_rate_hz": 48000,
+  "channels": 1,
+  "lines": [
+    {
+      "file": "sounds/announcer/double_spend.ogg",
+      "text": "Double spend!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.25,
+      "sha256": "5a72150f192e036c15465df9a0a2ba73182ed733b01dbe829828453eb82caf7f"
+    },
+    {
+      "file": "sounds/announcer/triple_fork.ogg",
+      "text": "Triple fork!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.303,
+      "sha256": "00474329623cbd2beca7e56a70aa755a8fcb86393cd9a6816953d1a959d5a426"
+    },
+    {
+      "file": "sounds/announcer/consensus_reached.ogg",
+      "text": "Consensus reached!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.582,
+      "sha256": "829d5c2fefd4f9ea0e96b2383bdcd77e87abc90de5244760589950d79e5325c6"
+    },
+    {
+      "file": "sounds/announcer/calculating.ogg",
+      "text": "Calculating...",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.224,
+      "sha256": "9d3b4f50c8a0a3b09c645e1d183112ee3741921efb60f0c281ebed32ff0b7949"
+    },
+    {
+      "file": "sounds/announcer/building_momentum.ogg",
+      "text": "Building momentum!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.487,
+      "sha256": "f3e02c64625b250569bccde30de06dd3717de580a3f95d5db56b448e1ecd8ce7"
+    },
+    {
+      "file": "sounds/announcer/singularity.ogg",
+      "text": "Singularity!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.312,
+      "sha256": "5221cf8d7ef16385fbefcaadb96e34f22df4356fceae37944b502075223525bb"
+    },
+    {
+      "file": "sounds/announcer/block_confirmed.ogg",
+      "text": "Block confirmed.",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.387,
+      "sha256": "392e2fb734839b74249cfe46ab414bf6ab4bfc47f72a46157591619f40a30d04"
+    },
+    {
+      "file": "sounds/announcer/chain_reorganization.ogg",
+      "text": "Chain reorganization!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 1.741,
+      "sha256": "d237c5f758696d0266232931645f7c6a94972414ba5a1d7bed2876c76b98601d"
+    },
+    {
+      "file": "sounds/announcer/fifty_one_attack_detected.ogg",
+      "text": "Fifty one percent attack detected!",
+      "codec": "vorbis",
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_seconds": 2.716,
+      "sha256": "72e58d3dec25228374f156929492224240ad2fe466c9bb2247bd2cea07ad23b8"
+    }
+  ]
+}
