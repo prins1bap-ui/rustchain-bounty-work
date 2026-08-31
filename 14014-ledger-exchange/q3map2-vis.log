@@ -1,0 +1,42 @@
+2.5.17n-git-b4b295d
+threads: 4
+Q3Map         - v1.0r (c) 1999 Id Software Inc.
+Q3Map (ydnar) - v2.5.17n-git-b4b295d
+NetRadiant    - v1.5.0 Aug 31 2026 10:18:22
+Your map saw the pretty lights from q3map2's BFG
+/tmp/netradiant-build/q3map2
+VFS Init: /home/runner/.xonotic/pk3_build/
+VFS Init: /tmp/xonotic-rustchain/pk3_build/
+VFS Init: /home/runner/.xonotic/data/
+VFS Init: /tmp/xonotic-rustchain/data/
+
+--- Vis ---
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.bsp
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.prt
+    80 portalclusters
+   236 numportals
+   251 numfaces
+   472 active portals
+     0 hint portals
+visdatasize:1288
+
+--- BasePortalVis (472) ---
+0...1...2...3...4...5...6...7...8...9... (0)
+      6 average number of passages per leaf
+      0 MB required passage memory
+
+--- CreatePassages (472) ---
+0...1...2...3...4...5...6...7...8...9... (0)
+
+--- PassagePortalFlow (472) ---
+0...1...2...3...4...5...6...7...8...9... (0)
+creating leaf vis...
+Total clusters: 80
+Total visible clusters: 6435
+Average clusters visible: 80.44 (100.547%/total)
+  Standard deviation: 1.25 (1.567%/total, 1.558%/avg)
+  Minimum: 75 (93.750%/total, 93.240%/avg)
+  Maximum: 81 (101.250%/total, 100.699%/avg)
+Writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.bsp
+Wrote 0.0 MB (38260 bytes)
+        0 seconds elapsed

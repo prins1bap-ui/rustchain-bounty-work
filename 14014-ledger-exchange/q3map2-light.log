@@ -1,0 +1,76 @@
+2.5.17n-git-b4b295d
+threads: 4
+Q3Map         - v1.0r (c) 1999 Id Software Inc.
+Q3Map (ydnar) - v2.5.17n-git-b4b295d
+NetRadiant    - v1.5.0 Aug 31 2026 10:18:22
+Your map saw the pretty lights from q3map2's BFG
+/tmp/netradiant-build/q3map2
+VFS Init: /home/runner/.xonotic/pk3_build/
+VFS Init: /tmp/xonotic-rustchain/pk3_build/
+VFS Init: /home/runner/.xonotic/data/
+VFS Init: /tmp/xonotic-rustchain/data/
+
+--- Light ---
+--- ProcessGameSpecific ---
+ lightning model: quake3
+ lightmap size: 128 x 128 pixels
+ lightning gamma: 1.000000
+ lightmap colorspace: sRGB
+ texture colorspace: sRGB
+ _color colorspace: sRGB
+ lightning compensation: 1.000000
+ lightning exposure: 0.000000
+ lightgrid scale: 1.000000
+ lightgrid ambient scale: 1.000000
+ shader lightstyles hack: disabled
+ patch shadows: enabled
+ deluxemapping: enabled with modelspace deluxemaps
+--- ProcessCommandLine ---
+Fast mode enabled for all area lights
+Adaptive supersampling enabled with 2 sample(s) per lightmap texel
+Using point light as backsplash light (default)
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.srf
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+entering /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+--- SetupGrid ---
+Grid size = { 64, 64, 128 }
+     3780 grid points
+        5 point lights
+        0 spotlights
+        0 diffuse (area) lights
+        0 sun/sky lights
+        5 total lights
+        0 culled lights
+--- TraceGrid ---
+0...1...2...3...4...5...6...7...8...9... (0)
+35 x 27 x 4 = 3780 grid
+--- MapRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+    42172 luxels
+    38236 luxels mapped
+     1769 luxels occluded
+--- FloodlightRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+        0 custom lightmaps floodlighted
+        5 total lights
+        0 culled lights
+--- IlluminateRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+    42172 luxels illuminated
+--- IlluminateVertexes ---
+0...1...2...3...4...5...6...7...8...9... (0)
+      296 vertexes illuminated
+--- StoreSurfaceLightmaps ---
+    41947 luxels used
+    98304 luxels stored (42.67 percent efficiency)
+       22 solid surface lightmaps
+        0 identical surface lightmaps, using 0 luxels
+        0 vertex forced surfaces
+        0 vertex approximated surfaces
+        6 BSP lightmaps
+        3 total lightmaps
+        7 unique lightmap/shader combinations
+Writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.bsp
+Wrote 0.3 MB (363440 bytes)
+        0 seconds elapsed
