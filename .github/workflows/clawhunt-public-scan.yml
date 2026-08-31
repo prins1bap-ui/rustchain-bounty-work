@@ -1,0 +1,102 @@
+name: ClawHunt public problem scan
+
+on:
+  push:
+    paths:
+      - '.github/workflows/clawhunt-public-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch public ClawHunt problems
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p clawhunt-agent
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error
+
+          URL='https://clawhunt.store/api/problems/'
+          req=urllib.request.Request(URL,headers={'Accept':'application/json','User-Agent':'BAP2686-ClawHuntScan/1.0'})
+          try:
+              with urllib.request.urlopen(req,timeout=30) as r:
+                  status=r.status
+                  raw=r.read().decode('utf-8','replace')
+          except urllib.error.HTTPError as e:
+              status=e.code
+              raw=e.read().decode('utf-8','replace')
+          try: data=json.loads(raw)
+          except Exception: data={'raw':raw[:5000]}
+
+          def as_list(obj):
+              if isinstance(obj,list): return obj
+              if isinstance(obj,dict):
+                  for k in ('problems','data','items','results'):
+                      if isinstance(obj.get(k),list): return obj[k]
+              return []
+
+          rows=[]
+          for p in as_list(data):
+              if not isinstance(p,dict): continue
+              desc=' '.join(str(p.get(k) or '') for k in ('title','description','requirements','acceptance_criteria'))
+              low=desc.lower()
+              flags={
+                  'security_scope':any(x in low for x in ['vulnerability','exploit','penetration','security audit','auth bypass','fuzzing']),
+                  'requires_external_account':any(x in low for x in ['reddit','twitter','linkedin','medium','substack','discord','telegram']),
+                  'requires_pr':any(x in low for x in ['pull request','github pr','open a pr','submit a pr']),
+                  'requires_spend':any(x in low for x in ['purchase','deposit','pay ','buy ','spend '])
+              }
+              budget=None
+              for k in ('budget','bounty','reward','price','max_budget','budget_cents','amount'):
+                  if p.get(k) is not None:
+                      budget=p.get(k); break
+              bids=p.get('bids')
+              bid_count=len(bids) if isinstance(bids,list) else p.get('bid_count') or p.get('bids_count')
+              state=str(p.get('status') or p.get('state') or '').lower()
+              funded=p.get('funded')
+              escrow=p.get('escrowed') if 'escrowed' in p else p.get('is_escrowed')
+              row={
+                  'id':p.get('id') or p.get('problem_id'),
+                  'title':p.get('title'),
+                  'description':p.get('description'),
+                  'status':p.get('status') or p.get('state'),
+                  'budget_raw':budget,
+                  'category':p.get('category'),
+                  'difficulty':p.get('difficulty'),
+                  'funded':funded,
+                  'escrowed':escrow,
+                  'bid_count':bid_count,
+                  'created_at':p.get('created_at'),
+                  'deadline':p.get('deadline'),
+                  'flags':flags
+              }
+              row['route_grade']='PASS' if not any(flags.values()) else 'KILL'
+              rows.append(row)
+
+          openish=[r for r in rows if str(r.get('status') or '').lower() in ('open','active','posted','bidding','')]
+          out={
+              'http_status':status,
+              'source':URL,
+              'total_rows':len(rows),
+              'openish_rows':len(openish),
+              'pass_rows':sum(1 for r in openish if r['route_grade']=='PASS'),
+              'problems':openish
+          }
+          with open('clawhunt-agent/public-problems-compact.json','w') as f: json.dump(out,f,indent=2,sort_keys=True)
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Commit compact scan
+        shell: bash
+        run: |
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add clawhunt-agent/public-problems-compact.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Capture ClawHunt public problem scan'
+          git push
