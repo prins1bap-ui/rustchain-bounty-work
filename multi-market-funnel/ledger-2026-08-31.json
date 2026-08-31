@@ -1,0 +1,119 @@
+{
+  "generated_at_utc": "2026-08-31T02:15:00Z",
+  "objective": "First verified external cash/stablecoin/liquid-token bounty payout with zero speculative spend and an executable submission route",
+  "hard_gates": [
+    "live and currently payable",
+    "non-security scope",
+    "zero required spend or capital-at-risk",
+    "credible liquid payout route",
+    "submission route executable with current authorized tools",
+    "no fake identities, Sybil behavior, CAPTCHA bypass, or incentive evasion"
+  ],
+  "markets": [
+    {
+      "market": "Superteam Earn agent API",
+      "state": "HOLD",
+      "submission_route": "Official agent REST API",
+      "payout": "USDC/USDG via human claim after agent win",
+      "evidence": {
+        "replacement_agent": "bap2686agent2-orange-90",
+        "agent_feed": "superteam-agent/agent-listings.json",
+        "agent_feed_result": "0 eligible listings",
+        "public_feed": "superteam-agent/public-listings.json",
+        "public_agent_access_matches": 0
+      },
+      "reason": "Infrastructure and credential persistence are working, but there are currently no AGENT_ALLOWED or AGENT_ONLY bounties to submit to. Human-only listings are not eligible for this lane."
+    },
+    {
+      "market": "BountyBook",
+      "state": "HOLD",
+      "submission_route": "REST/MCP API",
+      "payout": "USDC on Base",
+      "evidence": {
+        "current_open_jobs": 0,
+        "platform_fee_on_success": "4%"
+      },
+      "reason": "Agent-native and solver-side work is advertised as fee-free before success, but the current board reports zero open jobs."
+    },
+    {
+      "market": "Agent Bounties",
+      "state": "KILL",
+      "submission_route": "Canonical Base contract + API/MCP/GitHub claim handoff",
+      "payout": "Base USDC",
+      "evidence": {
+        "claim_bond": "typically 0.01-0.10 USDC depending on bounty",
+        "gas": "eligible claim gas may be sponsored on some bounties"
+      },
+      "reason": "Canonical solver participation requires a refundable but forfeitable USDC claim bond and wallet signing. This violates the current zero-capital-at-risk gate."
+    },
+    {
+      "market": "Verdikta Bounties",
+      "state": "KILL",
+      "submission_route": "Bot/API discovery plus on-chain prepared submission",
+      "payout": "ETH",
+      "evidence": {
+        "docs": "verdikta-agent/docs/agents.txt",
+        "solver_requirement": "startPreparedSubmission is payable and requires evaluator ethMaxBudget plus Base gas"
+      },
+      "reason": "Actual payout-eligible submission requires solver-side ETH funding and gas. Free API/file preparation alone does not create the canonical submission."
+    },
+    {
+      "market": "Opire",
+      "state": "KILL",
+      "submission_route": "Upstream GitHub PR plus /claim or dashboard claim",
+      "payout": "Stripe payout, approximately 1-7 business days after creator pays",
+      "evidence": {
+        "live_rewards_exist": true,
+        "required_delivery": "PR with solution",
+        "receiver_setup": "Stripe account required"
+      },
+      "reason": "Current GitHub integration cannot fork/write arbitrary upstream repositories, and the payout path also requires external Stripe account configuration."
+    },
+    {
+      "market": "Algora",
+      "state": "KILL",
+      "submission_route": "Upstream GitHub PR with claim syntax",
+      "payout": "cash payout after reward",
+      "evidence": {
+        "stale_examples_detected": ["projectdiscovery/nuclei#6674", "projectdiscovery/nuclei#6532"],
+        "competition_examples": ["xevrion-v2/agent-playground#1", "xevrion-v2/agent-playground#2"]
+      },
+      "reason": "The best surfaced listings are stale or heavily saturated, and the connected GitHub app lacks the upstream fork/write route required for PR submission."
+    },
+    {
+      "market": "AgentBounty.org",
+      "state": "KILL",
+      "submission_route": "Web submission",
+      "payout": "claimed crypto or bank payout",
+      "evidence": {
+        "page_claim": "active bounties",
+        "visible_featured_deadlines": "February-March 2026",
+        "verification_date": "late August 2026"
+      },
+      "reason": "The supposedly active inventory visibly carries deadlines months in the past, so current payable status cannot be trusted."
+    },
+    {
+      "market": "GitHub comment-submit liquid bounties",
+      "state": "HOLD",
+      "submission_route": "Issue/comment submission, which current GitHub integration can perform",
+      "payout": "varies",
+      "evidence": {
+        "recent_search_result": "No current non-security USDC comment-submit bounty survived the live/payable filter"
+      },
+      "reason": "This is structurally executable and remains a discovery target, but the current scan found no liquid, currently payable candidate."
+    },
+    {
+      "market": "RustChain RTC",
+      "state": "HOLD",
+      "submission_route": "Standalone repository plus GitHub issue/email fallback",
+      "payout": "RTC",
+      "evidence": {
+        "issue_402": "50 RTC kickoff queued; 50 RTC completion tranche submitted",
+        "current_fiat_liquidity": "No credible liquid fiat offramp verified"
+      },
+      "reason": "Existing sunk-work claim remains tracked, but new RTC work fails the liquid-value gate."
+    }
+  ],
+  "frontier_decision": "MILESTONE_C",
+  "frontier_reason": "All currently verified zero-cost markets with agent/form/comment submission were either empty, stale, non-liquid, capital-at-risk, or blocked by an unavailable upstream PR route. The next productive event is a new agent-eligible/API/comment-submit bounty or expanded authenticated GitHub fork/write capability."
+}
