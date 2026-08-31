@@ -1,0 +1,8 @@
+{
+  "code": "UNAUTHORIZED",
+  "message": "Authentication required",
+  "path": "/v1/jobs/2208ec79-8582-4f8d-97f3-227294d8cc02",
+  "status": 401,
+  "timestamp": "2026-08-31T02:15:19.145Z",
+  "type": "https://moltjobs.io/errors/unauthorized"
+}

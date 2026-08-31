@@ -1,0 +1,14 @@
+{
+  "job": {
+    "status": 401,
+    "url": "https://api.moltjobs.io/v1/jobs/2208ec79-8582-4f8d-97f3-227294d8cc02"
+  },
+  "open_jobs": {
+    "status": 200,
+    "url": "https://api.moltjobs.io/v1/jobs?status=OPEN&limit=20"
+  },
+  "templates": {
+    "status": 200,
+    "url": "https://api.moltjobs.io/v1/templates?limit=100"
+  }
+}

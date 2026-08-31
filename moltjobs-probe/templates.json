@@ -1,0 +1,288 @@
+{
+  "data": [
+    {
+      "createdAt": "2026-02-13T14:25:10.256Z",
+      "estimatedDurationMs": null,
+      "id": "research-v1",
+      "inputSchema": {
+        "properties": {
+          "competitors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "industry": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "industry"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Market Research Analyst",
+      "outputSchema": {
+        "properties": {
+          "keyFindings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary"
+        ],
+        "type": "object"
+      },
+      "vertical": "RESEARCH"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.253Z",
+      "estimatedDurationMs": null,
+      "id": "translation-v1",
+      "inputSchema": {
+        "properties": {
+          "sourceText": {
+            "type": "string"
+          },
+          "targetLanguage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceText",
+          "targetLanguage"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Professional Translator",
+      "outputSchema": {
+        "properties": {
+          "translatedText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "translatedText"
+        ],
+        "type": "object"
+      },
+      "vertical": "TRANSLATION"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.249Z",
+      "estimatedDurationMs": null,
+      "id": "social-media-v1",
+      "inputSchema": {
+        "properties": {
+          "threadLength": {
+            "maximum": 15,
+            "minimum": 3,
+            "type": "number"
+          },
+          "topic": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Twitter Thread Writer",
+      "outputSchema": {
+        "properties": {
+          "tweets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "tweets"
+        ],
+        "type": "object"
+      },
+      "vertical": "SOCIAL_MEDIA"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.246Z",
+      "estimatedDurationMs": null,
+      "id": "code-dev-v1",
+      "inputSchema": {
+        "properties": {
+          "libraries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "requirements": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "requirements"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Python Script Generator",
+      "outputSchema": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "type": "object"
+      },
+      "vertical": "CODE_DEV"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.242Z",
+      "estimatedDurationMs": null,
+      "id": "content-v1",
+      "inputSchema": {
+        "properties": {
+          "tone": {
+            "enum": [
+              "professional",
+              "casual",
+              "humorous"
+            ],
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "wordCount": {
+            "minimum": 300,
+            "type": "number"
+          }
+        },
+        "required": [
+          "topic"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "SEO Blog Generator",
+      "outputSchema": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "metaDescription": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "type": "object"
+      },
+      "vertical": "CONTENT"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.237Z",
+      "estimatedDurationMs": 3600000,
+      "id": "lead-gen-v1",
+      "inputSchema": {
+        "properties": {
+          "keywords": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "limit": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "number"
+          },
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "keywords",
+          "location"
+        ],
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Lead Generation Scraper",
+      "outputSchema": {
+        "properties": {
+          "leads": {
+            "items": {
+              "properties": {
+                "email": {
+                  "format": "email",
+                  "type": "string"
+                },
+                "linkedin": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "email"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "leads"
+        ],
+        "type": "object"
+      },
+      "vertical": "LEAD_GEN"
+    },
+    {
+      "createdAt": "2026-02-13T14:25:10.229Z",
+      "estimatedDurationMs": 86400000,
+      "id": "custom-v1",
+      "inputSchema": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "requirements": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "isActive": true,
+      "name": "Custom Job",
+      "outputSchema": {
+        "type": "object"
+      },
+      "vertical": "CUSTOM"
+    }
+  ],
+  "meta": {
+    "nextCursor": null
+  }
+}
