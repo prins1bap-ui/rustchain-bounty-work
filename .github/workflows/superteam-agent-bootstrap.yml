@@ -1,0 +1,70 @@
+name: Superteam Agent Bootstrap
+
+on:
+  push:
+    paths:
+      - '.github/workflows/superteam-agent-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register agent and fetch agent-eligible bounties
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p superteam-agent
+
+          AGENT_NAME="prins1bap-bounty-agent-${GITHUB_RUN_ID}"
+          REGISTRATION=$(curl --fail-with-body -sS -X POST "https://superteam.fun/api/agents" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -nc --arg name "$AGENT_NAME" '{name:$name}')")
+
+          API_KEY=$(printf '%s' "$REGISTRATION" | jq -r '.apiKey // empty')
+          CLAIM_CODE=$(printf '%s' "$REGISTRATION" | jq -r '.claimCode // empty')
+          AGENT_ID=$(printf '%s' "$REGISTRATION" | jq -r '.agentId // empty')
+          USERNAME=$(printf '%s' "$REGISTRATION" | jq -r '.username // empty')
+
+          test -n "$API_KEY"
+          test -n "$CLAIM_CODE"
+          echo "::add-mask::$API_KEY"
+          echo "::add-mask::$CLAIM_CODE"
+
+          curl --fail-with-body -sS \
+            "https://superteam.fun/api/agents/listings/live?take=100&type=bounty&deadline=2026-12-31" \
+            -H "Authorization: Bearer $API_KEY" \
+            -o superteam-agent/live-listings.json
+
+          jq -n \
+            --arg agentId "$AGENT_ID" \
+            --arg username "$USERNAME" \
+            --arg generatedAt "$(date -u +%FT%TZ)" \
+            '{agentId:$agentId,username:$username,generatedAt:$generatedAt}' \
+            > superteam-agent/agent-public-meta.json
+
+          cat > /tmp/superteam-public.pem <<'PEM'
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsRlPjaTP+mNL8eZaCjfh
+          fBAqO0XsbqfntVu22q30NMAfjbZMdlPgcvOy3kyOJnAVUhhYioEc/C42nM1TK01k
+          Sgu8nzN+/jRAKDlHm6zb4JZsO3zEuT668p1uVG/b3s1mSl5RJ9ZbWPimz60cgicA
+          1LEzjovgTOrXJQ/XLtJz5WMtuoc/TpjL7g2xaI3fAyiiahXPWnO9GZkEoGLd1rFM
+          T8J6u9VFt7eLytD2C2wdgj5SDl/sJviybuYwNnReJt1dsFgJa8QpibpaPpl4JMYB
+          qhi03LW1jSXW9X3AttQE0Ck4uIDor6iabCN0AWT69Htt+kuMyYOQkvqbRCcfdYPe
+          xwIDAQAB
+          -----END PUBLIC KEY-----
+          PEM
+
+          printf '%s' "$API_KEY" | openssl pkeyutl -encrypt -pubin -inkey /tmp/superteam-public.pem | base64 -w0 > superteam-agent/api-key.enc
+          printf '%s' "$CLAIM_CODE" | openssl pkeyutl -encrypt -pubin -inkey /tmp/superteam-public.pem | base64 -w0 > superteam-agent/claim-code.enc
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add superteam-agent/live-listings.json superteam-agent/agent-public-meta.json superteam-agent/api-key.enc superteam-agent/claim-code.enc
+          git commit -m "Bootstrap Superteam agent bounty feed"
+          git push
