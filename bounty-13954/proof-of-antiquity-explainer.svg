@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-labelledby="title desc">
+<title id="title">Proof-of-Antiquity in 60 seconds</title><desc id="desc">Original RustChain explainer showing one CPU one vote, antiquity weighting, six-check hardware fingerprinting, VM penalty, and how to start.</desc>
+<rect width="1200" height="1600" fill="#111827"/>
+<text x="80" y="120" fill="#fff" font-family="sans-serif" font-size="64" font-weight="700">Proof-of-Antiquity</text>
+<text x="80" y="180" fill="#d1d5db" font-family="sans-serif" font-size="32">RustChain, explained in 60 seconds</text>
+<rect x="80" y="250" width="1040" height="220" rx="28" fill="#1f2937"/>
+<text x="130" y="330" fill="#fff" font-family="sans-serif" font-size="42" font-weight="700">1 CPU = 1 vote</text>
+<text x="130" y="390" fill="#d1d5db" font-family="sans-serif" font-size="30">Hash-rate dominance is not the point.</text>
+<text x="130" y="430" fill="#d1d5db" font-family="sans-serif" font-size="30">A CPU participates as a hardware identity.</text>
+<path d="M600 490 V550" stroke="#9ca3af" stroke-width="8"/><polygon points="580,540 620,540 600,570" fill="#9ca3af"/>
+<rect x="80" y="590" width="1040" height="250" rx="28" fill="#1f2937"/>
+<text x="130" y="670" fill="#fff" font-family="sans-serif" font-size="42" font-weight="700">Older real hardware gets more weight</text>
+<text x="130" y="730" fill="#d1d5db" font-family="sans-serif" font-size="30">Antiquity multipliers reward verified vintage machines.</text>
+<text x="130" y="785" fill="#d1d5db" font-family="sans-serif" font-size="30">The idea: preserve useful old silicon instead of</text>
+<text x="130" y="825" fill="#d1d5db" font-family="sans-serif" font-size="30">turning mining into a newest-hardware arms race.</text>
+<path d="M600 860 V920" stroke="#9ca3af" stroke-width="8"/><polygon points="580,910 620,910 600,940" fill="#9ca3af"/>
+<rect x="80" y="960" width="1040" height="310" rx="28" fill="#1f2937"/>
+<text x="130" y="1040" fill="#fff" font-family="sans-serif" font-size="42" font-weight="700">Six checks ask: “is this real hardware?”</text>
+<text x="130" y="1100" fill="#d1d5db" font-family="sans-serif" font-size="29">Fingerprint signals examine hardware behavior rather than</text>
+<text x="130" y="1140" fill="#d1d5db" font-family="sans-serif" font-size="29">blindly trusting a claimed machine type.</text>
+<text x="130" y="1200" fill="#fbbf24" font-family="sans-serif" font-size="32" font-weight="700">REAL MACHINE → fingerprint evidence → antiquity weight</text>
+<text x="130" y="1250" fill="#f87171" font-family="sans-serif" font-size="32" font-weight="700">VM / EMULATOR → detection signals → near-zero weight</text>
+<rect x="80" y="1330" width="1040" height="190" rx="28" fill="#f3f4f6"/>
+<text x="130" y="1410" fill="#111827" font-family="monospace" font-size="38" font-weight="700">pip install clawrtc</text>
+<text x="130" y="1470" fill="#374151" font-family="sans-serif" font-size="28">Start by inspecting the miner and running its safe dry-run.</text>
+<text x="80" y="1570" fill="#9ca3af" font-family="sans-serif" font-size="22">Original explainer • @prins1bap-ui • RustChain bounty #13954</text>
+</svg>
