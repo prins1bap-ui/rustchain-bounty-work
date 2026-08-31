@@ -5,9 +5,9 @@ from .client import AgentEconomyError, AgentEconomyReadClient
 from .tools import MarketplaceToolset
 
 __all__ = [
+    "INSTRUCTIONS",
     "AgentEconomyError",
     "AgentEconomyReadClient",
-    "INSTRUCTIONS",
     "MarketplaceToolset",
     "build_marketplace_agent",
 ]
