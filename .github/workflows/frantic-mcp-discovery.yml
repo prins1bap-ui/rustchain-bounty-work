@@ -14,119 +14,70 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Query Frantic MCP read-only
         shell: bash
         run: |
           mkdir -p frantic-agent
           cat > /tmp/frantic_discover.py <<'PY'
-          import json, urllib.request, urllib.error, re, sys
+          import json, urllib.request, urllib.error
 
-          URL = 'https://api.gofrantic.com/mcp'
+          URL='https://api.gofrantic.com/mcp'
 
-          def decode_body(raw, content_type=''):
-              text = raw.decode('utf-8', 'replace')
-              # Streamable HTTP may return JSON directly or SSE frames.
-              if 'text/event-stream' in content_type or text.lstrip().startswith(('event:', 'data:')):
-                  payloads = []
+          def decode(raw, ctype=''):
+              text=raw.decode('utf-8','replace')
+              if 'text/event-stream' in ctype or text.lstrip().startswith(('event:','data:')):
+                  vals=[]
                   for line in text.splitlines():
                       if line.startswith('data:'):
-                          data = line[5:].strip()
-                          if data and data != '[DONE]':
-                              try: payloads.append(json.loads(data))
-                              except Exception: payloads.append({'raw': data[:2000]})
-                  return payloads[-1] if payloads else {'raw': text[:4000]}
-              try:
-                  return json.loads(text)
-              except Exception:
-                  return {'raw': text[:4000]}
+                          s=line[5:].strip()
+                          if s and s!='[DONE]':
+                              try: vals.append(json.loads(s))
+                              except Exception: vals.append({'raw':s[:4000]})
+                  return vals[-1] if vals else {'raw':text[:4000]}
+              try: return json.loads(text)
+              except Exception: return {'raw':text[:4000]}
 
           def post(payload, session=None):
-              body = json.dumps(payload).encode()
-              headers = {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json, text/event-stream',
-                  'User-Agent': 'bap2686-frantic-readonly/1.0'
-              }
-              if session:
-                  headers['Mcp-Session-Id'] = session
-              req = urllib.request.Request(URL, data=body, headers=headers, method='POST')
+              h={'Content-Type':'application/json','Accept':'application/json, text/event-stream','User-Agent':'bap2686-frantic-readonly/1.1'}
+              if session: h['Mcp-Session-Id']=session
+              req=urllib.request.Request(URL,data=json.dumps(payload).encode(),headers=h,method='POST')
               try:
-                  with urllib.request.urlopen(req, timeout=30) as r:
-                      raw = r.read()
-                      session_out = r.headers.get('Mcp-Session-Id') or session
-                      return decode_body(raw, r.headers.get('Content-Type','')), session_out, r.status
+                  with urllib.request.urlopen(req,timeout=30) as r:
+                      return decode(r.read(),r.headers.get('Content-Type','')), r.headers.get('Mcp-Session-Id') or session, r.status
               except urllib.error.HTTPError as e:
-                  raw = e.read()
-                  return {'http_error': e.code, 'body': decode_body(raw, e.headers.get('Content-Type',''))}, session, e.code
+                  return {'http_error':e.code,'body':decode(e.read(),e.headers.get('Content-Type',''))}, session, e.code
               except Exception as e:
-                  return {'error': type(e).__name__, 'message': str(e)}, session, None
+                  return {'error':type(e).__name__,'message':str(e)}, session, None
 
-          report = {'endpoint': URL, 'mode': 'read-only', 'initialize': None, 'tools': [], 'board': None, 'errors': []}
-
-          init = {
-              'jsonrpc':'2.0','id':1,'method':'initialize',
-              'params':{
-                  'protocolVersion':'2025-03-26',
-                  'capabilities':{},
-                  'clientInfo':{'name':'bap2686-frantic-readonly','version':'1.0'}
-              }
-          }
-          init_resp, session, status = post(init)
-          report['initialize'] = {'status': status, 'response': init_resp}
-
-          if status and 200 <= status < 300:
-              # Complete MCP handshake. Notification may return 202 / empty body.
-              post({'jsonrpc':'2.0','method':'notifications/initialized','params':{}}, session)
-              tools_resp, session, tools_status = post({'jsonrpc':'2.0','id':2,'method':'tools/list','params':{}}, session)
-              report['tools_status'] = tools_status
-              tools = []
-              if isinstance(tools_resp, dict):
-                  tools = (tools_resp.get('result') or {}).get('tools') or []
-              report['tools'] = [
-                  {'name': t.get('name'), 'description': t.get('description'), 'inputSchema': t.get('inputSchema')}
-                  for t in tools if isinstance(t, dict)
-              ]
-
-              names = {t.get('name') for t in tools if isinstance(t, dict)}
-              if 'read_board' in names:
-                  tool = next(t for t in tools if t.get('name') == 'read_board')
-                  schema = tool.get('inputSchema') or {}
-                  props = schema.get('properties') or {}
-                  required = schema.get('required') or []
-                  # Only call anonymously if the tool requires no unknown identity/secret fields.
-                  unsafe_required = [k for k in required if any(s in k.lower() for s in ('token','key','secret','email','github','kid','identity'))]
-                  if unsafe_required:
-                      report['board'] = {'skipped': True, 'reason': 'read_board requires identity fields', 'required': required}
-                  else:
-                      args = {}
-                      # Conservative defaults for common pagination/filter fields.
-                      for k in required:
-                          p = props.get(k) or {}
-                          if 'default' in p: args[k] = p['default']
-                          elif p.get('type') == 'integer': args[k] = 100
-                          elif p.get('type') == 'boolean': args[k] = True
-                          elif p.get('enum'): args[k] = p['enum'][0]
-                          else:
-                              report['errors'].append('Cannot safely infer required read_board arg: '+k)
-                      if not report['errors']:
-                          board_resp, session, board_status = post({
-                              'jsonrpc':'2.0','id':3,'method':'tools/call',
-                              'params':{'name':'read_board','arguments':args}
-                          }, session)
-                          report['board'] = {'status': board_status, 'arguments': args, 'response': board_resp}
-              else:
-                  report['board'] = {'skipped': True, 'reason': 'read_board tool not advertised'}
+          report={'endpoint':URL,'mode':'read-only','initialize':None,'tools':[],'board':None,'errors':[]}
+          init={'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-03-26','capabilities':{},'clientInfo':{'name':'bap2686-frantic-readonly','version':'1.1'}}}
+          ir,session,status=post(init)
+          report['initialize']={'status':status,'response':ir}
+          if not (status and 200<=status<300):
+              report['errors'].append('initialize failed')
           else:
-              report['errors'].append('MCP initialize failed')
-
-          # Do not persist session IDs, cookies, or credentials.
-          with open('frantic-agent/mcp-discovery.json','w') as f:
-              json.dump(report, f, indent=2, sort_keys=True)
-          print('Frantic MCP discovery complete. Advertised tools:', [t.get('name') for t in report.get('tools',[])])
+              post({'jsonrpc':'2.0','method':'notifications/initialized','params':{}},session)
+              tr,session,ts=post({'jsonrpc':'2.0','id':2,'method':'tools/list','params':{}},session)
+              tools=((tr.get('result') or {}).get('tools') or []) if isinstance(tr,dict) else []
+              report['tools']=[{'name':t.get('name'),'description':t.get('description'),'inputSchema':t.get('inputSchema')} for t in tools if isinstance(t,dict)]
+              report['tools_status']=ts
+              read_tools=[t for t in tools if isinstance(t,dict) and str(t.get('name','')).endswith('.read_board')]
+              if not read_tools:
+                  report['board']={'skipped':True,'reason':'namespaced read_board not advertised'}
+              else:
+                  t=read_tools[0]
+                  schema=t.get('inputSchema') or {}
+                  required=schema.get('required') or []
+                  if required:
+                      report['board']={'skipped':True,'reason':'read_board unexpectedly requires args','required':required}
+                  else:
+                      br,session,bs=post({'jsonrpc':'2.0','id':3,'method':'tools/call','params':{'name':t['name'],'arguments':{}}},session)
+                      report['board']={'status':bs,'response':br}
+          with open('frantic-agent/mcp-discovery.json','w') as f: json.dump(report,f,indent=2,sort_keys=True)
+          print('Tools:',[t.get('name') for t in report.get('tools',[])])
+          print('Board status:',(report.get('board') or {}).get('status'))
           PY
           python /tmp/frantic_discover.py
-
       - name: Commit sanitized discovery result
         shell: bash
         run: |
@@ -136,6 +87,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No discovery changes to commit.'
           else
-            git commit -m 'Capture Frantic MCP public bounty discovery'
+            git commit -m 'Capture Frantic MCP public bounty board'
             git push
           fi
