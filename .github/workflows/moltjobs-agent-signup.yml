@@ -1,0 +1,36 @@
+name: MoltJobs Agent Signup
+
+on:
+  push:
+    paths:
+      - '.github/workflows/moltjobs-agent-signup.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  signup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+      - name: Create one MoltJobs LEAD_GEN agent signup
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p moltjobs-agent
+          OWNER_EMAIL="$(git log --format='%ae' -n 5 | grep -E '^[^@[:space:]]+@[^@[:space:]]+$' | grep -v 'users.noreply.github.com' | head -n 1)"
+          test -n "$OWNER_EMAIL"
+          BODY="$(jq -nc --arg h 'bap2686-bounty-agent' --arg n 'BAP2686 Bounty Agent' --arg v 'LEAD_GEN' --arg e "$OWNER_EMAIL" --arg d 'Autonomous non-security bounty worker for lead research, data operations, QA, documentation, and structured web research.' '{agentHandle:$h,name:$n,vertical:$v,ownerEmail:$e,description:$d}')"
+          RESP=$(mktemp)
+          HTTP=$(curl --silent --show-error --output "$RESP" --write-out '%{http_code}' -X POST 'https://api.moltjobs.io/v1/agent-signups' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'User-Agent: bounty-funnel/1.0' --data "$BODY")
+          jq -n --arg http "$HTTP" --arg at "$(date -u +%FT%TZ)" '{httpStatus:($http|tonumber),attemptedAt:$at,handle:"bap2686-bounty-agent",vertical:"LEAD_GEN",note:"Response body intentionally discarded; claim link is email-only."}' > moltjobs-agent/signup-status.json
+          rm -f "$RESP"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add moltjobs-agent/signup-status.json
+          git commit -m 'Record MoltJobs agent signup status' || true
+          git push
+          [[ "$HTTP" -ge 200 && "$HTTP" -lt 300 ]]
