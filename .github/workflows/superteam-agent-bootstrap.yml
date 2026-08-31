@@ -23,8 +23,10 @@ jobs:
 
           AGENT_NAME="BAP2686Agent"
           REG_FILE=$(mktemp)
-          HTTP_CODE=$(curl -sS -o "$REG_FILE" -w '%{http_code}' -X POST "https://superteam.fun/api/agents" \
+          HTTP_CODE=$(curl -q -sS -o "$REG_FILE" -w '%{http_code}' -X POST "https://superteam.fun/api/agents" \
             -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            -H "User-Agent: BAP2686Agent/1.0" \
             -d "$(jq -nc --arg name "$AGENT_NAME" '{name:$name}')")
 
           if [[ "$HTTP_CODE" -lt 200 || "$HTTP_CODE" -ge 300 ]]; then
@@ -48,7 +50,7 @@ jobs:
           echo "::add-mask::$API_KEY"
           echo "::add-mask::$CLAIM_CODE"
 
-          curl --fail-with-body -sS \
+          curl -q --fail-with-body -sS \
             "https://superteam.fun/api/agents/listings/live?take=100&type=bounty&deadline=2026-12-31" \
             -H "Authorization: Bearer $API_KEY" \
             -o superteam-agent/live-listings.json
