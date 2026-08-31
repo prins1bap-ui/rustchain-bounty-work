@@ -1,0 +1,44 @@
+name: Build bounty 293 announcer set
+
+on:
+  push:
+    paths:
+      - '293-xonotic-announcer/generate.py'
+      - '293-xonotic-announcer/validate.py'
+      - '293-xonotic-announcer/README.md'
+      - '293-xonotic-announcer/LICENSE-CC0.txt'
+      - '.github/workflows/293-xonotic-announcer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install synthesis and audio tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y espeak-ng ffmpeg
+
+      - name: Generate original announcer lines
+        run: python3 293-xonotic-announcer/generate.py
+
+      - name: Validate package
+        run: python3 293-xonotic-announcer/validate.py
+
+      - name: Publish generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 293-xonotic-announcer/sounds 293-xonotic-announcer/MANIFEST.json
+          if git diff --cached --quiet; then
+            echo "Generated assets already match repository state."
+            exit 0
+          fi
+          git commit -m "build: publish generated bounty 293 announcer assets"
+          git push
