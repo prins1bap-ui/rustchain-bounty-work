@@ -1,0 +1,125 @@
+{
+  "status": "PREWORK_READY_AWAITING_ASSIGNMENT_AND_REFERRAL_CODE",
+  "target_job_id": "2208ec79-8582-4f8d-97f3-227294d8cc02",
+  "target_job_title": "Turn 3 live job postings into ready-to-fund MoltJobs specs and contact the buyer",
+  "target_reward_usdc": 5,
+  "source_verification_date": "2026-08-31",
+  "execution_guard": "Do not send buyer outreach until this MoltJobs job is assigned to our claimed agent and escrow is confirmed. Replace referral_code placeholders only with the authenticated MoltJobs referral code.",
+  "outputData": {
+    "results": [
+      {
+        "source_url": "https://in.linkedin.com/jobs/view/data-research-analyst-at-flexiple-4460371647",
+        "source_posted_date": "2026-08-31",
+        "source_status_verified": "OPEN_APPLY_VISIBLE",
+        "source_company": "Flexiple",
+        "source_role": "Data Research Analyst",
+        "source_contact": "Suvansh Bansal",
+        "task_type": "data_cleanup",
+        "moltjobs_spec": {
+          "title": "Clean and profile one product dataset with reproducible quality metrics",
+          "description": "Buyer supplies one CSV export of up to 25,000 rows plus a field dictionary. Worker returns a normalized CSV, a machine-readable quality report, and a reproducible Python script that performs the same transformations without inventing missing values.",
+          "budgetUsdc": 25,
+          "acceptanceCriteria": [
+            {
+              "id": "flex-rows-reconcile",
+              "description": "Normalized output must reconcile every input row and explicitly account for any removed duplicates.",
+              "check": "input_row_count == normalized_row_count + duplicate_rows_removed"
+            },
+            {
+              "id": "flex-schema-quality",
+              "description": "Quality report must cover every supplied field and quantify nulls, duplicates, type violations, and normalization changes.",
+              "check": "quality_report.fields.length == field_dictionary.fields.length && quality_report has null_count, duplicate_count, type_violation_count and normalized_value_count for each field"
+            },
+            {
+              "id": "flex-reproducible",
+              "description": "Running the supplied script against the original CSV must reproduce the normalized output deterministically.",
+              "check": "sha256(rerun_normalized_csv) == sha256(submitted_normalized_csv)"
+            }
+          ]
+        },
+        "outreach_channel": "LinkedIn direct message to the job poster, after MoltJobs assignment only",
+        "outreach_message": "Hi Suvansh, I saw the open Data Research Analyst posting. I converted one concrete data-quality slice into a fixed-scope MoltJobs task: normalize and profile one dataset of up to 25,000 rows, with row reconciliation, field-level quality metrics, and a reproducible transformation script. MoltJobs is a new AI-agent work marketplace, so I am not claiming established marketplace traction. The task is designed around objective file and hash checks rather than subjective approval. If useful, I can send the ready-to-post spec and my MoltJobs referral link once this referral assignment is active.",
+        "referral_code": "PENDING_AUTHENTICATED_REFERRAL_CODE"
+      },
+      {
+        "source_url": "https://ie.linkedin.com/jobs/view/content-operations-strategist-at-principle-4458763281",
+        "source_posted_date": "2026-08-31",
+        "source_status_verified": "OPEN_APPLY_VISIBLE",
+        "source_company": "Principle",
+        "source_role": "Content Operations Strategist",
+        "source_contact": "Jean Lambert",
+        "task_type": "content_operations",
+        "moltjobs_spec": {
+          "title": "Audit and normalize 100 support-content records for AI retrieval readiness",
+          "description": "Buyer supplies up to 100 help-center or support-content records as CSV or JSON. Worker returns normalized records, a duplicate and conflict report, retrieval-readiness metadata, and an exceptions file. No production publishing or account access is required.",
+          "budgetUsdc": 25,
+          "acceptanceCriteria": [
+            {
+              "id": "principle-record-reconcile",
+              "description": "Every input content ID must appear exactly once in normalized output or exactly once in the exceptions file.",
+              "check": "set(input.content_id) == disjoint_union(set(normalized.content_id), set(exceptions.content_id))"
+            },
+            {
+              "id": "principle-required-metadata",
+              "description": "Every normalized record must include a non-empty title, canonical topic, source text, last-reviewed field, and retrieval keywords array.",
+              "check": "all(record.title && record.canonical_topic && record.source_text && record.last_reviewed && record.retrieval_keywords.length >= 3 for record in normalized)"
+            },
+            {
+              "id": "principle-conflicts",
+              "description": "Duplicate or contradictory content must be enumerated with the affected content IDs and a machine-readable reason code.",
+              "check": "all(issue.content_ids.length >= 2 && issue.reason_code in ['DUPLICATE','CONFLICT','STALE_VARIANT'] for issue in conflict_report.issues)"
+            }
+          ]
+        },
+        "outreach_channel": "LinkedIn direct message to the job poster, after MoltJobs assignment only",
+        "outreach_message": "Hi Jean, I saw the open Content Operations Strategist role focused on AI, chatbots, and RAG. I converted one bounded content-operations slice into a MoltJobs-ready task: audit and normalize up to 100 support-content records for retrieval readiness, with deterministic record reconciliation, required metadata, and duplicate/conflict reporting. MoltJobs is new, so I am not claiming a long track record. The spec uses objective machine-checkable acceptance criteria. If useful, I can send the ready-to-post spec and my MoltJobs referral link once this referral assignment is active.",
+        "referral_code": "PENDING_AUTHENTICATED_REFERRAL_CODE"
+      },
+      {
+        "source_url": "https://in.linkedin.com/jobs/view/data-research-intern-at-dm8-4457643066",
+        "source_posted_date": "2026-08-31",
+        "source_status_verified": "OPEN_APPLY_VISIBLE",
+        "source_company": "dm8",
+        "source_role": "Data Research Intern",
+        "source_contact": "Habel Saju Zachariah",
+        "task_type": "lead_research",
+        "moltjobs_spec": {
+          "title": "Research and verify 75 urban residential communities into a structured dataset",
+          "description": "Buyer provides one target city and the required schema. Worker researches 75 residential communities using public sources and returns a structured CSV or JSON dataset with source URLs, verification timestamps, and an exceptions file for fields that cannot be independently verified.",
+          "budgetUsdc": 25,
+          "acceptanceCriteria": [
+            {
+              "id": "dm8-count-unique",
+              "description": "Dataset must contain exactly 75 unique community records with no duplicate canonical names.",
+              "check": "records.length == 75 && unique(records.canonical_name).length == 75"
+            },
+            {
+              "id": "dm8-source-proof",
+              "description": "Every populated factual field must be traceable to at least one public source URL and every record must include a verification timestamp.",
+              "check": "all(record.verified_at && record.source_urls.length >= 1 for record in records)"
+            },
+            {
+              "id": "dm8-no-invention",
+              "description": "Unverified required fields must be null and listed in the exceptions file rather than inferred or fabricated.",
+              "check": "all(exception.record_id && exception.field && exception.reason for exception in exceptions) && no populated field is marked unverified"
+            }
+          ]
+        },
+        "outreach_channel": "LinkedIn direct message to the job poster, after MoltJobs assignment only",
+        "outreach_message": "Hi Habel, I saw dm8's open Data Research Intern posting and the work around collecting, cleaning, and maintaining residential-community datasets. I converted one concrete slice into a fixed MoltJobs task: research and verify 75 communities for one city into a structured dataset, with source URLs, verification timestamps, and explicit exceptions instead of guessed data. MoltJobs is a new marketplace and I am not claiming mature traction. The spec is machine-checkable and ready to fund. If useful, I can send it with my MoltJobs referral link once this referral assignment is active.",
+        "referral_code": "PENDING_AUTHENTICATED_REFERRAL_CODE"
+      }
+    ]
+  },
+  "qa": {
+    "results_count": 3,
+    "all_source_urls_public": true,
+    "all_sources_verified_open_on_2026_08_31": true,
+    "all_spec_titles_min_10_chars": true,
+    "all_spec_descriptions_min_40_chars": true,
+    "all_budgets_at_least_5_usdc": true,
+    "all_specs_have_at_least_2_machine_checkable_acceptance_criteria": true,
+    "outreach_sent": false,
+    "referral_code_fabricated": false
+  }
+}
