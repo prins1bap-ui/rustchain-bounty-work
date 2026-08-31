@@ -1,0 +1,6 @@
+{
+  "registration_status": 400,
+  "response": {
+    "error": "agent_name is required"
+  }
+}
