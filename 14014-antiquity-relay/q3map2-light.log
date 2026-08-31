@@ -1,0 +1,76 @@
+2.5.17n-git-b4b295d
+threads: 4
+Q3Map         - v1.0r (c) 1999 Id Software Inc.
+Q3Map (ydnar) - v2.5.17n-git-b4b295d
+NetRadiant    - v1.5.0 Aug 31 2026 10:22:34
+Your map saw the pretty lights from q3map2's BFG
+/tmp/netradiant-build/q3map2
+VFS Init: /home/runner/.xonotic/pk3_build/
+VFS Init: /tmp/xonotic-rustchain/pk3_build/
+VFS Init: /home/runner/.xonotic/data/
+VFS Init: /tmp/xonotic-rustchain/data/
+
+--- Light ---
+--- ProcessGameSpecific ---
+ lightning model: quake3
+ lightmap size: 128 x 128 pixels
+ lightning gamma: 1.000000
+ lightmap colorspace: sRGB
+ texture colorspace: sRGB
+ _color colorspace: sRGB
+ lightning compensation: 1.000000
+ lightning exposure: 0.000000
+ lightgrid scale: 1.000000
+ lightgrid ambient scale: 1.000000
+ shader lightstyles hack: disabled
+ patch shadows: enabled
+ deluxemapping: enabled with modelspace deluxemaps
+--- ProcessCommandLine ---
+Fast mode enabled for all area lights
+Adaptive supersampling enabled with 2 sample(s) per lightmap texel
+Using point light as backsplash light (default)
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.map
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.srf
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.map
+entering /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.map
+--- SetupGrid ---
+Grid size = { 64, 64, 128 }
+     3404 grid points
+        5 point lights
+        0 spotlights
+        0 diffuse (area) lights
+        0 sun/sky lights
+        5 total lights
+        0 culled lights
+--- TraceGrid ---
+0...1...2...3...4...5...6...7...8...9... (0)
+37 x 23 x 4 = 3404 grid
+--- MapRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+    44301 luxels
+    39013 luxels mapped
+     3515 luxels occluded
+--- FloodlightRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+        0 custom lightmaps floodlighted
+        5 total lights
+        0 culled lights
+--- IlluminateRawLightmap ---
+0...1...2...3...4...5...6...7...8...9... (0)
+    44301 luxels illuminated
+--- IlluminateVertexes ---
+0...1...2...3...4...5...6...7...8...9... (0)
+      380 vertexes illuminated
+--- StoreSurfaceLightmaps ---
+    44277 luxels used
+    98304 luxels stored (45.04 percent efficiency)
+       26 solid surface lightmaps
+        0 identical surface lightmaps, using 0 luxels
+        0 vertex forced surfaces
+        0 vertex approximated surfaces
+        6 BSP lightmaps
+        3 total lightmaps
+        9 unique lightmap/shader combinations
+Writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.bsp
+Wrote 0.4 MB (370560 bytes)
+        0 seconds elapsed

@@ -1,0 +1,11 @@
+{
+  "pk3_build/maps/rustchain_antiquity_relay.LICENSE": "b8142587f1913efa0d98dcab0e6bce077c20dfa5d50e30b8efe241608db22dee",
+  "pk3_build/maps/rustchain_antiquity_relay.bsp": "f59807e596043f256b50c5821dcf989fa7a75ed4e3df1549bcea748830b24709",
+  "pk3_build/maps/rustchain_antiquity_relay.map": "19c0fa120c3114d26c3eab6b7683123156e897318a8600f14f1111e33600c7a1",
+  "pk3_build/maps/rustchain_antiquity_relay.mapinfo": "27d879336d4e191a0fad4d9b5000916c939d046343d1e8cd8c2f18fba922ca75",
+  "pk3_build/maps/rustchain_antiquity_relay.tga": "bd65a0e8226b9592c858dd33f3ea8ed46488aac2aabbacc6faea7f75528ba40a",
+  "pk3_build/textures/rustchain_relay/floor.tga": "b6f3d6da4689ca40f88dd6007e49f6eb2bed02d2658d1cfe45ac5851ce0407e3",
+  "pk3_build/textures/rustchain_relay/glow.tga": "e6133d95a1b251ad424f80026ac901434ef6ed3587f29c2400cb9779705cee01",
+  "pk3_build/textures/rustchain_relay/trim.tga": "1c4c3c4cf29db15c52325d054be5b2ec3e30d64c6f91976e5ee940773411f0a6",
+  "pk3_build/textures/rustchain_relay/wall.tga": "51fd119ca60a154757bb836bc642921d5821482140d2d978fe4ec0402272fba0"
+}

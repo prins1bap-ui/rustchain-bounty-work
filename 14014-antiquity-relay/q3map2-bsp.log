@@ -1,0 +1,37 @@
+2.5.17n-git-b4b295d
+threads: 4
+Q3Map         - v1.0r (c) 1999 Id Software Inc.
+Q3Map (ydnar) - v2.5.17n-git-b4b295d
+NetRadiant    - v1.5.0 Aug 31 2026 10:22:34
+Your map saw the pretty lights from q3map2's BFG
+/tmp/netradiant-build/q3map2
+VFS Init: /home/runner/.xonotic/pk3_build/
+VFS Init: /tmp/xonotic-rustchain/pk3_build/
+VFS Init: /home/runner/.xonotic/data/
+VFS Init: /tmp/xonotic-rustchain/data/
+
+--- BSP ---
+Creating meta surfaces from brush faces
+Loading /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.map
+entering /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.map
+WARNING: Couldn't find image for shader textures/common/caulk
+        0 areaportals
+Size: -1164,  -764,   -64 to  1164,   764,   484
+block size = { 1024 1024 1024 }
+Entity 5, Brush 0: Entity in solid
+Entity 6, Brush 0: Entity in solid
+       56 leafs filled
+writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.prt
+--- EmitMetaStats ---
+       91 total meta surfaces
+       91 stripped surfaces
+        0 fanned surfaces
+        0 maxarea'd surfaces
+        0 patch meta surfaces
+        0 meta verts
+        0 meta triangles
+--- WriteSurfaceExtraFile ---
+Writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.srf
+Writing /tmp/xonotic-rustchain/pk3_build/maps/rustchain_antiquity_relay.bsp
+Wrote 0.0 MB (47032 bytes)
+        0 seconds elapsed
