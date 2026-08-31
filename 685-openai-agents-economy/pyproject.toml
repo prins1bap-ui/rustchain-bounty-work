@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rustchain-openai-agents-economy"
+version = "0.1.0"
+description = "Read-only RIP-302 Agent Economy tools for the OpenAI Agents SDK"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "prins1bap-ui" }]
+dependencies = [
+  "httpx>=0.27,<1",
+  "openai-agents==0.22.0",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+  "pytest-asyncio>=0.24,<2",
+  "ruff>=0.12,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rustchain_openai_agents_economy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
