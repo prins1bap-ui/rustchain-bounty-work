@@ -3,7 +3,7 @@ name: Clawlancer agent bootstrap
 on:
   push:
     paths:
-      - '.github/workflows/clawlancer-agent-bootstrap.yml'
+      - ".github/workflows/clawlancer-agent-bootstrap.yml"
   workflow_dispatch:
 
 permissions:
@@ -14,143 +14,114 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Register one agent and capture live bounty inventory
+      - name: Bootstrap one Clawlancer agent
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p clawlancer-agent
-          cat > /tmp/clawlancer.py <<'PY'
-          import json, urllib.request, urllib.error, os, re, subprocess, tempfile
+          python3 - <<'PY'
+          import base64, json, subprocess, urllib.error, urllib.request
 
-          BASE='https://clawlancer.ai/api'
-          payload={
-              'name':'BAP2686Worker',
-              'bio':'Autonomous research, writing, coding, QA, documentation, and data agent. Non-security work only.'
-          }
+          BASE = "https://clawlancer.ai/api"
+          PUB_B64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQm9qQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FZOEFNSUlCaWdLQ0FZRUExTW56aU1ST25nWkJSL1V2QmNzTgpsYXJ5M0ZRakIyYVQvNWtOaGkwRUQwcDBVWmR1SXpuRGc1ZHF5RityUGpaY3FCZSsrTmxQZTdQdTU5MEMzam9kCmp0aSthaU93aU1FY2JXTGdKSC9GWUxyM0g4STBhVXlwQ0hobTRhTXdOcFFQeVpTMUUrTEhPR0ljUGR3TzQxT0sKSHcxbmQrOXUrL1FtZ3l6WTRBMk05a3VNaXpSV3U4Z2NyWWFlR3dZbjhYSlhMS3JmeFg2RFROQzdGM3ZCUDQyZAp3N3QxUlNQU3YyQ0t5Q0wyZ3B1N1IrMDdwWmJ2SEpUc2p0aXIvUTE5T1pyZkt5RUl2K01PbmtaSlRBSUUxUkdKCmk4T0pGVE5jclVMMDU1ejhZQnlIMkJ2ZWlnL0ora1NySkg5eEw0dEZxSnBVTjR0TitDT0RxUUlZcHV6bjlMdVgKck91L2dJTUlPbXBVNlVJd0dsZTBOUjY4OUZhM2ViS2I2ZEc2VE02YSt5SUMvdjE5akZZOFFGcC96K3FtRUxvaAplZ284UHZNN3FncGJuSGEvc3FrcjdzZitrNk9UVWNERCt5QmZ1OWFXNVZId2Z3OG9KSUQrVk54dlpwV2ZiVFRUCno3YkllaTBUVE1mK1l4SVNFU1BpNE8xQXRNc21wald5Yk5zOTdVRG51SWlEQWdNQkFBRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
 
-          def request(url, method='GET', body=None, token=None):
-              headers={'Accept':'application/json','User-Agent':'BAP2686Worker/1.0'}
-              data=None
+          def call(path, method="GET", body=None, token=None):
+              headers = {"Accept":"application/json", "User-Agent":"BAP2686Worker/1.0"}
+              data = None
               if body is not None:
-                  data=json.dumps(body).encode()
-                  headers['Content-Type']='application/json'
+                  data = json.dumps(body).encode()
+                  headers["Content-Type"] = "application/json"
               if token:
-                  headers['Authorization']='Bearer '+token
-              req=urllib.request.Request(url,data=data,headers=headers,method=method)
+                  headers["Authorization"] = "Bearer " + token
+              req = urllib.request.Request(BASE + path, data=data, headers=headers, method=method)
               try:
-                  with urllib.request.urlopen(req,timeout=30) as r:
-                      raw=r.read().decode('utf-8','replace')
-                      return r.status, json.loads(raw) if raw.strip() else {}
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      raw = r.read().decode("utf-8", "replace")
+                      return r.status, (json.loads(raw) if raw.strip() else {})
               except urllib.error.HTTPError as e:
-                  raw=e.read().decode('utf-8','replace')
-                  try: parsed=json.loads(raw)
-                  except: parsed={'error_text':raw[:1000]}
+                  raw = e.read().decode("utf-8", "replace")
+                  try:
+                      parsed = json.loads(raw)
+                  except Exception:
+                      parsed = {"error_text": raw[:2000]}
                   return e.code, parsed
 
-          status, reg=request(BASE+'/agents/register','POST',payload)
-          if status < 200 or status >= 300:
-              # Do not retry registration with alternate schemas: avoid accidental duplicate identities.
-              with open('clawlancer-agent/bootstrap-error.json','w') as f:
-                  json.dump({'status':status,'error':reg},f,indent=2)
-              raise SystemExit('Registration failed; no retry attempted.')
+          status, reg = call("/agents/register", "POST", {
+              "name":"BAP2686Worker",
+              "bio":"Autonomous research, writing, coding, QA, documentation, and data agent. Non-security work only."
+          })
 
-          def walk(obj, path=''):
-              if isinstance(obj,dict):
-                  for k,v in obj.items():
-                      p=(path+'.'+k).strip('.')
-                      yield p,k,v
-                      yield from walk(v,p)
-              elif isinstance(obj,list):
-                  for i,v in enumerate(obj):
-                      yield from walk(v,f'{path}[{i}]')
+          if not (200 <= status < 300):
+              with open("clawlancer-agent/bootstrap-error.json", "w") as f:
+                  json.dump({"registration_status":status, "response":reg}, f, indent=2, sort_keys=True)
+              print("Registration failed; preserving exact public error and not retrying.")
+              raise SystemExit(0)
 
-          api_key=None
-          api_path=None
-          for path,k,v in walk(reg):
-              kl=k.lower()
-              if isinstance(v,str) and kl in ('api_key','apikey','api-key','agent_api_key') and v:
-                  api_key=v; api_path=path; break
-          if not api_key:
-              # Fallback only to token fields that clearly belong to the agent API, never arbitrary auth material.
-              for path,k,v in walk(reg):
-                  kl=k.lower()
-                  if isinstance(v,str) and ('api' in path.lower() and ('token' in kl or 'key' in kl)) and v:
-                      api_key=v; api_path=path; break
-          if not api_key:
-              with open('clawlancer-agent/bootstrap-error.json','w') as f:
-                  json.dump({'status':status,'reason':'No API key field recognized','top_level_keys':list(reg.keys()) if isinstance(reg,dict) else []},f,indent=2)
-              raise SystemExit('Registration succeeded but API key field was not recognized.')
+          def walk(obj, prefix=""):
+              if isinstance(obj, dict):
+                  for k, v in obj.items():
+                      p = (prefix + "." + k).strip(".")
+                      yield p, k, v
+                      yield from walk(v, p)
+              elif isinstance(obj, list):
+                  for i, v in enumerate(obj):
+                      yield from walk(v, f"{prefix}[{i}]")
 
-          # Mask before any logging.
-          print('::add-mask::'+api_key)
+          api_key = None
+          for path, key, value in walk(reg):
+              k = key.lower()
+              if isinstance(value, str) and k in {"api_key","apikey","api-key","agent_api_key"} and value:
+                  api_key = value
+                  break
+          if api_key is None:
+              with open("clawlancer-agent/bootstrap-error.json", "w") as f:
+                  json.dump({"registration_status":status, "reason":"registration succeeded but API key field was not recognized", "top_level_keys":list(reg.keys()) if isinstance(reg,dict) else []}, f, indent=2, sort_keys=True)
+              print("Registration succeeded but API key field was not recognized. No second registration will be attempted.")
+              raise SystemExit(0)
 
-          # Encrypt API key with a public RSA key. Private key never enters GitHub.
-          pub='''-----BEGIN PUBLIC KEY-----
-MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA1MnziMROngZBR/UvBcsN
-lary3FQjB2aT/5kNhi0ED0p0UZduIznDg5dqyF+rPjZcqBe++NlPe7Pu590C3jod
-jti+aiOwiMEcbWLgJH/FYLr3H8I0aUypCHhm4aMwNpQPyZS1E+LHOGIcPdwO41OK
-Hw1nd+9u+/QmgyzY4A2M9kuMizRWu8gcrYaeGwYn8XJXLKrfxX6DTNC7F3vBP42d
-w7t1RSPSv2CKyCL2gpu7R+07pZbvHJTsjtir/Q19OZrfKyEIv+MOnkZJTAIE1RGJ
-i8OJFTNcrUL055z8YByH2Bveig/J+kSrJH9xL4tFqJpUN4tN+CODqQIYpuzn9LuX
-rOu/gIMIOmpU6UIwGle0NR689Fa3ebKb6dG6TM6a+yIC/v19jFY8QFp/z+qmELoh
-ego8PvM7qgpbnHa/sqkr7sf+k6OTUcDD+yBfu9aW5VHwfw8oJID+VNxvZpWfbTTT
-z7bIei0TTMf+YxISESPi4O1AtMsmpjWybNs97UDnuIiDAgMBAAE=
------END PUBLIC KEY-----
-'''
-          with open('/tmp/clawlancer-public.pem','w') as f: f.write(pub)
-          p=subprocess.run(
-              ['openssl','pkeyutl','-encrypt','-pubin','-inkey','/tmp/clawlancer-public.pem','-pkeyopt','rsa_padding_mode:oaep','-pkeyopt','rsa_oaep_md:sha256'],
-              input=api_key.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True
-          )
-          import base64
-          with open('clawlancer-agent/api-key.enc.b64','w') as f:
-              f.write(base64.b64encode(p.stdout).decode()+'\n')
+          print("::add-mask::" + api_key)
+          with open("/tmp/clawlancer-public.pem", "wb") as f:
+              f.write(base64.b64decode(PUB_B64))
+          enc = subprocess.run([
+              "openssl","pkeyutl","-encrypt","-pubin","-inkey","/tmp/clawlancer-public.pem",
+              "-pkeyopt","rsa_padding_mode:oaep","-pkeyopt","rsa_oaep_md:sha256"
+          ], input=api_key.encode(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout
+          with open("clawlancer-agent/api-key.enc.b64", "w") as f:
+              f.write(base64.b64encode(enc).decode() + "\n")
 
-          # Redact anything secret-looking from public metadata.
           def redact(obj):
-              if isinstance(obj,dict):
-                  out={}
-                  for k,v in obj.items():
-                      kl=k.lower()
-                      if any(x in kl for x in ('api_key','apikey','token','secret','mnemonic','private_key','password')):
+              if isinstance(obj, dict):
+                  out = {}
+                  for k, v in obj.items():
+                      lk = k.lower()
+                      if any(s in lk for s in ("api_key","apikey","token","secret","mnemonic","private_key","password")):
                           continue
-                      out[k]=redact(v)
+                      out[k] = redact(v)
                   return out
-              if isinstance(obj,list): return [redact(x) for x in obj]
+              if isinstance(obj, list):
+                  return [redact(x) for x in obj]
               return obj
 
-          public=redact(reg)
-          public['_bootstrap']={'agent_name':'BAP2686Worker','registration_status':status,'api_key_encrypted':True}
-          with open('clawlancer-agent/agent-public-meta.json','w') as f:
-              json.dump(public,f,indent=2,sort_keys=True)
+          public = redact(reg)
+          public["_bootstrap"] = {"agent_name":"BAP2686Worker", "registration_status":status, "api_key_encrypted":True}
+          with open("clawlancer-agent/agent-public-meta.json", "w") as f:
+              json.dump(public, f, indent=2, sort_keys=True)
 
-          # Fetch live bounties after registration. Read-only and no spend.
-          lstatus,listings=request(BASE+'/listings?listing_type=BOUNTY','GET',token=api_key)
-          def compact(x):
-              if not isinstance(x,dict): return x
-              keep=('id','title','description','listing_type','category','price','price_usdc','price_wei','status','state','created_at','deadline','seller_id','claimed','claimable','transaction_id')
-              return {k:x.get(k) for k in keep if k in x}
-          rows=[]
-          source=listings
-          if isinstance(listings,dict):
-              for key in ('listings','data','items','results'):
-                  if isinstance(listings.get(key),list): source=listings[key]; break
-          if isinstance(source,list): rows=[compact(x) for x in source]
-          elif isinstance(source,dict): rows=[compact(source)]
-          inventory={'status':lstatus,'count':len(rows),'bounties':rows}
-          with open('clawlancer-agent/live-bounties.json','w') as f:
-              json.dump(inventory,f,indent=2,sort_keys=True)
-          print('Registration succeeded. Live bounty rows captured:',len(rows))
+          lstatus, listings = call("/listings?listing_type=BOUNTY", token=api_key)
+          with open("clawlancer-agent/live-bounties-raw.json", "w") as f:
+              json.dump({"status":lstatus, "response":redact(listings)}, f, indent=2, sort_keys=True)
+          print("Registration succeeded; bounty inventory status:", lstatus)
           PY
-          python /tmp/clawlancer.py
-
-      - name: Commit encrypted credential and public inventory
+      - name: Persist sanitized bootstrap output
+        if: always()
         shell: bash
         run: |
           git config user.name 'bap2686-bounty-bot'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add clawlancer-agent/api-key.enc.b64 clawlancer-agent/agent-public-meta.json clawlancer-agent/live-bounties.json clawlancer-agent/bootstrap-error.json 2>/dev/null || true
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Bootstrap Clawlancer agent and capture live bounty inventory'
-          git push
+          git add clawlancer-agent/ 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'No bootstrap output to commit.'
+          else
+            git commit -m 'Persist Clawlancer bootstrap result'
+            git push
+          fi
