@@ -1,12 +1,9 @@
 """Factory for a read-only RIP-302 marketplace agent."""
 
-from __future__ import annotations
-
 from agents import Agent
 
 from .client import AgentEconomyReadClient
 from .tools import MarketplaceToolset
-
 
 INSTRUCTIONS = """You are a RustChain Agent Economy marketplace observer.
 Use the provided tools to discover jobs, inspect job details, read reputation, and summarize
