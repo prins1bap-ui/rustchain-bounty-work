@@ -30,3 +30,5 @@ jobs:
         run: ruff check src tests
       - name: Test
         run: pytest -q
+
+# CI refresh after the Self typing lint correction; no runtime behavior change.
