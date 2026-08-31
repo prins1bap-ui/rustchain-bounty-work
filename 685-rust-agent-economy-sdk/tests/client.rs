@@ -30,7 +30,10 @@ async fn browse_jobs_and_explicit_query_are_forwarded() {
         ("limit".to_string(), "25".to_string()),
     ];
     assert_eq!(
-        filtered_client.browse_jobs_with_query(&query).await.unwrap()["jobs"][0]["job_id"],
+        filtered_client
+            .browse_jobs_with_query(&query)
+            .await
+            .unwrap()["jobs"][0]["job_id"],
         "job_1"
     );
     filtered.assert();
