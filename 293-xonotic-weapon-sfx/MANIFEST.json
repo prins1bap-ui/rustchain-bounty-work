@@ -1,0 +1,40 @@
+{
+  "bounty": 293,
+  "set": "RustChain Arena Weapon SFX",
+  "license": "CC0-1.0",
+  "generator": "generate.py",
+  "sample_rate_hz": 48000,
+  "channels": 1,
+  "effects": [
+    {
+      "file": "sounds/weapons/validator_pistol.ogg",
+      "purpose": "energy charge + discharge",
+      "duration_seconds": 1.0,
+      "sha256": "c921d25d79d4d866bbc39ce973a820db3f146f40f90146ddb5d070e79a8ef9be"
+    },
+    {
+      "file": "sounds/weapons/forker_shotgun.ogg",
+      "purpose": "mechanical pump + dual blast",
+      "duration_seconds": 1.25,
+      "sha256": "8ec3ae51b5c18ba4e8cf245236c8ad650947208eab984f76a13e03618ce5ab2f"
+    },
+    {
+      "file": "sounds/weapons/hashcannon_railgun.ogg",
+      "purpose": "computation wind-up + beam",
+      "duration_seconds": 1.45,
+      "sha256": "b7ff2c7fdd60cfb2ac922b1a4c74ac44a52c619f6c223e21eb0a6d5f4d9bfe5b"
+    },
+    {
+      "file": "sounds/weapons/mempool_grenade.ogg",
+      "purpose": "digital cluster + detonation",
+      "duration_seconds": 1.75,
+      "sha256": "cd2b0c53dc05d3114f32c44cbb46121951bce10bc189f4b9cabe108fa8c968ac"
+    },
+    {
+      "file": "sounds/weapons/double_spend_smgs.ogg",
+      "purpose": "rapid alternating transaction clicks",
+      "duration_seconds": 1.1,
+      "sha256": "f791f1d2d5bca376b64a83a0fb79badaf8d623514871b3b8a3f45d07471617af"
+    }
+  ]
+}
