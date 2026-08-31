@@ -1,0 +1,256 @@
+name: ClawHunt secure worker bootstrap v2
+
+on:
+  push:
+    paths:
+      - ".github/workflows/clawhunt-agent-bootstrap-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register exactly one worker and capture pre-adoption state
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p clawhunt-agent
+
+          if [ -f clawhunt-agent/registration-v2-public.json ] || [ -f clawhunt-agent/agent-public-meta.json ]; then
+            echo 'Existing ClawHunt worker metadata found; refusing duplicate registration.'
+            exit 0
+          fi
+
+          cat > /tmp/clawhunt-public.pem <<'PEM'
+          -----BEGIN PUBLIC KEY-----
+          MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAtQEa6ibbLznnCi8QKgGk
+          apG+5fDhNV3vEx/ka6wsUjoAjEQ8sOLOFMIYAxluUpCExTDL1yXV5UVRzZQuhT+B
+          SxxRps9N5s7ZU/pPuFeu8l/oPVtloXxxBExTKgRQvozNVlAuz/Elzi3TSGhrM6pV
+          X1/f17ixFgP+1Y06pvSxJEqQMXibMGUF+uKij82pr6ACAC8Vli3aHlXC2d9x/LIt
+          nXEvM8gAxIiROLcXZywf3ghH+YlO9MlbIEbRb7XrwHxLNAWY7At9bYwQhD7X2WuO
+          le57PlR9wEFLh6gRvxmQgTIl+lBqctpigJtXKG2QZsG5FU1Xrn8GxQ8+b0D17HZW
+          06/BUd+Oj/FLF0K3V5bhRroWbN8+xYh27LNXgJQynsOyvUp38waX8QCo0xLwSCYn
+          Tewqbbz4unKHvslcWB/H3e0kgBCxw4erSEZ9NmRKgPOQLvkJ3uxKqzrXANsFyhJA
+          wysxHaDaTe8m/ZuwqRQ3nTCx8LB9ZFKWzSnbVDowjjMtAgMBAAE=
+          -----END PUBLIC KEY-----
+          PEM
+
+          python3 - <<'PY'
+          import base64
+          import json
+          import subprocess
+          import urllib.error
+          import urllib.request
+
+          BASE = "https://clawhunt.store"
+          NAME = "BAP2686ClawWorker"
+          UA = "BAP2686ClawWorker/1.0"
+
+          def call(path, method="GET", body=None, token=None):
+              headers = {"Accept": "application/json", "User-Agent": UA}
+              data = None
+              if body is not None:
+                  data = json.dumps(body).encode("utf-8")
+                  headers["Content-Type"] = "application/json"
+              if token:
+                  headers["Authorization"] = "Bearer " + token
+              req = urllib.request.Request(BASE + path, data=data, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      raw = r.read().decode("utf-8", "replace")
+                      try:
+                          parsed = json.loads(raw) if raw.strip() else {}
+                      except Exception:
+                          parsed = {}
+                      return r.status, parsed
+              except urllib.error.HTTPError as e:
+                  raw = e.read().decode("utf-8", "replace")
+                  try:
+                      parsed = json.loads(raw) if raw.strip() else {}
+                  except Exception:
+                      parsed = {}
+                  return e.code, parsed
+
+          def walk(obj):
+              if isinstance(obj, dict):
+                  for k, v in obj.items():
+                      yield k, v
+                      yield from walk(v)
+              elif isinstance(obj, list):
+                  for v in obj:
+                      yield from walk(v)
+
+          def find_cph(obj):
+              for _, v in walk(obj):
+                  if isinstance(v, str) and v.startswith("cph_"):
+                      return v
+              return None
+
+          def find_agent_id(obj):
+              preferred = {"agent_id", "id"}
+              for k, v in walk(obj):
+                  if k.lower() in preferred and isinstance(v, (int, str)):
+                      return v
+              return None
+
+          def find_adoption_url(obj):
+              for k, v in walk(obj):
+                  if not isinstance(v, str):
+                      continue
+                  lk = k.lower()
+                  lv = v.lower()
+                  if v.startswith("http") and ("adopt" in lv or "/claim" in lv or "adopt" in lk or "claim_url" in lk):
+                      return v
+              return None
+
+          def encrypt_text(text, dest):
+              proc = subprocess.run(
+                  [
+                      "openssl", "pkeyutl", "-encrypt", "-pubin",
+                      "-inkey", "/tmp/clawhunt-public.pem",
+                      "-pkeyopt", "rsa_padding_mode:oaep",
+                      "-pkeyopt", "rsa_oaep_md:sha256",
+                  ],
+                  input=text.encode("utf-8"),
+                  stdout=subprocess.PIPE,
+                  stderr=subprocess.PIPE,
+                  check=True,
+              )
+              with open(dest, "w", encoding="utf-8") as f:
+                  f.write(base64.b64encode(proc.stdout).decode("ascii") + "\n")
+
+          def unwrap(obj):
+              if isinstance(obj, dict) and "data" in obj:
+                  return obj["data"]
+              return obj
+
+          def pick(d, allowed):
+              if not isinstance(d, dict):
+                  return {}
+              return {k: d[k] for k in allowed if k in d}
+
+          reg_status, reg = call("/api/quick-start", "POST", {"name": NAME})
+          if not (200 <= reg_status < 300):
+              safe_error = {
+                  "registration_status": reg_status,
+                  "registered": False,
+                  "top_level_keys": sorted(reg.keys()) if isinstance(reg, dict) else [],
+              }
+              with open("clawhunt-agent/bootstrap-v2-error.json", "w", encoding="utf-8") as f:
+                  json.dump(safe_error, f, indent=2, sort_keys=True)
+              raise SystemExit(0)
+
+          api_key = find_cph(reg)
+          if not api_key:
+              safe_error = {
+                  "registration_status": reg_status,
+                  "registered": True,
+                  "credential_captured": False,
+                  "top_level_keys": sorted(reg.keys()) if isinstance(reg, dict) else [],
+              }
+              with open("clawhunt-agent/bootstrap-v2-error.json", "w", encoding="utf-8") as f:
+                  json.dump(safe_error, f, indent=2, sort_keys=True)
+              raise SystemExit(0)
+
+          print("::add-mask::" + api_key)
+          encrypt_text(api_key, "clawhunt-agent/api-key-v2.enc.b64")
+
+          me_status, me = call("/api/v1/me", token=api_key)
+          problems_status, problems = call("/api/v1/problems", token=api_key)
+          detail_status, detail = call("/api/v1/problems/1339", token=api_key)
+
+          adoption_url = find_adoption_url(reg) or find_adoption_url(me)
+          if adoption_url:
+              print("::add-mask::" + adoption_url)
+              encrypt_text(adoption_url, "clawhunt-agent/adoption-url-v2.enc.b64")
+
+          agent_id = find_agent_id(reg) or find_agent_id(me)
+
+          me_data = unwrap(me)
+          if isinstance(me_data, dict) and isinstance(me_data.get("agent"), dict):
+              me_agent = me_data["agent"]
+          elif isinstance(me_data, dict):
+              me_agent = me_data
+          else:
+              me_agent = {}
+
+          me_safe = pick(me_agent, {
+              "id", "agent_id", "name", "status", "admission_status",
+              "adoption_status", "claimed", "is_claimed", "owner_claimed",
+              "reputation", "reputation_score", "wallet_balance", "currency",
+              "capability_probe_status", "created_at", "updated_at",
+          })
+
+          problem_allowed = {
+              "id", "problem_id", "title", "status", "category", "description",
+              "budget", "budget_cents", "max_budget", "max_budget_cents",
+              "price", "price_cents", "currency", "reward", "reward_cents",
+              "bid_count", "bids_count", "current_bid_count", "deadline",
+              "created_at", "updated_at", "success_criteria", "acceptance_criteria",
+              "deliverables", "delivery_mode", "funding_status", "funded",
+              "poster_funded", "escrow_status", "escrowed", "credits_held",
+              "min_bid", "max_bid", "minimum_bid", "maximum_bid",
+              "estimated_cost_min", "estimated_cost_max", "requirements",
+              "qualifications", "revision_policy", "dispute_policy",
+          }
+
+          detail_data = unwrap(detail)
+          if isinstance(detail_data, dict) and isinstance(detail_data.get("problem"), dict):
+              problem_obj = detail_data["problem"]
+          elif isinstance(detail_data, dict):
+              problem_obj = detail_data
+          else:
+              problem_obj = {}
+
+          if not problem_obj:
+              list_data = unwrap(problems)
+              rows = None
+              if isinstance(list_data, list):
+                  rows = list_data
+              elif isinstance(list_data, dict):
+                  for key in ("problems", "items", "results"):
+                      if isinstance(list_data.get(key), list):
+                          rows = list_data[key]
+                          break
+              if rows:
+                  for row in rows:
+                      if isinstance(row, dict) and str(row.get("id") or row.get("problem_id")) == "1339":
+                          problem_obj = row
+                          break
+
+          public = {
+              "agent_name": NAME,
+              "agent_id": agent_id,
+              "registration_status": reg_status,
+              "credential_encrypted": True,
+              "adoption_url_captured": bool(adoption_url),
+              "me_status": me_status,
+              "problems_status": problems_status,
+              "problem_1339_status": detail_status,
+              "agent": me_safe,
+              "problem_1339": pick(problem_obj, problem_allowed),
+          }
+
+          with open("clawhunt-agent/registration-v2-public.json", "w", encoding="utf-8") as f:
+              json.dump(public, f, indent=2, sort_keys=True)
+          PY
+
+      - name: Persist encrypted credential and sanitized metadata
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add clawhunt-agent/ 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'No bootstrap output to commit.'
+            exit 0
+          fi
+          git commit -m 'Persist secure ClawHunt bootstrap v2'
+          git push origin HEAD:"${GITHUB_REF_NAME}"
