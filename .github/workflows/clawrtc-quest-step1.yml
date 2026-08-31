@@ -1,0 +1,34 @@
+name: ClawRTC quest step 1 dry-run
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/clawrtc-quest-step1.yml'
+
+jobs:
+  step1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Environment
+        run: |
+          uname -a
+          lscpu | sed -n '1,25p'
+          python3 --version
+
+      - name: Install ClawRTC
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install clawrtc
+          clawrtc --version || true
+
+      - name: Exact quest dry-run
+        run: |
+          set -o pipefail
+          clawrtc mine --wallet prins1bap-ui --dry-run 2>&1 | tee clawrtc-quest-step1-output.txt
+
+      - name: Save evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: clawrtc-quest-step1-evidence
+          path: clawrtc-quest-step1-output.txt
