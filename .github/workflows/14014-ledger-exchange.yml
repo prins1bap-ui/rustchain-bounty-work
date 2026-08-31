@@ -1,0 +1,84 @@
+name: Compile bounty 14014 Ledger Exchange map
+
+on:
+  push:
+    paths:
+      - '14014-ledger-exchange/**'
+      - '.github/workflows/14014-ledger-exchange.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compile-map:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout submission workspace
+        uses: actions/checkout@v4
+
+      - name: Install NetRadiant build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake libx11-dev libgtk2.0-dev libgtkglext1-dev libxml2-dev libjpeg-dev libwebp-dev libminizip-dev git subversion unzip wget
+
+      - name: Build official NetRadiant q3map2
+        run: |
+          git clone --recursive --depth 1 https://github.com/xonotic/netradiant.git /tmp/netradiant
+          cmake -S /tmp/netradiant -B /tmp/netradiant-build -DCMAKE_BUILD_TYPE=Release -DBUILD_RADIANT=OFF -DBUILD_TOOLS=ON
+          cmake --build /tmp/netradiant-build --target q3map2 -- -j2
+          Q3MAP2="$(find /tmp/netradiant-build -type f -name q3map2 -perm -111 | head -1)"
+          test -n "$Q3MAP2"
+          echo "Q3MAP2=$Q3MAP2" >> "$GITHUB_ENV"
+          "$Q3MAP2" -help >/tmp/q3map2-help.txt 2>&1 || true
+
+      - name: Generate original source package
+        run: python3 14014-ledger-exchange/generate_map.py
+
+      - name: Prepare current Xonotic RustChain compile context
+        run: |
+          git clone --depth 1 https://github.com/Scottcjn/xonotic-rustchain.git /tmp/xonotic-rustchain
+          mkdir -p /tmp/xonotic-rustchain/pk3_build/maps /tmp/xonotic-rustchain/pk3_build/textures
+          cp -a 14014-ledger-exchange/pk3_build/maps/. /tmp/xonotic-rustchain/pk3_build/maps/
+          mkdir -p /tmp/xonotic-rustchain/pk3_build/textures/rustchain_ledger
+          cp -a 14014-ledger-exchange/pk3_build/textures/rustchain_ledger/. /tmp/xonotic-rustchain/pk3_build/textures/rustchain_ledger/
+
+      - name: Compile BSP
+        run: |
+          MAP=/tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+          "$Q3MAP2" -game xonotic -fs_basepath /tmp/xonotic-rustchain -fs_game pk3_build -meta "$MAP" 2>&1 | tee 14014-ledger-exchange/q3map2-bsp.log
+          test ${PIPESTATUS[0]} -eq 0
+
+      - name: Compile VIS
+        run: |
+          MAP=/tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+          "$Q3MAP2" -game xonotic -fs_basepath /tmp/xonotic-rustchain -fs_game pk3_build -vis "$MAP" 2>&1 | tee 14014-ledger-exchange/q3map2-vis.log
+          test ${PIPESTATUS[0]} -eq 0
+
+      - name: Compile LIGHT
+        run: |
+          MAP=/tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.map
+          "$Q3MAP2" -game xonotic -fs_basepath /tmp/xonotic-rustchain -fs_game pk3_build -light -fast -samples 2 "$MAP" 2>&1 | tee 14014-ledger-exchange/q3map2-light.log
+          test ${PIPESTATUS[0]} -eq 0
+
+      - name: Reject structural compiler failures
+        run: |
+          ! grep -Eqi 'ERROR:|Entity in solid|LEAKED|MAP LEAK' 14014-ledger-exchange/q3map2-*.log
+          test -s /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.bsp
+
+      - name: Collect compiled BSP and validate
+        run: |
+          cp /tmp/xonotic-rustchain/pk3_build/maps/rustchain_ledger_exchange.bsp 14014-ledger-exchange/pk3_build/maps/
+          python3 14014-ledger-exchange/validate_map.py
+
+      - name: Publish reproducible generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 14014-ledger-exchange/pk3_build 14014-ledger-exchange/MANIFEST.json 14014-ledger-exchange/q3map2-*.log
+          if git diff --cached --quiet; then
+            echo "Compiled package already matches repository state."
+            exit 0
+          fi
+          git commit -m "build: publish compiled bounty 14014 Ledger Exchange map"
+          git push
