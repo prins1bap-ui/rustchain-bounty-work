@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" role="img" aria-labelledby="title desc">
+  <title id="title">Reconciling RustChain payout ledgers</title>
+  <desc id="desc">Cover image for a tutorial about separating accepted, pending, and confirmed RustChain bounty payments.</desc>
+  <rect width="1000" height="420" fill="#111827"/>
+  <rect x="48" y="48" width="904" height="324" rx="24" fill="#1f2937" stroke="#6b7280" stroke-width="2"/>
+  <text x="88" y="132" fill="#f9fafb" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Reconciling RustChain</text>
+  <text x="88" y="184" fill="#f9fafb" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">payout ledgers safely</text>
+  <text x="88" y="250" fill="#d1d5db" font-family="Arial, Helvetica, sans-serif" font-size="25">Keep accepted, pending, and confirmed money separate.</text>
+  <text x="88" y="292" fill="#d1d5db" font-family="Arial, Helvetica, sans-serif" font-size="25">Read-only reconciliation. No wallet-state mutation.</text>
+  <text x="88" y="338" fill="#9ca3af" font-family="Arial, Helvetica, sans-serif" font-size="20">prins1bap-ui • public bounty accounting workflow</text>
+</svg>
