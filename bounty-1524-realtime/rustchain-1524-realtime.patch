@@ -1,0 +1,48 @@
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt
++++ b/requirements.txt
+@@
+ flask>=3.1.3
++simple-websocket>=1.1.0
+ # For miner and SDK:
+ requests>=2.34.2
+
+diff --git a/node/beacon_api.py b/node/beacon_api.py
+--- a/node/beacon_api.py
++++ b/node/beacon_api.py
+@@
+ from flask import Blueprint, jsonify, request, g
++from node.beacon_realtime import stream_beacon_events
+@@
+ def init_beacon_tables(db_path=DB_PATH):
+@@
+         conn.commit()
++
++
++@beacon_api.route('/beacon/ws', websocket=True)
++def beacon_realtime_ws():
++    """Read-only WebSocket feed for public Atlas state deltas."""
++    return stream_beacon_events(request.environ, DB_PATH)
+
+diff --git a/site/beacon/index.html b/site/beacon/index.html
+--- a/site/beacon/index.html
++++ b/site/beacon/index.html
+@@
+     import { fetchAllAgents, replaceContracts, AGENTS, CITIES, CONTRACTS } from './data.js';
++    import { startBeaconRealtime } from './realtime.js';
+@@
+       startLoop();
++
++      // WebSocket live feed. Consumers can subscribe to the `beacon:realtime`
++      // browser event without coupling the transport to scene/data modules.
++      startBeaconRealtime({
++        onEvent: event => {
++          if (event.type !== 'hello') {
++            console.info('[beacon realtime]', event.type, event.data);
++          }
++        },
++        onState: state => {
++          document.body.dataset.beaconRealtime = state.state;
++        },
++      });
+     }
