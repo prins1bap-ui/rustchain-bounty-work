@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-01",
+  "active_build": null,
+  "rules": {
+    "max_speculative_active_builds": 1,
+    "minimum_required_checks": [
+      "issue_open_and_payable",
+      "authoritative_title_reward_recorded",
+      "pool_cap_slot_available",
+      "claimant_cap_not_consumed",
+      "issue_comments_checked",
+      "open_competing_prs_checked",
+      "recent_merged_equivalents_checked",
+      "current_source_gap_confirmed",
+      "acceptance_criteria_satisfiable",
+      "submission_route_executable",
+      "evidence_can_be_produced_honestly"
+    ]
+  },
+  "candidates": [],
+  "screened_out": []
+}
