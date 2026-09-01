@@ -1,0 +1,45 @@
+name: verify-bounty-claim
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: owner/repo containing bounty issue
+        required: true
+        default: Scottcjn/rustchain-bounties
+      issue:
+        description: bounty issue number
+        required: true
+      claimant:
+        description: GitHub claimant login
+        required: true
+      claim_text:
+        description: claim text containing wallet/article link
+        required: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: bounty-747
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify claim without executing payment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RUSTCHAIN_NODE_URL: ${{ secrets.RUSTCHAIN_NODE_URL }}
+          TARGET_OWNER: Scottcjn
+        run: |
+          python -m bounty_verifier.cli \
+            --repo '${{ inputs.repo }}' \
+            --issue '${{ inputs.issue }}' \
+            --claimant '${{ inputs.claimant }}' \
+            --claim-text '${{ inputs.claim_text }}' | tee verification.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verification-report
+          path: bounty-747/verification.md
