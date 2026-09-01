@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" role="img" aria-labelledby="title desc">
+  <title id="title">Detecting RustChain bounty-spec drift</title>
+  <desc id="desc">Cover image for a tutorial about detecting stale commands, reward mismatches, and acceptance-rule drift in RustChain bounties.</desc>
+  <rect width="1000" height="420" fill="#111827"/>
+  <rect x="48" y="48" width="904" height="324" rx="24" fill="#1f2937" stroke="#6b7280" stroke-width="2"/>
+  <text x="88" y="132" fill="#f9fafb" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="700">Detecting RustChain</text>
+  <text x="88" y="188" fill="#f9fafb" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="700">bounty-spec drift</text>
+  <text x="88" y="252" fill="#d1d5db" font-family="Arial, Helvetica, sans-serif" font-size="25">Catch stale commands, reward mismatches, and</text>
+  <text x="88" y="286" fill="#d1d5db" font-family="Arial, Helvetica, sans-serif" font-size="25">acceptance-rule drift before contributors waste time.</text>
+  <text x="88" y="338" fill="#9ca3af" font-family="Arial, Helvetica, sans-serif" font-size="20">prins1bap-ui • read-only Python tooling</text>
+</svg>
