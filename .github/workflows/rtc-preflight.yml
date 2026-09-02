@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "ops/rtc_preflight.py"
+      - "ops/rtc_queue_sanitize.py"
       - ".github/workflows/rtc-preflight.yml"
 
 permissions:
@@ -26,12 +27,17 @@ jobs:
           fetch-depth: 0
 
       - name: Validate preflight source
-        run: python3 -m py_compile ops/rtc_preflight.py
+        run: |
+          python3 -m py_compile ops/rtc_preflight.py
+          python3 -m py_compile ops/rtc_queue_sanitize.py
 
       - name: Build authoritative candidate queue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 ops/rtc_preflight.py
+
+      - name: Normalize reward and opportunity records
+        run: python3 ops/rtc_queue_sanitize.py
 
       - name: Validate generated queue
         run: |
@@ -44,6 +50,8 @@ jobs:
           assert isinstance(data.get('candidates'), list), 'missing candidates list'
           assert data.get('candidate_count') == len(data['candidates']), 'candidate count mismatch'
           assert 'Scottcjn-authored' in data.get('source', ''), 'queue is not definition-filtered'
+          assert data.get('sanitizer', {}).get('policy_version') == 2, 'queue was not normalized'
+          assert all(float(c.get('reward_rtc') or 0) <= max(float(c.get('reward_title_rtc') or 0), float(c.get('reward_body_rtc') or 0)) for c in data['candidates'])
           print(f"validated {data['candidate_count']} candidates; final_verify={data.get('final_verify_count', 0)}")
           PY
 
@@ -61,7 +69,7 @@ jobs:
 
           # Other revenue workflows can legitimately commit while this scan is
           # running. Rebase instead of failing a non-fast-forward push and
-          # throwing away a completed 80-second scan.
+          # throwing away a completed scan.
           for attempt in 1 2 3; do
             git pull --rebase origin main
             if git push origin HEAD:main; then
