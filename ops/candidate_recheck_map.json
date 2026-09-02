@@ -1,33 +1,129 @@
 {
-  "schema_version": 1,
-  "as_of": "2026-09-02T12:22:00-04:00",
+  "schema_version": 2,
+  "as_of": "2026-09-02T19:51:00-04:00",
   "policy": "Do not rescan screened-out candidates unless their trigger fires. New and materially updated issues are handled by delta discovery.",
   "groups": {
     "never": {
       "description": "terminal: awarded, expired, claimant cap consumed, superseded, or permanently ineligible",
-      "issues": [747,13954,100,1575,293,1102,49,36,121,16253,2274,2868]
+      "issues": [
+        747,
+        13954,
+        100,
+        1575,
+        293,
+        1102,
+        49,
+        36,
+        121,
+        16253,
+        2274,
+        2868
+      ]
     },
     "route_change": {
       "description": "revisit only when the required connector/write/publication/hardware/account route becomes executable",
-      "issues": [315,1579,515,16251,14018,3074,3075,12788,16472,14089,399,1524,249,726,449,2304,427,1158,16240,731,9017,165,171,16238,1577,1578,282,420,197,2180,2155,13475,14015,13951,2866]
+      "issues": [
+        1579,
+        515,
+        16251,
+        14018,
+        3074,
+        3075,
+        12788,
+        16472,
+        14089,
+        399,
+        1524,
+        249,
+        726,
+        449,
+        2304,
+        427,
+        1158,
+        16240,
+        731,
+        9017,
+        165,
+        171,
+        16238,
+        1577,
+        1578,
+        282,
+        420,
+        197,
+        2180,
+        2155,
+        13475,
+        14015,
+        13951,
+        2866
+      ]
     },
     "competitor_change": {
       "description": "revisit only if the occupying implementation/claim is rejected or closes without award",
-      "issues": [755,16601,504,730,1113,2890,16255,16249,2291,2293,303,"Scottcjn/trashclaw#65"]
+      "issues": [
+        755,
+        16601,
+        504,
+        730,
+        1113,
+        2890,
+        16255,
+        16249,
+        2291,
+        2293,
+        303,
+        "Scottcjn/trashclaw#65"
+      ]
     },
     "maintainer_update": {
       "description": "revisit only on material reward/cap/rules/assignment/submission-route change",
-      "issues": [13226,685,2960,12028,8,"docstring-program"]
+      "issues": [
+        13226,
+        685,
+        2960,
+        12028,
+        8,
+        "docstring-program"
+      ]
     },
     "excluded_scope": {
       "description": "do not execute while current benign-only/fund-movement exclusions remain in force",
-      "issues": [16271,35,50,356,2819,67,68,58,247,30,692,3418,684,683,13477]
+      "issues": [
+        16271,
+        35,
+        50,
+        356,
+        2819,
+        67,
+        68,
+        58,
+        247,
+        30,
+        692,
+        3418,
+        684,
+        683,
+        13477
+      ]
     },
     "low_value_or_existing_receivable_only": {
       "description": "do not proactively rescan; revisit only from receivable evidence or a material maintainer update",
-      "issues": [13226,685,16601]
+      "issues": [
+        13226,
+        685,
+        16601
+      ]
     }
   },
   "default_for_new_screenout": "assign one of never, route_change, competitor_change, maintainer_update, date_trigger, or excluded_scope at time of rejection",
-  "full_rescan": "disabled unless ops/efficiency_policy.json full-rescan condition is met"
+  "full_rescan": "disabled unless ops/efficiency_policy.json full-rescan condition is met",
+  "triggered_rechecks": [
+    {
+      "issue": 315,
+      "trigger": "external publication route became executable",
+      "result": "Live Wix distribution published; evidence sent; claim moved to viable SUBMITTED in ledger v11.",
+      "resolved_at": "2026-09-02T19:20:00-04:00"
+    }
+  ]
 }
