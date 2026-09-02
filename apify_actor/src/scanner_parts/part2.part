@@ -1,0 +1,180 @@
+                    self.mailto_emails.add(candidate.lower())
+            elif href_lower.startswith("tel:"):
+                candidate = href[4:].split("?", 1)[0].strip()
+                normalized = _normalize_tel(candidate)
+                if normalized:
+                    self.tel_phones.add(normalized)
+            else:
+                self._maybe_add_social(href)
+
+    def handle_endtag(self, tag: str) -> None:
+        tag_lower = tag.lower()
+        if tag_lower == "title":
+            self._in_title = False
+        if tag_lower == "script" and self._in_json_ld:
+            self._consume_json_ld("".join(self._json_ld_parts))
+            self._in_json_ld = False
+            self._json_ld_parts = []
+        if tag_lower in {"script", "style", "noscript"} and self._ignored_depth:
+            self._ignored_depth -= 1
+
+    def handle_data(self, data: str) -> None:
+        if self._in_title:
+            self.title_parts.append(data)
+        if self._in_json_ld:
+            self._json_ld_parts.append(data)
+        if self._ignored_depth == 0:
+            text = " ".join(data.split())
+            if text:
+                self.visible_text_parts.append(text)
+
+    def _maybe_add_social(self, href: str) -> None:
+        if not href.startswith(("http://", "https://")):
+            return
+        lower = href.lower()
+        if any(part in lower for part in SOCIAL_EXCLUDE_PARTS):
+            return
+        try:
+            host = (urlsplit(href).hostname or "").lower()
+        except ValueError:
+            return
+        for name, domains in SOCIAL_HOSTS.items():
+            if any(host == domain or host.endswith("." + domain) for domain in domains):
+                self.social_profiles[name].add(href.split("#", 1)[0])
+                return
+
+    def _consume_json_ld(self, raw: str) -> None:
+        text = raw.strip()
+        if not text:
+            return
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            return
+        for obj in _walk_json_objects(data):
+            raw_type = obj.get("@type")
+            types = raw_type if isinstance(raw_type, list) else [raw_type]
+            for item in types:
+                if isinstance(item, str):
+                    self.structured_data_types.add(item)
+            if self.organization_name is None and any(
+                item in {"Organization", "Corporation", "LocalBusiness", "ProfessionalService"}
+                for item in types
+                if isinstance(item, str)
+            ):
+                name = obj.get("name")
+                if isinstance(name, str) and name.strip():
+                    self.organization_name = " ".join(name.split())[:300]
+            email = obj.get("email")
+            if isinstance(email, str):
+                email = email.removeprefix("mailto:").strip()
+                if EMAIL_RE.fullmatch(email):
+                    self.mailto_emails.add(email.lower())
+            telephone = obj.get("telephone")
+            if isinstance(telephone, str):
+                normalized = _normalize_tel(telephone)
+                if normalized:
+                    self.tel_phones.add(normalized)
+            same_as = obj.get("sameAs")
+            if isinstance(same_as, str):
+                self._maybe_add_social(same_as)
+            elif isinstance(same_as, list):
+                for link in same_as:
+                    if isinstance(link, str):
+                        self._maybe_add_social(link)
+
+    @property
+    def title(self) -> str | None:
+        title = " ".join(" ".join(self.title_parts).split())
+        return title[:500] or None
+
+    @property
+    def visible_text(self) -> str:
+        return " ".join(self.visible_text_parts)
+
+
+def _walk_json_objects(data):
+    if isinstance(data, dict):
+        yield data
+        for value in data.values():
+            yield from _walk_json_objects(value)
+    elif isinstance(data, list):
+        for value in data:
+            yield from _walk_json_objects(value)
+
+
+def _normalize_tel(value: str) -> str | None:
+    value = value.strip()
+    if not value:
+        return None
+    plus = value.startswith("+")
+    digits = re.sub(r"\D", "", value)
+    if not (7 <= len(digits) <= 15):
+        return None
+    return ("+" if plus else "") + digits
+
+
+def normalize_url(raw_url: str) -> str:
+    if not isinstance(raw_url, str):
+        raise ValueError("URL must be a string")
+    value = raw_url.strip()
+    if not value:
+        raise ValueError("URL is empty")
+    if "://" not in value:
+        value = "https://" + value
+    parts = urlsplit(value)
+    if parts.scheme.lower() not in {"http", "https"}:
+        raise ValueError("Only http:// and https:// URLs are supported")
+    if parts.username or parts.password:
+        raise ValueError("Credentials in URLs are not supported")
+    host = (parts.hostname or "").strip(".").lower()
+    if not host:
+        raise ValueError("URL must include a hostname")
+    if any(ch.isspace() for ch in host):
+        raise ValueError("Hostname contains whitespace")
+    port = parts.port
+    if port is not None and port not in {80, 443}:
+        raise ValueError("Only standard web ports 80 and 443 are supported")
+    netloc = host
+    if ":" in host and not host.startswith("["):
+        netloc = f"[{host}]"
+    if port is not None:
+        netloc = f"{netloc}:{port}"
+    path = parts.path or "/"
+    return urlunsplit((parts.scheme.lower(), netloc, path, parts.query, ""))
+
+
+def _literal_or_resolved_ips(hostname: str) -> Iterable[ipaddress._BaseAddress]:
+    try:
+        yield ipaddress.ip_address(hostname)
+        return
+    except ValueError:
+        pass
+    infos = socket.getaddrinfo(hostname, None, proto=socket.IPPROTO_TCP)
+    seen: set[str] = set()
+    for info in infos:
+        ip_text = info[4][0]
+        if ip_text not in seen:
+            seen.add(ip_text)
+            yield ipaddress.ip_address(ip_text)
+
+
+def validate_public_url(url: str, *, resolve_dns: bool = True) -> str:
+    normalized = normalize_url(url)
+    host = urlsplit(normalized).hostname or ""
+    blocked_host_suffixes = (".local", ".localhost", ".internal", ".home.arpa")
+    if host in {"localhost", "localhost.localdomain"} or host.endswith(blocked_host_suffixes):
+        raise UnsafeUrlError("Local/internal hostnames are not allowed")
+    if resolve_dns:
+        try:
+            addresses = list(_literal_or_resolved_ips(host))
+        except socket.gaierror as exc:
+            raise DnsResolutionError("Hostname could not be resolved") from exc
+        if not addresses:
+            raise DnsResolutionError("Hostname could not be resolved")
+        if any(not address.is_global for address in addresses):
+            raise UnsafeUrlError("Private, local, reserved, or non-global network targets are not allowed")
+    else:
+        try:
+            address = ipaddress.ip_address(host)
+        except ValueError:
