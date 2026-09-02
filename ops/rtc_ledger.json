@@ -1,27 +1,29 @@
 {
-  "schema_version": 5,
-  "as_of": "2026-09-02T14:49:00-04:00",
+  "schema_version": 6,
+  "as_of": "2026-09-02T15:03:00-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
-  "mode_reason": "645 fixed RTC remain submitted versus 0 accepted/queued and 95 received; maintainer adjudication is now the binding constraint",
+  "mode_reason": "645 RTC of gross fixed-value historical submissions remain, but only 584 RTC remain viable after authoritative slot reconciliation; 95 RTC is verified received and maintainer adjudication is the binding constraint",
   "verified_totals": {
-    "fixed_value_viable_pipeline_rtc": 645,
-    "accepted_queued_rtc": 0,
+    "fixed_value_gross_submitted_rtc": 645,
     "fixed_value_submitted_rtc": 645,
+    "viable_fixed_value_submitted_rtc": 584,
+    "fixed_value_viable_pipeline_rtc": 584,
+    "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "variable_value_submissions_excluded_from_fixed_totals": true
   },
   "conversion_metrics": {
-    "accepted_to_pending_ratio": null,
-    "pending_to_received_ratio": null,
-    "binding_constraint": "maintainer adjudication of the submitted backlog",
+    "binding_constraint": "maintainer adjudication of the viable submitted backlog",
     "verified_24h_receivable_ceiling_rtc": 0,
     "ceiling_basis": "no fixed-value claim is currently verified ACCEPTED_QUEUED or PENDING_ON_CHAIN; additional receipt requires new adjudication first",
-    "additional_rtc_required_to_hit_500_received_rtc": 405
+    "gap_to_500_received_rtc": 405,
+    "additional_rtc_required_to_hit_500_received_rtc": 405,
+    "viable_submitted_rtc_available_for_future_adjudication": 584
   },
   "rolling_24h_scoreboard": {
-    "window_as_of": "2026-09-02T14:49:00-04:00",
+    "window_as_of": "2026-09-02T15:03:00-04:00",
     "new_fixed_value_submitted_rtc_verified_minimum": 50,
     "new_variable_value_submissions": "#16471 findings 14 and 15 submitted; no RTC booked until confirmed",
     "new_accepted_queued_rtc": 0,
@@ -30,7 +32,9 @@
     "gap_to_500_received_rtc": 405,
     "accepted_queued_backlog_rtc": 0,
     "verified_24h_receivable_ceiling_rtc": 0,
-    "note": "Authoritative wallet-history evidence verifies 95 RTC received. No additional stage change was found in the 14:49 ET Gmail/GitHub delta reconciliation. The remaining 405 RTC to target requires new maintainer adjudication before receipt is mathematically supportable."
+    "gross_fixed_value_submitted_rtc": 645,
+    "viable_fixed_value_submitted_rtc": 584,
+    "note": "95 RTC is verified received. Authoritative #16601 slot adjudication removes 45 RTC of Type B/C exposure and 16 RTC of duplicate Type D exposure from the viable pipeline without erasing the historical submissions. No new accepted/queued or pending evidence was found."
   },
   "received_evidence": {
     "wallet": "RTCc5449fe1b93385961152720c864c0f073dae5855",
@@ -47,14 +51,14 @@
     ],
     "claim_mapping": {
       "verified_exact_group": "25 + 10 + 7 + 1 = 43 RTC matches Sophia's 2026-08-29 reconciliation for #71, #398 Step 1, #398 Step 2, and #254",
-      "remaining_52_rtc": "50 + 1 + 1 RTC are verified wallet receipts; the existing 50 RTC #402 accepted queue is consistent with the 50 RTC transfer, but no unsupported per-deliverable mapping is asserted for the two additional 1 RTC transfers"
+      "remaining_52_rtc": "50 + 1 + 1 RTC are verified wallet receipts; the prior 50 RTC #402 accepted queue is consistent with the 50 RTC transfer, but no unsupported per-deliverable mapping is asserted for the two additional 1 RTC transfers"
     }
   },
   "accepted_queued": [],
   "accepted_queued_aging": {
-    "status_as_of": "2026-09-02T14:49:00-04:00",
+    "status_as_of": "2026-09-02T15:03:00-04:00",
     "sla_state": "CLEARED_BY_RECEIPT_EVIDENCE",
-    "reconciliation_action": "The prior settlement discrepancy was resolved by authoritative wallet-history evidence. A correction was sent in the existing Sophia #398 thread on 2026-09-02; Gmail message id 1a06367a5a182ac2. No further settlement follow-up is needed."
+    "reconciliation_action": "The prior settlement discrepancy was resolved by authoritative wallet-history evidence. Correction Gmail message id 1a06367a5a182ac2. No further settlement follow-up is needed."
   },
   "fixed_value_submitted": [
     ["402-completion",402,50],
@@ -102,11 +106,18 @@
     ["2259-cvpr-wix-article",2259,10],
     ["2259-cvpr-github-article",2259,10]
   ],
+  "viability_adjustments": [
+    {"issue":16601,"rtc_removed_from_viable_pipeline":15,"reason":"Type B slot authoritatively belongs to ranka23 for this round"},
+    {"issue":16601,"rtc_removed_from_viable_pipeline":30,"reason":"Type C slot authoritatively accepted to AInoAKARI; our later Type C submissions cannot win this round"},
+    {"issue":16601,"rtc_removed_from_viable_pipeline":16,"reason":"one-kit-per-type rule means at most one 8 RTC Type D add-on can remain viable; duplicate Type D exposure is not counted as viable"}
+  ],
   "fixed_value_notes": {
-    "16601-type-a-full-production-kit-20260902": "QA-verified Type A full production kit submitted 2026-09-02 through official Gmail fallback after upstream issue-comment route returned 403. Booked 40 RTC as SUBMITTED only. A competing Type A package already existed, so acceptance probability is uncertain.",
-    "2259-cvpr-wix-article": "Existing 2026-08-19 email submission located during reconciliation. Public Wix article supplied; #2259 explicitly pays 10 RTC per post and permits multiple platforms. Stage remains SUBMITTED; no maintainer acceptance or payout presumed.",
-    "2259-cvpr-github-article": "Distinct second-platform public GitHub article committed 2026-09-02 and submitted by reply in the existing #2259 Gmail thread after LinkedIn publishing was blocked by a zero monthly Upload-Post quota. No acceptance presumed.",
-    "100-discovery-withdrawal": "Withdrawn 2026-09-02 after re-audit found Scottcjn/bounty-concierge had already been submitted as a discovery by another claimant on 2026-08-28. No payout requested; removed from SUBMITTED and viable-pipeline totals."
+    "16601-type-a-full-production-kit-20260902": "QA-verified Type A full production kit submitted 2026-09-02 through official Gmail fallback after upstream issue-comment route returned 403. Booked 40 RTC as SUBMITTED only. A competing Type A package exists; acceptance remains uncertain.",
+    "16601-round-slots": "Maintainer states this round pays one kit per type; AInoAKARI's Type C is accepted and ranka23 keeps Type B. Historical submissions remain in gross SUBMITTED, but those occupied slots and duplicate Type D exposure are removed from the viable pipeline.",
+    "docstring-rate": "Maintainer changed docstring bounty rate to 0.01 RTC/function and pays on merge. This lane is killed on economics and not added to the active queue.",
+    "2259-cvpr-wix-article": "Existing 2026-08-19 email submission. Stage remains SUBMITTED.",
+    "2259-cvpr-github-article": "Distinct second-platform public GitHub article submitted in the existing #2259 Gmail thread. Stage remains SUBMITTED.",
+    "100-discovery-withdrawal": "Withdrawn as a duplicate first-discovery claim and removed from viable totals."
   },
   "variable_value_submitted": [
     ["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],
@@ -128,7 +139,7 @@
     ["16471-15-backfill-json-parse-empty-success",16471,null]
   ],
   "variable_value_notes": {
-    "16471": "15 distinct finding submissions located/submitted. Formula is 35 RTC audit + 10 RTC per confirmed defect beyond first; no fixed RTC booked until maintainer confirms defects. Further expansion remains throttled pending adjudication or an exceptional distinct finding.",
+    "16471": "15 distinct finding submissions. No fixed RTC booked until maintainer confirms defects. Further expansion remains throttled pending adjudication or an exceptional distinct finding.",
     "102": "maintainer-determined; no amount presumed",
     "2070": "judging determines exact payout"
   },
@@ -136,43 +147,38 @@
     ["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],
     ["747-verification-bot",747,null,"DEAD","competing claimant awarded"],
     ["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],
-    ["16601-type-b-payout-lifecycle",16601,15,"DEAD","one kit per type; earlier submission owns Type B"],
-    ["16601-type-c-reward-drift",16601,15,"DEAD","Type C already accepted to earlier claimant"],
-    ["16601-type-c-dry-run-safety",16601,15,"DEAD","Type C already accepted to earlier claimant"],
-    ["100-discovery",100,2,"DEAD","proactively withdrawn as duplicate first-discovery claim; another claimant submitted bounty-concierge on 2026-08-28"]
+    ["16601-type-b-payout-lifecycle",16601,15,"DEAD","Type B slot belongs to ranka23 for this round"],
+    ["16601-type-c-reward-drift",16601,15,"DEAD","Type C slot accepted to AInoAKARI"],
+    ["16601-type-c-dry-run-safety",16601,15,"DEAD","Type C slot accepted to AInoAKARI"],
+    ["16601-duplicate-type-d-exposure",16601,16,"DEAD","one-kit-per-type rule permits only one 8 RTC Type D slot"],
+    ["docstring-current-rate",16683,null,"DEAD","rate repriced to 0.01 RTC/function and requires merge; poor economics and route constraints"],
+    ["100-discovery",100,2,"DEAD","withdrawn duplicate first-discovery claim"]
   ],
   "settlement_status": {
-    "pending_id_found": false,
     "transaction_hash_found": true,
     "receipt_verified": true,
-    "last_reconciled": "2026-09-02T14:49:00-04:00",
-    "new_maintainer_payout_evidence": true,
+    "last_reconciled": "2026-09-02T15:03:00-04:00",
     "sla_state": "CLEARED_BY_RECEIPT_EVIDENCE",
-    "latest_reconciliation": "Authoritative wallet-history records show seven successful founder_community transfer_in transactions totaling 95 RTC. Fresh Gmail after the correction shows no new Sophia reply and no new accepted/queued evidence."
+    "latest_reconciliation": "95 RTC received is verified. Fresh Gmail found no new Sophia reply after the Type A submission/correction and no new ACCEPTED_QUEUED or PENDING_ON_CHAIN evidence."
   },
-  "efficiency_controls": {
-    "policy_file": "ops/efficiency_policy.json",
-    "route_first_screening": true,
-    "delta_discovery_default": true,
-    "terminal_candidate_rescans_disabled_without_trigger": true,
-    "latency_adjusted_scoring": true,
-    "probability_calibration_from_real_outcomes": true,
-    "issue_16471_expansion_throttled": true
+  "route_status": {
+    "own_github_repo": "writable",
+    "upstream_rustchain_bounties_issue_comment": "403 integration permission",
+    "writable_rustchain_bounties_fork": "prins1bap-ui/rustchain-bounties",
+    "writable_rustchain_fork": "not_found",
+    "writable_bottube_fork": "not_found",
+    "bottube_upstream_permissions": "pull_only_no_push",
+    "merge_required_bottube_work": "blocked unless a legitimate writable fork/PR route becomes available"
+  },
+  "latest_delta_scan": {
+    "checkpoint": "2026-09-02T19:03:00Z",
+    "result": "No new route-executable high-value candidate cleared the elevated build gate. Fresh authoritative reconciliation killed/held saturated lanes and repriced docstring work; current focus remains conversion of the 584 RTC viable submitted backlog.",
+    "new_build_started": false
   },
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
     "pending_cost_authorization": null,
-    "rule": "No charge, subscription, usage fee, transaction fee, infrastructure cost, publishing fee, API charge, or other monetary expense may be incurred without explicit owner authorization for the specific amount/scope."
-  },
-  "latest_delta_scan": {
-    "checkpoint": "2026-09-02T18:36:49Z",
-    "result": "No open rustchain-bounties issue was newly created or materially updated after the checkpoint; no new candidate cleared the elevated build gate.",
-    "new_build_started": false
-  },
-  "automation_status": {
-    "rtc_preflight_queue": "HEALTHY_WITH_PRIOR_FAILURE_EMAILS_SUPERSEDED",
-    "latest_verified_successful_run_id": 33666918267,
-    "latest_verified_successful_run_completed_at": "2026-09-02T18:24:40Z"
+    "rule": "No monetary expense may be incurred without explicit owner authorization for the specific amount and scope."
   }
 }
