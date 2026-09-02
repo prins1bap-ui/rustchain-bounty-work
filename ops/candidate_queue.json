@@ -1,13 +1,14 @@
 {
   "schema_version": 6,
-  "as_of": "2026-09-02T14:36:49-04:00",
+  "as_of": "2026-09-02T15:03:00-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 645,
+    "fixed_value_viable_pipeline_rtc": 584,
     "accepted_queued_rtc": 0,
     "fixed_value_submitted_rtc": 645,
+    "viable_fixed_value_submitted_rtc": 584,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "verified_24h_receivable_ceiling_rtc": 0,
@@ -40,6 +41,8 @@
     "writable_rustchain_bounties_fork": "prins1bap-ui/rustchain-bounties",
     "writable_rustchain_bounties_fork_permissions": "admin/maintain/push/pull/triage",
     "writable_rustchain_fork": "not_found",
+    "writable_bottube_fork": "not_found",
+    "bottube_upstream_permissions": "pull_only_no_push",
     "metricool_brand_id": "6761493",
     "metricool_social_networks": "none_connected",
     "upload_post_linkedin": "monthly quota exhausted",
@@ -48,17 +51,22 @@
   },
   "throttles": {
     "16471": "freeze additional findings pending adjudication/request unless exceptional distinct high-confidence finding clears the adjudication-cost penalty",
-    "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
+    "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode",
+    "docstring_bounties": "KILL: maintainer changed rate to 0.01 RTC per function; pay only on merge",
+    "bottube_merge_required_work": "BLOCKED unless a writable fork or other legitimate upstream PR route becomes available"
   },
   "latest_run_evidence": {
     "wallet_receipt_reconciliation": "Authoritative wallet-history evidence for the configured RTC payout wallet shows seven successful founder_community transfer_in records totaling 95 RTC. The four transfers of 25 + 10 + 7 + 1 RTC total 43 RTC and settled on 2026-08-30, matching Sophia's 2026-08-29 reconciliation for #71 25 + #398 Step 1 10 + #398 Step 2 7 + #254 1. The remaining 50 + 1 + 1 RTC also appear as successful transfer_in records on 2026-08-31. Cumulative RECEIVED is therefore 95 RTC. Per-deliverable mapping of the remaining 52 RTC is not asserted beyond existing evidence.",
     "wallet_history_artifact": "evidence/rtc-wallet-history.json",
     "settlement_followup_correction": "The 2026-09-02 14:24 ET delay inquiry was corrected in-thread after receipt evidence was found. Sophia was told the 43 RTC had settled and that no action is needed. Correction Gmail message id: 1a06367a5a182ac2.",
     "16601_type_a_submission": "A new Type A full production kit was built in prins1bap-ui/rustchain-bounty-work on branch bounty-16601-type-a-20260902 and independently cloud-QA-verified: 768 script words, 7 narration WAVs totaling 338.16 seconds, 10 original 1920x1080 visuals, 3 original 1280x720 thumbnails, source lock PASS. Upstream #16601 issue-comment submission returned 403 Resource not accessible by integration, so the established official email fallback was used. Gmail message id: 1a06368a74d516b9. Booked 40 RTC as SUBMITTED only; no acceptance or payout asserted. A competing Type A package already existed, so payment probability remains uncertain until maintainer adjudication.",
+    "16601_round_slot_reconciliation": "Maintainer comment on #16601 states this round pays one kit per type. Type C was explicitly accepted for AInoAKARI based on an email submission dated 2026-08-27, and the maintainer stated ranka23 keeps Type B. Our Type B email was sent 2026-08-30 and our Type C emails were sent 2026-08-30 and 2026-09-02, so 15 RTC Type B + 30 RTC Type C are no longer viable. We submitted three Type D add-ons totaling 24 RTC, but one-kit-per-type means at most one 8 RTC Type D can remain viable pending adjudication; 16 RTC is removed from viable pipeline without declaring the historical submissions nonexistent. Gross fixed-value SUBMITTED therefore remains 645 RTC, while viable fixed-value SUBMITTED/pipeline is corrected to 584 RTC.",
+    "docstring_rate_reconciliation": "Maintainer on claim #16683 explicitly changed the docstring bounty rate from 0.5 RTC/function to 0.01 RTC/function after approximately 990 functions were farmed in a day; claims pay on merge. This lane is killed on economics and is not added to the queue.",
+    "route_reconciliation": "Connected GitHub identity has no prins1bap-ui/bottube or prins1bap-ui/rustchain-mcp fork. Scottcjn/bottube permissions are pull=true, push=false. Current connector exposes no fork-creation mutation, so merge-required work in those repos is route-blocked from this environment unless a writable fork already exists or the bounty explicitly accepts a standalone artifact/email route.",
     "maintainer_queue": "Authoritative tracker #16403 previously reported 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items; maintainer bandwidth remains a conversion constraint for unadjudicated submissions.",
-    "delta_discovery": "Fresh verification showed #121 has prior accepted work and continuing competing claims; #16472 has multiple active/submitted competing fixes; neither cleared the elevated build gate. #16601 Type B and C are occupied. Type A had a competing submission but no maintainer acceptance visible when the new QA-verified Type A package was submitted, so it was treated as a competitive, uncertain 40 RTC lane rather than guaranteed value.",
+    "delta_discovery": "Fresh verification killed or held multiple apparently open lanes after authoritative comment review: #121 saturated/accepted prior work; #504 merged competing exporter; #49 implementation approved elsewhere; #3075 directory submissions crowded; #749 multiple implementations; #758 three MCP implementations; #89 merged but payout held on another submission; #303 merged and paid; #13954 paid and closed to more payouts; #13952 Agno/smolagents merged and paid, remaining slots reserved; #122 main 25 RTC already awarded; #2890 heavily saturated/currently claimed; docstring stream repriced to 0.01 RTC/function. #16601 Type A remains the current distinct submitted lane.",
     "scoreboard_changed": true,
-    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn. The former 93 RTC accepted/queued backlog remains removed after on-chain settlement evidence. Cumulative RECEIVED remains 95 RTC. New #16601 Type A adds 40 RTC to fixed-value SUBMITTED, moving SUBMITTED and viable pipeline from 605 to 645 RTC.",
+    "accounting_correction": "Gross fixed-value SUBMITTED remains 645 RTC because the historical submissions exist. Viable fixed-value pipeline is reduced by 61 RTC to 584 RTC: remove 45 RTC from Type B/C slots now authoritatively occupied by other contributors, and remove 16 RTC of duplicate Type D exposure because at most one of our three 8 RTC Type D submissions can win the one Type D slot. RECEIVED remains 95 RTC; ACCEPTED/QUEUED remains 0; PENDING remains 0.",
     "automation_health": "RTC preflight scanner title-binding bug was repaired and a corrected queue persisted; later workflow cancellation was caused by concurrency from newer commits, not a loss of the persisted scanner fix. Separate #16601 Type A cloud build run 33667989751 completed successfully."
   },
   "last_submission": {
@@ -70,7 +78,7 @@
     "artifact": "https://github.com/prins1bap-ui/rustchain-bounty-work/tree/bounty-16601-type-a-20260902/bounty-16601-type-a",
     "rtc_booked": 40
   },
-  "next_action": "Prioritize conversion of the remaining 645 RTC fixed-value submitted backlog. Reconcile authoritative replies immediately, execute only concrete maintainer-requested revisions, and continue delta-only discovery. Do not add duplicate/saturated work merely to increase submission count. Spend nothing without explicit cost authorization.",
+  "next_action": "Prioritize conversion of the 584 RTC viable fixed-value submitted backlog (645 RTC gross historical submissions). Reconcile authoritative replies immediately, execute only concrete maintainer-requested revisions, and continue delta-only discovery focused on standalone/email-acceptable work because upstream merge-required routes are blocked without writable forks. Do not add duplicate/saturated work merely to increase submission count. Spend nothing without explicit cost authorization.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
