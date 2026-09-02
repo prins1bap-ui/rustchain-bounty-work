@@ -1,0 +1,180 @@
+from __future__ import annotations
+
+import ipaddress
+import json
+import re
+import socket
+import time
+from dataclasses import dataclass
+from html.parser import HTMLParser
+from typing import Iterable
+from urllib.parse import urljoin, urlsplit, urlunsplit
+
+import httpx
+
+MAX_RESPONSE_BYTES = 1_500_000
+TRANSIENT_STATUS_CODES = {408, 425, 429, 500, 502, 503, 504}
+ALLOWED_CONTENT_TYPES = ("text/html", "application/xhtml+xml")
+SECURITY_HEADERS = (
+    "strict-transport-security",
+    "content-security-policy",
+    "x-content-type-options",
+    "x-frame-options",
+    "referrer-policy",
+    "permissions-policy",
+)
+
+
+def _patterns(*values: str) -> tuple[re.Pattern[str], ...]:
+    return tuple(re.compile(value, re.I) for value in values)
+
+
+TECH_PATTERNS: dict[str, tuple[re.Pattern[str], ...]] = {
+    # CMS / site builders / ecommerce
+    "WordPress": _patterns(r"wp-content/", r"wp-includes/", r"content=[\"'][^\"']*wordpress"),
+    "WooCommerce": _patterns(r"wp-content/plugins/woocommerce", r"woocommerce(?:-|_)"),
+    "Shopify": _patterns(r"cdn\.shopify\.com", r"shopify-section", r"myshopify\.com"),
+    "Wix": _patterns(r"wixstatic\.com", r"wix-code-sdk", r"_wix_browser_sess"),
+    "Squarespace": _patterns(r"static1\.squarespace\.com", r"squarespace-cdn", r"squarespace\.com/universal"),
+    "Webflow": _patterns(r"webflow\.com", r"data-wf-page", r"data-wf-site"),
+    "Drupal": _patterns(r"drupalSettings", r"/sites/default/files/", r"content=[\"'][^\"']*drupal"),
+    "Joomla": _patterns(r"/media/system/js/", r"content=[\"'][^\"']*joomla"),
+    "Ghost": _patterns(r"ghost\.io", r"content=[\"'][^\"']*ghost"),
+    "Magento": _patterns(r"Magento_", r"mage/cookies", r"/static/version\d+/frontend/"),
+    "BigCommerce": _patterns(r"cdn\d*\.bigcommerce\.com", r"stencil-utils"),
+    # Front-end frameworks / libraries
+    "Next.js": _patterns(r"/_next/static/", r"__NEXT_DATA__"),
+    "React": _patterns(r"react-dom(?:\.production)?(?:\.min)?\.js", r"data-reactroot", r"__REACT_DEVTOOLS_GLOBAL_HOOK__"),
+    "Vue.js": _patterns(r"vue(?:\.runtime|\.global)?(?:\.prod)?(?:\.min)?\.js", r"__VUE__"),
+    "Angular": _patterns(r"ng-version=[\"']", r"angular(?:\.min)?\.js"),
+    "jQuery": _patterns(r"jquery(?:-[0-9.]+)?(?:\.min)?\.js"),
+    "Bootstrap": _patterns(r"bootstrap(?:\.bundle)?(?:\.min)?\.(?:css|js)"),
+    "Tailwind CSS": _patterns(r"tailwindcss", r"cdn\.tailwindcss\.com"),
+    # Analytics / advertising
+    "Google Analytics": _patterns(r"googletagmanager\.com/gtag", r"google-analytics\.com/(?:analytics|g)/", r"gtag\s*\("),
+    "Google Tag Manager": _patterns(r"googletagmanager\.com/gtm\.js", r"GTM-[A-Z0-9]+"),
+    "Google Ads": _patterns(r"googleadservices\.com/pagead", r"AW-[0-9]+"),
+    "Meta Pixel": _patterns(r"connect\.facebook\.net/.*/fbevents\.js", r"fbq\s*\("),
+    "LinkedIn Insight Tag": _patterns(r"snap\.licdn\.com/li\.lms-analytics", r"_linkedin_partner_id"),
+    "TikTok Pixel": _patterns(r"analytics\.tiktok\.com/i18n/pixel", r"ttq\.load\s*\("),
+    "Microsoft Clarity": _patterns(r"clarity\.ms/tag/", r"clarity\s*\("),
+    "Hotjar": _patterns(r"static\.hotjar\.com", r"hotjar\.com/c/", r"hj\s*\("),
+    "Plausible": _patterns(r"plausible\.io/js/", r"plausible\s*\("),
+    "Matomo": _patterns(r"matomo(?:\.min)?\.js", r"_paq\.push"),
+    "Mixpanel": _patterns(r"cdn\.mxpnl\.com", r"mixpanel\.init"),
+    "Segment": _patterns(r"cdn\.segment\.com/analytics\.js", r"analytics\.load\s*\("),
+    "Adobe Analytics": _patterns(r"assets\.adobedtm\.com", r"s_code\.js"),
+    # CRM / marketing / support
+    "HubSpot": _patterns(r"js\.hs-scripts\.com", r"js\.hsforms\.net", r"hubspotutk"),
+    "Klaviyo": _patterns(r"static\.klaviyo\.com", r"klaviyo\.com/media/js", r"_learnq"),
+    "Mailchimp": _patterns(r"chimpstatic\.com", r"mc\.us\d+\.list-manage\.com"),
+    "Marketo": _patterns(r"munchkin\.marketo\.net", r"MktoForms2"),
+    "Pardot": _patterns(r"pi\.pardot\.com", r"pardot\.com/pd\.js"),
+    "Intercom": _patterns(r"widget\.intercom\.io", r"intercomSettings", r"intercomcdn\.com"),
+    "Drift": _patterns(r"js\.driftt\.com", r"drift\.load"),
+    "Crisp": _patterns(r"client\.crisp\.chat", r"\$crisp"),
+    "Zendesk": _patterns(r"static\.zdassets\.com", r"ze\(['\"]webWidget"),
+    "Calendly": _patterns(r"assets\.calendly\.com", r"calendly-inline-widget"),
+    # Payments / infrastructure
+    "Stripe": _patterns(r"js\.stripe\.com", r"stripe\.network", r"stripe-js"),
+    "PayPal": _patterns(r"paypal\.com/sdk/js", r"paypalobjects\.com"),
+    "Braintree": _patterns(r"js\.braintreegateway\.com", r"braintree\.client\.create"),
+    "Cloudflare": _patterns(r"cdn-cgi/", r"cloudflareinsights\.com", r"cf-ray"),
+    "CloudFront": _patterns(r"cloudfront\.net"),
+    "Fastly": _patterns(r"fastly\.net", r"fastly-insights"),
+    "Akamai": _patterns(r"akamaihd\.net", r"akamaized\.net"),
+    "Vercel": _patterns(r"vercel-insights", r"vercel\.app/_next"),
+}
+
+EMAIL_RE = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}\b", re.I)
+PHONE_RE = re.compile(r"(?<!\d)(?:\+?1[\s.\-]?)?(?:\(\d{3}\)|\d{3})[\s.\-]\d{3}[\s.\-]\d{4}(?!\d)")
+CHARSET_RE = re.compile(r"charset\s*=\s*[\"']?([^\s;\"']+)", re.I)
+
+SOCIAL_HOSTS = {
+    "linkedin": ("linkedin.com",),
+    "facebook": ("facebook.com",),
+    "instagram": ("instagram.com",),
+    "x": ("x.com", "twitter.com"),
+    "youtube": ("youtube.com", "youtu.be"),
+    "github": ("github.com",),
+    "tiktok": ("tiktok.com",),
+    "pinterest": ("pinterest.com",),
+    "threads": ("threads.net",),
+    "bluesky": ("bsky.app",),
+    "whatsapp": ("wa.me", "api.whatsapp.com"),
+}
+SOCIAL_EXCLUDE_PARTS = ("/share", "/sharer", "/intent/", "sharearticle", "share?", "dialog/share")
+
+
+class UnsafeUrlError(ValueError):
+    pass
+
+
+class DnsResolutionError(RuntimeError):
+    pass
+
+
+class ResponseTooLargeError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class FetchResult:
+    requested_url: str
+    final_url: str
+    status_code: int
+    headers: dict[str, str]
+    body: bytes
+    redirect_count: int
+
+
+class PageParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.title_parts: list[str] = []
+        self.meta_description: str | None = None
+        self.generator: str | None = None
+        self.canonical_href: str | None = None
+        self.language: str | None = None
+        self.forms = 0
+        self.mailto_emails: set[str] = set()
+        self.tel_phones: set[str] = set()
+        self.social_profiles: dict[str, set[str]] = {name: set() for name in SOCIAL_HOSTS}
+        self.visible_text_parts: list[str] = []
+        self.structured_data_types: set[str] = set()
+        self.organization_name: str | None = None
+        self._in_title = False
+        self._ignored_depth = 0
+        self._in_json_ld = False
+        self._json_ld_parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        tag_lower = tag.lower()
+        attrs_dict = {k.lower(): (v or "") for k, v in attrs}
+        if tag_lower == "html" and attrs_dict.get("lang") and self.language is None:
+            self.language = attrs_dict["lang"].strip()[:50] or None
+        if tag_lower in {"script", "style", "noscript"}:
+            self._ignored_depth += 1
+        if tag_lower == "script" and attrs_dict.get("type", "").lower() == "application/ld+json":
+            self._in_json_ld = True
+            self._json_ld_parts = []
+        if tag_lower == "title":
+            self._in_title = True
+        elif tag_lower == "meta":
+            meta_name = attrs_dict.get("name", "").lower()
+            if meta_name == "description" and self.meta_description is None and attrs_dict.get("content"):
+                self.meta_description = " ".join(attrs_dict["content"].split())[:500]
+            elif meta_name == "generator" and self.generator is None and attrs_dict.get("content"):
+                self.generator = " ".join(attrs_dict["content"].split())[:200]
+        elif tag_lower == "link" and self.canonical_href is None:
+            rel = attrs_dict.get("rel", "").lower().split()
+            if "canonical" in rel and attrs_dict.get("href"):
+                self.canonical_href = attrs_dict["href"].strip()
+        elif tag_lower == "form":
+            self.forms += 1
+        elif tag_lower == "a":
+            href = attrs_dict.get("href", "").strip()
+            href_lower = href.lower()
+            if href_lower.startswith("mailto:"):
+                candidate = href[7:].split("?", 1)[0].strip()
+                if EMAIL_RE.fullmatch(candidate):
