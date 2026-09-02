@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
-  "as_of": "2026-09-02T12:22:00-04:00",
+  "schema_version": 2,
+  "as_of": "2026-09-02T14:25:39-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
-  "mode_reason": "607 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion and settlement are the binding constraints",
+  "mode_reason": "605 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion and settlement are the binding constraints",
   "mode_switch": {
     "enter_settlement_adjudication_if": [
       "accepted_queued is overdue relative to authoritative settlement guidance",
@@ -80,7 +80,9 @@
     "formula": "reward_rtc * p_acceptance * p_payout_given_acceptance * settlement_velocity / estimated_hours",
     "settlement_velocity_range": [0, 1],
     "calibrate_from_real_outcomes": true,
-    "email_fallback_latency_penalty": true
+    "email_fallback_latency_penalty": true,
+    "net_value_rule": "expected_collected_value minus authorized monetary cost equivalent",
+    "monetary_cost_penalty": true
   },
   "receivable_fields": [
     "submitted_at",
@@ -104,5 +106,26 @@
     "rolling_received_target_rtc": 500,
     "track_verified_24h_receivable_ceiling": true,
     "do_not_claim_target_achievable_without_authoritative_stage_evidence": true
+  },
+  "cost_policy": {
+    "paid_routes_allowed": true,
+    "explicit_authorization_required_before_any_cost": true,
+    "authorization_does_not_carry_forward_unless_explicit_reusable_budget_covers_charge": true,
+    "never_exceed_authorized_amount_or_scope": true,
+    "before_requesting_authorization_record": [
+      "exact_known_cost_or_narrowest_reliable_range",
+      "one_time_recurring_usage_based_refundable_or_nonrefundable",
+      "blocker_removed",
+      "expected_rtc_or_revenue_benefit",
+      "why_economically_justified",
+      "lower_cost_alternative"
+    ],
+    "accounting_fields": [
+      "actual_monetary_cost_usd",
+      "authorized_but_not_incurred_usd",
+      "pending_cost_authorization"
+    ],
+    "current_actual_monetary_cost_usd": 0,
+    "current_authorized_but_not_incurred_usd": 0
   }
 }
