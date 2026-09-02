@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "website-tech-contact-snapshot",
+  "version": "0.1",
+  "buildTag": "latest",
+  "usesStandbyMode": false,
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "title": "Website Contact + Tech Snapshot",
+  "description": "One-request public website enrichment: contacts, social profiles, 45+ tech fingerprints, metadata, JSON-LD, forms, and security-header signals.",
+  "defaultMemoryMbytes": 256,
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 512
+}
