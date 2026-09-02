@@ -2,168 +2,193 @@
 
 ## Objective
 
-Maximize **verified RTC accepted/queued and ultimately received per day**, not the number of submissions, nominal bounty value, or amount of code produced.
+Maximize **verified RTC received per unit of execution time**. Secondary objectives, in order, are new `PENDING_ON_CHAIN`, new `ACCEPTED_QUEUED`, then only high-probability `SUBMITTED` work.
 
-The governing metric is:
+Raw submission count and nominal pipeline size are not success metrics.
 
-`expected_rtc_per_hour = title_reward_rtc × P(acceptance) × P(payout | acceptance) / estimated_hours`
+## Governing economic score
 
-Payout latency is a tie-breaker: when two candidates have similar expected RTC/hour, prefer the one with stronger evidence of recent maintainer settlement and the shorter path to an authoritative payout record.
+Use a latency-adjusted score rather than headline reward alone:
+
+`expected_collected_rtc_per_hour = reward_rtc × P(acceptance) × P(payout|acceptance) × settlement_velocity / estimated_hours`
+
+Where `settlement_velocity` is a 0–1 factor based on observed review/settlement latency for that route/bounty class. A slow or historically unadjudicated route is materially discounted, not merely tie-broken.
+
+Probability estimates must be calibrated from actual outcomes whenever enough history exists. Do not repeatedly use optimistic priors that conflict with observed acceptance or settlement behavior.
 
 ## Canonical accounting stages
 
 Only these stages are allowed:
 
-1. `BUILT` — deliverable exists but has not been submitted.
-2. `SUBMITTED` — maintainer can inspect the claim/deliverable.
-3. `ACCEPTED_QUEUED` — authoritative maintainer evidence explicitly accepts or queues the reward.
-4. `PENDING_ON_CHAIN` — authoritative payout evidence includes a pending transfer identifier and/or transaction hash tied to this claim.
-5. `RECEIVED` — authoritative evidence shows the transfer completed to the claimant.
-6. `DEAD` — awarded elsewhere, saturated, invalid, superseded, or otherwise no longer receivable.
-7. `EXTERNALLY_BLOCKED` — requires a real external action/evidence that cannot presently be completed autonomously.
+1. `BUILT`
+2. `SUBMITTED`
+3. `ACCEPTED_QUEUED`
+4. `PENDING_ON_CHAIN`
+5. `RECEIVED`
+6. `DEAD`
+7. `EXTERNALLY_BLOCKED`
 
 Never promote a claim merely because it was built, emailed, merged, or described as valuable.
 
-## Corrected baseline — 2026-09-01
+## Current conversion state
 
-- `RECEIVED`: **0 RTC verified**.
-- `PENDING_ON_CHAIN`: **0 RTC verified**.
-- `ACCEPTED_QUEUED`: **93 RTC verified floor**.
-  - #71: 25 RTC.
-  - #398 Step 1: 10 RTC.
-  - #398 Step 2: 7 RTC.
-  - #254 accepted action: 1 RTC.
-  - #402 kickoff tranche: 50 RTC.
-- #402 completion tranche: **50 RTC submitted/conditional on accepted delivery**.
-- #16497: **two distinct 33 RTC long-form submissions exist** under the stated 2/2 cap; neither is promoted without new maintainer adjudication.
+As of 2026-09-02 the verified fixed-value funnel is:
 
-The structured ledger in `ops/rtc_ledger.json` is authoritative for individual claims.
+- `SUBMITTED`: 607 RTC
+- `ACCEPTED_QUEUED`: 93 RTC
+- `PENDING_ON_CHAIN`: 0 RTC
+- `RECEIVED`: 0 RTC
 
-## Run algorithm
+This ratio makes **conversion/settlement the current binding constraint**. The command center therefore operates in `SETTLEMENT_ADJUDICATION` mode until the mode-switch conditions below are met.
 
-### Phase 1 — Receivables first, zero nagging
+The structured ledger in `ops/rtc_ledger.json` remains authoritative for individual claims. `ops/efficiency_policy.json` is authoritative for mode, recheck triggers, and discovery policy.
 
-At the beginning of every RTC pass, inspect existing substantive claims for **new authoritative evidence only**: acceptance, queueing, merge/adjudication, requested revision, rejection, pending ID, transaction hash, or receipt.
+## Mode switching
 
-Do not send generic follow-ups. Do not create a new email subject for an existing economic claim. A revision or new evidence belongs in the existing GitHub PR/thread or Gmail conversation whenever possible.
+### SETTLEMENT_ADJUDICATION mode — current default
 
-Priority receivables include #402 completion, both #16497 article slots, the distinct #685 submissions, and every other ledger row still at `SUBMITTED` where a maintainer has actually moved the state.
+Use this mode whenever either condition is true:
 
-### Phase 2 — Build a current opportunity inventory
+- accepted/queued RTC is materially overdue relative to authoritative settlement guidance; or
+- fixed-value submitted backlog is greater than 3× accepted/queued backlog without corresponding conversion.
 
-Search the authoritative bounty tracker and relevant Elyan repositories. Do **not** treat `state=open` as proof that work remains available.
+Allocation target:
 
-Every candidate must pass all of these checks before construction:
+- **70%** receivable reconciliation, concrete adjudication repair, requested revisions, and settlement evidence.
+- **20%** delta discovery for newly created/materially updated high-quality opportunities.
+- **10%** new construction, only when the candidate clears the elevated build gate.
 
-- current issue is open and payable;
-- authoritative current **title** reward is recorded;
-- pool/cap/slot remains available;
-- no conflicting cap already consumed by this claimant;
-- issue comments checked for `/claim`, completion, maintainer reservation, award, or saturation;
-- open PRs checked for the same deliverable;
-- recently merged/closed PRs checked for the same deliverable;
-- current target source inspected so the requested gap still exists;
-- acceptance criteria are objectively satisfiable;
-- required route can be completed with connected tools;
-- no fabricated publication, hardware, account activity, engagement, test result, transaction, or endpoint evidence is required.
+Do **not** create more speculative work merely to increase nominal pipeline value.
 
-If one credible mergeable competing PR already occupies a first-wins deliverable, heavily discount the candidate. Two or more complete equivalents normally kill it.
+### PRODUCTION mode
 
-### Phase 3 — Score before building
+Return to normal production only when settlement is demonstrably moving or the submitted/accepted imbalance materially improves.
 
-For each candidate record:
+Allocation target:
 
-- `reward_rtc`
-- `acceptance_probability` from 0 to 1
-- `payout_probability_given_acceptance` from 0 to 1
-- `estimated_hours`
-- `recent_settlement_evidence` from 0 to 1
-- `competition_count`
-- `submission_route`
+- 55% fresh high-conversion work
+- 25% fast stackable work
+- 20% receivable reconciliation
 
-Base score:
+## Phase 1 — Receivables first
 
-`reward × acceptance_probability × payout_probability / hours`
+At the beginning of every substantive RTC pass, inspect existing receivables for **new authoritative evidence only**: acceptance, queueing, requested revision, rejection, pending ID, transaction hash, or receipt.
 
-Then prefer higher recent-settlement evidence and lower competition. Headline reward alone never wins the ranking.
+Every receivable should carry, where evidence exists:
 
-### Phase 4 — One live construction
+- `submitted_at`
+- `accepted_at`
+- `expected_review_by`
+- `expected_settlement_by`
+- `age_hours`
+- `next_action_trigger`
 
-Only **one speculative build may be ACTIVE at a time**. Finish, validate, submit, and ledger it before beginning the next speculative build.
+An overdue settlement relative to an authoritative timeline is a **concrete reconciliation discrepancy**, not a generic follow-up condition. Investigate authoritative channels for missing evidence. Do not spam maintainers.
 
-This rule does not prevent read-only screening or handling a concrete maintainer revision on an existing claim.
+Never send generic adjudication reminders and never create a new email subject for an existing economic claim.
 
-### Phase 5 — Submission hierarchy
+## Phase 2 — Route-first candidate gate
 
-For ordinary code/docs work, use this order:
+Before deep source review, competition analysis, or construction, verify the submission route.
 
-1. authenticated upstream-network fork → focused branch → tested commit → upstream PR;
+Immediate kill if:
+
+- required upstream repo is not writable and no allowed alternative exists;
+- required external publication/account/hardware action is unavailable;
+- required GitHub action is not exposed by the connected route;
+- required fund movement/signing/payment is excluded;
+- only an unauthorized fallback exists.
+
+Only after route viability passes should the system spend effort on source-gap analysis, cap/slot checks, competing PR review, or implementation planning.
+
+## Phase 3 — Delta discovery, not full rescans
+
+After a baseline inventory exists, search primarily for:
+
+- newly created bounty issues;
+- materially updated bounty issues;
+- changed reward/cap/acceptance terms;
+- competitor PR closure/rejection that re-opens a lane;
+- newly available connector/submission route;
+- maintainer messages that change adjudication economics.
+
+Do not fully rescan terminal candidates each run.
+
+Every rejected candidate gets a recheck trigger:
+
+- `never` — awarded, expired, claimant cap consumed, superseded.
+- `route_change` — only revisit if a required connector/write/publication route becomes available.
+- `competitor_change` — revisit only if occupying implementation is rejected/closed without award.
+- `maintainer_update` — revisit only if reward, cap, rules, or assignment changes.
+- `date_trigger` — revisit only on/after a specific date.
+
+## Phase 4 — Elevated build gate
+
+In `SETTLEMENT_ADJUDICATION` mode, a new speculative build must satisfy all of these:
+
+- route executable now;
+- clearly benign execution category;
+- objectively verifiable acceptance criteria;
+- unsaturated and not credibly occupied;
+- claimant cap available;
+- expected collected RTC/hour materially exceeds the value of additional receivable work;
+- evidence of recent maintainer acceptance/settlement for the same or similar route;
+- no meaningful increase in adjudication burden from duplicative package expansion.
+
+Keep at most one speculative build active.
+
+## #16471 throttle
+
+The existing #16471 finding set is frozen at the current submitted count unless one of these occurs:
+
+- maintainer confirms/adjudicates at least part of the current set;
+- maintainer requests additional findings;
+- a newly discovered defect is exceptionally distinct and high-confidence and clearly outweighs the adjudication-cost penalty.
+
+Do not expand the finding count simply because the bounty formula is uncapped.
+
+## Submission hierarchy
+
+1. authenticated upstream-network fork → focused branch → tests → upstream PR;
 2. direct authorized GitHub issue/comment route;
-3. writable own public repository when the bounty expressly accepts a standalone artifact;
-4. official email fallback **only when the bounty/project explicitly authorizes it and GitHub write actually fails**.
+3. writable own public repository when expressly accepted;
+4. official email fallback only when explicitly authorized and the normal GitHub route actually fails.
 
-Email fallback is valid but expensive in adjudication latency. Do not use it as the default merely because it is available.
+Email fallback is a latency penalty and should be reflected in scoring.
 
-### Phase 6 — Duplicate guard
+## Duplicate guard
 
-One economic claim gets one canonical ledger ID.
+One economic claim gets one canonical ledger ID. Revisions, re-sends, evidence corrections, and thread consolidations are not new claims. Cap overflow is never counted.
 
-- A revision is not a new claim.
-- A re-send after a delivery failure is not a new claim.
-- A second email with the same bounty/deliverable is marked `duplicate_of` or `revision_of`.
-- A cap-overflow submission is never counted as receivable.
-- A requested reward is not counted until authoritative evidence supports the applicable stage.
+## 500 RTC rolling target
 
-### Phase 7 — Update ledger immediately
+Track both:
 
-After every meaningful action, update `ops/rtc_ledger.json` before starting another build. The ledger, not conversational memory, governs future accounting.
+- `gap_to_500_received_rtc`
+- `verified_24h_receivable_ceiling_rtc`
 
-## Daily portfolio
+Never imply the 500 RTC target is presently achievable unless authoritative evidence supports enough claims progressing through the required stages within the window.
 
-Target execution capacity:
-
-- **60%** — fresh, unsaturated, PR-able work with visible recent settlement behavior.
-- **25%** — fast, stackable, objectively verifiable micro-bounties with high acceptance probability.
-- **15%** — receivable reconciliation and concrete requested revisions.
-
-If there is no high-quality candidate, submit nothing rather than manufacture activity.
-
-## Candidate kill rules
-
-Reject a candidate before construction when any of the following is true:
-
-- requested gap no longer exists in current source;
-- exact deliverable is already merged/awarded;
-- first-wins slot is credibly occupied;
-- claimant cap is already consumed;
-- required external proof cannot be produced honestly;
-- only submission route is unavailable and no official fallback is authorized;
-- expected RTC/hour falls below a materially better executable candidate;
-- the actual work falls outside applicable safety requirements.
-
-Safety is evaluated from the **actual requested work**, not keyword matching. Do not reject benign wallet/blockchain/reliability work simply because of terminology, and do not rephrase unsafe work to evade product protections.
+If the verified ceiling is below 500, state the binding constraints internally and continue only economically justified work.
 
 ## Narrow execution allowlist
 
-To reduce content-rendering interruptions while preserving the existing safety boundary, detailed execution is restricted to: documentation, tutorials, localization/accessibility, ordinary functional reliability, developer tooling, SDK/examples, reproducible objective QA, content packages, receivable reconciliation, and other clearly benign contribution work.
+Detailed execution is restricted to documentation, tutorials, localization/accessibility, ordinary functional reliability, developer tooling, SDK/examples, reproducible objective QA, content packages, receivable reconciliation, and other clearly benign contribution work.
 
-Candidates outside that allowlist are rejected at inventory stage before detailed source analysis. If a task stops being clearly benign during execution, stop it, record the blocker, and continue to the next legitimate opportunity. Do not rename or reframe a disallowed task to force it through.
+Candidates outside that allowlist are rejected before detailed source analysis. Do not rename or reframe disallowed work to force it through.
 
 ## Communication discipline
 
-- Never send a generic adjudication reminder.
-- Never submit the same economic claim under a new subject merely to increase visibility.
-- Use one thread per claim whenever possible.
-- Correct accounting mistakes with a concise ledger correction, then stop.
-- Maintainer bandwidth is a scarce resource; optimize for reviewability.
+Notify only for concrete stage changes, actual work built/submitted, an unavoidable owner-only blocker to a high-value live opportunity, a material rolling-scoreboard change, or genuine exhaustion.
+
+Maintainer bandwidth is a scarce economic resource. Optimize for conversion and reviewability.
 
 ## Success criteria
 
-A good day is measured in this order:
+A good run is measured in this order:
 
-1. RTC newly `RECEIVED`.
-2. RTC newly `PENDING_ON_CHAIN` with authoritative transfer evidence.
-3. RTC newly `ACCEPTED_QUEUED`.
-4. High-probability new `SUBMITTED` work that passed every gate.
-
-Raw submission count is not a success metric.
+1. new `RECEIVED` RTC;
+2. new `PENDING_ON_CHAIN` RTC;
+3. new `ACCEPTED_QUEUED` RTC;
+4. concrete repair that increases probability of conversion;
+5. only then, a high-probability new `SUBMITTED` deliverable.
