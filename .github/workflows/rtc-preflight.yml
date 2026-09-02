@@ -10,16 +10,38 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: rtc-preflight-main
+  cancel-in-progress: true
+
 jobs:
   rank:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+
+      - name: Validate preflight source
+        run: python3 -m py_compile ops/rtc_preflight.py
+
       - name: Build authoritative candidate queue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 ops/rtc_preflight.py
+
+      - name: Validate generated queue
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('artifacts/rtc-candidate-queue.json')
+          data = json.loads(p.read_text())
+          assert data.get('generated_at'), 'missing generated_at'
+          assert isinstance(data.get('candidates'), list), 'missing candidates list'
+          assert data.get('candidate_count') == len(data['candidates']), 'candidate count mismatch'
+          print(f"validated {data['candidate_count']} candidates; final_verify={data.get('final_verify_count', 0)}")
+          PY
+
       - name: Persist latest queue in repository
         run: |
           git config user.name "rtc-preflight[bot]"
@@ -31,6 +53,7 @@ jobs:
             git commit -m "Update RTC preflight candidate queue [skip ci]"
             git push origin HEAD:main
           fi
+
       - name: Upload candidate queue
         uses: actions/upload-artifact@v4
         with:
