@@ -1,168 +1,10 @@
 {
-  "generated_at": "2026-09-02T18:22:57.136185+00:00",
+  "generated_at": "2026-09-02T18:24:34.247186+00:00",
   "source": "GitHub search of Scottcjn-authored open RTC/bounty definitions across Scottcjn-owned repositories",
   "accounting_note": "Triage only. No item here is earned, submitted, accepted, or received RTC.",
   "candidate_count": 199,
   "final_verify_count": 0,
   "candidates": [
-    {
-      "repository": "rustchain-bounties",
-      "number": 446,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/446",
-      "reward_title_rtc": 17.0,
-      "reward_body_rtc": 25.0,
-      "reward_rtc": 17.0,
-      "reward_conflict": true,
-      "comments": 13,
-      "competitor_intent": 2,
-      "competitor_completed": 2,
-      "maintainer_awards": 0,
-      "competition_status": "ok",
-      "comments_checked": 12,
-      "route": "email-fallback-candidate",
-      "flags": [],
-      "effort_minutes": 180,
-      "ev_index": 0.55,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-02T09:14:48Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 68,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/68",
-      "reward_title_rtc": 50.0,
-      "reward_body_rtc": 75.0,
-      "reward_rtc": 50.0,
-      "reward_conflict": true,
-      "comments": 36,
-      "competitor_intent": 9,
-      "competitor_completed": 7,
-      "maintainer_awards": 2,
-      "competition_status": "ok",
-      "comments_checked": 36,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "defensive-security"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.276,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-02T08:34:35Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 521,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/521",
-      "reward_title_rtc": 2.0,
-      "reward_body_rtc": 3.0,
-      "reward_rtc": 2.0,
-      "reward_conflict": true,
-      "comments": 37,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "pr-only",
-      "flags": [],
-      "effort_minutes": 75,
-      "ev_index": 0.123,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-21T04:58:18Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 517,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/517",
-      "reward_title_rtc": 1.0,
-      "reward_body_rtc": 2.0,
-      "reward_rtc": 1.0,
-      "reward_conflict": true,
-      "comments": 47,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "email-fallback-candidate",
-      "flags": [],
-      "effort_minutes": 180,
-      "ev_index": 0.09,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-29T16:58:37Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 519,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/519",
-      "reward_title_rtc": 2.0,
-      "reward_body_rtc": 3.0,
-      "reward_rtc": 2.0,
-      "reward_conflict": true,
-      "comments": 37,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "pr-only",
-      "flags": [],
-      "effort_minutes": 120,
-      "ev_index": 0.077,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-21T04:58:17Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 249,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/249",
-      "reward_title_rtc": 33.0,
-      "reward_body_rtc": 50.0,
-      "reward_rtc": 33.0,
-      "reward_conflict": true,
-      "comments": 39,
-      "competitor_intent": 7,
-      "competitor_completed": 12,
-      "maintainer_awards": 1,
-      "competition_status": "ok",
-      "comments_checked": 37,
-      "route": "pr-only",
-      "flags": [],
-      "effort_minutes": 180,
-      "ev_index": 0.069,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-08-02T09:17:30Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 518,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/518",
-      "reward_title_rtc": 2.0,
-      "reward_body_rtc": 3.0,
-      "reward_rtc": 2.0,
-      "reward_conflict": true,
-      "comments": 59,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "merge-gated",
-      "flags": [
-        "merge-gated"
-      ],
-      "effort_minutes": 120,
-      "ev_index": 0.031,
-      "decision": "VERIFY_REWARD",
-      "updated_at": "2026-09-02T16:48:04Z"
-    },
     {
       "repository": "ardy-director",
       "number": 8,
@@ -183,7 +25,8 @@
       "effort_minutes": 75,
       "ev_index": 20.25,
       "decision": "VERIFY_ROUTE",
-      "updated_at": "2026-07-16T02:49:42Z"
+      "updated_at": "2026-07-16T02:49:42Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "ardy-director",
@@ -205,7 +48,8 @@
       "effort_minutes": 360,
       "ev_index": 14.062,
       "decision": "VERIFY_ROUTE",
-      "updated_at": "2026-07-15T20:10:51Z"
+      "updated_at": "2026-07-15T20:10:51Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "ardy-director",
@@ -227,7 +71,8 @@
       "effort_minutes": 360,
       "ev_index": 13.5,
       "decision": "VERIFY_ROUTE",
-      "updated_at": "2026-07-16T14:50:03Z"
+      "updated_at": "2026-07-16T14:50:03Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "ardy-director",
@@ -249,7 +94,8 @@
       "effort_minutes": 360,
       "ev_index": 7.031,
       "decision": "VERIFY_ROUTE",
-      "updated_at": "2026-07-16T07:03:22Z"
+      "updated_at": "2026-07-16T07:03:22Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "rustchain-bounties",
@@ -271,7 +117,8 @@
       "effort_minutes": 75,
       "ev_index": 0.616,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-01T14:35:10Z"
+      "updated_at": "2026-09-01T14:35:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -293,7 +140,8 @@
       "effort_minutes": 120,
       "ev_index": 0.52,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T19:46:49Z"
+      "updated_at": "2026-08-01T19:46:49Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -315,7 +163,8 @@
       "effort_minutes": 180,
       "ev_index": 0.44,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T16:40:32Z"
+      "updated_at": "2026-09-02T16:40:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -337,7 +186,8 @@
       "effort_minutes": 180,
       "ev_index": 0.367,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T16:40:56Z"
+      "updated_at": "2026-09-02T16:40:56Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -359,7 +209,8 @@
       "effort_minutes": 180,
       "ev_index": 0.33,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T20:50:34Z"
+      "updated_at": "2026-08-01T20:50:34Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -381,7 +232,8 @@
       "effort_minutes": 75,
       "ev_index": 0.308,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-01T20:59:58Z"
+      "updated_at": "2026-09-01T20:59:58Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -403,7 +255,8 @@
       "effort_minutes": 180,
       "ev_index": 0.293,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T14:08:24Z"
+      "updated_at": "2026-09-02T14:08:24Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -427,7 +280,8 @@
       "effort_minutes": 180,
       "ev_index": 0.269,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-28T23:22:52Z"
+      "updated_at": "2026-08-28T23:22:52Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -449,7 +303,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T16:41:46Z"
+      "updated_at": "2026-09-02T16:41:46Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "grazer-skill",
@@ -471,7 +326,8 @@
       "effort_minutes": 90,
       "ev_index": 0.248,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-06-13T09:13:39Z"
+      "updated_at": "2026-06-13T09:13:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -493,7 +349,8 @@
       "effort_minutes": 120,
       "ev_index": 0.193,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-29T18:19:45Z"
+      "updated_at": "2026-08-29T18:19:45Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -515,7 +372,8 @@
       "effort_minutes": 120,
       "ev_index": 0.193,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-29T01:03:10Z"
+      "updated_at": "2026-08-29T01:03:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -537,7 +395,8 @@
       "effort_minutes": 180,
       "ev_index": 0.183,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T03:39:43Z"
+      "updated_at": "2026-09-02T03:39:43Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -561,7 +420,8 @@
       "effort_minutes": 180,
       "ev_index": 0.18,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-29T02:31:34Z"
+      "updated_at": "2026-08-29T02:31:34Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -585,7 +445,8 @@
       "effort_minutes": 90,
       "ev_index": 0.18,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T16:05:06Z"
+      "updated_at": "2026-09-02T16:05:06Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -607,7 +468,8 @@
       "effort_minutes": 120,
       "ev_index": 0.173,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-02T08:48:32Z"
+      "updated_at": "2026-08-02T08:48:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -631,7 +493,8 @@
       "effort_minutes": 180,
       "ev_index": 0.162,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-02T08:01:51Z"
+      "updated_at": "2026-08-02T08:01:51Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -653,7 +516,8 @@
       "effort_minutes": 180,
       "ev_index": 0.147,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T14:08:21Z"
+      "updated_at": "2026-09-02T14:08:21Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -675,7 +539,8 @@
       "effort_minutes": 180,
       "ev_index": 0.128,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T16:46:39Z"
+      "updated_at": "2026-09-02T16:46:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -697,7 +562,8 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-02T09:07:52Z"
+      "updated_at": "2026-08-02T09:07:52Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -719,7 +585,8 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T23:52:19Z"
+      "updated_at": "2026-08-01T23:52:19Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -741,7 +608,8 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T22:08:52Z"
+      "updated_at": "2026-08-01T22:08:52Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -763,7 +631,31 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T20:02:35Z"
+      "updated_at": "2026-08-01T20:02:35Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 521,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/521",
+      "reward_title_rtc": 2.0,
+      "reward_body_rtc": 3.0,
+      "reward_rtc": 2.0,
+      "reward_conflict": true,
+      "comments": 37,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "pr-only",
+      "flags": [],
+      "effort_minutes": 75,
+      "ev_index": 0.082,
+      "decision": "VERIFY_COMPETITION",
+      "updated_at": "2026-08-21T04:58:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -787,7 +679,54 @@
       "effort_minutes": 180,
       "ev_index": 0.081,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-08-01T22:08:06Z"
+      "updated_at": "2026-08-01T22:08:06Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 519,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/519",
+      "reward_title_rtc": 2.0,
+      "reward_body_rtc": 3.0,
+      "reward_rtc": 2.0,
+      "reward_conflict": true,
+      "comments": 37,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "pr-only",
+      "flags": [],
+      "effort_minutes": 120,
+      "ev_index": 0.051,
+      "decision": "VERIFY_COMPETITION",
+      "updated_at": "2026-08-21T04:58:17Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 517,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/517",
+      "reward_title_rtc": 1.0,
+      "reward_body_rtc": 2.0,
+      "reward_rtc": 1.0,
+      "reward_conflict": true,
+      "comments": 47,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "email-fallback-candidate",
+      "flags": [],
+      "effort_minutes": 180,
+      "ev_index": 0.045,
+      "decision": "VERIFY_COMPETITION",
+      "updated_at": "2026-08-29T16:58:37Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "mlx-coffers",
@@ -809,7 +748,8 @@
       "effort_minutes": 180,
       "ev_index": 0.031,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-06-08T14:09:40Z"
+      "updated_at": "2026-06-08T14:09:40Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -833,7 +773,33 @@
       "effort_minutes": 180,
       "ev_index": 0.029,
       "decision": "VERIFY_COMPETITION",
-      "updated_at": "2026-09-02T11:44:08Z"
+      "updated_at": "2026-09-02T11:44:08Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 518,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/518",
+      "reward_title_rtc": 2.0,
+      "reward_body_rtc": 3.0,
+      "reward_rtc": 2.0,
+      "reward_conflict": true,
+      "comments": 59,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "merge-gated",
+      "flags": [
+        "merge-gated"
+      ],
+      "effort_minutes": 120,
+      "ev_index": 0.021,
+      "decision": "VERIFY_COMPETITION",
+      "updated_at": "2026-09-02T16:48:04Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "langchain-rustchain",
@@ -855,7 +821,8 @@
       "effort_minutes": 180,
       "ev_index": 1.0,
       "decision": "DEFER_ROUTE",
-      "updated_at": "2026-07-09T04:48:32Z"
+      "updated_at": "2026-07-09T04:48:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "ardy-director",
@@ -877,7 +844,8 @@
       "effort_minutes": 180,
       "ev_index": 8.663,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-07-16T22:55:56Z"
+      "updated_at": "2026-07-16T22:55:56Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "ardy-director",
@@ -899,7 +867,8 @@
       "effort_minutes": 180,
       "ev_index": 3.713,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-07-17T00:55:15Z"
+      "updated_at": "2026-07-17T00:55:15Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "rustchain-bounties",
@@ -921,7 +890,8 @@
       "effort_minutes": 75,
       "ev_index": 3.024,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T08:47:09Z"
+      "updated_at": "2026-08-02T08:47:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -945,7 +915,8 @@
       "effort_minutes": 75,
       "ev_index": 0.735,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-09-02T15:25:50Z"
+      "updated_at": "2026-09-02T15:25:50Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -967,7 +938,8 @@
       "effort_minutes": 180,
       "ev_index": 0.7,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-28T22:33:26Z"
+      "updated_at": "2026-08-28T22:33:26Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "trashclaw",
@@ -989,7 +961,8 @@
       "effort_minutes": 180,
       "ev_index": 0.594,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-07-21T16:53:33Z"
+      "updated_at": "2026-07-21T16:53:33Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1013,7 +986,8 @@
       "effort_minutes": 180,
       "ev_index": 0.591,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T09:20:09Z"
+      "updated_at": "2026-08-02T09:20:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1035,7 +1009,8 @@
       "effort_minutes": 75,
       "ev_index": 0.56,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-09-02T14:57:28Z"
+      "updated_at": "2026-09-02T14:57:28Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1057,7 +1032,8 @@
       "effort_minutes": 180,
       "ev_index": 0.504,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T08:12:15Z"
+      "updated_at": "2026-08-02T08:12:15Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1079,7 +1055,31 @@
       "effort_minutes": 120,
       "ev_index": 0.394,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-19T12:35:54Z"
+      "updated_at": "2026-08-19T12:35:54Z",
+      "reward_policy": "body-fallback"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 446,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/446",
+      "reward_title_rtc": 17.0,
+      "reward_body_rtc": 25.0,
+      "reward_rtc": 17.0,
+      "reward_conflict": true,
+      "comments": 13,
+      "competitor_intent": 2,
+      "competitor_completed": 2,
+      "maintainer_awards": 0,
+      "competition_status": "ok",
+      "comments_checked": 12,
+      "route": "email-fallback-candidate",
+      "flags": [],
+      "effort_minutes": 180,
+      "ev_index": 0.374,
+      "decision": "DEFER_SATURATED",
+      "updated_at": "2026-08-02T09:14:48Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1101,7 +1101,8 @@
       "effort_minutes": 180,
       "ev_index": 0.36,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T09:08:23Z"
+      "updated_at": "2026-08-02T09:08:23Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1123,7 +1124,8 @@
       "effort_minutes": 180,
       "ev_index": 0.284,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T08:21:14Z"
+      "updated_at": "2026-08-02T08:21:14Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "ram-coffers",
@@ -1145,7 +1147,8 @@
       "effort_minutes": 180,
       "ev_index": 0.243,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-09T20:24:34Z"
+      "updated_at": "2026-08-09T20:24:34Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1167,7 +1170,33 @@
       "effort_minutes": 180,
       "ev_index": 0.21,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-19T12:35:52Z"
+      "updated_at": "2026-08-19T12:35:52Z",
+      "reward_policy": "body-fallback"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 68,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/68",
+      "reward_title_rtc": 50.0,
+      "reward_body_rtc": 75.0,
+      "reward_rtc": 50.0,
+      "reward_conflict": true,
+      "comments": 36,
+      "competitor_intent": 9,
+      "competitor_completed": 7,
+      "maintainer_awards": 2,
+      "competition_status": "ok",
+      "comments_checked": 36,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "defensive-security"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.184,
+      "decision": "DEFER_SATURATED",
+      "updated_at": "2026-08-02T08:34:35Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "shaprai",
@@ -1189,7 +1218,8 @@
       "effort_minutes": 120,
       "ev_index": 0.169,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-05-18T05:36:34Z"
+      "updated_at": "2026-05-18T05:36:34Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1211,7 +1241,8 @@
       "effort_minutes": 180,
       "ev_index": 0.16,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-09-02T14:34:09Z"
+      "updated_at": "2026-09-02T14:34:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1233,7 +1264,8 @@
       "effort_minutes": 90,
       "ev_index": 0.151,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T08:12:21Z"
+      "updated_at": "2026-08-02T08:12:21Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1257,7 +1289,8 @@
       "effort_minutes": 180,
       "ev_index": 0.088,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-09-02T14:08:32Z"
+      "updated_at": "2026-09-02T14:08:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1281,7 +1314,31 @@
       "effort_minutes": 180,
       "ev_index": 0.083,
       "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-28T06:27:15Z"
+      "updated_at": "2026-08-28T06:27:15Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 249,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/249",
+      "reward_title_rtc": 33.0,
+      "reward_body_rtc": 50.0,
+      "reward_rtc": 33.0,
+      "reward_conflict": true,
+      "comments": 39,
+      "competitor_intent": 7,
+      "competitor_completed": 12,
+      "maintainer_awards": 1,
+      "competition_status": "ok",
+      "comments_checked": 37,
+      "route": "pr-only",
+      "flags": [],
+      "effort_minutes": 180,
+      "ev_index": 0.046,
+      "decision": "DEFER_SATURATED",
+      "updated_at": "2026-08-02T09:17:30Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1306,7 +1363,8 @@
       "effort_minutes": 180,
       "ev_index": 1.25,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-26T06:06:16Z"
+      "updated_at": "2026-08-26T06:06:16Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1334,7 +1392,8 @@
       "effort_minutes": 180,
       "ev_index": 0.652,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T15:36:00Z"
+      "updated_at": "2026-09-02T15:36:00Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1358,7 +1417,8 @@
       "effort_minutes": 180,
       "ev_index": 0.504,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-02T05:08:41Z"
+      "updated_at": "2026-08-02T05:08:41Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1383,7 +1443,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-01T21:35:31Z"
+      "updated_at": "2026-09-01T21:35:31Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1408,7 +1469,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-29T17:36:09Z"
+      "updated_at": "2026-08-29T17:36:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1433,7 +1495,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-29T12:59:03Z"
+      "updated_at": "2026-08-29T12:59:03Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1457,7 +1520,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-29T01:39:30Z"
+      "updated_at": "2026-08-29T01:39:30Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1483,7 +1547,34 @@
       "effort_minutes": 180,
       "ev_index": 0.289,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-29T01:38:40Z"
+      "updated_at": "2026-08-29T01:38:40Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 1113,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1113",
+      "reward_title_rtc": 5.0,
+      "reward_body_rtc": 8.0,
+      "reward_rtc": 5.0,
+      "reward_conflict": true,
+      "comments": 55,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "existing-user-work",
+        "known-nonactionable"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.281,
+      "decision": "OWN_WORK_RECHECK",
+      "updated_at": "2026-08-28T03:11:38Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1507,7 +1598,8 @@
       "effort_minutes": 180,
       "ev_index": 0.28,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-01T02:06:10Z"
+      "updated_at": "2026-09-01T02:06:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1531,7 +1623,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T16:05:10Z"
+      "updated_at": "2026-09-02T16:05:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1556,7 +1649,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-01T21:18:55Z"
+      "updated_at": "2026-09-01T21:18:55Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1580,7 +1674,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-29T16:52:47Z"
+      "updated_at": "2026-08-29T16:52:47Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1605,31 +1700,8 @@
       "effort_minutes": 180,
       "ev_index": 0.2,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T16:05:57Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 520,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/520",
-      "reward_title_rtc": 2.0,
-      "reward_body_rtc": 3.0,
-      "reward_rtc": 2.0,
-      "reward_conflict": true,
-      "comments": 178,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "existing-user-work"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.18,
-      "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T16:48:05Z"
+      "updated_at": "2026-09-02T16:05:57Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1653,7 +1725,8 @@
       "effort_minutes": 180,
       "ev_index": 0.128,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-01T15:46:47Z"
+      "updated_at": "2026-09-01T15:46:47Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1677,7 +1750,33 @@
       "effort_minutes": 180,
       "ev_index": 0.128,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-01T06:22:28Z"
+      "updated_at": "2026-09-01T06:22:28Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 520,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/520",
+      "reward_title_rtc": 2.0,
+      "reward_body_rtc": 3.0,
+      "reward_rtc": 2.0,
+      "reward_conflict": true,
+      "comments": 178,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "existing-user-work"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.12,
+      "decision": "OWN_WORK_RECHECK",
+      "updated_at": "2026-09-02T16:48:05Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1703,7 +1802,8 @@
       "effort_minutes": 180,
       "ev_index": 0.117,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T04:29:59Z"
+      "updated_at": "2026-09-02T04:29:59Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1726,9 +1826,10 @@
         "external-publication/account"
       ],
       "effort_minutes": 360,
-      "ev_index": 0.038,
+      "ev_index": 0.023,
       "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-08-28T03:32:54Z"
+      "updated_at": "2026-08-28T03:32:54Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1753,7 +1854,8 @@
       "effort_minutes": 180,
       "ev_index": 37.333,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:09:14Z"
+      "updated_at": "2026-09-02T15:09:14Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -1777,7 +1879,8 @@
       "effort_minutes": 360,
       "ev_index": 8.0,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T20:06:48Z"
+      "updated_at": "2026-08-28T20:06:48Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -1802,7 +1905,8 @@
       "effort_minutes": 180,
       "ev_index": 7.875,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-07-07T02:28:01Z"
+      "updated_at": "2026-07-07T02:28:01Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "legend-of-elya-n64",
@@ -1826,7 +1930,8 @@
       "effort_minutes": 360,
       "ev_index": 5.625,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-04-03T12:00:09Z"
+      "updated_at": "2026-04-03T12:00:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1850,7 +1955,8 @@
       "effort_minutes": 180,
       "ev_index": 4.667,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T14:33:50Z"
+      "updated_at": "2026-09-02T14:33:50Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "legend-of-elya-n64",
@@ -1874,7 +1980,8 @@
       "effort_minutes": 360,
       "ev_index": 3.713,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-20T10:00:19Z"
+      "updated_at": "2026-06-20T10:00:19Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1898,7 +2005,8 @@
       "effort_minutes": 180,
       "ev_index": 3.173,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:11:08Z"
+      "updated_at": "2026-09-02T15:11:08Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -1924,7 +2032,8 @@
       "effort_minutes": 180,
       "ev_index": 2.625,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T20:02:32Z"
+      "updated_at": "2026-08-28T20:02:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-amiga",
@@ -1948,7 +2057,8 @@
       "effort_minutes": 360,
       "ev_index": 2.625,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-21T22:13:58Z"
+      "updated_at": "2026-08-21T22:13:58Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1972,7 +2082,8 @@
       "effort_minutes": 360,
       "ev_index": 2.333,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:39:51Z"
+      "updated_at": "2026-09-02T16:39:51Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -1997,7 +2108,8 @@
       "effort_minutes": 180,
       "ev_index": 2.31,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:13Z"
+      "updated_at": "2026-08-01T22:08:13Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2022,7 +2134,8 @@
       "effort_minutes": 180,
       "ev_index": 1.96,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:11:41Z"
+      "updated_at": "2026-09-02T15:11:41Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2046,7 +2159,8 @@
       "effort_minutes": 360,
       "ev_index": 1.925,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:39:11Z"
+      "updated_at": "2026-09-02T16:39:11Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2070,7 +2184,8 @@
       "effort_minutes": 360,
       "ev_index": 1.89,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:27:32Z"
+      "updated_at": "2026-08-02T08:27:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2094,7 +2209,8 @@
       "effort_minutes": 180,
       "ev_index": 1.89,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:56Z"
+      "updated_at": "2026-08-01T22:08:56Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2118,7 +2234,8 @@
       "effort_minutes": 180,
       "ev_index": 1.867,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:40:51Z"
+      "updated_at": "2026-09-02T16:40:51Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2144,7 +2261,8 @@
       "effort_minutes": 180,
       "ev_index": 1.68,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-29T01:05:22Z"
+      "updated_at": "2026-08-29T01:05:22Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2169,7 +2287,8 @@
       "effort_minutes": 180,
       "ev_index": 1.579,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-30T09:13:44Z"
+      "updated_at": "2026-08-30T09:13:44Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2194,7 +2313,8 @@
       "effort_minutes": 360,
       "ev_index": 1.312,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T09:20:39Z"
+      "updated_at": "2026-08-02T09:20:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2218,7 +2338,8 @@
       "effort_minutes": 360,
       "ev_index": 1.137,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:09:50Z"
+      "updated_at": "2026-09-02T15:09:50Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2243,7 +2364,8 @@
       "effort_minutes": 120,
       "ev_index": 1.134,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:10Z"
+      "updated_at": "2026-08-01T22:08:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -2268,7 +2390,8 @@
       "effort_minutes": 180,
       "ev_index": 1.024,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T21:45:37Z"
+      "updated_at": "2026-08-28T21:45:37Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2293,7 +2416,8 @@
       "effort_minutes": 180,
       "ev_index": 0.98,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:08:22Z"
+      "updated_at": "2026-09-02T15:08:22Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2317,7 +2441,8 @@
       "effort_minutes": 360,
       "ev_index": 0.933,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:46:39Z"
+      "updated_at": "2026-09-02T16:46:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "shaprai",
@@ -2341,31 +2466,8 @@
       "effort_minutes": 90,
       "ev_index": 0.743,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-05-18T05:36:35Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 449,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/449",
-      "reward_title_rtc": 33.0,
-      "reward_body_rtc": 50.0,
-      "reward_rtc": 33.0,
-      "reward_conflict": true,
-      "comments": 19,
-      "competitor_intent": 6,
-      "competitor_completed": 4,
-      "maintainer_awards": 0,
-      "competition_status": "ok",
-      "comments_checked": 19,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "external-publication/account"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.647,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-29T17:50:39Z"
+      "updated_at": "2026-05-18T05:36:35Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2389,7 +2491,8 @@
       "effort_minutes": 180,
       "ev_index": 0.642,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:05:56Z"
+      "updated_at": "2026-09-02T16:05:56Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2414,7 +2517,8 @@
       "effort_minutes": 180,
       "ev_index": 0.642,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-31T06:12:52Z"
+      "updated_at": "2026-08-31T06:12:52Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2438,7 +2542,8 @@
       "effort_minutes": 180,
       "ev_index": 0.623,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:27:47Z"
+      "updated_at": "2026-09-02T15:27:47Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2462,7 +2567,8 @@
       "effort_minutes": 180,
       "ev_index": 0.623,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T23:08:32Z"
+      "updated_at": "2026-08-25T23:08:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -2487,7 +2593,8 @@
       "effort_minutes": 180,
       "ev_index": 0.578,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T20:34:17Z"
+      "updated_at": "2026-08-28T20:34:17Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -2513,7 +2620,8 @@
       "effort_minutes": 180,
       "ev_index": 0.578,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T20:34:10Z"
+      "updated_at": "2026-08-28T20:34:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2537,7 +2645,8 @@
       "effort_minutes": 120,
       "ev_index": 0.578,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-29T16:44:09Z"
+      "updated_at": "2026-08-29T16:44:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2561,7 +2670,8 @@
       "effort_minutes": 120,
       "ev_index": 0.578,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-29T13:30:29Z"
+      "updated_at": "2026-08-29T13:30:29Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2585,32 +2695,8 @@
       "effort_minutes": 180,
       "ev_index": 0.561,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:09:13Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 2890,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2890",
-      "reward_title_rtc": 67.0,
-      "reward_body_rtc": 200.0,
-      "reward_rtc": 67.0,
-      "reward_conflict": true,
-      "comments": 70,
-      "competitor_intent": 14,
-      "competitor_completed": 12,
-      "maintainer_awards": 1,
-      "competition_status": "ok",
-      "comments_checked": 70,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "eligibility-gated",
-        "external-publication/account"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.547,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T15:12:04Z"
+      "updated_at": "2026-08-01T22:09:13Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2634,7 +2720,8 @@
       "effort_minutes": 180,
       "ev_index": 0.513,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:45:18Z"
+      "updated_at": "2026-09-02T16:45:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2659,7 +2746,8 @@
       "effort_minutes": 90,
       "ev_index": 0.513,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-26T06:06:01Z"
+      "updated_at": "2026-08-26T06:06:01Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2683,7 +2771,8 @@
       "effort_minutes": 180,
       "ev_index": 0.504,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:50:20Z"
+      "updated_at": "2026-08-02T08:50:20Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2707,31 +2796,33 @@
       "effort_minutes": 180,
       "ev_index": 0.504,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T23:27:29Z"
+      "updated_at": "2026-08-01T23:27:29Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
-      "number": 1115,
+      "number": 449,
       "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1115",
-      "reward_title_rtc": 3.0,
-      "reward_body_rtc": 5.0,
-      "reward_rtc": 3.0,
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/449",
+      "reward_title_rtc": 33.0,
+      "reward_body_rtc": 50.0,
+      "reward_rtc": 33.0,
       "reward_conflict": true,
-      "comments": 30,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
+      "comments": 19,
+      "competitor_intent": 6,
+      "competitor_completed": 4,
       "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
+      "competition_status": "ok",
+      "comments_checked": 19,
       "route": "email-fallback-candidate",
       "flags": [
         "external-publication/account"
       ],
-      "effort_minutes": 90,
-      "ev_index": 0.485,
+      "effort_minutes": 180,
+      "ev_index": 0.427,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T19:00:20Z"
+      "updated_at": "2026-08-29T17:50:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2755,7 +2846,8 @@
       "effort_minutes": 360,
       "ev_index": 0.416,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T20:08:01Z"
+      "updated_at": "2026-08-01T20:08:01Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2780,7 +2872,8 @@
       "effort_minutes": 180,
       "ev_index": 0.404,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:12:33Z"
+      "updated_at": "2026-08-02T08:12:33Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2804,7 +2897,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-03-06T21:07:16Z"
+      "updated_at": "2026-03-06T21:07:16Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2828,7 +2922,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-03-06T21:07:15Z"
+      "updated_at": "2026-03-06T21:07:15Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2852,7 +2947,8 @@
       "effort_minutes": 180,
       "ev_index": 0.385,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:45:27Z"
+      "updated_at": "2026-09-02T16:45:27Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2876,7 +2972,8 @@
       "effort_minutes": 180,
       "ev_index": 0.367,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T23:08:39Z"
+      "updated_at": "2026-08-25T23:08:39Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2900,7 +2997,8 @@
       "effort_minutes": 90,
       "ev_index": 0.367,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T23:08:46Z"
+      "updated_at": "2026-08-25T23:08:46Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2924,7 +3022,8 @@
       "effort_minutes": 180,
       "ev_index": 0.347,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:58:19Z"
+      "updated_at": "2026-08-02T08:58:19Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2948,7 +3047,8 @@
       "effort_minutes": 180,
       "ev_index": 0.347,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T23:13:34Z"
+      "updated_at": "2026-08-01T23:13:34Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2972,7 +3072,8 @@
       "effort_minutes": 180,
       "ev_index": 0.347,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:37Z"
+      "updated_at": "2026-08-01T22:08:37Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -2996,7 +3097,8 @@
       "effort_minutes": 180,
       "ev_index": 0.33,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:49:27Z"
+      "updated_at": "2026-08-02T08:49:27Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3020,7 +3122,8 @@
       "effort_minutes": 90,
       "ev_index": 0.33,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T19:41:32Z"
+      "updated_at": "2026-08-01T19:41:32Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "beacon-skill",
@@ -3044,7 +3147,8 @@
       "effort_minutes": 90,
       "ev_index": 0.33,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-31T13:13:33Z"
+      "updated_at": "2026-08-31T13:13:33Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3069,7 +3173,8 @@
       "effort_minutes": 180,
       "ev_index": 0.323,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T23:58:00Z"
+      "updated_at": "2026-08-01T23:58:00Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3094,7 +3199,8 @@
       "effort_minutes": 90,
       "ev_index": 0.323,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T09:04:07Z"
+      "updated_at": "2026-08-02T09:04:07Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -3119,7 +3225,8 @@
       "effort_minutes": 360,
       "ev_index": 0.309,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-07-07T02:01:22Z"
+      "updated_at": "2026-07-07T02:01:22Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3143,7 +3250,33 @@
       "effort_minutes": 180,
       "ev_index": 0.293,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-29T22:06:55Z"
+      "updated_at": "2026-08-29T22:06:55Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 1115,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1115",
+      "reward_title_rtc": 3.0,
+      "reward_body_rtc": 5.0,
+      "reward_rtc": 3.0,
+      "reward_conflict": true,
+      "comments": 30,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "external-publication/account"
+      ],
+      "effort_minutes": 90,
+      "ev_index": 0.291,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-02T19:00:20Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3168,7 +3301,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:42:11Z"
+      "updated_at": "2026-09-02T16:42:11Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3193,7 +3327,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:42:07Z"
+      "updated_at": "2026-09-02T16:42:07Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3217,7 +3352,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:05:12Z"
+      "updated_at": "2026-09-02T16:05:12Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3241,7 +3377,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:05:01Z"
+      "updated_at": "2026-09-02T16:05:01Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3265,7 +3402,8 @@
       "effort_minutes": 180,
       "ev_index": 0.257,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T23:08:12Z"
+      "updated_at": "2026-08-25T23:08:12Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3289,7 +3427,8 @@
       "effort_minutes": 90,
       "ev_index": 0.252,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:22Z"
+      "updated_at": "2026-08-01T22:08:22Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "grazer-skill",
@@ -3313,7 +3452,8 @@
       "effort_minutes": 90,
       "ev_index": 0.248,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-04T04:07:45Z"
+      "updated_at": "2026-06-04T04:07:45Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3338,7 +3478,8 @@
       "effort_minutes": 180,
       "ev_index": 0.243,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:27:38Z"
+      "updated_at": "2026-08-02T08:27:38Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3362,7 +3503,8 @@
       "effort_minutes": 180,
       "ev_index": 0.231,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:01:57Z"
+      "updated_at": "2026-08-02T08:01:57Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3386,7 +3528,8 @@
       "effort_minutes": 180,
       "ev_index": 0.231,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:08:41Z"
+      "updated_at": "2026-08-01T22:08:41Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3410,7 +3553,8 @@
       "effort_minutes": 180,
       "ev_index": 0.231,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:04:41Z"
+      "updated_at": "2026-08-01T22:04:41Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3434,7 +3578,8 @@
       "effort_minutes": 180,
       "ev_index": 0.225,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:09:08Z"
+      "updated_at": "2026-08-01T22:09:08Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3458,7 +3603,8 @@
       "effort_minutes": 180,
       "ev_index": 0.21,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:09:21Z"
+      "updated_at": "2026-08-01T22:09:21Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3482,7 +3628,8 @@
       "effort_minutes": 120,
       "ev_index": 0.21,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-26T06:05:56Z"
+      "updated_at": "2026-08-26T06:05:56Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3508,7 +3655,34 @@
       "effort_minutes": 120,
       "ev_index": 0.184,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-24T20:55:46Z"
+      "updated_at": "2026-08-24T20:55:46Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 2890,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2890",
+      "reward_title_rtc": 67.0,
+      "reward_body_rtc": 200.0,
+      "reward_rtc": 67.0,
+      "reward_conflict": true,
+      "comments": 70,
+      "competitor_intent": 14,
+      "competitor_completed": 12,
+      "maintainer_awards": 1,
+      "competition_status": "ok",
+      "comments_checked": 70,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "eligibility-gated",
+        "external-publication/account"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.183,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-09-02T15:12:04Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3533,7 +3707,8 @@
       "effort_minutes": 180,
       "ev_index": 0.175,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-31T13:07:30Z"
+      "updated_at": "2026-08-31T13:07:30Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -3559,31 +3734,8 @@
       "effort_minutes": 180,
       "ev_index": 0.173,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-01T19:00:09Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 269,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/269",
-      "reward_title_rtc": 7.0,
-      "reward_body_rtc": 10.0,
-      "reward_rtc": 7.0,
-      "reward_conflict": true,
-      "comments": 30,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "pr-only",
-      "flags": [
-        "hardware/user-presence"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.162,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T23:30:08Z"
+      "updated_at": "2026-09-01T19:00:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3608,7 +3760,8 @@
       "effort_minutes": 180,
       "ev_index": 0.162,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T09:16:24Z"
+      "updated_at": "2026-08-02T09:16:24Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3633,7 +3786,8 @@
       "effort_minutes": 180,
       "ev_index": 0.162,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T23:05:12Z"
+      "updated_at": "2026-08-01T23:05:12Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3657,32 +3811,8 @@
       "effort_minutes": 90,
       "ev_index": 0.151,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T09:06:06Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 2866,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2866",
-      "reward_title_rtc": 5.0,
-      "reward_body_rtc": 10.0,
-      "reward_rtc": 5.0,
-      "reward_conflict": true,
-      "comments": 63,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "pr-only",
-      "flags": [
-        "external-publication/account",
-        "hardware/user-presence"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.128,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T22:20:08Z"
+      "updated_at": "2026-08-02T09:06:06Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3707,7 +3837,8 @@
       "effort_minutes": 360,
       "ev_index": 0.128,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-26T18:28:27Z"
+      "updated_at": "2026-08-26T18:28:27Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3731,7 +3862,8 @@
       "effort_minutes": 180,
       "ev_index": 0.117,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T04:46:23Z"
+      "updated_at": "2026-08-28T04:46:23Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3755,7 +3887,8 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-17T19:00:30Z"
+      "updated_at": "2026-08-17T19:00:30Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3779,7 +3912,8 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:58:50Z"
+      "updated_at": "2026-08-02T08:58:50Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3803,7 +3937,33 @@
       "effort_minutes": 180,
       "ev_index": 0.116,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:49:00Z"
+      "updated_at": "2026-08-02T08:49:00Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 269,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/269",
+      "reward_title_rtc": 7.0,
+      "reward_body_rtc": 10.0,
+      "reward_rtc": 7.0,
+      "reward_conflict": true,
+      "comments": 30,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "pr-only",
+      "flags": [
+        "hardware/user-presence"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.113,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-01T23:30:08Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3827,7 +3987,8 @@
       "effort_minutes": 180,
       "ev_index": 0.099,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-02T08:12:04Z"
+      "updated_at": "2026-08-02T08:12:04Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3851,7 +4012,8 @@
       "effort_minutes": 180,
       "ev_index": 0.093,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-01T14:10:04Z"
+      "updated_at": "2026-09-01T14:10:04Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3876,32 +4038,8 @@
       "effort_minutes": 180,
       "ev_index": 0.09,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-02T16:05:05Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 2141,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2141",
-      "reward_title_rtc": 1.0,
-      "reward_body_rtc": 2.0,
-      "reward_rtc": 1.0,
-      "reward_conflict": true,
-      "comments": 47,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "external-publication/account",
-        "hardware/user-presence"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.09,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-25T23:08:54Z"
+      "updated_at": "2026-09-02T16:05:05Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3926,31 +4064,8 @@
       "effort_minutes": 180,
       "ev_index": 0.09,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-24T04:31:22Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 450,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/450",
-      "reward_title_rtc": 10.0,
-      "reward_body_rtc": 15.0,
-      "reward_rtc": 10.0,
-      "reward_conflict": true,
-      "comments": 65,
-      "competitor_intent": 20,
-      "competitor_completed": 10,
-      "maintainer_awards": 1,
-      "competition_status": "ok",
-      "comments_checked": 62,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "external-publication/account"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.082,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T04:41:43Z"
+      "updated_at": "2026-08-24T04:31:22Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3974,7 +4089,8 @@
       "effort_minutes": 180,
       "ev_index": 0.082,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-09-01T14:26:37Z"
+      "updated_at": "2026-09-01T14:26:37Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -3998,7 +4114,8 @@
       "effort_minutes": 180,
       "ev_index": 0.082,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-28T14:25:35Z"
+      "updated_at": "2026-08-28T14:25:35Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4022,31 +4139,8 @@
       "effort_minutes": 180,
       "ev_index": 0.082,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-24T04:31:18Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 1114,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1114",
-      "reward_title_rtc": 7.0,
-      "reward_body_rtc": 10.0,
-      "reward_rtc": 7.0,
-      "reward_conflict": true,
-      "comments": 33,
-      "competitor_intent": 15,
-      "competitor_completed": 2,
-      "maintainer_awards": 1,
-      "competition_status": "ok",
-      "comments_checked": 33,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "hardware/user-presence"
-      ],
-      "effort_minutes": 120,
-      "ev_index": 0.077,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T20:18:40Z"
+      "updated_at": "2026-08-24T04:31:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4070,7 +4164,8 @@
       "effort_minutes": 180,
       "ev_index": 0.073,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-01T22:04:21Z"
+      "updated_at": "2026-08-01T22:04:21Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4094,7 +4189,110 @@
       "effort_minutes": 180,
       "ev_index": 0.07,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-03-06T21:07:17Z"
+      "updated_at": "2026-03-06T21:07:17Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 2866,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2866",
+      "reward_title_rtc": 5.0,
+      "reward_body_rtc": 10.0,
+      "reward_rtc": 5.0,
+      "reward_conflict": true,
+      "comments": 63,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "pr-only",
+      "flags": [
+        "external-publication/account",
+        "hardware/user-presence"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.064,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-25T22:20:08Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 450,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/450",
+      "reward_title_rtc": 10.0,
+      "reward_body_rtc": 15.0,
+      "reward_rtc": 10.0,
+      "reward_conflict": true,
+      "comments": 65,
+      "competitor_intent": 20,
+      "competitor_completed": 10,
+      "maintainer_awards": 1,
+      "competition_status": "ok",
+      "comments_checked": 62,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "external-publication/account"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.055,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-28T04:41:43Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 1114,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1114",
+      "reward_title_rtc": 7.0,
+      "reward_body_rtc": 10.0,
+      "reward_rtc": 7.0,
+      "reward_conflict": true,
+      "comments": 33,
+      "competitor_intent": 15,
+      "competitor_completed": 2,
+      "maintainer_awards": 1,
+      "competition_status": "ok",
+      "comments_checked": 33,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "hardware/user-presence"
+      ],
+      "effort_minutes": 120,
+      "ev_index": 0.054,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-01T20:18:40Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
+      "number": 2141,
+      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2141",
+      "reward_title_rtc": 1.0,
+      "reward_body_rtc": 2.0,
+      "reward_rtc": 1.0,
+      "reward_conflict": true,
+      "comments": 47,
+      "competitor_intent": 0,
+      "competitor_completed": 0,
+      "maintainer_awards": 0,
+      "competition_status": "unknown",
+      "comments_checked": 0,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "external-publication/account",
+        "hardware/user-presence"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.045,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-25T23:08:54Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "clawrtc-rs",
@@ -4119,7 +4317,8 @@
       "effort_minutes": 180,
       "ev_index": 0.031,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-12T07:19:04Z"
+      "updated_at": "2026-06-12T07:19:04Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "grazer-skill-rs",
@@ -4143,7 +4342,8 @@
       "effort_minutes": 180,
       "ev_index": 0.031,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-11T17:25:02Z"
+      "updated_at": "2026-06-11T17:25:02Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "beacon-skill-rs",
@@ -4167,7 +4367,8 @@
       "effort_minutes": 180,
       "ev_index": 0.031,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-11T17:25:00Z"
+      "updated_at": "2026-06-11T17:25:00Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "grazer-skill",
@@ -4191,32 +4392,8 @@
       "effort_minutes": 180,
       "ev_index": 0.031,
       "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-06-03T23:31:09Z"
-    },
-    {
-      "repository": "rustchain-bounties",
-      "number": 1113,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1113",
-      "reward_title_rtc": 5.0,
-      "reward_body_rtc": 8.0,
-      "reward_rtc": 5.0,
-      "reward_conflict": true,
-      "comments": 55,
-      "competitor_intent": 0,
-      "competitor_completed": 0,
-      "maintainer_awards": 0,
-      "competition_status": "unknown",
-      "comments_checked": 0,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "existing-user-work",
-        "known-nonactionable"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.449,
-      "decision": "EXCLUDE_KNOWN",
-      "updated_at": "2026-08-28T03:11:38Z"
+      "updated_at": "2026-06-03T23:31:09Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -4241,7 +4418,8 @@
       "effort_minutes": 120,
       "ev_index": 47.25,
       "decision": "EXCLUDE",
-      "updated_at": "2026-05-03T22:46:15Z"
+      "updated_at": "2026-05-03T22:46:15Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "ardy-director",
@@ -4265,7 +4443,8 @@
       "effort_minutes": 90,
       "ev_index": 19.688,
       "decision": "EXCLUDE",
-      "updated_at": "2026-07-16T04:55:52Z"
+      "updated_at": "2026-07-16T04:55:52Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "rustchain-bounties",
@@ -4289,7 +4468,8 @@
       "effort_minutes": 180,
       "ev_index": 17.5,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-26T06:04:43Z"
+      "updated_at": "2026-08-26T06:04:43Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4313,7 +4493,8 @@
       "effort_minutes": 180,
       "ev_index": 5.25,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:21:08Z"
+      "updated_at": "2026-08-02T08:21:08Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4338,7 +4519,8 @@
       "effort_minutes": 90,
       "ev_index": 2.933,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-25T20:04:56Z"
+      "updated_at": "2026-08-25T20:04:56Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "Rustchain",
@@ -4364,7 +4546,8 @@
       "effort_minutes": 180,
       "ev_index": 2.599,
       "decision": "EXCLUDE",
-      "updated_at": "2026-06-27T02:04:10Z"
+      "updated_at": "2026-06-27T02:04:10Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4388,7 +4571,8 @@
       "effort_minutes": 90,
       "ev_index": 2.1,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T00:09:18Z"
+      "updated_at": "2026-08-02T00:09:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "legend-of-elya-n64",
@@ -4413,7 +4597,8 @@
       "effort_minutes": 360,
       "ev_index": 1.35,
       "decision": "EXCLUDE",
-      "updated_at": "2026-06-20T10:00:13Z"
+      "updated_at": "2026-06-20T10:00:13Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4439,7 +4624,8 @@
       "effort_minutes": 180,
       "ev_index": 1.05,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:34:40Z"
+      "updated_at": "2026-08-02T08:34:40Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4463,7 +4649,8 @@
       "effort_minutes": 180,
       "ev_index": 0.7,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-29T22:40:48Z"
+      "updated_at": "2026-08-29T22:40:48Z",
+      "reward_policy": "body-fallback"
     },
     {
       "repository": "rustchain-bounties",
@@ -4488,7 +4675,8 @@
       "effort_minutes": 180,
       "ev_index": 0.611,
       "decision": "EXCLUDE",
-      "updated_at": "2026-09-02T15:10:23Z"
+      "updated_at": "2026-09-02T15:10:23Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4512,7 +4700,8 @@
       "effort_minutes": 180,
       "ev_index": 0.476,
       "decision": "EXCLUDE",
-      "updated_at": "2026-09-02T14:34:18Z"
+      "updated_at": "2026-09-02T14:34:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4537,7 +4726,8 @@
       "effort_minutes": 360,
       "ev_index": 0.352,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:17:18Z"
+      "updated_at": "2026-08-02T08:17:18Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4561,7 +4751,8 @@
       "effort_minutes": 360,
       "ev_index": 0.321,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-29T17:40:29Z"
+      "updated_at": "2026-08-29T17:40:29Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4586,7 +4777,8 @@
       "effort_minutes": 180,
       "ev_index": 0.294,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-26T06:04:50Z"
+      "updated_at": "2026-08-26T06:04:50Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4610,7 +4802,8 @@
       "effort_minutes": 180,
       "ev_index": 0.25,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-21T04:49:30Z"
+      "updated_at": "2026-08-21T04:49:30Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4636,7 +4829,8 @@
       "effort_minutes": 180,
       "ev_index": 0.243,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:16:59Z"
+      "updated_at": "2026-08-02T08:16:59Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4662,7 +4856,8 @@
       "effort_minutes": 180,
       "ev_index": 0.176,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T09:04:38Z"
+      "updated_at": "2026-08-02T09:04:38Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4688,7 +4883,8 @@
       "effort_minutes": 180,
       "ev_index": 0.176,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:12:27Z"
+      "updated_at": "2026-08-02T08:12:27Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4714,7 +4910,8 @@
       "effort_minutes": 360,
       "ev_index": 0.131,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-02T08:17:24Z"
+      "updated_at": "2026-08-02T08:17:24Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4738,7 +4935,8 @@
       "effort_minutes": 180,
       "ev_index": 0.11,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-25T23:08:48Z"
+      "updated_at": "2026-08-25T23:08:48Z",
+      "reward_policy": "authoritative-title-first"
     },
     {
       "repository": "rustchain-bounties",
@@ -4761,9 +4959,15 @@
         "external-publication/account"
       ],
       "effort_minutes": 180,
-      "ev_index": 0.081,
+      "ev_index": 0.041,
       "decision": "EXCLUDE",
-      "updated_at": "2026-08-01T22:17:47Z"
+      "updated_at": "2026-08-01T22:17:47Z",
+      "reward_policy": "authoritative-title-first"
     }
-  ]
+  ],
+  "sanitizer": {
+    "removed_non_opportunity_records": 0,
+    "reward_policy": "authoritative-title-first; body-fallback only when title has no RTC value",
+    "policy_version": 2
+  }
 }

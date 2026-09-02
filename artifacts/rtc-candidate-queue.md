@@ -1,207 +1,209 @@
 # RTC Candidate Queue
 
-Generated: `2026-09-02T18:22:57.136185+00:00`
+Triage only. No item below is earned RTC. FINAL_VERIFY still requires live issue-level verification before work begins.
 
-Triage only. `FINAL_VERIFY` still requires live authoritative inspection before work.
+Generated: 2026-09-02T18:24:34.247186+00:00
+Candidates: 199
+FINAL_VERIFY: 0
 
-| Decision | EV index | RTC | Repo/# | Route | Competitors I/C/A | Effort | Reward source | Title |
-|---|---:|---:|---|---|---:|---:|---|---|
-| VERIFY_REWARD | 0.55 | 17 | [rustchain-bounties#446](https://github.com/Scottcjn/rustchain-bounties/issues/446) | email-fallback-candidate | 2/2/0 | 180m | title 17 / body 25 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.276 | 50 | [rustchain-bounties#68](https://github.com/Scottcjn/rustchain-bounties/issues/68) | email-fallback-candidate | 9/7/2 | 180m | title 50 / body 75 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.123 | 2 | [rustchain-bounties#521](https://github.com/Scottcjn/rustchain-bounties/issues/521) | pr-only | 0/0/0 | 75m | title 2 / body 3 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.09 | 1 | [rustchain-bounties#517](https://github.com/Scottcjn/rustchain-bounties/issues/517) | email-fallback-candidate | 0/0/0 | 180m | title 1 / body 2 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.077 | 2 | [rustchain-bounties#519](https://github.com/Scottcjn/rustchain-bounties/issues/519) | pr-only | 0/0/0 | 120m | title 2 / body 3 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.069 | 33 | [rustchain-bounties#249](https://github.com/Scottcjn/rustchain-bounties/issues/249) | pr-only | 7/12/1 | 180m | title 33 / body 50 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_REWARD | 0.031 | 2 | [rustchain-bounties#518](https://github.com/Scottcjn/rustchain-bounties/issues/518) | merge-gated | 0/0/0 | 120m | title 2 / body 3 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_ROUTE | 20.25 | 75 | [ardy-director#8](https://github.com/Scottcjn/ardy-director/issues/8) | unknown | 0/0/0 | 75m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_ROUTE | 14.062 | 250 | [ardy-director#5](https://github.com/Scottcjn/ardy-director/issues/5) | unknown | 0/0/0 | 360m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_ROUTE | 13.5 | 300 | [ardy-director#3](https://github.com/Scottcjn/ardy-director/issues/3) | unknown | 2/0/0 | 360m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_ROUTE | 7.031 | 250 | [ardy-director#4](https://github.com/Scottcjn/ardy-director/issues/4) | unknown | 1/1/0 | 360m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.616 | 2 | [rustchain-bounties#515](https://github.com/Scottcjn/rustchain-bounties/issues/515) | email-fallback-candidate | 0/0/0 | 75m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.52 | 3 | [rustchain-bounties#1592](https://github.com/Scottcjn/rustchain-bounties/issues/1592) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.44 | 12 | [rustchain-bounties#16252](https://github.com/Scottcjn/rustchain-bounties/issues/16252) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.367 | 10 | [rustchain-bounties#16251](https://github.com/Scottcjn/rustchain-bounties/issues/16251) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.33 | 10 | [rustchain-bounties#755](https://github.com/Scottcjn/rustchain-bounties/issues/755) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.308 | 1 | [rustchain-bounties#2781](https://github.com/Scottcjn/rustchain-bounties/issues/2781) | email-fallback-candidate | 0/0/0 | 75m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.293 | 8 | [rustchain-bounties#16255](https://github.com/Scottcjn/rustchain-bounties/issues/16255) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.269 | 3 | [rustchain-bounties#1579](https://github.com/Scottcjn/rustchain-bounties/issues/1579) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.257 | 7 | [rustchain-bounties#16253](https://github.com/Scottcjn/rustchain-bounties/issues/16253) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.248 | 2 | [grazer-skill#15](https://github.com/Scottcjn/grazer-skill/issues/15) | unknown | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.193 | 1 | [rustchain-bounties#1104](https://github.com/Scottcjn/rustchain-bounties/issues/1104) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.193 | 1 | [rustchain-bounties#1109](https://github.com/Scottcjn/rustchain-bounties/issues/1109) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.183 | 5 | [rustchain-bounties#16248](https://github.com/Scottcjn/rustchain-bounties/issues/16248) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.18 | 2 | [rustchain-bounties#1577](https://github.com/Scottcjn/rustchain-bounties/issues/1577) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.18 | 1 | [rustchain-bounties#378](https://github.com/Scottcjn/rustchain-bounties/issues/378) | email-fallback-candidate | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.173 | 1 | [rustchain-bounties#1101](https://github.com/Scottcjn/rustchain-bounties/issues/1101) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.162 | 2 | [rustchain-bounties#12025](https://github.com/Scottcjn/rustchain-bounties/issues/12025) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.147 | 4 | [rustchain-bounties#16249](https://github.com/Scottcjn/rustchain-bounties/issues/16249) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.128 | 1 | [rustchain-bounties#16238](https://github.com/Scottcjn/rustchain-bounties/issues/16238) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.116 | 1 | [rustchain-bounties#1097](https://github.com/Scottcjn/rustchain-bounties/issues/1097) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.116 | 1 | [rustchain-bounties#124](https://github.com/Scottcjn/rustchain-bounties/issues/124) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.116 | 1 | [rustchain-bounties#1095](https://github.com/Scottcjn/rustchain-bounties/issues/1095) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.116 | 1 | [rustchain-bounties#1504](https://github.com/Scottcjn/rustchain-bounties/issues/1504) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.081 | 1 | [rustchain-bounties#1523](https://github.com/Scottcjn/rustchain-bounties/issues/1523) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.031 | 0.5 | [mlx-coffers#1](https://github.com/Scottcjn/mlx-coffers/issues/1) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| VERIFY_COMPETITION | 0.029 | 0.5 | [Rustchain#773](https://github.com/Scottcjn/Rustchain/issues/773) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_ROUTE | 1 | 40 | [langchain-rustchain#1](https://github.com/Scottcjn/langchain-rustchain/issues/1) | pr-only | 1/1/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 8.663 | 350 | [ardy-director#2](https://github.com/Scottcjn/ardy-director/issues/2) | unknown | 1/2/0 | 180m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 3.713 | 150 | [ardy-director#7](https://github.com/Scottcjn/ardy-director/issues/7) | unknown | 1/2/0 | 180m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 3.024 | 50 | [rustchain-bounties#2274](https://github.com/Scottcjn/rustchain-bounties/issues/2274) | email-fallback-candidate | 7/4/0 | 75m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.735 | 35 | [rustchain-bounties#16471](https://github.com/Scottcjn/rustchain-bounties/issues/16471) | email-fallback-candidate | 13/4/1 | 75m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.7 | 25 | [rustchain-bounties#2127](https://github.com/Scottcjn/rustchain-bounties/issues/2127) | email-fallback-candidate | 7/8/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.594 | 20 | [trashclaw#65](https://github.com/Scottcjn/trashclaw/issues/65) | unknown | 1/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.591 | 75 | [rustchain-bounties#67](https://github.com/Scottcjn/rustchain-bounties/issues/67) | email-fallback-candidate | 5/5/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.56 | 20 | [rustchain-bounties#16472](https://github.com/Scottcjn/rustchain-bounties/issues/16472) | email-fallback-candidate | 3/3/1 | 75m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.504 | 20 | [rustchain-bounties#1616](https://github.com/Scottcjn/rustchain-bounties/issues/1616) | email-fallback-candidate | 5/10/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.394 | 25 | [rustchain-bounties#13475](https://github.com/Scottcjn/rustchain-bounties/issues/13475) | email-fallback-candidate | 3/3/2 | 120m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.36 | 10 | [rustchain-bounties#751](https://github.com/Scottcjn/rustchain-bounties/issues/751) | standalone | 5/8/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.284 | 27 | [rustchain-bounties#504](https://github.com/Scottcjn/rustchain-bounties/issues/504) | email-fallback-candidate | 9/8/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.243 | 15 | [ram-coffers#45](https://github.com/Scottcjn/ram-coffers/issues/45) | unknown | 1/4/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.21 | 20 | [rustchain-bounties#13477](https://github.com/Scottcjn/rustchain-bounties/issues/13477) | email-fallback-candidate | 2/4/2 | 180m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.169 | 20 | [shaprai#61](https://github.com/Scottcjn/shaprai/issues/61) | unknown | 1/6/1 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.16 | 20 | [rustchain-bounties#3075](https://github.com/Scottcjn/rustchain-bounties/issues/3075) | pr-only | 3/11/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.151 | 3 | [rustchain-bounties#1600](https://github.com/Scottcjn/rustchain-bounties/issues/1600) | email-fallback-candidate | 8/11/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.088 | 35 | [rustchain-bounties#16271](https://github.com/Scottcjn/rustchain-bounties/issues/16271) | pr-only | 3/6/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| DEFER_SATURATED | 0.083 | 7 | [rustchain-bounties#1112](https://github.com/Scottcjn/rustchain-bounties/issues/1112) | email-explicit | 18/21/4 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 1.25 | 75 | [rustchain-bounties#747](https://github.com/Scottcjn/rustchain-bounties/issues/747) | standalone | 16/27/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.652 | 133 | [rustchain-bounties#71](https://github.com/Scottcjn/rustchain-bounties/issues/71) | email-fallback-candidate | 6/22/5 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.504 | 20 | [rustchain-bounties#14014](https://github.com/Scottcjn/rustchain-bounties/issues/14014) | email-fallback-candidate | 1/3/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.385 | 3 | [rustchain-bounties#1102](https://github.com/Scottcjn/rustchain-bounties/issues/1102) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.385 | 3 | [rustchain-bounties#2784](https://github.com/Scottcjn/rustchain-bounties/issues/2784) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.385 | 3 | [rustchain-bounties#12443](https://github.com/Scottcjn/rustchain-bounties/issues/12443) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.385 | 3 | [rustchain-bounties#12444](https://github.com/Scottcjn/rustchain-bounties/issues/12444) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.289 | 3 | [rustchain-bounties#12442](https://github.com/Scottcjn/rustchain-bounties/issues/12442) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.28 | 50 | [rustchain-bounties#1524](https://github.com/Scottcjn/rustchain-bounties/issues/1524) | pr-only | 7/10/0 | 180m | title 50 / body 5 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.257 | 2 | [rustchain-bounties#13949](https://github.com/Scottcjn/rustchain-bounties/issues/13949) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.257 | 2 | [rustchain-bounties#2271](https://github.com/Scottcjn/rustchain-bounties/issues/2271) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.257 | 2 | [rustchain-bounties#256](https://github.com/Scottcjn/rustchain-bounties/issues/256) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.2 | 60 | [rustchain-bounties#16601](https://github.com/Scottcjn/rustchain-bounties/issues/16601) | pr-only | 5/2/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.18 | 2 | [rustchain-bounties#520](https://github.com/Scottcjn/rustchain-bounties/issues/520) | email-fallback-candidate | 0/0/0 | 180m | title 2 / body 3 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.128 | 1 | [rustchain-bounties#254](https://github.com/Scottcjn/rustchain-bounties/issues/254) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.128 | 1 | [rustchain-bounties#1618](https://github.com/Scottcjn/rustchain-bounties/issues/1618) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.117 | 10 | [rustchain-bounties#13954](https://github.com/Scottcjn/rustchain-bounties/issues/13954) | email-fallback-candidate | 3/3/4 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| OWN_WORK_RECHECK | 0.038 | 3 | [rustchain-bounties#2143](https://github.com/Scottcjn/rustchain-bounties/issues/2143) | pr-only | 0/0/0 | 360m | title 3 / body 5 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 37.333 | 200 | [rustchain-bounties#14089](https://github.com/Scottcjn/rustchain-bounties/issues/14089) | email-fallback-candidate | 4/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 8 | 300 | [Rustchain#1876](https://github.com/Scottcjn/Rustchain/issues/1876) | pr-only | 2/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 7.875 | 200 | [Rustchain#168](https://github.com/Scottcjn/Rustchain/issues/168) | unknown | 5/1/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 5.625 | 250 | [legend-of-elya-n64#4](https://github.com/Scottcjn/legend-of-elya-n64/issues/4) | unknown | 4/1/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 4.667 | 25 | [rustchain-bounties#12788](https://github.com/Scottcjn/rustchain-bounties/issues/12788) | email-fallback-candidate | 3/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 3.713 | 300 | [legend-of-elya-n64#11](https://github.com/Scottcjn/legend-of-elya-n64/issues/11) | unknown | 2/2/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 3.173 | 17 | [rustchain-bounties#12787](https://github.com/Scottcjn/rustchain-bounties/issues/12787) | email-fallback-candidate | 4/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 2.625 | 500 | [Rustchain#2634](https://github.com/Scottcjn/Rustchain/issues/2634) | unknown | 1/5/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 2.625 | 35 | [rustchain-amiga#2](https://github.com/Scottcjn/rustchain-amiga/issues/2) | unknown | 1/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 2.333 | 25 | [rustchain-bounties#16468](https://github.com/Scottcjn/rustchain-bounties/issues/16468) | email-fallback-candidate | 2/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 2.31 | 50 | [rustchain-bounties#1158](https://github.com/Scottcjn/rustchain-bounties/issues/1158) | email-fallback-candidate | 8/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.96 | 100 | [rustchain-bounties#3418](https://github.com/Scottcjn/rustchain-bounties/issues/3418) | email-fallback-candidate | 36/19/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.925 | 33 | [rustchain-bounties#16517](https://github.com/Scottcjn/rustchain-bounties/issues/16517) | email-fallback-candidate | 5/1/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.89 | 150 | [rustchain-bounties#434](https://github.com/Scottcjn/rustchain-bounties/issues/434) | email-fallback-candidate | 3/6/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.89 | 75 | [rustchain-bounties#758](https://github.com/Scottcjn/rustchain-bounties/issues/758) | email-fallback-candidate | 2/8/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.867 | 10 | [rustchain-bounties#16241](https://github.com/Scottcjn/rustchain-bounties/issues/16241) | email-fallback-candidate | 4/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.68 | 100 | [rustchain-bounties#399](https://github.com/Scottcjn/rustchain-bounties/issues/399) | email-fallback-candidate | 11/6/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.579 | 133 | [rustchain-bounties#2819](https://github.com/Scottcjn/rustchain-bounties/issues/2819) | email-explicit | 29/40/4 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.312 | 25 | [rustchain-bounties#51](https://github.com/Scottcjn/rustchain-bounties/issues/51) | email-fallback-candidate | 3/1/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.137 | 15 | [rustchain-bounties#13951](https://github.com/Scottcjn/rustchain-bounties/issues/13951) | email-fallback-candidate | 5/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.134 | 30 | [rustchain-bounties#1160](https://github.com/Scottcjn/rustchain-bounties/issues/1160) | email-fallback-candidate | 6/3/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 1.024 | 15 | [Rustchain#166](https://github.com/Scottcjn/Rustchain/issues/166) | unknown | 7/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.98 | 35 | [rustchain-bounties#16240](https://github.com/Scottcjn/rustchain-bounties/issues/16240) | email-fallback-candidate | 6/5/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.933 | 10 | [rustchain-bounties#16469](https://github.com/Scottcjn/rustchain-bounties/issues/16469) | email-fallback-candidate | 2/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.743 | 15 | [shaprai#60](https://github.com/Scottcjn/shaprai/issues/60) | unknown | 3/2/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.647 | 33 | [rustchain-bounties#449](https://github.com/Scottcjn/rustchain-bounties/issues/449) | email-fallback-candidate | 6/4/0 | 180m | title 33 / body 50 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.642 | 5 | [rustchain-bounties#2180](https://github.com/Scottcjn/rustchain-bounties/issues/2180) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.642 | 5 | [rustchain-bounties#727](https://github.com/Scottcjn/rustchain-bounties/issues/727) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.623 | 17 | [rustchain-bounties#3074](https://github.com/Scottcjn/rustchain-bounties/issues/3074) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.623 | 17 | [rustchain-bounties#2161](https://github.com/Scottcjn/rustchain-bounties/issues/2161) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.578 | 10 | [Rustchain#179](https://github.com/Scottcjn/Rustchain/issues/179) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.578 | 10 | [Rustchain#167](https://github.com/Scottcjn/Rustchain/issues/167) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.578 | 3 | [rustchain-bounties#2788](https://github.com/Scottcjn/rustchain-bounties/issues/2788) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.578 | 3 | [rustchain-bounties#1107](https://github.com/Scottcjn/rustchain-bounties/issues/1107) | email-fallback-candidate | 0/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.561 | 17 | [rustchain-bounties#746](https://github.com/Scottcjn/rustchain-bounties/issues/746) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.547 | 67 | [rustchain-bounties#2890](https://github.com/Scottcjn/rustchain-bounties/issues/2890) | email-fallback-candidate | 14/12/1 | 180m | title 67 / body 200 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.513 | 4 | [rustchain-bounties#16275](https://github.com/Scottcjn/rustchain-bounties/issues/16275) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.513 | 2 | [rustchain-bounties#2074](https://github.com/Scottcjn/rustchain-bounties/issues/2074) | email-fallback-candidate | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.504 | 20 | [rustchain-bounties#448](https://github.com/Scottcjn/rustchain-bounties/issues/448) | email-fallback-candidate | 2/3/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.504 | 20 | [rustchain-bounties#284](https://github.com/Scottcjn/rustchain-bounties/issues/284) | email-fallback-candidate | 3/4/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.485 | 3 | [rustchain-bounties#1115](https://github.com/Scottcjn/rustchain-bounties/issues/1115) | email-fallback-candidate | 0/0/0 | 90m | title 3 / body 5 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.416 | 33 | [rustchain-bounties#1156](https://github.com/Scottcjn/rustchain-bounties/issues/1156) | email-fallback-candidate | 10/4/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.404 | 5 | [rustchain-bounties#1578](https://github.com/Scottcjn/rustchain-bounties/issues/1578) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.385 | 5 | [rustchain-bounties#720](https://github.com/Scottcjn/rustchain-bounties/issues/720) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.385 | 5 | [rustchain-bounties#719](https://github.com/Scottcjn/rustchain-bounties/issues/719) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.385 | 3 | [rustchain-bounties#16239](https://github.com/Scottcjn/rustchain-bounties/issues/16239) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.367 | 10 | [rustchain-bounties#2156](https://github.com/Scottcjn/rustchain-bounties/issues/2156) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.367 | 5 | [rustchain-bounties#2140](https://github.com/Scottcjn/rustchain-bounties/issues/2140) | pr-only | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.347 | 3 | [rustchain-bounties#2960](https://github.com/Scottcjn/rustchain-bounties/issues/2960) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.347 | 3 | [rustchain-bounties#13519](https://github.com/Scottcjn/rustchain-bounties/issues/13519) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.347 | 3 | [rustchain-bounties#1100](https://github.com/Scottcjn/rustchain-bounties/issues/1100) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.33 | 10 | [rustchain-bounties#753](https://github.com/Scottcjn/rustchain-bounties/issues/753) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.33 | 5 | [rustchain-bounties#2071](https://github.com/Scottcjn/rustchain-bounties/issues/2071) | pr-only | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.33 | 2 | [beacon-skill#140](https://github.com/Scottcjn/beacon-skill/issues/140) | unknown | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.323 | 4 | [rustchain-bounties#103](https://github.com/Scottcjn/rustchain-bounties/issues/103) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.323 | 2 | [rustchain-bounties#2070](https://github.com/Scottcjn/rustchain-bounties/issues/2070) | email-fallback-candidate | 0/0/0 | 90m | title 2 / body 1 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.309 | 25 | [Rustchain#7](https://github.com/Scottcjn/Rustchain/issues/7) | unknown | 8/2/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.293 | 8 | [rustchain-bounties#12445](https://github.com/Scottcjn/rustchain-bounties/issues/12445) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.257 | 5 | [rustchain-bounties#16243](https://github.com/Scottcjn/rustchain-bounties/issues/16243) | email-fallback-candidate | 2/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.257 | 5 | [rustchain-bounties#16242](https://github.com/Scottcjn/rustchain-bounties/issues/16242) | email-fallback-candidate | 9/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.257 | 2 | [rustchain-bounties#2155](https://github.com/Scottcjn/rustchain-bounties/issues/2155) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.257 | 2 | [rustchain-bounties#9017](https://github.com/Scottcjn/rustchain-bounties/issues/9017) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.257 | 2 | [rustchain-bounties#2176](https://github.com/Scottcjn/rustchain-bounties/issues/2176) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.252 | 5 | [rustchain-bounties#1151](https://github.com/Scottcjn/rustchain-bounties/issues/1151) | email-fallback-candidate | 6/3/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.248 | 2 | [grazer-skill#72](https://github.com/Scottcjn/grazer-skill/issues/72) | unknown | 0/0/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.243 | 3 | [rustchain-bounties#422](https://github.com/Scottcjn/rustchain-bounties/issues/422) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.231 | 2 | [rustchain-bounties#9016](https://github.com/Scottcjn/rustchain-bounties/issues/9016) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.231 | 2 | [rustchain-bounties#1098](https://github.com/Scottcjn/rustchain-bounties/issues/1098) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.231 | 2 | [rustchain-bounties#11578](https://github.com/Scottcjn/rustchain-bounties/issues/11578) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.225 | 15 | [rustchain-bounties#749](https://github.com/Scottcjn/rustchain-bounties/issues/749) | standalone | 3/9/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.21 | 20 | [rustchain-bounties#726](https://github.com/Scottcjn/rustchain-bounties/issues/726) | email-fallback-candidate | 2/2/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.21 | 5 | [rustchain-bounties#2073](https://github.com/Scottcjn/rustchain-bounties/issues/2073) | email-fallback-candidate | 5/3/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.184 | 15 | [rustchain-bounties#259](https://github.com/Scottcjn/rustchain-bounties/issues/259) | email-fallback-candidate | 5/4/1 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.175 | 15 | [rustchain-bounties#282](https://github.com/Scottcjn/rustchain-bounties/issues/282) | email-fallback-candidate | 12/11/6 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.173 | 3 | [Rustchain#165](https://github.com/Scottcjn/Rustchain/issues/165) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.162 | 7 | [rustchain-bounties#269](https://github.com/Scottcjn/rustchain-bounties/issues/269) | pr-only | 0/0/0 | 180m | title 7 / body 10 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.162 | 2 | [rustchain-bounties#423](https://github.com/Scottcjn/rustchain-bounties/issues/423) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.162 | 2 | [rustchain-bounties#421](https://github.com/Scottcjn/rustchain-bounties/issues/421) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.151 | 3 | [rustchain-bounties#1154](https://github.com/Scottcjn/rustchain-bounties/issues/1154) | email-fallback-candidate | 6/8/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.128 | 5 | [rustchain-bounties#2866](https://github.com/Scottcjn/rustchain-bounties/issues/2866) | pr-only | 0/0/0 | 180m | title 5 / body 10 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.128 | 2 | [rustchain-bounties#696](https://github.com/Scottcjn/rustchain-bounties/issues/696) | email-fallback-candidate | 0/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.117 | 10 | [rustchain-bounties#2259](https://github.com/Scottcjn/rustchain-bounties/issues/2259) | email-fallback-candidate | 12/7/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.116 | 1 | [rustchain-bounties#415](https://github.com/Scottcjn/rustchain-bounties/issues/415) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.116 | 1 | [rustchain-bounties#2870](https://github.com/Scottcjn/rustchain-bounties/issues/2870) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.116 | 1 | [rustchain-bounties#1096](https://github.com/Scottcjn/rustchain-bounties/issues/1096) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.099 | 3 | [rustchain-bounties#2218](https://github.com/Scottcjn/rustchain-bounties/issues/2218) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.093 | 8 | [rustchain-bounties#14018](https://github.com/Scottcjn/rustchain-bounties/issues/14018) | email-fallback-candidate | 7/3/3 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.09 | 1 | [rustchain-bounties#171](https://github.com/Scottcjn/rustchain-bounties/issues/171) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.09 | 1 | [rustchain-bounties#2141](https://github.com/Scottcjn/rustchain-bounties/issues/2141) | email-fallback-candidate | 0/0/0 | 180m | title 1 / body 2 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.09 | 1 | [rustchain-bounties#420](https://github.com/Scottcjn/rustchain-bounties/issues/420) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.082 | 10 | [rustchain-bounties#450](https://github.com/Scottcjn/rustchain-bounties/issues/450) | email-fallback-candidate | 20/10/1 | 180m | title 10 / body 15 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.082 | 7 | [rustchain-bounties#728](https://github.com/Scottcjn/rustchain-bounties/issues/728) | email-fallback-candidate | 22/11/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.082 | 7 | [rustchain-bounties#731](https://github.com/Scottcjn/rustchain-bounties/issues/731) | email-fallback-candidate | 41/17/5 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.082 | 7 | [rustchain-bounties#732](https://github.com/Scottcjn/rustchain-bounties/issues/732) | email-fallback-candidate | 14/1/3 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.077 | 7 | [rustchain-bounties#1114](https://github.com/Scottcjn/rustchain-bounties/issues/1114) | email-fallback-candidate | 15/2/1 | 120m | title 7 / body 10 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.073 | 7 | [rustchain-bounties#14015](https://github.com/Scottcjn/rustchain-bounties/issues/14015) | email-fallback-candidate | 1/5/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.07 | 10 | [rustchain-bounties#721](https://github.com/Scottcjn/rustchain-bounties/issues/721) | email-fallback-candidate | 2/0/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.031 | 0.5 | [clawrtc-rs#1](https://github.com/Scottcjn/clawrtc-rs/issues/1) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.031 | 0.5 | [grazer-skill-rs#1](https://github.com/Scottcjn/grazer-skill-rs/issues/1) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.031 | 0.5 | [beacon-skill-rs#1](https://github.com/Scottcjn/beacon-skill-rs/issues/1) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| BLOCKED_USER_OR_EXTERNAL | 0.031 | 0.5 | [grazer-skill#68](https://github.com/Scottcjn/grazer-skill/issues/68) | unknown | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE_KNOWN | 0.449 | 5 | [rustchain-bounties#1113](https://github.com/Scottcjn/rustchain-bounties/issues/1113) | email-fallback-candidate | 0/0/0 | 180m | title 5 / body 8 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 47.25 | 500 | [Rustchain#130](https://github.com/Scottcjn/Rustchain/issues/130) | unknown | 1/0/0 | 120m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 19.688 | 175 | [ardy-director#6](https://github.com/Scottcjn/ardy-director/issues/6) | unknown | 1/1/0 | 90m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 17.5 | 150 | [rustchain-bounties#691](https://github.com/Scottcjn/rustchain-bounties/issues/691) | email-fallback-candidate | 3/1/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 5.25 | 50 | [rustchain-bounties#692](https://github.com/Scottcjn/rustchain-bounties/issues/692) | email-fallback-candidate | 5/1/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 2.933 | 100 | [rustchain-bounties#64](https://github.com/Scottcjn/rustchain-bounties/issues/64) | pr-only | 4/2/0 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 2.599 | 150 | [Rustchain#32](https://github.com/Scottcjn/Rustchain/issues/32) | unknown | 1/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 2.1 | 100 | [rustchain-bounties#58](https://github.com/Scottcjn/rustchain-bounties/issues/58) | email-fallback-candidate | 7/5/2 | 90m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 1.35 | 200 | [legend-of-elya-n64#10](https://github.com/Scottcjn/legend-of-elya-n64/issues/10) | unknown | 2/3/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 1.05 | 100 | [rustchain-bounties#66](https://github.com/Scottcjn/rustchain-bounties/issues/66) | email-fallback-candidate | 6/12/2 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.7 | 25 | [rustchain-bounties#351](https://github.com/Scottcjn/rustchain-bounties/issues/351) | email-fallback-candidate | 3/8/0 | 180m | body | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.611 | 17 | [rustchain-bounties#13224](https://github.com/Scottcjn/rustchain-bounties/issues/13224) | email-fallback-candidate | 11/2/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.476 | 17 | [rustchain-bounties#12789](https://github.com/Scottcjn/rustchain-bounties/issues/12789) | email-fallback-candidate | 3/3/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.352 | 67 | [rustchain-bounties#730](https://github.com/Scottcjn/rustchain-bounties/issues/730) | email-fallback-candidate | 5/8/3 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.321 | 5 | [rustchain-bounties#13953](https://github.com/Scottcjn/rustchain-bounties/issues/13953) | email-fallback-candidate | 0/0/0 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.294 | 15 | [rustchain-bounties#693](https://github.com/Scottcjn/rustchain-bounties/issues/693) | email-fallback-candidate | 4/3/0 | 180m | title 15 / body 5 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.25 | 75 | [rustchain-bounties#89](https://github.com/Scottcjn/rustchain-bounties/issues/89) | pr-only | 4/3/1 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.243 | 3 | [rustchain-bounties#1555](https://github.com/Scottcjn/rustchain-bounties/issues/1555) | email-fallback-candidate | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.176 | 10 | [rustchain-bounties#1584](https://github.com/Scottcjn/rustchain-bounties/issues/1584) | email-fallback-candidate | 3/4/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.176 | 10 | [rustchain-bounties#1585](https://github.com/Scottcjn/rustchain-bounties/issues/1585) | email-fallback-candidate | 4/5/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.131 | 25 | [rustchain-bounties#724](https://github.com/Scottcjn/rustchain-bounties/issues/724) | email-fallback-candidate | 5/0/1 | 360m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.11 | 3 | [rustchain-bounties#2139](https://github.com/Scottcjn/rustchain-bounties/issues/2139) | pr-only | 0/0/0 | 180m | title | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
-| EXCLUDE | 0.081 | 1 | [rustchain-bounties#694](https://github.com/Scottcjn/rustchain-bounties/issues/694) | email-fallback-candidate | 0/0/0 | 180m | title 1 / body 2 | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| Decision | Repo/# | RTC | EV index | Route | Competition I/C/A | Reward policy | Title |
+|---|---|---:|---:|---|---:|---|---|
+| VERIFY_ROUTE | ardy-director#8 | 75.0 | 20.25 | unknown | 0/0/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_ROUTE | ardy-director#5 | 250.0 | 14.062 | unknown | 0/0/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_ROUTE | ardy-director#3 | 300.0 | 13.5 | unknown | 2/0/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_ROUTE | ardy-director#4 | 250.0 | 7.031 | unknown | 1/1/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#515 | 2.0 | 0.616 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1592 | 3.0 | 0.52 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16252 | 12.0 | 0.44 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16251 | 10.0 | 0.367 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#755 | 10.0 | 0.33 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#2781 | 1.0 | 0.308 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16255 | 8.0 | 0.293 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1579 | 3.0 | 0.269 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16253 | 7.0 | 0.257 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | grazer-skill#15 | 2.0 | 0.248 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1104 | 1.0 | 0.193 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1109 | 1.0 | 0.193 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16248 | 5.0 | 0.183 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1577 | 2.0 | 0.18 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#378 | 1.0 | 0.18 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1101 | 1.0 | 0.173 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#12025 | 2.0 | 0.162 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16249 | 4.0 | 0.147 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#16238 | 1.0 | 0.128 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1097 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#124 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1095 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1504 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#521 | 2.0 | 0.082 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#1523 | 1.0 | 0.081 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#519 | 2.0 | 0.051 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#517 | 1.0 | 0.045 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | mlx-coffers#1 | 0.5 | 0.031 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | Rustchain#773 | 0.5 | 0.029 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| VERIFY_COMPETITION | rustchain-bounties#518 | 2.0 | 0.021 | merge-gated | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_ROUTE | langchain-rustchain#1 | 40.0 | 1.0 | pr-only | 1/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | ardy-director#2 | 350.0 | 8.663 | unknown | 1/2/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | ardy-director#7 | 150.0 | 3.713 | unknown | 1/2/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#2274 | 50.0 | 3.024 | email-fallback-candidate | 7/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#16471 | 35.0 | 0.735 | email-fallback-candidate | 13/4/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#2127 | 25.0 | 0.7 | email-fallback-candidate | 7/8/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | trashclaw#65 | 20.0 | 0.594 | unknown | 1/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#67 | 75.0 | 0.591 | email-fallback-candidate | 5/5/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#16472 | 20.0 | 0.56 | email-fallback-candidate | 3/3/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#1616 | 20.0 | 0.504 | email-fallback-candidate | 5/10/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#13475 | 25.0 | 0.394 | email-fallback-candidate | 3/3/2 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#446 | 17.0 | 0.374 | email-fallback-candidate | 2/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#751 | 10.0 | 0.36 | standalone | 5/8/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#504 | 27.0 | 0.284 | email-fallback-candidate | 9/8/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | ram-coffers#45 | 15.0 | 0.243 | unknown | 1/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#13477 | 20.0 | 0.21 | email-fallback-candidate | 2/4/2 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#68 | 50.0 | 0.184 | email-fallback-candidate | 9/7/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | shaprai#61 | 20.0 | 0.169 | unknown | 1/6/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#3075 | 20.0 | 0.16 | pr-only | 3/11/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#1600 | 3.0 | 0.151 | email-fallback-candidate | 8/11/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#16271 | 35.0 | 0.088 | pr-only | 3/6/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#1112 | 7.0 | 0.083 | email-explicit | 18/21/4 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| DEFER_SATURATED | rustchain-bounties#249 | 33.0 | 0.046 | pr-only | 7/12/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#747 | 75.0 | 1.25 | standalone | 16/27/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#71 | 133.0 | 0.652 | email-fallback-candidate | 6/22/5 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#14014 | 20.0 | 0.504 | email-fallback-candidate | 1/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#1102 | 3.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#2784 | 3.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#12443 | 3.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#12444 | 3.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#12442 | 3.0 | 0.289 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#1113 | 5.0 | 0.281 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#1524 | 50.0 | 0.28 | pr-only | 7/10/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#13949 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#2271 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#256 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#16601 | 60.0 | 0.2 | pr-only | 5/2/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#254 | 1.0 | 0.128 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#1618 | 1.0 | 0.128 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#520 | 2.0 | 0.12 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#13954 | 10.0 | 0.117 | email-fallback-candidate | 3/3/4 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| OWN_WORK_RECHECK | rustchain-bounties#2143 | 3.0 | 0.023 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#14089 | 200.0 | 37.333 | email-fallback-candidate | 4/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#1876 | 300.0 | 8.0 | pr-only | 2/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#168 | 200.0 | 7.875 | unknown | 5/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | legend-of-elya-n64#4 | 250.0 | 5.625 | unknown | 4/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#12788 | 25.0 | 4.667 | email-fallback-candidate | 3/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | legend-of-elya-n64#11 | 300.0 | 3.713 | unknown | 2/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#12787 | 17.0 | 3.173 | email-fallback-candidate | 4/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#2634 | 500.0 | 2.625 | unknown | 1/5/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-amiga#2 | 35.0 | 2.625 | unknown | 1/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16468 | 25.0 | 2.333 | email-fallback-candidate | 2/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1158 | 50.0 | 2.31 | email-fallback-candidate | 8/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#3418 | 100.0 | 1.96 | email-fallback-candidate | 36/19/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16517 | 33.0 | 1.925 | email-fallback-candidate | 5/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#434 | 150.0 | 1.89 | email-fallback-candidate | 3/6/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#758 | 75.0 | 1.89 | email-fallback-candidate | 2/8/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16241 | 10.0 | 1.867 | email-fallback-candidate | 4/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#399 | 100.0 | 1.68 | email-fallback-candidate | 11/6/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2819 | 133.0 | 1.579 | email-explicit | 29/40/4 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#51 | 25.0 | 1.312 | email-fallback-candidate | 3/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#13951 | 15.0 | 1.137 | email-fallback-candidate | 5/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1160 | 30.0 | 1.134 | email-fallback-candidate | 6/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#166 | 15.0 | 1.024 | unknown | 7/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16240 | 35.0 | 0.98 | email-fallback-candidate | 6/5/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16469 | 10.0 | 0.933 | email-fallback-candidate | 2/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | shaprai#60 | 15.0 | 0.743 | unknown | 3/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2180 | 5.0 | 0.642 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#727 | 5.0 | 0.642 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#3074 | 17.0 | 0.623 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2161 | 17.0 | 0.623 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#179 | 10.0 | 0.578 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#167 | 10.0 | 0.578 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2788 | 3.0 | 0.578 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1107 | 3.0 | 0.578 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#746 | 17.0 | 0.561 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16275 | 4.0 | 0.513 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2074 | 2.0 | 0.513 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#448 | 20.0 | 0.504 | email-fallback-candidate | 2/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#284 | 20.0 | 0.504 | email-fallback-candidate | 3/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#449 | 33.0 | 0.427 | email-fallback-candidate | 6/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1156 | 33.0 | 0.416 | email-fallback-candidate | 10/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1578 | 5.0 | 0.404 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#720 | 5.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#719 | 5.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16239 | 3.0 | 0.385 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2156 | 10.0 | 0.367 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2140 | 5.0 | 0.367 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2960 | 3.0 | 0.347 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#13519 | 3.0 | 0.347 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1100 | 3.0 | 0.347 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#753 | 10.0 | 0.33 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2071 | 5.0 | 0.33 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | beacon-skill#140 | 2.0 | 0.33 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#103 | 4.0 | 0.323 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2070 | 2.0 | 0.323 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#7 | 25.0 | 0.309 | unknown | 8/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#12445 | 8.0 | 0.293 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1115 | 3.0 | 0.291 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16243 | 5.0 | 0.257 | email-fallback-candidate | 2/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#16242 | 5.0 | 0.257 | email-fallback-candidate | 9/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2155 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#9017 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2176 | 2.0 | 0.257 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1151 | 5.0 | 0.252 | email-fallback-candidate | 6/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | grazer-skill#72 | 2.0 | 0.248 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#422 | 3.0 | 0.243 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#9016 | 2.0 | 0.231 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1098 | 2.0 | 0.231 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#11578 | 2.0 | 0.231 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#749 | 15.0 | 0.225 | standalone | 3/9/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#726 | 20.0 | 0.21 | email-fallback-candidate | 2/2/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2073 | 5.0 | 0.21 | email-fallback-candidate | 5/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#259 | 15.0 | 0.184 | email-fallback-candidate | 5/4/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2890 | 67.0 | 0.183 | email-fallback-candidate | 14/12/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#282 | 15.0 | 0.175 | email-fallback-candidate | 12/11/6 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | Rustchain#165 | 3.0 | 0.173 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#423 | 2.0 | 0.162 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#421 | 2.0 | 0.162 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1154 | 3.0 | 0.151 | email-fallback-candidate | 6/8/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#696 | 2.0 | 0.128 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2259 | 10.0 | 0.117 | email-fallback-candidate | 12/7/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#415 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2870 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1096 | 1.0 | 0.116 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#269 | 7.0 | 0.113 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2218 | 3.0 | 0.099 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#14018 | 8.0 | 0.093 | email-fallback-candidate | 7/3/3 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#171 | 1.0 | 0.09 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#420 | 1.0 | 0.09 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#728 | 7.0 | 0.082 | email-fallback-candidate | 22/11/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#731 | 7.0 | 0.082 | email-fallback-candidate | 41/17/5 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#732 | 7.0 | 0.082 | email-fallback-candidate | 14/1/3 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#14015 | 7.0 | 0.073 | email-fallback-candidate | 1/5/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#721 | 10.0 | 0.07 | email-fallback-candidate | 2/0/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2866 | 5.0 | 0.064 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#450 | 10.0 | 0.055 | email-fallback-candidate | 20/10/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#1114 | 7.0 | 0.054 | email-fallback-candidate | 15/2/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | rustchain-bounties#2141 | 1.0 | 0.045 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | clawrtc-rs#1 | 0.5 | 0.031 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | grazer-skill-rs#1 | 0.5 | 0.031 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | beacon-skill-rs#1 | 0.5 | 0.031 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| BLOCKED_USER_OR_EXTERNAL | grazer-skill#68 | 0.5 | 0.031 | unknown | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | Rustchain#130 | 500.0 | 47.25 | unknown | 1/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | ardy-director#6 | 175.0 | 19.688 | unknown | 1/1/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#691 | 150.0 | 17.5 | email-fallback-candidate | 3/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#692 | 50.0 | 5.25 | email-fallback-candidate | 5/1/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#64 | 100.0 | 2.933 | pr-only | 4/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | Rustchain#32 | 150.0 | 2.599 | unknown | 1/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#58 | 100.0 | 2.1 | email-fallback-candidate | 7/5/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | legend-of-elya-n64#10 | 200.0 | 1.35 | unknown | 2/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#66 | 100.0 | 1.05 | email-fallback-candidate | 6/12/2 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#351 | 25.0 | 0.7 | email-fallback-candidate | 3/8/0 | body-fallback | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#13224 | 17.0 | 0.611 | email-fallback-candidate | 11/2/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#12789 | 17.0 | 0.476 | email-fallback-candidate | 3/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#730 | 67.0 | 0.352 | email-fallback-candidate | 5/8/3 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#13953 | 5.0 | 0.321 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#693 | 15.0 | 0.294 | email-fallback-candidate | 4/3/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#89 | 75.0 | 0.25 | pr-only | 4/3/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#1555 | 3.0 | 0.243 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#1584 | 10.0 | 0.176 | email-fallback-candidate | 3/4/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#1585 | 10.0 | 0.176 | email-fallback-candidate | 4/5/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#724 | 25.0 | 0.131 | email-fallback-candidate | 5/0/1 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#2139 | 3.0 | 0.11 | pr-only | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
+| EXCLUDE | rustchain-bounties#694 | 1.0 | 0.041 | email-fallback-candidate | 0/0/0 | authoritative-title-first | Bounty: Heart & Like @RustchainPOA Posts on X — Earn 5 RTC |
