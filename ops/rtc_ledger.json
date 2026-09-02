@@ -1,50 +1,52 @@
 {
-  "schema_version": 11,
-  "as_of": "2026-09-02T19:20:00-04:00",
+  "schema_version": 12,
+  "as_of": "2026-09-02T23:44:06Z",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "record_schema": {
-    "fixed_row": "[id, issue, verified_reward_rtc, route_code, blocker_code]. Current fixed rows inherit status=SUBMITTED, accepted_rtc=0, tx_ref=null, received_rtc=0, last_verified=as_of, authoritative_source=Scottcjn/rustchain-bounties#issue, evidence=project submission record, next_action=WAIT_FOR_CONCRETE_ADJUDICATION.",
-    "variable_row": "[id, issue, reward_rule]. Variable rows inherit status=SUBMITTED, accepted_rtc=0, tx_ref=null, received_rtc=0, last_verified=as_of; no RTC amount is booked until adjudication.",
+    "fixed_row": "[id, issue, verified_reward_rtc, route_code, blocker_code]. Current fixed rows inherit status=SUBMITTED, accepted_rtc=0, tx_ref=null, received_rtc=0.",
+    "variable_row": "[id, issue, reward_rule]. Variable rows inherit status=SUBMITTED, accepted_rtc=0, tx_ref=null, received_rtc=0; no RTC amount is booked until adjudication.",
     "terminal_row": "[id, issue, verified_reward_rtc, status, reason].",
     "route_codes": {
-      "GMAIL": "official Gmail fallback after authorized GitHub route failure",
-      "GITHUB": "GitHub issue/public repo route",
-      "RECORDED": "verified project submission record; route not re-expanded in this audit"
+      "GMAIL": "Gmail submission; authoritative only where issue/project expressly authorizes fallback or maintainer later adjudicates it.",
+      "GITHUB": "GitHub issue/public repo route.",
+      "RECORDED": "Verified project submission record; route not re-expanded in this audit."
     },
     "blocker_codes": {
       "ADJ": "maintainer adjudication",
-      "POOL": "maintainer/pool adjudication",
-      "TYPE_D": "#16601 Type D one-kit-per-type adjudication plus underlying article eligibility",
-      "TYPE_A": "competing #16601 Type A package; maintainer adjudication"
+      "POOL_GATE": "maintainer/pool adjudication plus new Live-URL gate retroactivity ambiguity; one clarification sent 2026-09-02",
+      "TYPE_D": "#16601 Type D adjudication plus underlying article eligibility/distribution gate",
+      "TYPE_A": "#16601 Type A adjudication; seven-day review window not yet expired",
+      "ROUTE_RISK": "claim content exists but required public GitHub claim/proof route is blocked by integration and email fallback is not explicit in the live issue",
+      "MERGE_ROUTE": "deliverable exists but live issue conditions payment on merge/PR; no upstream merge for this claim is verified",
+      "LIVE_GATE": "off-platform Live-URL evidence exists, but maintainer/verifier adjudication remains outstanding"
     }
   },
   "accounting_rules": [
     "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
     "Only RECEIVED counts as collected revenue.",
-    "Historical fixed submissions, current viable fixed submissions, terminal/superseded work, and received settlements are separate.",
+    "Historical fixed submissions, current viable fixed submissions, terminal/superseded/route-blocked work, and received settlements are separate.",
     "Unknown mappings remain UNKNOWN; no inferential attribution.",
-    "When multiple equal-value transfers settle one aggregate maintainer award and subclaim-to-hash ordering is not authoritative, preserve the transfer set without assigning individual hashes to subclaims."
+    "Invalid or unverified submission routes are removed from viable exposure until the required route is satisfied or a maintainer expressly adjudicates the fallback."
   ],
   "verified_totals": {
     "historical_fixed_value_submissions_rtc": 727,
-    "current_viable_fixed_value_submitted_rtc": 441,
+    "current_viable_fixed_value_submitted_rtc": 399,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "variable_value_submissions_count": 21,
     "16471_submitted_findings_count": 19,
-    "historical_fixed_value_removed_from_viable_rtc": 286,
+    "historical_fixed_value_removed_from_viable_rtc": 328,
     "actual_monetary_cost_usd": 0
   },
   "arithmetic_reconciliation": {
-    "historical_fixed_value_basis": "441 RTC current viable + 286 RTC terminal/superseded fixed-value work = 727 RTC unresolved/terminal historical fixed submissions; received settlements are tracked separately.",
-    "16601_history": "Seven historical submissions: A40 + B15 + C15 + C15 + D8 + D8 + D8 = 109 RTC.",
-    "16601_viable": "A40 + earliest D8 = 48 RTC viable. B15 + two C30 + two later D16 = 61 RTC terminal/superseded.",
-    "315_reconciliation": "#315 moved from HOLD to viable SUBMITTED at the authoritative current title rate of 30 RTC after genuine off-platform Wix distribution was published and the Live-URL evidence was sent to the maintainer on 2026-09-02. This is the same economic claim, not a duplicate.",
-    "685_reconciliation": "Current governing instruction allows exactly one active #685 economic claim: the Tier-1 Rust Agent Economy SDK at 50 RTC. Historical Tier-2 Grazer, PydanticAI, and OpenAI Agents submissions are retained only as SUPERSEDED history and contribute 0 RTC to current viable exposure.",
-    "1618_reconciliation": "Scottcjn explicitly accepted two @prins1bap-ui BoTTube #1618 reports for 2 RTC total (1 each), queued to the wallet with ~24h confirmation. Two previously unmapped 1 RTC founder_community transfers landed together about 24h later. They are reconciled as the aggregate #1618 2 RTC settlement without guessing which equal-value hash belongs to which report.",
-    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were inconsistent with the one-kit-per-type adjustment. Schema v8 left #315 in HOLD after distribution was satisfied. Schema v9 retained three superseded #685 Tier-2 claims. Schema v10 left one #1618 report as SUBMITTED and two settled 1 RTC receipts unmapped despite authoritative aggregate acceptance."
+    "historical_fixed_value_basis": "399 RTC current viable + 328 RTC terminal/superseded/route-blocked fixed-value work = 727 RTC historical fixed submissions; received settlements tracked separately.",
+    "13226_reconciliation": "Six 7 RTC #13226 email submissions (42 RTC) moved from viable to HOLD_ROUTE_BLOCKED. The live issue requires an upstream PR + /claim; no upstream PR/public @prins1bap-ui claim is verified and the current issue does not document email fallback.",
+    "2259_reconciliation": "Two 10 RTC content posts remain viable but ROUTE_RISK. The live issue requires proof as an issue comment; a repair attempt on 2026-09-02 returned 403 and the live issue does not expressly authorize email fallback.",
+    "29_reconciliation": "The 10 RTC First Bounty Completed eligibility is evidenced, but the required public issue-comment route is blocked by 403; claim remains viable at reduced confidence under ROUTE_RISK.",
+    "16497_reconciliation": "Two canonical 33 RTC Aug-30 tutorials remain viable. The live issue expressly authorizes Gmail fallback, but a later distribution/live-url-verified gate creates retroactivity ambiguity. A single same-claim clarification was sent 2026-09-02.",
+    "wallet_reconciliation": "Fresh GitHub Actions wallet check completed successfully on 2026-09-02T23:44:06Z; balance remains 95 RTC with seven transactions."
   },
   "received": [
     {"id":"402-kickoff","issue":402,"title":"Bounty Spec Linter + Reward Drift Detector — kickoff tranche","reward_rtc":50,"status":"RECEIVED","accepted_rtc":50,"tx_ref":"cc97fdad4bc3be6b51888fa0fa7ee40d","received_rtc":50,"source":"Scottcjn/rustchain-bounties#402 + wallet history","route":"maintainer GitHub adjudication → wallet","blocker":null,"next_action":"None; settled."},
@@ -56,18 +58,18 @@
   ],
   "current_fixed_value_submitted": [
     ["402-completion",402,50,"GITHUB","ADJ"],
-    ["16497-article-1",16497,33,"GMAIL","POOL"],
-    ["16497-article-2",16497,33,"GMAIL","POOL"],
+    ["16497-article-1",16497,33,"GMAIL","POOL_GATE"],
+    ["16497-article-2",16497,33,"GMAIL","POOL_GATE"],
     ["16601-type-d-n64-article",16601,8,"GMAIL","TYPE_D"],
     ["16601-type-a-full-production-kit-20260902",16601,40,"GMAIL","TYPE_A"],
     ["685-tier1-rust-sdk",685,50,"RECORDED","ADJ"],
     ["1575-registration",1575,3,"RECORDED","ADJ"],
     ["100-improvement-llms",100,10,"RECORDED","ADJ"],
     ["520-bug-hunter",520,2,"RECORDED","ADJ"],
-    ["29-welcome-bonus",29,10,"RECORDED","ADJ"],
+    ["29-welcome-bonus",29,10,"GMAIL","ROUTE_RISK"],
     ["13949-badge",13949,2,"RECORDED","ADJ"],
-    ["14014-map-ledger-exchange",14014,20,"RECORDED","ADJ"],
-    ["14014-map-antiquity-relay",14014,20,"RECORDED","ADJ"],
+    ["14014-map-ledger-exchange",14014,20,"RECORDED","MERGE_ROUTE"],
+    ["14014-map-antiquity-relay",14014,20,"RECORDED","MERGE_ROUTE"],
     ["12442-comparison",12442,3,"RECORDED","ADJ"],
     ["12443-comparison",12443,3,"RECORDED","ADJ"],
     ["12444-comparison",12444,3,"RECORDED","ADJ"],
@@ -80,21 +82,15 @@
     ["1102-ui-localization-1",1102,3,"RECORDED","ADJ"],
     ["1102-ui-localization-2",1102,3,"RECORDED","ADJ"],
     ["2143-js-sdk-example",2143,3,"RECORDED","ADJ"],
-    ["13226-trashclaw",13226,7,"RECORDED","ADJ"],
-    ["13226-feverdream-engine",13226,7,"RECORDED","ADJ"],
-    ["13226-feverdream-n64",13226,7,"RECORDED","ADJ"],
-    ["13226-elya-nes",13226,7,"RECORDED","ADJ"],
-    ["13226-elyan-compute-skill",13226,7,"RECORDED","ADJ"],
-    ["13226-bounty-concierge",13226,7,"RECORDED","ADJ"],
     ["177-meme-1",177,2,"RECORDED","ADJ"],
     ["177-meme-2",177,2,"RECORDED","ADJ"],
     ["1107-comparison",1107,3,"RECORDED","ADJ"],
     ["1109-first-impression",1109,1,"RECORDED","ADJ"],
     ["443-review",443,3,"RECORDED","ADJ"],
     ["2271-dry-run",2271,2,"RECORDED","ADJ"],
-    ["2259-cvpr-wix-article",2259,10,"GMAIL","ADJ"],
-    ["2259-cvpr-github-article",2259,10,"GMAIL","ADJ"],
-    ["315-human-funnel",315,30,"GMAIL","ADJ"]
+    ["2259-cvpr-wix-article",2259,10,"GMAIL","ROUTE_RISK"],
+    ["2259-cvpr-github-article",2259,10,"GMAIL","ROUTE_RISK"],
+    ["315-human-funnel",315,30,"GMAIL","LIVE_GATE"]
   ],
   "variable_value_submitted": [
     ["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],
@@ -125,37 +121,41 @@
     ["16601-type-c-dry-run-safety",16601,15,"REJECTED","Type C accepted to AInoAKARI for this round."],
     ["16601-type-d-article-1",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
     ["16601-type-d-article-2",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
-    ["685-tier2-grazer",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
-    ["685-tier2-pydanticai",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
-    ["685-tier2-openai-agents",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
+    ["685-tier2-grazer",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],
+    ["685-tier2-pydanticai",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],
+    ["685-tier2-openai-agents",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],
     ["747-verification-bot",747,null,"HOLD","One canonical claim only. Historical competitor acceptance exists, but later maintainer activity kept #747 open; no authoritative rejection of @prins1bap-ui is currently booked."],
     ["13954-visual-explainer",13954,10,"REJECTED","Awarded/saturated; dead for @prins1bap-ui."],
     ["docstring-current-rate",16683,null,"REJECTED","Repriced to 0.01 RTC/function and merge-required; economics fail."],
-    ["100-discovery",100,2,"WITHDRAWN","Duplicate first-discovery claim withdrawn."]
+    ["100-discovery",100,2,"WITHDRAWN","Duplicate first-discovery claim withdrawn."],
+    ["13226-trashclaw",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."],
+    ["13226-feverdream-engine",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."],
+    ["13226-feverdream-n64",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."],
+    ["13226-elya-nes",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."],
+    ["13226-elyan-compute-skill",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."],
+    ["13226-bounty-concierge",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; email submission asked maintainer to create PR, but no upstream PR/public @prins1bap-ui claim is verified."]
   ],
   "route_status": {
     "own_github_repo": "writable",
     "upstream_rustchain_bounties_issue_comment": "403 integration permission",
+    "upstream_Rustchain_issue_comment": "403 integration permission",
     "writable_rustchain_bounties_fork": "prins1bap-ui/rustchain-bounties",
-    "official_email_fallback": "use only where bounty/project explicitly authorizes it",
+    "official_email_fallback": "use only where bounty/project explicitly authorizes it or maintainer expressly adjudicates the fallback",
     "merge_required_unwritable_routes": "blocked unless a legitimate writable fork/PR route exists"
   },
-  "failure_controls": [
-    "Never repeat verified authentication/setup unless a real operation fails.",
-    "Never rebuild/resubmit completed work without concrete maintainer revision evidence.",
-    "Check this ledger before new RTC work.",
-    "Verify reward, cap/slot, route, and competing claims before build.",
-    "Do not count submitted/requested/conditional/duplicate/superseded RTC as earned.",
-    "Do not send generic follow-ups; act only on concrete stage changes or requested revisions.",
-    "Recompute stage totals from row-level records after every accounting mutation."
+  "conversion_controls": [
+    "Optimize for probability of actual payment and time-to-wallet, not submitted RTC volume.",
+    "No generic follow-ups.",
+    "Follow up only on an expired SLA, concrete maintainer request, missing payout reference, material rule/route change, or authoritative later-adjudication evidence.",
+    "Do not add new speculative work while higher-EV conversion paths remain."
   ],
   "unresolved_unknowns": [
     "Exact #254 sub-deliverable corresponding to the reconciled 1 RTC receipt remains UNKNOWN.",
     "No current ACCEPTED_QUEUED or PENDING_ON_CHAIN claim is verified.",
     "Liquid USD execution value of native RTC is not verified; published reference rates are not equivalent to cash proceeds."
   ],
-  "decision": "HOLD_NEW_SPECULATIVE_BUILDING_AND_CONVERT_SUBMITTED_BACKLOG",
-  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 441 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
+  "decision": "CONVERSION_FIRST; HOLD_NEW_SPECULATIVE_BUILDING",
+  "next_action": "Wait for concrete adjudication on the highest-EV viable claims (#402, #16497, #16601, #685, #315), then immediately convert any acceptance to fresh wallet verification. Do not revive #13226 without a legitimate upstream PR route or explicit maintainer adjudication.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
