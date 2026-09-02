@@ -32,14 +32,15 @@ Never promote a claim merely because it was built, emailed, merged, or described
 
 ## Current conversion state
 
-As of 2026-09-02 the verified fixed-value funnel is:
+As of 2026-09-02 14:49 ET the verified fixed-value funnel is:
 
-- `SUBMITTED`: 607 RTC
-- `ACCEPTED_QUEUED`: 93 RTC
+- `SUBMITTED`: 645 RTC
+- `ACCEPTED_QUEUED`: 0 RTC
 - `PENDING_ON_CHAIN`: 0 RTC
-- `RECEIVED`: 0 RTC
+- `RECEIVED`: 95 RTC
+- `gap_to_500_received_rtc`: 405 RTC
 
-This ratio makes **conversion/settlement the current binding constraint**. The command center therefore operates in `SETTLEMENT_ADJUDICATION` mode until the mode-switch conditions below are met.
+The previous 93 RTC accepted/queued backlog has cleared through authoritative wallet-history receipt evidence. The remaining binding constraint is **maintainer adjudication of the 645 RTC submitted backlog**, not settlement of an accepted queue.
 
 The structured ledger in `ops/rtc_ledger.json` remains authoritative for individual claims. `ops/efficiency_policy.json` is authoritative for mode, recheck triggers, and discovery policy.
 
@@ -47,14 +48,11 @@ The structured ledger in `ops/rtc_ledger.json` remains authoritative for individ
 
 ### SETTLEMENT_ADJUDICATION mode — current default
 
-Use this mode whenever either condition is true:
-
-- accepted/queued RTC is materially overdue relative to authoritative settlement guidance; or
-- fixed-value submitted backlog is greater than 3× accepted/queued backlog without corresponding conversion.
+Remain in this mode while the fixed-value submitted backlog materially exceeds recent accepted/queued conversion or maintainer adjudication is the dominant bottleneck.
 
 Allocation target:
 
-- **70%** receivable reconciliation, concrete adjudication repair, requested revisions, and settlement evidence.
+- **70%** receivable reconciliation, concrete adjudication repair, requested revisions, and stage evidence.
 - **20%** delta discovery for newly created/materially updated high-quality opportunities.
 - **10%** new construction, only when the candidate clears the elevated build gate.
 
@@ -62,7 +60,7 @@ Do **not** create more speculative work merely to increase nominal pipeline valu
 
 ### PRODUCTION mode
 
-Return to normal production only when settlement is demonstrably moving or the submitted/accepted imbalance materially improves.
+Return to normal production only when adjudication/settlement velocity is demonstrably positive or a new candidate materially dominates the submitted backlog on expected collected RTC/hour.
 
 Allocation target:
 
@@ -83,9 +81,7 @@ Every receivable should carry, where evidence exists:
 - `age_hours`
 - `next_action_trigger`
 
-An overdue settlement relative to an authoritative timeline is a **concrete reconciliation discrepancy**, not a generic follow-up condition. Investigate authoritative channels for missing evidence. Do not spam maintainers.
-
-Never send generic adjudication reminders and never create a new email subject for an existing economic claim.
+Do not send generic adjudication reminders and never create a new email subject for an existing economic claim. If authoritative receipt evidence resolves a prior discrepancy, correct the ledger and stop following up on that discrepancy.
 
 ## Phase 2 — Route-first candidate gate
 
@@ -160,6 +156,10 @@ Email fallback is a latency penalty and should be reflected in scoring.
 
 One economic claim gets one canonical ledger ID. Revisions, re-sends, evidence corrections, and thread consolidations are not new claims. Cap overflow is never counted.
 
+## Cost control
+
+Paid services or infrastructure may be considered when they materially improve expected RTC economics, but **no monetary cost may be incurred without explicit owner authorization for that specific amount and scope**. Before any charge, disclose the exact cost or narrow range, cost type, blocker removed, expected RTC benefit, economic justification, and lower-cost alternative.
+
 ## 500 RTC rolling target
 
 Track both:
@@ -167,9 +167,9 @@ Track both:
 - `gap_to_500_received_rtc`
 - `verified_24h_receivable_ceiling_rtc`
 
-Never imply the 500 RTC target is presently achievable unless authoritative evidence supports enough claims progressing through the required stages within the window.
+Current verified RECEIVED is 95 RTC, leaving a 405 RTC gap. With zero fixed-value claims presently at `ACCEPTED_QUEUED` or `PENDING_ON_CHAIN`, the directly receivable ceiling from already adjudicated work is currently 0 RTC. The submitted backlog can support further progress only after new maintainer acceptance.
 
-If the verified ceiling is below 500, state the binding constraints internally and continue only economically justified work.
+Never imply the 500 RTC target is presently achievable unless authoritative evidence supports enough claims progressing through the required stages within the window.
 
 ## Narrow execution allowlist
 
