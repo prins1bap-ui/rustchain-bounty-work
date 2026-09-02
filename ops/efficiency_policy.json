@@ -1,8 +1,8 @@
 {
-  "schema_version": 2,
-  "as_of": "2026-09-02T14:25:39-04:00",
+  "schema_version": 3,
+  "as_of": "2026-09-02T19:46:00-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
-  "mode_reason": "605 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion and settlement are the binding constraints",
+  "mode_reason": "95 RTC is verified received, but 441 RTC of viable fixed-value submissions remain unadjudicated; maintainer adjudication is the binding constraint and no fixed-value work is currently accepted/queued or pending on-chain.",
   "mode_switch": {
     "enter_settlement_adjudication_if": [
       "accepted_queued is overdue relative to authoritative settlement guidance",
@@ -78,7 +78,10 @@
   },
   "scoring": {
     "formula": "reward_rtc * p_acceptance * p_payout_given_acceptance * settlement_velocity / estimated_hours",
-    "settlement_velocity_range": [0, 1],
+    "settlement_velocity_range": [
+      0,
+      1
+    ],
     "calibrate_from_real_outcomes": true,
     "email_fallback_latency_penalty": true,
     "net_value_rule": "expected_collected_value minus authorized monetary cost equivalent",
@@ -105,7 +108,10 @@
   "target_controls": {
     "rolling_received_target_rtc": 500,
     "track_verified_24h_receivable_ceiling": true,
-    "do_not_claim_target_achievable_without_authoritative_stage_evidence": true
+    "do_not_claim_target_achievable_without_authoritative_stage_evidence": true,
+    "current_received_rtc": 95,
+    "gap_to_500_received_rtc": 405,
+    "verified_24h_receivable_ceiling_rtc": 0
   },
   "cost_policy": {
     "paid_routes_allowed": true,
