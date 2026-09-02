@@ -1,6 +1,6 @@
 {
-  "schema_version": 10,
-  "as_of": "2026-09-02T19:04:00-04:00",
+  "schema_version": 11,
+  "as_of": "2026-09-02T19:20:00-04:00",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "record_schema": {
@@ -22,12 +22,13 @@
   "accounting_rules": [
     "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
     "Only RECEIVED counts as collected revenue.",
-    "Historical fixed submissions, current viable fixed submissions, terminal/superseded work, and variable-value submissions are separate.",
-    "Unknown mappings remain UNKNOWN; no inferential attribution."
+    "Historical fixed submissions, current viable fixed submissions, terminal/superseded work, and received settlements are separate.",
+    "Unknown mappings remain UNKNOWN; no inferential attribution.",
+    "When multiple equal-value transfers settle one aggregate maintainer award and subclaim-to-hash ordering is not authoritative, preserve the transfer set without assigning individual hashes to subclaims."
   ],
   "verified_totals": {
-    "historical_fixed_value_submissions_rtc": 728,
-    "current_viable_fixed_value_submitted_rtc": 442,
+    "historical_fixed_value_submissions_rtc": 727,
+    "current_viable_fixed_value_submitted_rtc": 441,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
@@ -37,12 +38,13 @@
     "actual_monetary_cost_usd": 0
   },
   "arithmetic_reconciliation": {
-    "historical_fixed_value_basis": "442 RTC current viable + 286 RTC terminal/superseded fixed-value work = 728 RTC historical fixed submissions.",
+    "historical_fixed_value_basis": "441 RTC current viable + 286 RTC terminal/superseded fixed-value work = 727 RTC unresolved/terminal historical fixed submissions; received settlements are tracked separately.",
     "16601_history": "Seven historical submissions: A40 + B15 + C15 + C15 + D8 + D8 + D8 = 109 RTC.",
     "16601_viable": "A40 + earliest D8 = 48 RTC viable. B15 + two C30 + two later D16 = 61 RTC terminal/superseded.",
     "315_reconciliation": "#315 moved from HOLD to viable SUBMITTED at the authoritative current title rate of 30 RTC after genuine off-platform Wix distribution was published and the Live-URL evidence was sent to the maintainer on 2026-09-02. This is the same economic claim, not a duplicate.",
     "685_reconciliation": "Current governing instruction allows exactly one active #685 economic claim: the Tier-1 Rust Agent Economy SDK at 50 RTC. Historical Tier-2 Grazer, PydanticAI, and OpenAI Agents submissions are retained only as SUPERSEDED history and contribute 0 RTC to current viable exposure.",
-    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were also inconsistent with the one-kit-per-type adjustment. Schema v8 left #315 in HOLD after its distribution blocker was satisfied. Schema v9 incorrectly retained three #685 Tier-2 claims totaling 225 RTC despite the later governing one-claim-only rule."
+    "1618_reconciliation": "Scottcjn explicitly accepted two @prins1bap-ui BoTTube #1618 reports for 2 RTC total (1 each), queued to the wallet with ~24h confirmation. Two previously unmapped 1 RTC founder_community transfers landed together about 24h later. They are reconciled as the aggregate #1618 2 RTC settlement without guessing which equal-value hash belongs to which report.",
+    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were inconsistent with the one-kit-per-type adjustment. Schema v8 left #315 in HOLD after distribution was satisfied. Schema v9 retained three superseded #685 Tier-2 claims. Schema v10 left one #1618 report as SUBMITTED and two settled 1 RTC receipts unmapped despite authoritative aggregate acceptance."
   },
   "received": [
     {"id":"402-kickoff","issue":402,"title":"Bounty Spec Linter + Reward Drift Detector — kickoff tranche","reward_rtc":50,"status":"RECEIVED","accepted_rtc":50,"tx_ref":"cc97fdad4bc3be6b51888fa0fa7ee40d","received_rtc":50,"source":"Scottcjn/rustchain-bounties#402 + wallet history","route":"maintainer GitHub adjudication → wallet","blocker":null,"next_action":"None; settled."},
@@ -50,8 +52,7 @@
     {"id":"398-step-1","issue":398,"title":"Bounty #398 Step 1","reward_rtc":10,"status":"RECEIVED","accepted_rtc":10,"tx_ref":"880cc5a2ec914186d9c0a04780e5adf7","received_rtc":10,"source":"Sophia 2026-08-29 reconciliation + wallet history","route":"maintainer reconciliation → wallet","blocker":null,"next_action":"None; settled."},
     {"id":"398-step-2","issue":398,"title":"Bounty #398 Step 2","reward_rtc":7,"status":"RECEIVED","accepted_rtc":7,"tx_ref":"e6efbe5c21185ad7015ae0b65f366418","received_rtc":7,"source":"Sophia 2026-08-29 reconciliation + wallet history","route":"maintainer reconciliation → wallet","blocker":null,"next_action":"None; settled."},
     {"id":"254-reconciled-contribution","issue":254,"title":"Bounty #254 reconciled contribution","reward_rtc":1,"status":"RECEIVED","accepted_rtc":1,"tx_ref":"447516f4e85887af8d52edadab984a2a","received_rtc":1,"source":"Sophia 2026-08-29 reconciliation + wallet history","route":"maintainer reconciliation → wallet","blocker":"Exact #254 sub-deliverable not identified in authoritative reconciliation.","next_action":"No settlement action; retain sub-deliverable as UNKNOWN."},
-    {"id":"unmapped-receipt-1","issue":null,"title":"Unmapped founder_community receipt","reward_rtc":null,"status":"RECEIVED","accepted_rtc":null,"tx_ref":"d9cc7aebd0c7de3420da556409915721","received_rtc":1,"source":"wallet history","route":"wallet","blocker":"Originating opportunity UNKNOWN.","next_action":"Do not attribute without evidence."},
-    {"id":"unmapped-receipt-2","issue":null,"title":"Unmapped founder_community receipt","reward_rtc":null,"status":"RECEIVED","accepted_rtc":null,"tx_ref":"6848f7e22c06f3988017aba4525c8eaf","received_rtc":1,"source":"wallet history","route":"wallet","blocker":"Originating opportunity UNKNOWN.","next_action":"Do not attribute without evidence."}
+    {"id":"1618-two-accessibility-reports","issue":1618,"title":"BoTTube #1618 — two accepted accessibility reports","reward_rtc":2,"status":"RECEIVED","accepted_rtc":2,"tx_refs":["d9cc7aebd0c7de3420da556409915721","6848f7e22c06f3988017aba4525c8eaf"],"received_rtc":2,"source":"Scottcjn/bottube#1618 issuecomment-5469055179 + wallet history","route":"maintainer GitHub adjudication → wallet","blocker":"Individual 1 RTC subreport-to-hash ordering is not authoritative; only the aggregate 2 RTC settlement is mapped.","next_action":"None; settled."}
   ],
   "current_fixed_value_submitted": [
     ["402-completion",402,50,"GITHUB","ADJ"],
@@ -78,7 +79,6 @@
     ["293-epoch-runner-110",293,7,"RECORDED","ADJ"],
     ["1102-ui-localization-1",1102,3,"RECORDED","ADJ"],
     ["1102-ui-localization-2",1102,3,"RECORDED","ADJ"],
-    ["1618-accessibility",1618,1,"GMAIL","ADJ"],
     ["2143-js-sdk-example",2143,3,"RECORDED","ADJ"],
     ["13226-trashclaw",13226,7,"RECORDED","ADJ"],
     ["13226-feverdream-engine",13226,7,"RECORDED","ADJ"],
@@ -150,13 +150,12 @@
     "Recompute stage totals from row-level records after every accounting mutation."
   ],
   "unresolved_unknowns": [
-    "Origin of two separate 1 RTC founder_community wallet receipts remains UNKNOWN.",
     "Exact #254 sub-deliverable corresponding to the reconciled 1 RTC receipt remains UNKNOWN.",
     "No current ACCEPTED_QUEUED or PENDING_ON_CHAIN claim is verified.",
     "Liquid USD execution value of native RTC is not verified; published reference rates are not equivalent to cash proceeds."
   ],
   "decision": "HOLD_NEW_SPECULATIVE_BUILDING_AND_CONVERT_SUBMITTED_BACKLOG",
-  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 442 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
+  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 441 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
