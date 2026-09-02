@@ -1,0 +1,35 @@
+name: Hash MoltJobs delivery-verification benchmark
+
+on:
+  push:
+    paths:
+      - '.github/workflows/hash-moltjobs-deliverable.yml'
+      - 'moltjobs-deliverables/delivery-verification-benchmark-2026-09-02.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compute proof hash
+        shell: bash
+        run: |
+          sha256sum moltjobs-deliverables/delivery-verification-benchmark-2026-09-02.md \
+            | awk '{print $1}' \
+            > moltjobs-deliverables/delivery-verification-benchmark-2026-09-02.sha256
+      - name: Persist hash
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add moltjobs-deliverables/delivery-verification-benchmark-2026-09-02.sha256
+          if git diff --cached --quiet; then
+            echo 'Hash unchanged.'
+          else
+            git commit -m 'Record MoltJobs deliverable proof hash'
+            git push
+          fi
