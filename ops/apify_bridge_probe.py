@@ -1,3 +1,4 @@
+# Probe trigger: 2026-09-02 secure-state recheck
 import json
 import os
 import sys
