@@ -37,10 +37,7 @@ async fn browse_jobs_and_typed_filters_are_forwarded() {
         min_reward: Some(10.0),
     };
     assert_eq!(
-        filtered_client
-            .browse_jobs_filtered(&query)
-            .await
-            .unwrap()["jobs"][0]["job_id"],
+        filtered_client.browse_jobs_filtered(&query).await.unwrap()["jobs"][0]["job_id"],
         "job_1"
     );
     filtered.assert();
