@@ -1,6 +1,6 @@
 {
-  "schema_version": 9,
-  "as_of": "2026-09-02T18:08:00-04:00",
+  "schema_version": 10,
+  "as_of": "2026-09-02T19:04:00-04:00",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "record_schema": {
@@ -27,21 +27,22 @@
   ],
   "verified_totals": {
     "historical_fixed_value_submissions_rtc": 728,
-    "current_viable_fixed_value_submitted_rtc": 667,
+    "current_viable_fixed_value_submitted_rtc": 442,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "variable_value_submissions_count": 21,
     "16471_submitted_findings_count": 19,
-    "historical_fixed_value_removed_from_viable_rtc": 61,
+    "historical_fixed_value_removed_from_viable_rtc": 286,
     "actual_monetary_cost_usd": 0
   },
   "arithmetic_reconciliation": {
-    "historical_fixed_value_basis": "667 RTC current viable + 61 RTC terminal/superseded fixed-value #16601 work = 728 RTC historical fixed submissions.",
+    "historical_fixed_value_basis": "442 RTC current viable + 286 RTC terminal/superseded fixed-value work = 728 RTC historical fixed submissions.",
     "16601_history": "Seven historical submissions: A40 + B15 + C15 + C15 + D8 + D8 + D8 = 109 RTC.",
     "16601_viable": "A40 + earliest D8 = 48 RTC viable. B15 + two C30 + two later D16 = 61 RTC terminal/superseded.",
     "315_reconciliation": "#315 moved from HOLD to viable SUBMITTED at the authoritative current title rate of 30 RTC after genuine off-platform Wix distribution was published and the Live-URL evidence was sent to the maintainer on 2026-09-02. This is the same economic claim, not a duplicate.",
-    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were also inconsistent with the one-kit-per-type adjustment. Schema v8 also left #315 in HOLD after its distribution blocker was subsequently satisfied."
+    "685_reconciliation": "Current governing instruction allows exactly one active #685 economic claim: the Tier-1 Rust Agent Economy SDK at 50 RTC. Historical Tier-2 Grazer, PydanticAI, and OpenAI Agents submissions are retained only as SUPERSEDED history and contribute 0 RTC to current viable exposure.",
+    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were also inconsistent with the one-kit-per-type adjustment. Schema v8 left #315 in HOLD after its distribution blocker was satisfied. Schema v9 incorrectly retained three #685 Tier-2 claims totaling 225 RTC despite the later governing one-claim-only rule."
   },
   "received": [
     {"id":"402-kickoff","issue":402,"title":"Bounty Spec Linter + Reward Drift Detector — kickoff tranche","reward_rtc":50,"status":"RECEIVED","accepted_rtc":50,"tx_ref":"cc97fdad4bc3be6b51888fa0fa7ee40d","received_rtc":50,"source":"Scottcjn/rustchain-bounties#402 + wallet history","route":"maintainer GitHub adjudication → wallet","blocker":null,"next_action":"None; settled."},
@@ -59,9 +60,6 @@
     ["16601-type-d-n64-article",16601,8,"GMAIL","TYPE_D"],
     ["16601-type-a-full-production-kit-20260902",16601,40,"GMAIL","TYPE_A"],
     ["685-tier1-rust-sdk",685,50,"RECORDED","ADJ"],
-    ["685-tier2-grazer",685,75,"RECORDED","ADJ"],
-    ["685-tier2-pydanticai",685,75,"RECORDED","ADJ"],
-    ["685-tier2-openai-agents",685,75,"RECORDED","ADJ"],
     ["1575-registration",1575,3,"RECORDED","ADJ"],
     ["100-improvement-llms",100,10,"RECORDED","ADJ"],
     ["520-bug-hunter",520,2,"RECORDED","ADJ"],
@@ -127,8 +125,11 @@
     ["16601-type-c-dry-run-safety",16601,15,"REJECTED","Type C accepted to AInoAKARI for this round."],
     ["16601-type-d-article-1",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
     ["16601-type-d-article-2",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
-    ["747-verification-bot",747,null,"REJECTED","Competing claimant awarded."],
-    ["13954-visual-explainer",13954,10,"REJECTED","Awarded/saturated."],
+    ["685-tier2-grazer",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
+    ["685-tier2-pydanticai",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
+    ["685-tier2-openai-agents",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC and do not count this historical Tier-2 submission as active exposure."],
+    ["747-verification-bot",747,null,"HOLD","One canonical claim only. Historical competitor acceptance exists, but later maintainer activity kept #747 open; no authoritative rejection of @prins1bap-ui is currently booked."],
+    ["13954-visual-explainer",13954,10,"REJECTED","Awarded/saturated; dead for @prins1bap-ui."],
     ["docstring-current-rate",16683,null,"REJECTED","Repriced to 0.01 RTC/function and merge-required; economics fail."],
     ["100-discovery",100,2,"WITHDRAWN","Duplicate first-discovery claim withdrawn."]
   ],
@@ -155,7 +156,7 @@
     "Liquid USD execution value of native RTC is not verified; published reference rates are not equivalent to cash proceeds."
   ],
   "decision": "HOLD_NEW_SPECULATIVE_BUILDING_AND_CONVERT_SUBMITTED_BACKLOG",
-  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 667 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
+  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 442 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
