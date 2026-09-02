@@ -43,4 +43,4 @@ jobs:
             git push
           fi
 
-# Evidence refresh trigger: 2026-09-02T19:24-04:00
+# Evidence refresh trigger: 2026-09-02 conversion-sweep-final
