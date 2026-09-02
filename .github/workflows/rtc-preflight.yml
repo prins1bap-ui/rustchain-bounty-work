@@ -26,24 +26,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply deterministic scanner hotfixes
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('ops/rtc_preflight.py')
-          text = p.read_text()
-          buggy = '                title=title,\n                url=issue.get("html_url") or "",'
-          fixed = '                title=issue.get("title") or "",\n                url=issue.get("html_url") or "",'
-          if buggy in text:
-              text = text.replace(buggy, fixed, 1)
-              p.write_text(text)
-              print('fixed stale candidate-title binding')
-          elif fixed in text:
-              print('candidate-title binding already fixed')
-          else:
-              raise SystemExit('candidate-title binding pattern not found; fail closed')
-          PY
-
       - name: Validate preflight source
         run: |
           python3 -m py_compile ops/rtc_preflight.py
@@ -52,10 +34,9 @@ jobs:
       - name: Build authoritative candidate queue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 ops/rtc_preflight.py
-
-      - name: Normalize reward and opportunity records
-        run: python3 ops/rtc_queue_sanitize.py
+        run: |
+          python3 ops/rtc_preflight.py
+          python3 ops/rtc_queue_sanitize.py
 
       - name: Validate generated queue
         run: |
@@ -69,31 +50,62 @@ jobs:
           assert data.get('candidate_count') == len(data['candidates']), 'candidate count mismatch'
           assert 'Scottcjn-authored' in data.get('source', ''), 'queue is not definition-filtered'
           assert data.get('sanitizer', {}).get('policy_version') == 2, 'queue was not normalized'
-          assert all(float(c.get('reward_rtc') or 0) <= max(float(c.get('reward_title_rtc') or 0), float(c.get('reward_body_rtc') or 0)) for c in data['candidates'])
-          assert len({(c.get('repository'), c.get('number'), c.get('title')) for c in data['candidates']}) == len(data['candidates']), 'duplicate candidate identity/title tuples'
-          print(f"validated {data['candidate_count']} candidates; final_verify={data.get('final_verify_count', 0)}")
+          assert all(
+              float(c.get('reward_rtc') or 0) <= max(
+                  float(c.get('reward_title_rtc') or 0),
+                  float(c.get('reward_body_rtc') or 0),
+              )
+              for c in data['candidates']
+          ), 'reward inflation detected'
+          identities = {(c.get('repository'), c.get('number')) for c in data['candidates']}
+          assert len(identities) == len(data['candidates']), 'duplicate candidate identities'
+          assert all(c.get('title') for c in data['candidates']), 'blank candidate title'
+          print(
+              f"validated {data['candidate_count']} candidates; "
+              f"final_verify={data.get('final_verify_count', 0)}"
+          )
           PY
 
-      - name: Persist latest queue and scanner fixes in repository
+      - name: Persist latest queue without merge conflicts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           git config user.name "rtc-preflight[bot]"
           git config user.email "rtc-preflight[bot]@users.noreply.github.com"
-          git add ops/rtc_preflight.py artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
-          if git diff --cached --quiet; then
-            echo "Queue and scanner unchanged"
-            exit 0
-          fi
 
-          git commit -m "Update RTC preflight queue and scanner fixes [skip ci]"
+          regenerate() {
+            python3 -m py_compile ops/rtc_preflight.py
+            python3 -m py_compile ops/rtc_queue_sanitize.py
+            python3 ops/rtc_preflight.py
+            python3 ops/rtc_queue_sanitize.py
+          }
 
           for attempt in 1 2 3; do
-            git pull --rebase origin main
+            # Generated queues are disposable. Never rebase/merge them against a
+            # concurrently generated queue because that manufactures conflicts.
+            # Reset to the latest authoritative main, regenerate, then try one
+            # fast-forward commit. If another writer wins the race, repeat.
+            git fetch origin main
+            git reset --hard origin/main
+            regenerate
+            git add artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
+
+            if git diff --cached --quiet; then
+              echo "Queue already current"
+              exit 0
+            fi
+
+            git commit -m "Update RTC preflight candidate queue [skip ci]"
             if git push origin HEAD:main; then
               exit 0
             fi
+
+            echo "Concurrent main update detected; regenerating from latest main (attempt $attempt/3)"
             sleep $((attempt * 2))
           done
-          echo "Failed to persist queue after 3 race-safe attempts" >&2
+
+          echo "Failed to persist queue after 3 clean regeneration attempts" >&2
           exit 1
 
       - name: Upload candidate queue
