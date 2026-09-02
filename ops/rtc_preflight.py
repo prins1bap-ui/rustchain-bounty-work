@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Build a fail-closed, cross-repository RTC opportunity queue.
 
-This is triage only. It never promotes accounting stages and never treats an
+Triage only. This script NEVER promotes accounting stages and NEVER treats an
 advertised reward as earned. It searches authoritative Scottcjn-created issues,
-filters claimant/submission noise, detects reward drift and route constraints,
-and ranks survivors by collectible RTC per estimated execution hour.
+filters claimant/payment/admin noise, parses rewards conservatively, detects
+route/safety constraints, and ranks survivors by collectible RTC per estimated
+execution hour.
 """
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import time
@@ -22,81 +24,154 @@ API = "https://api.github.com"
 OWNER = "Scottcjn"
 USER_LOGIN = "prins1bap-ui"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
-UA = "prins1bap-ui-rtc-preflight-v3"
+UA = "prins1bap-ui-rtc-preflight-v4"
 
-# Economic lanes we already touched. Repository is part of the key so unrelated
-# same-number issues are never suppressed accidentally.
+# Economic lanes already touched by this claimant. Repository is part of the key
+# so same-number issues in different repos remain distinct.
 OWN_WORK: set[tuple[str, int]] = {
-    ("rustchain-bounties", 100), ("rustchain-bounties", 254),
+    ("rustchain-bounties", 71), ("rustchain-bounties", 100),
+    ("rustchain-bounties", 254), ("rustchain-bounties", 256),
     ("rustchain-bounties", 293), ("rustchain-bounties", 315),
     ("rustchain-bounties", 398), ("rustchain-bounties", 402),
     ("rustchain-bounties", 520), ("rustchain-bounties", 685),
     ("rustchain-bounties", 747), ("rustchain-bounties", 1102),
-    ("rustchain-bounties", 13226), ("rustchain-bounties", 13954),
-    ("rustchain-bounties", 14014), ("rustchain-bounties", 1524),
+    ("rustchain-bounties", 1113), ("rustchain-bounties", 1575),
     ("rustchain-bounties", 1618), ("rustchain-bounties", 2143),
-    ("rustchain-bounties", 2784), ("rustchain-bounties", 12442),
-    ("rustchain-bounties", 12443), ("rustchain-bounties", 12444),
-    ("rustchain-bounties", 16601), ("Rustchain", 29),
+    ("rustchain-bounties", 2271), ("rustchain-bounties", 2784),
+    ("rustchain-bounties", 12442), ("rustchain-bounties", 12443),
+    ("rustchain-bounties", 12444), ("rustchain-bounties", 13226),
+    ("rustchain-bounties", 13949), ("rustchain-bounties", 13954),
+    ("rustchain-bounties", 14014), ("rustchain-bounties", 1524),
+    ("rustchain-bounties", 16497), ("rustchain-bounties", 16601),
+    ("Rustchain", 29),
 }
 
-# Titles that are claimant/payment/admin records rather than bounty definitions.
-NON_DEFINITION_TITLE = re.compile(
-    r"^\s*(?:\[(?:claim|bounty claim|submission|utxo-bug|wallet)\]|"
-    r"claim\s*:|bounty claim\b|rtc bounty claim\b|pr review\b|"
-    r"wallet transfer request\b|agent economy delivery review request\b)", re.I)
+# Known non-economic/non-actionable lanes from prior authoritative adjudication.
+KNOWN_SKIP: set[tuple[str, int]] = {
+    ("Rustchain", 343),  # maintainer stated contributor ladder is not claimable
+    ("rustchain-bounties", 1113),  # exact all-wallet dataset not publicly complete
+}
+
+# Hard reject: these are records/claims/payout administration, not definitions.
+HARD_NON_DEFINITION_TITLE = re.compile(
+    r"^\s*(?:"
+    r"\[(?:claim|bounty claim|submission|wallet|utxo-bug)\]|"
+    r"claim\s*:|bounty claim\b|rtc bounty claim\b|"
+    r"pr review\b|wallet transfer request\b|"
+    r"agent economy delivery review request\b|contributor registration\b|"
+    r"payout request\b|payment request\b|delivery review request\b"
+    r")",
+    re.I,
+)
+SOFT_NON_DEFINITION_TITLE = re.compile(
+    r"^\s*(?:\[tracking\]|tracking\b|announcement\b|status\b|ledger\b)", re.I
+)
+DEFINITION_TITLE = re.compile(
+    r"\b(?:bounty|micro[- ]?bounty|easy bounty|achievement|onboard|tool\s*:?)\b",
+    re.I,
+)
+DEFINITION_BODY = re.compile(
+    r"(?im)^\s*(?:[-*]\s*)?\*{0,2}(?:current\s+)?"
+    r"(?:reward|payout|bounty amount|compensation)\*{0,2}\s*[:=]\s*"
+    r"\*{0,2}\d+(?:\.\d+)?\s*RTC\b"
+)
+
 OFFENSIVE = re.compile(
     r"\b(red[- ]?team|exploit|vulnerab(?:ility|ility hunt)|bug bounty|security season|"
     r"adversarial|double[- ]?spend|auth bypass|privilege escalation|csrf|xss|rce|"
-    r"replay attack|break(?:ing)? security)\b", re.I)
+    r"replay attack|break(?:ing)? security)\b",
+    re.I,
+)
 DEFENSIVE = re.compile(
     r"\b(harden|hardening|remediation|secure coding|validation|anti[- ]?spoof|"
-    r"regression test|defensive|sanitize|least privilege|reliability)\b", re.I)
+    r"regression test|defensive|sanitize|least privilege|reliability)\b",
+    re.I,
+)
 FUND = re.compile(
     r"\b(liquidity|tip(?:ping)?|donat(?:e|ion)|swap|bridge|escrow|staking?|x402|"
-    r"send rtc|transfer rtc|funded wallet|real rtc|payment transaction)\b", re.I)
+    r"send rtc|transfer rtc|funded wallet|real rtc|payment transaction)\b",
+    re.I,
+)
 EXTERNAL = re.compile(
-    r"\b(youtube|video post|article|blog|reddit|twitter|mastodon|dev\.to|medium|"
-    r"hashnode|publication|ambassador|referral|hacker news|social media|subscriber|"
-    r"discord|moltbook|crates\.io|npm publish|directory listing)\b", re.I)
+    r"\b(youtube|video post|article|blog|reddit|twitter|\bx\b post|mastodon|dev\.to|"
+    r"medium|hashnode|publication|ambassador|referral|hacker news|social media|"
+    r"subscriber|discord|moltbook|crates\.io|npm publish|directory listing|"
+    r"upvote|star\s+\d|follow @|toolpilot|saascity)\b",
+    re.I,
+)
 HARDWARE = re.compile(
     r"\b(real hardware|physical hardware|powerpc|sparc|risc[- ]?v|mips|s390x|"
     r"mac os 9|amiga|dreamcast|raspberry pi|vintage hardware|run the miner|"
-    r"run a full node|playtest|fps benchmark|hardware report)\b", re.I)
+    r"run a full node|playtest|fps benchmark|hardware report|sophia-edge-node)\b",
+    re.I,
+)
 ELIGIBILITY = re.compile(
     r"\b(maintainer[- ]nominated|nomination required|invite[- ]only|invitation only|"
     r"selected contributors?|first[- ]right[- ]of[- ]claim|priority claimant|"
-    r"pre[- ]approved|approved applicants?)\b", re.I)
+    r"pre[- ]approved|approved applicants?)\b",
+    re.I,
+)
 MERGE_GATED = re.compile(
     r"\b(pay(?:s|ment)? on merge|payout on merge|rewarded on merge|must be merged|"
-    r"merged pr required|merge required)\b", re.I)
+    r"merged pr required|merge required|first merged pr)\b",
+    re.I,
+)
 PR_ROUTE = re.compile(
     r"\b(open|submit|send|create)\s+(?:a\s+)?(?:pull request|PR)\b|"
-    r"\bPRs?\s+(?:go|against|to)\b|\bpull request to\b|\bdeliverable:\s*a PR\b", re.I)
+    r"\bPRs?\s+(?:go|against|to)\b|\bpull request to\b|\bdeliverable:\s*a PR\b",
+    re.I,
+)
 STANDALONE_ROUTE = re.compile(
     r"\b(standalone repo|standalone repository|submit as standalone|"
-    r"open source on github|public repository)\b", re.I)
+    r"open source on github|public repository)\b",
+    re.I,
+)
 EMAIL_ROUTE = re.compile(
-    r"\b(sophia\.eagent@gmail\.com|submit by email|email submission|email the deliverable)\b", re.I)
+    r"\b(sophia\.eagent@gmail\.com|submit by email|email submission|"
+    r"email the deliverable)\b",
+    re.I,
+)
+PROGRAM_TRACKER = re.compile(
+    r"\b(program|tracking|ladder|community gate|pool-wide|season-wide)\b", re.I
+)
 
 INTENT_SIGNAL = re.compile(
-    r"\b(claim(?:ing)?|i(?:'d| would) like to work|/apply|starting work|assign me)\b", re.I)
+    r"\b(claim(?:ing)?|i(?:'d| would) like to work|/apply|starting work|assign me)\b",
+    re.I,
+)
 COMPLETED_SIGNAL = re.compile(
-    r"\b(completed|implemented|submitted|delivered|ready for review|implementation complete|"
-    r"pull request|PR\s*[:#]|PR submitted)\b", re.I)
+    r"\b(completed|implemented|submitted|delivered|ready for review|"
+    r"implementation complete|pull request|PR\s*[:#]|PR submitted)\b",
+    re.I,
+)
 AWARD_SIGNAL = re.compile(
-    r"\b(accepted|approved|merged|awarded|queued|paid|payout queued|rewarded)\b", re.I)
+    r"\b(accepted|approved|merged|awarded|queued|paid|payout queued|rewarded)\b",
+    re.I,
+)
 
-TITLE_RANGE = re.compile(r"\b(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)\s*RTC\b", re.I)
+# Negative lookbehind prevents '#520 - 3 RTC' from being misread as a 520 RTC range.
+TITLE_RANGE = re.compile(
+    r"(?<![#\d])(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)\s*RTC\b",
+    re.I,
+)
 TITLE_UPTO = re.compile(r"\bup to\s+(\d+(?:\.\d+)?)\s*RTC\b", re.I)
 RTC_VALUE = re.compile(r"\b(\d+(?:\.\d+)?)\s*RTC\b", re.I)
 BODY_DIRECT = [
-    re.compile(r"\b(?:reward|payout|bounty)\s*(?:amount)?\s*[:=]\s*\*{0,2}(\d+(?:\.\d+)?)\s*RTC\b", re.I),
-    re.compile(r"^\s*#+\s+.*?\b(\d+(?:\.\d+)?)\s*RTC\b", re.I | re.M),
+    re.compile(
+        r"(?im)^\s*(?:[-*]\s*)?\*{0,2}(?:current\s+)?"
+        r"(?:reward|payout|bounty amount|compensation)\*{0,2}\s*[:=]\s*"
+        r"\*{0,2}(\d+(?:\.\d+)?)\s*RTC\b"
+    ),
+    re.compile(
+        r"(?im)^\s*#+\s*(?:current\s+)?(?:reward|payout|bounty amount|compensation)\b"
+        r"[^\n]{0,40}?\b(\d+(?:\.\d+)?)\s*RTC\b"
+    ),
 ]
 POOL_NEAR_VALUE = re.compile(
-    r"\b(\d+(?:\.\d+)?)\s*RTC\b.{0,24}\bpool\b|"
-    r"\bpool\b.{0,24}\b(\d+(?:\.\d+)?)\s*RTC\b", re.I | re.S)
+    r"\b\d+(?:\.\d+)?\s*RTC\b.{0,28}\bpool\b|"
+    r"\bpool\b.{0,28}\b\d+(?:\.\d+)?\s*RTC\b",
+    re.I | re.S,
+)
 
 
 def api(path: str, params: dict | None = None):
@@ -116,13 +191,14 @@ def repo_name(issue: dict) -> str:
 
 
 def reward_from_title(title: str) -> float:
-    match = TITLE_RANGE.search(title or "")
+    text = title or ""
+    match = TITLE_RANGE.search(text)
     if match:
         return max(float(match.group(1)), float(match.group(2)))
-    match = TITLE_UPTO.search(title or "")
+    match = TITLE_UPTO.search(text)
     if match:
         return float(match.group(1))
-    match = RTC_VALUE.search(title or "")
+    match = RTC_VALUE.search(text)
     return float(match.group(1)) if match else 0.0
 
 
@@ -134,17 +210,17 @@ def reward_from_body(body: str) -> float:
             value = float(raw if isinstance(raw, str) else next(v for v in raw if v))
             if 0 < value <= 1000:
                 values.append(value)
-    # The opening block often contains a corrected reward while the title is stale.
-    for line in text.splitlines()[:12]:
-        if "pool" in line.lower():
-            continue
-        match = RTC_VALUE.search(line)
-        if match:
-            value = float(match.group(1))
-            if 0 < value <= 1000:
-                values.append(value)
-                break
     return max(values, default=0.0)
+
+
+def is_definition(title: str, body: str) -> bool:
+    if HARD_NON_DEFINITION_TITLE.search(title):
+        return False
+    title_signal = bool(DEFINITION_TITLE.search(title) and RTC_VALUE.search(title))
+    body_signal = bool(DEFINITION_BODY.search(body or ""))
+    if SOFT_NON_DEFINITION_TITLE.search(title) and not title_signal:
+        return False
+    return title_signal or body_signal
 
 
 @dataclass
@@ -156,34 +232,47 @@ class Competition:
     comments_checked: int = 0
 
 
-def competition(repo: str, number: int) -> Competition:
-    try:
-        comments = api(f"/repos/{OWNER}/{repo}/issues/{number}/comments", {"per_page": 100})
-    except Exception:
-        return Competition(status="unknown")
+def competition(repo: str, number: int, comment_count: int) -> Competition:
+    if comment_count <= 0:
+        return Competition(status="ok")
     stages: dict[str, int] = {}
     maintainer_awards = 0
-    for comment in comments:
-        login = ((comment.get("user") or {}).get("login") or "").strip()
-        if not login or login.lower() == USER_LOGIN.lower():
-            continue
-        body = comment.get("body") or ""
-        if login.lower() == OWNER.lower() and AWARD_SIGNAL.search(body):
-            maintainer_awards += 1
-        stage = 2 if COMPLETED_SIGNAL.search(body) else (1 if INTENT_SIGNAL.search(body) else 0)
-        if stage:
-            stages[login.lower()] = max(stage, stages.get(login.lower(), 0))
+    comments_checked = 0
+    pages = min(2, max(1, math.ceil(comment_count / 100)))
+    try:
+        for page in range(1, pages + 1):
+            comments = api(
+                f"/repos/{OWNER}/{repo}/issues/{number}/comments",
+                {"per_page": 100, "page": page},
+            )
+            comments_checked += len(comments)
+            for comment in comments:
+                login = ((comment.get("user") or {}).get("login") or "").strip()
+                if not login or login.lower() == USER_LOGIN.lower():
+                    continue
+                body = comment.get("body") or ""
+                if login.lower() == OWNER.lower() and AWARD_SIGNAL.search(body):
+                    maintainer_awards += 1
+                stage = 2 if COMPLETED_SIGNAL.search(body) else (
+                    1 if INTENT_SIGNAL.search(body) else 0
+                )
+                if stage:
+                    stages[login.lower()] = max(stage, stages.get(login.lower(), 0))
+            if len(comments) < 100:
+                break
+    except Exception:
+        return Competition(status="unknown", comments_checked=comments_checked)
     return Competition(
         status="ok",
         intent_users=sum(v == 1 for v in stages.values()),
         completed_users=sum(v >= 2 for v in stages.values()),
         maintainer_awards=maintainer_awards,
-        comments_checked=len(comments),
+        comments_checked=comments_checked,
     )
 
 
 def discover_open_rtc_issues() -> list[dict]:
-    """Search Scottcjn-owned repos but retain only Scottcjn-authored definitions."""
+    """Search Scottcjn-owned repos and retain only Scottcjn-authored definitions."""
     seen: dict[tuple[str, int], dict] = {}
     queries = (
         f"user:{OWNER} author:{OWNER} is:issue is:open RTC",
@@ -191,9 +280,16 @@ def discover_open_rtc_issues() -> list[dict]:
     )
     for query in queries:
         for page in range(1, 11):
-            payload = api("/search/issues", {
-                "q": query, "sort": "updated", "order": "desc", "per_page": 100, "page": page,
-            })
+            payload = api(
+                "/search/issues",
+                {
+                    "q": query,
+                    "sort": "updated",
+                    "order": "desc",
+                    "per_page": 100,
+                    "page": page,
+                },
+            )
             items = payload.get("items") or []
             for issue in items:
                 creator = ((issue.get("user") or {}).get("login") or "")
@@ -202,22 +298,23 @@ def discover_open_rtc_issues() -> list[dict]:
                 repo = repo_name(issue)
                 if creator.lower() != OWNER.lower() or not repo:
                     continue
-                if NON_DEFINITION_TITLE.search(title):
-                    continue
-                if "rtc" not in f"{title}\n{body}".lower() and "bounty" not in title.lower():
+                if not is_definition(title, body):
                     continue
                 seen[(repo, int(issue["number"]))] = issue
             if len(items) < 100:
                 break
-            time.sleep(0.05)
+            time.sleep(0.04)
     return list(seen.values())
 
 
 def route_and_flags(repo: str, number: int, title: str, body: str) -> tuple[str, list[str]]:
     text = f"{title}\n{body}"
     flags: list[str] = []
-    if (repo, number) in OWN_WORK:
+    key = (repo, number)
+    if key in OWN_WORK:
         flags.append("existing-user-work")
+    if key in KNOWN_SKIP:
+        flags.append("known-nonactionable")
     if ELIGIBILITY.search(text):
         flags.append("eligibility-gated")
     offensive = bool(OFFENSIVE.search(title))
@@ -236,6 +333,8 @@ def route_and_flags(repo: str, number: int, title: str, body: str) -> tuple[str,
         flags.append("merge-gated")
     if POOL_NEAR_VALUE.search(text):
         flags.append("pool-or-program-reward")
+    if PROGRAM_TRACKER.search(title):
+        flags.append("program-or-tracker")
 
     if "merge-gated" in flags:
         route = "merge-gated"
@@ -254,13 +353,25 @@ def route_and_flags(repo: str, number: int, title: str, body: str) -> tuple[str,
 
 def effort_minutes(title: str, body: str) -> int:
     text = f"{title}\n{body}".lower()
-    if any(x in text for x in ("mobile app", "browser extension", "full stack", "n64", "emulator")):
+    if any(x in text for x in (
+        "mobile app", "browser extension", "full stack", "n64", "emulator",
+        "real-time 3d", "viewer injection", "streaming choreography",
+    )):
         return 360
-    if any(x in text for x in ("integration", "sdk", "mcp server", "wallet", "miner client", "port ")):
+    if any(x in text for x in (
+        "integration", "sdk", "mcp server", "wallet", "miner client", "port ",
+        "web prompting engine", "interface implementation",
+    )):
         return 180
-    if any(x in text for x in ("audit", "analysis", "research", "report", "documentation", "docs", "readme")):
+    if any(x in text for x in (
+        "audit", "analysis", "research", "report", "documentation", "docs", "readme",
+        "design critique", "specification", "spec + reference",
+    )):
         return 75
-    if any(x in text for x in ("fix", "bug", "test", "script", "ci", "accessibility", "localization")):
+    if any(x in text for x in (
+        "fix", "bug", "test", "script", "ci", "accessibility", "localization",
+        "prompt preset", "error handling",
+    )):
         return 90
     return 120
 
@@ -273,25 +384,41 @@ def freshness_factor(updated_at: str | None) -> float:
         age = max(0.0, (datetime.now(timezone.utc) - updated).total_seconds() / 86400)
     except Exception:
         return 0.75
-    return 1.0 if age <= 14 else 0.9 if age <= 45 else 0.75 if age <= 120 else 0.6
+    if age <= 14:
+        return 1.0
+    if age <= 45:
+        return 0.9
+    if age <= 120:
+        return 0.75
+    return 0.6
 
 
 def route_factor(route: str) -> float:
     return {
-        "standalone": 1.0, "email-explicit": 0.95,
-        "email-fallback-candidate": 0.70, "unknown": 0.45,
-        "pr-only": 0.20, "merge-gated": 0.08,
+        "standalone": 1.0,
+        "email-explicit": 0.95,
+        "email-fallback-candidate": 0.70,
+        "unknown": 0.45,
+        "pr-only": 0.20,
+        "merge-gated": 0.08,
     }.get(route, 0.40)
 
 
 def competition_factor(comp: Competition) -> float:
-    if comp.status != "ok": return 0.55
-    if comp.maintainer_awards: return 0.05
-    if comp.completed_users >= 3: return 0.12
-    if comp.completed_users == 2: return 0.22
-    if comp.completed_users == 1: return 0.50
-    if comp.intent_users >= 5: return 0.65
-    if comp.intent_users >= 2: return 0.80
+    if comp.status != "ok":
+        return 0.55
+    if comp.maintainer_awards:
+        return 0.05
+    if comp.completed_users >= 3:
+        return 0.12
+    if comp.completed_users == 2:
+        return 0.22
+    if comp.completed_users == 1:
+        return 0.50
+    if comp.intent_users >= 5:
+        return 0.65
+    if comp.intent_users >= 2:
+        return 0.80
     return 1.0
 
 
@@ -310,6 +437,7 @@ class Candidate:
     competitor_completed: int
     maintainer_awards: int
     competition_status: str
+    comments_checked: int
     route: str
     flags: list[str]
     effort_minutes: int
@@ -326,31 +454,62 @@ def main() -> int:
         number = int(issue["number"])
         title = issue.get("title") or ""
         body = issue.get("body") or ""
-        title_reward, body_reward = reward_from_title(title), reward_from_body(body)
-        reward = max(title_reward, body_reward)
+        title_reward = reward_from_title(title)
+        body_reward = reward_from_body(body)
+        # Fail closed: a non-zero title reward controls ranking. A different body
+        # reward becomes a verification conflict instead of silently inflating EV.
+        reward = title_reward if title_reward > 0 else body_reward
         if reward <= 0:
             continue
-        conflict = title_reward > 0 and body_reward > 0 and abs(title_reward - body_reward) > 0.01
+        conflict = (
+            title_reward > 0
+            and body_reward > 0
+            and abs(title_reward - body_reward) > 0.01
+        )
         route, flags = route_and_flags(repo, number, title, body)
         effort = effort_minutes(title, body)
-        raw_ev = reward * route_factor(route) * freshness_factor(issue.get("updated_at")) / max(1.0, effort / 60)
-        preliminary.append((raw_ev, issue, route, flags, title_reward, body_reward, conflict, effort))
+        raw_factor = route_factor(route) * freshness_factor(issue.get("updated_at"))
+        if conflict:
+            raw_factor *= 0.70
+        if "pool-or-program-reward" in flags:
+            raw_factor *= 0.70
+        if "program-or-tracker" in flags:
+            raw_factor *= 0.60
+        raw_ev = reward * raw_factor / max(1.0, effort / 60)
+        preliminary.append(
+            (raw_ev, issue, route, flags, title_reward, body_reward, conflict, effort)
+        )
     preliminary.sort(key=lambda row: row[0], reverse=True)
 
     candidates: list[Candidate] = []
-    # Fetch expensive comment history only for the candidates most likely to matter.
+    # Expensive comment history is limited to the highest-EV definitions. Two
+    # pages are enough to avoid the old first-100-comments blind spot without
+    # turning every run into a rate-limit bonfire.
     for index, (_, issue, route, flags, title_reward, body_reward, conflict, effort) in enumerate(preliminary):
-        repo, number = repo_name(issue), int(issue["number"])
-        reward = max(title_reward, body_reward)
-        comp = competition(repo, number) if index < 160 else Competition(status="unknown")
+        repo = repo_name(issue)
+        number = int(issue["number"])
+        reward = title_reward if title_reward > 0 else body_reward
+        comment_count = int(issue.get("comments") or 0)
+        comp = (
+            competition(repo, number, comment_count)
+            if index < 100
+            else Competition(status="unknown")
+        )
         flagset = set(flags)
         factor = route_factor(route) * competition_factor(comp) * freshness_factor(issue.get("updated_at"))
-        if conflict: factor *= 0.70
-        if "pool-or-program-reward" in flagset: factor *= 0.75
-        if "defensive-security" in flagset: factor *= 0.75
+        if conflict:
+            factor *= 0.70
+        if "pool-or-program-reward" in flagset:
+            factor *= 0.70
+        if "program-or-tracker" in flagset:
+            factor *= 0.60
+        if "defensive-security" in flagset:
+            factor *= 0.75
         ev_index = round(reward * factor / max(1.0, effort / 60), 3)
 
-        if "existing-user-work" in flagset:
+        if "known-nonactionable" in flagset:
+            decision = "EXCLUDE_KNOWN"
+        elif "existing-user-work" in flagset:
             decision = "OWN_WORK_RECHECK"
         elif {"offensive-security", "fund-movement"} & flagset:
             decision = "EXCLUDE"
@@ -370,60 +529,107 @@ def main() -> int:
             decision = "VERIFY_SAFETY"
         elif comp.completed_users == 1:
             decision = "VERIFY_COMPETITION"
-        elif "pool-or-program-reward" in flagset:
+        elif "pool-or-program-reward" in flagset or "program-or-tracker" in flagset:
             decision = "VERIFY_REWARD"
         else:
             decision = "FINAL_VERIFY"
 
-        candidates.append(Candidate(
-            repository=repo, number=number, title=issue.get("title") or "",
-            url=issue.get("html_url") or "", reward_title_rtc=title_reward,
-            reward_body_rtc=body_reward, reward_rtc=reward, reward_conflict=conflict,
-            comments=int(issue.get("comments") or 0), competitor_intent=comp.intent_users,
-            competitor_completed=comp.completed_users, maintainer_awards=comp.maintainer_awards,
-            competition_status=comp.status, route=route, flags=flags,
-            effort_minutes=effort, ev_index=ev_index, decision=decision,
-            updated_at=issue.get("updated_at"),
-        ))
+        candidates.append(
+            Candidate(
+                repository=repo,
+                number=number,
+                title=title,
+                url=issue.get("html_url") or "",
+                reward_title_rtc=title_reward,
+                reward_body_rtc=body_reward,
+                reward_rtc=reward,
+                reward_conflict=conflict,
+                comments=comment_count,
+                competitor_intent=comp.intent_users,
+                competitor_completed=comp.completed_users,
+                maintainer_awards=comp.maintainer_awards,
+                competition_status=comp.status,
+                comments_checked=comp.comments_checked,
+                route=route,
+                flags=flags,
+                effort_minutes=effort,
+                ev_index=ev_index,
+                decision=decision,
+                updated_at=issue.get("updated_at"),
+            )
+        )
 
     priority = {
-        "FINAL_VERIFY": 10, "VERIFY_REWARD": 9, "VERIFY_ROUTE": 8,
-        "VERIFY_COMPETITION": 7, "VERIFY_SAFETY": 6, "DEFER_ROUTE": 5,
-        "DEFER_SATURATED": 4, "OWN_WORK_RECHECK": 3,
-        "BLOCKED_USER_OR_EXTERNAL": 2, "EXCLUDE": 0,
+        "FINAL_VERIFY": 10,
+        "VERIFY_REWARD": 9,
+        "VERIFY_ROUTE": 8,
+        "VERIFY_COMPETITION": 7,
+        "VERIFY_SAFETY": 6,
+        "DEFER_ROUTE": 5,
+        "DEFER_SATURATED": 4,
+        "OWN_WORK_RECHECK": 3,
+        "BLOCKED_USER_OR_EXTERNAL": 2,
+        "EXCLUDE_KNOWN": 1,
+        "EXCLUDE": 0,
     }
-    candidates.sort(key=lambda c: (priority.get(c.decision, 1), c.ev_index, c.reward_rtc), reverse=True)
+    candidates.sort(
+        key=lambda c: (priority.get(c.decision, 1), c.ev_index, c.reward_rtc),
+        reverse=True,
+    )
 
     generated_at = datetime.now(timezone.utc).isoformat()
     Path("artifacts").mkdir(exist_ok=True)
     payload = {
         "generated_at": generated_at,
-        "source": f"GitHub search of {OWNER}-authored open RTC/bounty definitions across {OWNER}-owned repositories",
-        "accounting_note": "Triage only. No item here is earned, submitted, accepted, or received RTC.",
+        "source": (
+            f"GitHub search of {OWNER}-authored open RTC/bounty definitions "
+            f"across {OWNER}-owned repositories"
+        ),
+        "accounting_note": (
+            "Triage only. No item here is earned, submitted, accepted, or received RTC."
+        ),
         "candidate_count": len(candidates),
         "final_verify_count": sum(c.decision == "FINAL_VERIFY" for c in candidates),
         "candidates": [asdict(c) for c in candidates],
     }
-    Path("artifacts/rtc-candidate-queue.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    Path("artifacts/rtc-candidate-queue.json").write_text(
+        json.dumps(payload, indent=2), encoding="utf-8"
+    )
 
     lines = [
-        "# RTC Candidate Queue", "", f"Generated: `{generated_at}`", "",
-        "Triage only. `FINAL_VERIFY` still requires live authoritative inspection before work.", "",
+        "# RTC Candidate Queue",
+        "",
+        f"Generated: `{generated_at}`",
+        "",
+        "Triage only. `FINAL_VERIFY` still requires live authoritative inspection before work.",
+        "",
         "| Decision | EV index | RTC | Repo/# | Route | Competitors I/C/A | Effort | Reward source | Title |",
         "|---|---:|---:|---|---|---:|---:|---|---|",
     ]
     for c in candidates[:200]:
-        reward_source = f"title {c.reward_title_rtc:g} / body {c.reward_body_rtc:g}" if c.reward_conflict else ("body" if c.reward_body_rtc > c.reward_title_rtc else "title")
+        reward_source = (
+            f"title {c.reward_title_rtc:g} / body {c.reward_body_rtc:g}"
+            if c.reward_conflict
+            else ("body" if c.reward_title_rtc <= 0 else "title")
+        )
         lines.append(
-            f"| {c.decision} | {c.ev_index:g} | {c.reward_rtc:g} | [{c.repository}#{c.number}]({c.url}) | "
-            f"{c.route} | {c.competitor_intent}/{c.competitor_completed}/{c.maintainer_awards} | "
+            f"| {c.decision} | {c.ev_index:g} | {c.reward_rtc:g} | "
+            f"[{c.repository}#{c.number}]({c.url}) | {c.route} | "
+            f"{c.competitor_intent}/{c.competitor_completed}/{c.maintainer_awards} | "
             f"{c.effort_minutes}m | {reward_source} | {c.title.replace('|', '/')} |"
         )
-    Path("artifacts/rtc-candidate-queue.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    Path("artifacts/rtc-candidate-queue.md").write_text(
+        "\n".join(lines) + "\n", encoding="utf-8"
+    )
 
-    print(f"ranked {len(candidates)} authoritative RTC definitions across Scottcjn-owned repositories")
+    print(
+        f"ranked {len(candidates)} authoritative RTC definitions across Scottcjn-owned repositories"
+    )
     for c in [x for x in candidates if x.decision == "FINAL_VERIFY"][:20]:
-        print(f"FINAL_VERIFY {c.repository}#{c.number}: {c.reward_rtc:g} RTC ev={c.ev_index:g} route={c.route} completed={c.competitor_completed} {c.title}")
+        print(
+            f"FINAL_VERIFY {c.repository}#{c.number}: {c.reward_rtc:g} RTC "
+            f"ev={c.ev_index:g} route={c.route} completed={c.competitor_completed} {c.title}"
+        )
     return 0
 
 
