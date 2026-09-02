@@ -1,19 +1,19 @@
 {
-  "schema_version": 3,
-  "as_of": "2026-09-02T12:22:00-04:00",
+  "schema_version": 4,
+  "as_of": "2026-09-02T14:25:39-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
-  "mode_reason": "607 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion is the binding constraint",
+  "mode_reason": "605 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion and settlement remain the binding constraints",
   "verified_totals": {
-    "fixed_value_viable_pipeline_rtc": 700,
+    "fixed_value_viable_pipeline_rtc": 698,
     "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 607,
+    "fixed_value_submitted_rtc": 605,
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
     "variable_value_submissions_excluded_from_fixed_totals": true
   },
   "conversion_metrics": {
-    "submitted_to_accepted_ratio": 6.5269,
+    "submitted_to_accepted_ratio": 6.5054,
     "accepted_to_pending_ratio": 0.0,
     "pending_to_received_ratio": null,
     "binding_constraint": "maintainer adjudication and settlement",
@@ -22,7 +22,7 @@
     "additional_rtc_required_beyond_current_accepted_backlog_to_hit_500": 407
   },
   "rolling_24h_scoreboard": {
-    "window_as_of": "2026-09-02T12:22:00-04:00",
+    "window_as_of": "2026-09-02T14:25:39-04:00",
     "new_fixed_value_submitted_rtc_verified_minimum": 10,
     "new_variable_value_submissions": "#16471 findings 14 and 15 submitted; no RTC booked until confirmed",
     "new_accepted_queued_rtc": 0,
@@ -34,24 +34,26 @@
     "note": "The fixed-value submitted figure is a verified minimum reconstructed from timestamped ledger notes; no unverified older submissions were assigned to the rolling window. The 500 RTC target is not presently supported by authoritative stage evidence."
   },
   "accepted_queued": [
-    ["71-accepted-25",71,25,"Sophia 2026-08-29 queue confirmation"],
-    ["398-step1",398,10,"Sophia 2026-08-29 accepted/queued"],
-    ["398-step2",398,7,"Sophia 2026-08-29 reconciliation"],
-    ["254-accepted-action",254,1,"Sophia 2026-08-29 reconciliation"],
-    ["402-kickoff",402,50,"Maintainer Builder grant kickoff queued"]
+    ["71-accepted-25", 71, 25, "Sophia 2026-08-29 queue confirmation"],
+    ["398-step1", 398, 10, "Sophia 2026-08-29 accepted/queued"],
+    ["398-step2", 398, 7, "Sophia 2026-08-29 reconciliation"],
+    ["254-accepted-action", 254, 1, "Sophia 2026-08-29 reconciliation"],
+    ["402-kickoff", 402, 50, "Maintainer Builder grant kickoff queued"]
   ],
   "accepted_queued_aging": {
     "authoritative_queue_date": "2026-08-29",
     "authoritative_settlement_guidance": "queued transfers confirm about 24 hours after queueing",
     "expected_settlement_by_date": "2026-08-30",
-    "status_as_of": "2026-09-02T12:22:00-04:00",
+    "status_as_of": "2026-09-02T14:25:39-04:00",
     "sla_state": "OVERDUE_RELATIVE_TO_RECORDED_GUIDANCE",
-    "next_action_trigger": "authoritative settlement evidence, maintainer correction, or concrete reconciliation discrepancy evidence; no generic nagging"
+    "next_action_trigger": "authoritative reply with delay explanation, pending ID, transaction hash, confirmation/receipt, maintainer correction, or other concrete stage evidence; do not send another generic or duplicate follow-up",
+    "reconciliation_action": "Specific overdue-settlement reconciliation sent 2026-09-02 in existing Sophia #398 thread; message_id 1a0635db07b8f861. No re-adjudication or new claim requested."
   },
-  "fixed_value_submitted": [["402-completion",402,50],["16497-article-1",16497,33],["16497-article-2",16497,33],["16601-type-d-article-1",16601,8],["16601-type-d-article-2",16601,8],["685-tier1-rust-sdk",685,50],["685-tier2-grazer",685,75],["685-tier2-pydanticai",685,75],["685-tier2-openai-agents",685,75],["1575-registration",1575,3],["100-discovery",100,2],["100-improvement-llms",100,10],["520-bug-hunter",520,2],["29-welcome-bonus",29,10],["13949-badge",13949,2],["14014-map-ledger-exchange",14014,20],["14014-map-antiquity-relay",14014,20],["12442-comparison",12442,3],["12443-comparison",12443,3],["12444-comparison",12444,3],["256-base-fork",256,2],["293-announcer",293,7],["293-block-pulse-120",293,7],["293-antiquity-drive-128",293,7],["293-neon-validator-132",293,7],["293-epoch-runner-110",293,7],["1102-ui-localization-1",1102,3],["1102-ui-localization-2",1102,3],["1618-accessibility",1618,1],["2143-js-sdk-example",2143,3],["13226-trashclaw",13226,7],["13226-feverdream-engine",13226,7],["13226-feverdream-n64",13226,7],["13226-elya-nes",13226,7],["13226-elyan-compute-skill",13226,7],["13226-bounty-concierge",13226,7],["177-meme-1",177,2],["177-meme-2",177,2],["1107-comparison",1107,3],["1109-first-impression",1109,1],["443-review",443,3],["2271-dry-run",2271,2],["2259-cvpr-wix-article",2259,10],["2259-cvpr-github-article",2259,10]],
+  "fixed_value_submitted": [["402-completion",402,50],["16497-article-1",16497,33],["16497-article-2",16497,33],["16601-type-d-article-1",16601,8],["16601-type-d-article-2",16601,8],["685-tier1-rust-sdk",685,50],["685-tier2-grazer",685,75],["685-tier2-pydanticai",685,75],["685-tier2-openai-agents",685,75],["1575-registration",1575,3],["100-improvement-llms",100,10],["520-bug-hunter",520,2],["29-welcome-bonus",29,10],["13949-badge",13949,2],["14014-map-ledger-exchange",14014,20],["14014-map-antiquity-relay",14014,20],["12442-comparison",12442,3],["12443-comparison",12443,3],["12444-comparison",12444,3],["256-base-fork",256,2],["293-announcer",293,7],["293-block-pulse-120",293,7],["293-antiquity-drive-128",293,7],["293-neon-validator-132",293,7],["293-epoch-runner-110",293,7],["1102-ui-localization-1",1102,3],["1102-ui-localization-2",1102,3],["1618-accessibility",1618,1],["2143-js-sdk-example",2143,3],["13226-trashclaw",13226,7],["13226-feverdream-engine",13226,7],["13226-feverdream-n64",13226,7],["13226-elya-nes",13226,7],["13226-elyan-compute-skill",13226,7],["13226-bounty-concierge",13226,7],["177-meme-1",177,2],["177-meme-2",177,2],["1107-comparison",1107,3],["1109-first-impression",1109,1],["443-review",443,3],["2271-dry-run",2271,2],["2259-cvpr-wix-article",2259,10],["2259-cvpr-github-article",2259,10]],
   "fixed_value_notes": {
     "2259-cvpr-wix-article": "Existing 2026-08-19 email submission located during reconciliation. Public Wix article supplied; #2259 explicitly pays 10 RTC per post and permits multiple platforms. Stage remains SUBMITTED; no maintainer acceptance or payout presumed.",
-    "2259-cvpr-github-article": "Distinct second-platform public GitHub article committed 2026-09-02 and submitted by reply in the existing #2259 Gmail thread after LinkedIn publishing was blocked by a zero monthly Upload-Post quota. Maintainer previously approved a public GitHub Gist under #2259; no acceptance presumed for this claim."
+    "2259-cvpr-github-article": "Distinct second-platform public GitHub article committed 2026-09-02 and submitted by reply in the existing #2259 Gmail thread after LinkedIn publishing was blocked by a zero monthly Upload-Post quota. Maintainer previously approved a public GitHub Gist under #2259; no acceptance presumed for this claim.",
+    "100-discovery-withdrawal": "Withdrawn 2026-09-02 after re-audit found Scottcjn/bounty-concierge had already been submitted as a discovery by another claimant on 2026-08-28. No payout requested; removed from SUBMITTED and viable-pipeline totals."
   },
   "variable_value_submitted": [["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],["2070-five-memes",2070,"1-2 each by title; judging required"],["16471-01-docstring-gh-diff-mask",16471,null],["16471-02-untrusted-marker-suppression",16471,null],["16471-03-docstring-retry-deadend",16471,null],["16471-04-contributor-cap-search-failopen",16471,null],["16471-05-max-per-run-aggregate-cap",16471,null],["16471-06-backfill-enumeration-failure",16471,null],["16471-07-inline-retroactive-first-reviewer",16471,null],["16471-08-inline-api-read-failclosed",16471,null],["16471-09-wrong-review-body-length",16471,null],["16471-10-backfill-window-1000",16471,null],["16471-11-pr-review-page1-only",16471,null],["16471-12-malformed-inventory-zero-candidates",16471,null],["16471-13-review-comment-page2-erased",16471,null],["16471-14-docstring-weekly-cap-created-date",16471,null],["16471-15-backfill-json-parse-empty-success",16471,"Submitted 2026-09-02 in existing Gmail #16471 thread; current pr_review_gate_backfill.py catches JSONDecodeError from issue inventory, returns [], then main exits 0 with adjudicated 0/0"]],
   "variable_value_notes": {
@@ -59,16 +61,18 @@
     "102": "maintainer-determined; no amount presumed",
     "2070": "judging determines exact payout"
   },
-  "blocked_or_dead": [["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],["747-verification-bot",747,null,"DEAD","competing claimant awarded"],["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],["16601-type-b-payout-lifecycle",16601,15,"DEAD","one kit per type; earlier submission owns Type B"],["16601-type-c-reward-drift",16601,15,"DEAD","Type C already accepted to earlier claimant"],["16601-type-c-dry-run-safety",16601,15,"DEAD","Type C already accepted to earlier claimant"]],
+  "blocked_or_dead": [["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],["747-verification-bot",747,null,"DEAD","competing claimant awarded"],["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],["16601-type-b-payout-lifecycle",16601,15,"DEAD","one kit per type; earlier submission owns Type B"],["16601-type-c-reward-drift",16601,15,"DEAD","Type C already accepted to earlier claimant"],["16601-type-c-dry-run-safety",16601,15,"DEAD","Type C already accepted to earlier claimant"],["100-discovery",100,2,"DEAD","proactively withdrawn as duplicate first-discovery claim; another claimant submitted bounty-concierge on 2026-08-28"]],
   "settlement_status": {
     "last_authoritative_timing": "Sophia stated queued transfers confirm about 24 hours after queueing",
     "pending_id_found": false,
     "transaction_hash_found": false,
     "receipt_verified": false,
-    "last_reconciled": "2026-09-02T12:19:00-04:00",
+    "last_reconciled": "2026-09-02T14:25:39-04:00",
     "new_maintainer_payout_evidence": false,
     "sla_state": "OVERDUE_RELATIVE_TO_RECORDED_GUIDANCE",
-    "latest_reconciliation": "Fresh Gmail reconciliation found no Sophia message newer than 2026-08-29 and no new maintainer acceptance, pending ID, transaction hash, or receipt. No generic follow-up sent. Operation switched to settlement/adjudication mode."
+    "latest_reconciliation": "Fresh Gmail reconciliation found no Sophia message newer than 2026-08-29 and no new acceptance, pending ID, transaction hash, or receipt. Because the confirmed 43 RTC queue is four days beyond Sophia's ~24h guidance, one specific settlement-discrepancy reply was sent in the existing #398 thread (message 1a0635db07b8f861). No stage promotion was made.",
+    "reconciliation_message_id": "1a0635db07b8f861",
+    "reconciliation_thread_id": "1a04ec0f877bdb58"
   },
   "efficiency_controls": {
     "policy_file": "ops/efficiency_policy.json",
@@ -78,5 +82,18 @@
     "latency_adjusted_scoring": true,
     "probability_calibration_from_real_outcomes": true,
     "issue_16471_expansion_throttled": true
+  },
+  "cost_control": {
+    "actual_monetary_cost_usd": 0,
+    "authorized_but_not_incurred_usd": 0,
+    "pending_cost_authorization": null,
+    "rule": "No charge, subscription, usage fee, transaction fee, infrastructure cost, publishing fee, API charge, or other monetary expense may be incurred without explicit owner authorization for the specific amount/scope."
+  },
+  "automation_status": {
+    "rtc_preflight_queue": "HEALTHY",
+    "latest_verified_run_id": 33666918267,
+    "latest_verified_run_conclusion": "success",
+    "latest_verified_run_completed_at": "2026-09-02T18:24:40Z",
+    "note": "Earlier failures are superseded by the newer successful run after queue-normalization workflow wiring."
   }
 }
