@@ -1,18 +1,18 @@
 {
-  "schema_version": 4,
-  "as_of": "2026-09-02T14:34:00-04:00",
+  "schema_version": 5,
+  "as_of": "2026-09-02T14:33:56-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 698,
-    "accepted_queued_rtc": 93,
+    "fixed_value_viable_pipeline_rtc": 605,
+    "accepted_queued_rtc": 0,
     "fixed_value_submitted_rtc": 605,
     "pending_on_chain_rtc": 0,
-    "received_rtc": 0,
-    "verified_24h_receivable_ceiling_rtc": 93,
-    "gap_to_500_received_rtc": 500,
-    "additional_acceptance_needed_beyond_current_accepted_backlog_rtc": 407
+    "received_rtc": 95,
+    "verified_24h_receivable_ceiling_rtc": 0,
+    "gap_to_500_received_rtc": 405,
+    "additional_acceptance_needed_beyond_current_accepted_backlog_rtc": 405
   },
   "rules": {
     "policy_file": "ops/efficiency_policy.json",
@@ -26,7 +26,7 @@
     "spend_authorization_required_before_cost": true
   },
   "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
-  "receivable_mode_actions": ["check authoritative stage changes","investigate overdue accepted/queued settlement discrepancy","execute concrete maintainer-requested revisions","repair missing evidence only when specific evidence gap is identified","do not send generic follow-ups"],
+  "receivable_mode_actions": ["check authoritative stage changes","execute concrete maintainer-requested revisions","repair missing evidence only when specific evidence gap is identified","do not send generic follow-ups"],
   "candidates": [],
   "candidate_history": {
     "screened_out_compacted": true,
@@ -43,7 +43,7 @@
     "metricool_brand_id": "6761493",
     "metricool_social_networks": "none_connected",
     "upload_post_linkedin": "monthly quota exhausted",
-    "official_email_fallback": "only when explicitly authorized and normal GitHub route fails",
+    "official_email_fallback": "use when the project guide authorizes it and normal GitHub route fails",
     "narrow_execution_allowlist": "active"
   },
   "throttles": {
@@ -51,13 +51,14 @@
     "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
   },
   "latest_run_evidence": {
-    "gmail_reconciliation": "Fresh Gmail search and direct read of the #398 settlement thread at 2026-09-02 14:34 ET found no Sophia reply newer than 2026-08-29 and no pending ID, transaction hash, confirmation, receipt, correction, or requested action. The specific overdue-settlement reconciliation sent at 14:24 ET remains unanswered. No second follow-up sent.",
-    "maintainer_queue": "Authoritative tracker #16403 still reports 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items, confirming maintainer bandwidth remains the conversion bottleneck.",
-    "delta_discovery": "GitHub open-issue delta since 2026-09-02T18:08:13Z returned only #16382, an existing third-party BoTTube docstring bounty claim. No newly created/materially updated benign route-executable bounty cleared the elevated build gate.",
-    "scoreboard_changed": false,
-    "settlement_reconciliation_message_id": "1a0635db07b8f861",
-    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn; 605 SUBMITTED / 698 viable pipeline remains authoritative.",
-    "automation_health": "RTC Preflight Queue latest canonical verified run remains successful; newer Gmail failure notification predates/sits outside the canonical successful run evidence and does not alter RTC accounting."
+    "wallet_receipt_reconciliation": "Authoritative wallet-history evidence for RTCc5449fe1b93385961152720c864c0f073dae5855 shows seven successful founder_community transfer_in records totaling 95 RTC. The four transfers of 25 + 10 + 7 + 1 RTC total 43 RTC and settled on 2026-08-30, matching Sophia's 2026-08-29 reconciliation for #71 25 + #398 Step 1 10 + #398 Step 2 7 + #254 1. The remaining 50 + 1 + 1 RTC also appear as successful transfer_in records on 2026-08-31. Cumulative RECEIVED is therefore 95 RTC. Per-deliverable mapping of the remaining 52 RTC is not asserted beyond existing evidence.",
+    "wallet_history_artifact": "evidence/rtc-wallet-history.json",
+    "settlement_followup_correction": "The 2026-09-02 14:24 ET delay inquiry was corrected in-thread after receipt evidence was found. Sophia was told the 43 RTC had settled and that no action is needed. Correction Gmail message id: 1a06367a5a182ac2.",
+    "maintainer_queue": "Authoritative tracker #16403 previously reported 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items; maintainer bandwidth remains a conversion constraint for unadjudicated submissions.",
+    "delta_discovery": "Fresh verification shows #121 has prior accepted work and continuing competing claims; #16472 has multiple active/submitted competing fixes; neither clears the elevated build gate. #16601 pays one kit per type and already has Type B and Type C accepted/occupied plus a competing Type A submission, so additional work there is high duplicate risk.",
+    "scoreboard_changed": true,
+    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn. Fixed-value SUBMITTED remains 605 RTC; the former 93 RTC accepted/queued backlog is now removed from the pipeline after on-chain settlement evidence. Cumulative RECEIVED is 95 RTC.",
+    "automation_health": "RTC preflight scanner title-binding bug was repaired and a corrected queue persisted; later workflow cancellation was caused by concurrency from newer commits, not a loss of the persisted scanner fix."
   },
   "last_submission": {
     "issue": 2259,
@@ -68,7 +69,7 @@
     "artifact": "submissions/2259-cvpr-2026-github-post.md",
     "rtc_booked": 10
   },
-  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Do not send another settlement follow-up while the 2026-09-02 14:24 ET specific reconciliation is unanswered. Reconcile any authoritative reply immediately. Continue delta-only discovery from the new 14:34 ET checkpoint and route-first screening; no speculative build is justified by the current delta. Spend nothing without explicit cost authorization.",
+  "next_action": "Prioritize conversion of the remaining 605 RTC fixed-value submitted backlog. Reconcile authoritative replies immediately, execute only concrete maintainer-requested revisions, and continue delta-only discovery. Do not add duplicate/saturated work merely to increase submission count. Spend nothing without explicit cost authorization.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
