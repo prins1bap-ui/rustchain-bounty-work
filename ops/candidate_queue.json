@@ -1,13 +1,13 @@
 {
-  "schema_version": 5,
-  "as_of": "2026-09-02T14:33:56-04:00",
+  "schema_version": 6,
+  "as_of": "2026-09-02T14:36:49-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 605,
+    "fixed_value_viable_pipeline_rtc": 645,
     "accepted_queued_rtc": 0,
-    "fixed_value_submitted_rtc": 605,
+    "fixed_value_submitted_rtc": 645,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "verified_24h_receivable_ceiling_rtc": 0,
@@ -25,7 +25,7 @@
     "execution_allowlist": ["documentation","tutorials","localization_accessibility","ordinary_functional_reliability","developer_tooling","sdk_examples","objective_qa","content_packages","receivable_reconciliation","clearly_benign_pr_work"],
     "spend_authorization_required_before_cost": true
   },
-  "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
+  "receivables_priority": [16601,402,16497,685,16471,2259,13226,14014,293,102],
   "receivable_mode_actions": ["check authoritative stage changes","execute concrete maintainer-requested revisions","repair missing evidence only when specific evidence gap is identified","do not send generic follow-ups"],
   "candidates": [],
   "candidate_history": {
@@ -51,25 +51,26 @@
     "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
   },
   "latest_run_evidence": {
-    "wallet_receipt_reconciliation": "Authoritative wallet-history evidence for RTCc5449fe1b93385961152720c864c0f073dae5855 shows seven successful founder_community transfer_in records totaling 95 RTC. The four transfers of 25 + 10 + 7 + 1 RTC total 43 RTC and settled on 2026-08-30, matching Sophia's 2026-08-29 reconciliation for #71 25 + #398 Step 1 10 + #398 Step 2 7 + #254 1. The remaining 50 + 1 + 1 RTC also appear as successful transfer_in records on 2026-08-31. Cumulative RECEIVED is therefore 95 RTC. Per-deliverable mapping of the remaining 52 RTC is not asserted beyond existing evidence.",
+    "wallet_receipt_reconciliation": "Authoritative wallet-history evidence for the configured RTC payout wallet shows seven successful founder_community transfer_in records totaling 95 RTC. The four transfers of 25 + 10 + 7 + 1 RTC total 43 RTC and settled on 2026-08-30, matching Sophia's 2026-08-29 reconciliation for #71 25 + #398 Step 1 10 + #398 Step 2 7 + #254 1. The remaining 50 + 1 + 1 RTC also appear as successful transfer_in records on 2026-08-31. Cumulative RECEIVED is therefore 95 RTC. Per-deliverable mapping of the remaining 52 RTC is not asserted beyond existing evidence.",
     "wallet_history_artifact": "evidence/rtc-wallet-history.json",
     "settlement_followup_correction": "The 2026-09-02 14:24 ET delay inquiry was corrected in-thread after receipt evidence was found. Sophia was told the 43 RTC had settled and that no action is needed. Correction Gmail message id: 1a06367a5a182ac2.",
+    "16601_type_a_submission": "A new Type A full production kit was built in prins1bap-ui/rustchain-bounty-work on branch bounty-16601-type-a-20260902 and independently cloud-QA-verified: 768 script words, 7 narration WAVs totaling 338.16 seconds, 10 original 1920x1080 visuals, 3 original 1280x720 thumbnails, source lock PASS. Upstream #16601 issue-comment submission returned 403 Resource not accessible by integration, so the established official email fallback was used. Gmail message id: 1a06368a74d516b9. Booked 40 RTC as SUBMITTED only; no acceptance or payout asserted. A competing Type A package already existed, so payment probability remains uncertain until maintainer adjudication.",
     "maintainer_queue": "Authoritative tracker #16403 previously reported 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items; maintainer bandwidth remains a conversion constraint for unadjudicated submissions.",
-    "delta_discovery": "Fresh verification shows #121 has prior accepted work and continuing competing claims; #16472 has multiple active/submitted competing fixes; neither clears the elevated build gate. #16601 pays one kit per type and already has Type B and Type C accepted/occupied plus a competing Type A submission, so additional work there is high duplicate risk.",
+    "delta_discovery": "Fresh verification showed #121 has prior accepted work and continuing competing claims; #16472 has multiple active/submitted competing fixes; neither cleared the elevated build gate. #16601 Type B and C are occupied. Type A had a competing submission but no maintainer acceptance visible when the new QA-verified Type A package was submitted, so it was treated as a competitive, uncertain 40 RTC lane rather than guaranteed value.",
     "scoreboard_changed": true,
-    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn. Fixed-value SUBMITTED remains 605 RTC; the former 93 RTC accepted/queued backlog is now removed from the pipeline after on-chain settlement evidence. Cumulative RECEIVED is 95 RTC.",
-    "automation_health": "RTC preflight scanner title-binding bug was repaired and a corrected queue persisted; later workflow cancellation was caused by concurrency from newer commits, not a loss of the persisted scanner fix."
+    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn. The former 93 RTC accepted/queued backlog remains removed after on-chain settlement evidence. Cumulative RECEIVED remains 95 RTC. New #16601 Type A adds 40 RTC to fixed-value SUBMITTED, moving SUBMITTED and viable pipeline from 605 to 645 RTC.",
+    "automation_health": "RTC preflight scanner title-binding bug was repaired and a corrected queue persisted; later workflow cancellation was caused by concurrency from newer commits, not a loss of the persisted scanner fix. Separate #16601 Type A cloud build run 33667989751 completed successfully."
   },
   "last_submission": {
-    "issue": 2259,
-    "id": "2259-cvpr-github-article",
+    "issue": 16601,
+    "id": "16601-type-a-full-production-kit-20260902",
     "stage": "SUBMITTED",
-    "route": "public GitHub repo article + reply in existing #2259 Gmail thread after tracker 403",
-    "email_message_id": "1a062bcc202b7696",
-    "artifact": "submissions/2259-cvpr-2026-github-post.md",
-    "rtc_booked": 10
+    "route": "public GitHub branch package + official Gmail fallback after upstream tracker 403",
+    "email_message_id": "1a06368a74d516b9",
+    "artifact": "https://github.com/prins1bap-ui/rustchain-bounty-work/tree/bounty-16601-type-a-20260902/bounty-16601-type-a",
+    "rtc_booked": 40
   },
-  "next_action": "Prioritize conversion of the remaining 605 RTC fixed-value submitted backlog. Reconcile authoritative replies immediately, execute only concrete maintainer-requested revisions, and continue delta-only discovery. Do not add duplicate/saturated work merely to increase submission count. Spend nothing without explicit cost authorization.",
+  "next_action": "Prioritize conversion of the remaining 645 RTC fixed-value submitted backlog. Reconcile authoritative replies immediately, execute only concrete maintainer-requested revisions, and continue delta-only discovery. Do not add duplicate/saturated work merely to increase submission count. Spend nothing without explicit cost authorization.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
