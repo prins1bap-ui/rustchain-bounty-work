@@ -24,7 +24,7 @@ API = "https://api.github.com"
 OWNER = "Scottcjn"
 USER_LOGIN = "prins1bap-ui"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
-UA = "prins1bap-ui-rtc-preflight-v4"
+UA = "prins1bap-ui-rtc-preflight-v5"
 
 # Economic lanes already touched by this claimant. Repository is part of the key
 # so same-number issues in different repos remain distinct.
@@ -405,6 +405,8 @@ def route_factor(route: str) -> float:
 
 
 def competition_factor(comp: Competition) -> float:
+    if comp.status == "skipped":
+        return 1.0
     if comp.status != "ok":
         return 0.55
     if comp.maintainer_awards:
@@ -420,6 +422,20 @@ def competition_factor(comp: Competition) -> float:
     if comp.intent_users >= 2:
         return 0.80
     return 1.0
+
+
+def competition_scan_worthy(route: str, flags: set[str]) -> bool:
+    """Spend API calls on lanes that could survive all deterministic gates."""
+    deterministic_blockers = {
+        "known-nonactionable", "existing-user-work", "offensive-security",
+        "fund-movement", "eligibility-gated", "external-publication/account",
+        "hardware/user-presence", "merge-gated",
+    }
+    if flags & deterministic_blockers:
+        return False
+    if route == "pr-only":
+        return False
+    return True
 
 
 @dataclass
@@ -482,20 +498,26 @@ def main() -> int:
     preliminary.sort(key=lambda row: row[0], reverse=True)
 
     candidates: list[Candidate] = []
-    # Expensive comment history is limited to the highest-EV definitions. Two
-    # pages are enough to avoid the old first-100-comments blind spot without
-    # turning every run into a rate-limit bonfire.
-    for index, (_, issue, route, flags, title_reward, body_reward, conflict, effort) in enumerate(preliminary):
+    competition_scans = 0
+    competition_scan_budget = 100
+
+    for _, issue, route, flags, title_reward, body_reward, conflict, effort in preliminary:
         repo = repo_name(issue)
         number = int(issue["number"])
+        # Reset per candidate. The previous version leaked the last discovery-loop
+        # title into every rendered row, a wonderfully human sort of bug in Python.
+        title = issue.get("title") or ""
+        body = issue.get("body") or ""
         reward = title_reward if title_reward > 0 else body_reward
         comment_count = int(issue.get("comments") or 0)
-        comp = (
-            competition(repo, number, comment_count)
-            if index < 100
-            else Competition(status="unknown")
-        )
         flagset = set(flags)
+
+        if competition_scan_worthy(route, flagset) and competition_scans < competition_scan_budget:
+            comp = competition(repo, number, comment_count)
+            competition_scans += 1
+        else:
+            comp = Competition(status="skipped")
+
         factor = route_factor(route) * competition_factor(comp) * freshness_factor(issue.get("updated_at"))
         if conflict:
             factor *= 0.70
@@ -507,6 +529,8 @@ def main() -> int:
             factor *= 0.75
         ev_index = round(reward * factor / max(1.0, effort / 60), 3)
 
+        # Deterministic gates precede competition uncertainty so intentionally
+        # skipped comment scans cannot misclassify blocked work as actionable.
         if "known-nonactionable" in flagset:
             decision = "EXCLUDE_KNOWN"
         elif "existing-user-work" in flagset:
@@ -517,12 +541,12 @@ def main() -> int:
             decision = "BLOCKED_USER_OR_EXTERNAL"
         elif conflict:
             decision = "VERIFY_REWARD"
-        elif comp.status != "ok":
+        elif route in {"merge-gated", "pr-only"}:
+            decision = "DEFER_ROUTE"
+        elif comp.status not in {"ok", "skipped"}:
             decision = "VERIFY_COMPETITION"
         elif comp.maintainer_awards or comp.completed_users >= 2:
             decision = "DEFER_SATURATED"
-        elif route in {"merge-gated", "pr-only"}:
-            decision = "DEFER_ROUTE"
         elif route == "unknown":
             decision = "VERIFY_ROUTE"
         elif "defensive-security" in flagset:
@@ -531,6 +555,8 @@ def main() -> int:
             decision = "VERIFY_COMPETITION"
         elif "pool-or-program-reward" in flagset or "program-or-tracker" in flagset:
             decision = "VERIFY_REWARD"
+        elif comp.status == "skipped":
+            decision = "VERIFY_COMPETITION"
         else:
             decision = "FINAL_VERIFY"
 
@@ -589,6 +615,8 @@ def main() -> int:
             "Triage only. No item here is earned, submitted, accepted, or received RTC."
         ),
         "candidate_count": len(candidates),
+        "competition_scans": competition_scans,
+        "competition_scan_budget": competition_scan_budget,
         "final_verify_count": sum(c.decision == "FINAL_VERIFY" for c in candidates),
         "candidates": [asdict(c) for c in candidates],
     }
@@ -623,7 +651,8 @@ def main() -> int:
     )
 
     print(
-        f"ranked {len(candidates)} authoritative RTC definitions across Scottcjn-owned repositories"
+        f"ranked {len(candidates)} authoritative RTC definitions across Scottcjn-owned repositories; "
+        f"competition_scans={competition_scans}/{competition_scan_budget}"
     )
     for c in [x for x in candidates if x.decision == "FINAL_VERIFY"][:20]:
         print(
