@@ -1,0 +1,35 @@
+name: Apify Bridge Probe
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - 'ops/apify_bridge_probe.py'
+      - '.github/workflows/apify-bridge-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run read-only Apify probe
+        run: python ops/apify_bridge_probe.py
+
+      - name: Upload sanitized probe result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apify-bridge-result
+          path: apify_bridge_result.json
+          if-no-files-found: warn
+          retention-days: 1
