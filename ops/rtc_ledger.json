@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-09-02",
+  "as_of": "2026-09-02T10:46:25-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
   "verified_totals": {
     "fixed_value_viable_pipeline_rtc": 725,
@@ -9,6 +9,16 @@
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
     "variable_value_submissions_excluded_from_fixed_totals": true
+  },
+  "rolling_24h_scoreboard": {
+    "window_as_of": "2026-09-02T10:46:25-04:00",
+    "fixed_rtc_newly_submitted": 15,
+    "variable_value_submissions_new": 1,
+    "variable_value_note": "#16471 finding 14 submitted; no RTC amount booked until maintainer confirms qualifying defects",
+    "rtc_newly_accepted_queued": 0,
+    "rtc_newly_pending_on_chain": 0,
+    "rtc_newly_received": 0,
+    "gap_to_500_received_rtc": 500
   },
   "accepted_queued": [
     ["71-accepted-25",71,25,"Sophia 2026-08-29 queue confirmation"],
@@ -82,6 +92,8 @@
     "last_authoritative_timing":"Sophia stated queued transfers confirm about 24 hours after queueing",
     "pending_id_found":false,
     "transaction_hash_found":false,
-    "receipt_verified":false
+    "receipt_verified":false,
+    "last_reconciled":"2026-09-02T10:46:25-04:00",
+    "new_maintainer_payout_evidence":false
   }
 }
