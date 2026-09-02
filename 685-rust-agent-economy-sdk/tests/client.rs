@@ -24,7 +24,7 @@ async fn browse_jobs_and_typed_filters_are_forwarded() {
             .query_param("status", "open")
             .query_param("limit", "25")
             .query_param("offset", "5")
-            .query_param("min_reward", "10");
+            .query_param("min_reward", "10.0");
         then.status(200)
             .json_body(json!({"jobs": [{"job_id": "job_1"}]}));
     });
