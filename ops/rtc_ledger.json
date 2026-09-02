@@ -3,9 +3,9 @@
   "as_of": "2026-09-02T11:13:00-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
   "verified_totals": {
-    "fixed_value_viable_pipeline_rtc": 725,
+    "fixed_value_viable_pipeline_rtc": 680,
     "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 632,
+    "fixed_value_submitted_rtc": 587,
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
     "variable_value_submissions_excluded_from_fixed_totals": true
@@ -30,7 +30,6 @@
   "fixed_value_submitted": [
     ["402-completion",402,50],["16497-article-1",16497,33],["16497-article-2",16497,33],
     ["16601-type-d-article-1",16601,8],["16601-type-d-article-2",16601,8],
-    ["16601-type-b-payout-lifecycle",16601,15],["16601-type-c-reward-drift",16601,15],["16601-type-c-dry-run-safety",16601,15],
     ["685-tier1-rust-sdk",685,50],["685-tier2-grazer",685,75],["685-tier2-pydanticai",685,75],["685-tier2-openai-agents",685,75],
     ["1575-registration",1575,3],["100-discovery",100,2],["100-improvement-llms",100,10],["520-bug-hunter",520,2],["29-welcome-bonus",29,10],
     ["13949-badge",13949,2],["14014-map-ledger-exchange",14014,20],["14014-map-antiquity-relay",14014,20],
@@ -46,7 +45,7 @@
     "293":"five valid slots only, 7 RTC each",
     "1102":"two valid 3 RTC slots only",
     "2143":"authoritative title value 3 RTC used",
-    "16601":"submitted values remain unaccepted; current maintainer slot/rule ambiguity requires adjudication before any stage advance"
+    "16601":"Maintainer clarified this round pays one kit per type. Type B belongs to ranka23 and Type C was accepted to AInoAKARI before prins1bap-ui submissions, so prins1bap-ui Type B and both Type C submissions are DEAD. Two Type D add-ons remain SUBMITTED because the same maintainer comment explicitly said Type D submissions were unaffected and would be assessed on their own; no acceptance booked."
   },
   "variable_value_submitted": [
     ["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],
@@ -74,7 +73,10 @@
   "blocked_or_dead": [
     ["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],
     ["747-verification-bot",747,null,"DEAD","competing claimant awarded"],
-    ["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"]
+    ["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],
+    ["16601-type-b-payout-lifecycle",16601,15,"DEAD","maintainer clarified one kit per type; Type B retained by earlier ranka23 submission"],
+    ["16601-type-c-reward-drift",16601,15,"DEAD","maintainer clarified one kit per type; Type C already accepted to earlier AInoAKARI email submission"],
+    ["16601-type-c-dry-run-safety",16601,15,"DEAD","maintainer clarified one kit per type; Type C already accepted to earlier AInoAKARI email submission"]
   ],
   "duplicate_and_cap_controls": {
     "293":"exactly five valid economic submissions; extra weapon-SFX/other emails add 0 RTC",
@@ -86,7 +88,7 @@
     "747":"updates/resubmissions are not additional claims",
     "2143":"blocked ZIP + corrected TXT = one claim",
     "1109":"multiple fallback emails = one claim",
-    "16601":"updates to a package are not separate claims",
+    "16601":"one kit per type per maintainer clarification; Type B/C late submissions removed from receivable totals; Type D remains adjudication-dependent",
     "16471":"canonical consolidation/reply is not an additional economic claim"
   },
   "settlement_status": {
