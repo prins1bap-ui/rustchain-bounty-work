@@ -1,11 +1,12 @@
 use httpmock::prelude::*;
 use rustchain_agent_economy::{
-    AgentEconomyClient, ClaimJobRequest, DeliverJobRequest, PostJobRequest,
+    AcceptJobRequest, AgentEconomyClient, BrowseJobsQuery, CancelJobRequest, ClaimJobRequest,
+    DeliverJobRequest, DisputeJobRequest, PostJobRequest,
 };
 use serde_json::json;
 
 #[tokio::test]
-async fn browse_jobs_and_explicit_query_are_forwarded() {
+async fn browse_jobs_and_typed_filters_are_forwarded() {
     let plain_server = MockServer::start();
     let plain = plain_server.mock(|when, then| {
         when.method(GET).path("/agent/jobs");
@@ -19,24 +20,45 @@ async fn browse_jobs_and_explicit_query_are_forwarded() {
     let filtered = filtered_server.mock(|when, then| {
         when.method(GET)
             .path("/agent/jobs")
+            .query_param("category", "code")
             .query_param("status", "open")
-            .query_param("limit", "25");
+            .query_param("limit", "25")
+            .query_param("offset", "5")
+            .query_param("min_reward", "10");
         then.status(200)
             .json_body(json!({"jobs": [{"job_id": "job_1"}]}));
     });
     let filtered_client = AgentEconomyClient::new(filtered_server.base_url()).unwrap();
-    let query = vec![
-        ("status".to_string(), "open".to_string()),
-        ("limit".to_string(), "25".to_string()),
-    ];
+    let query = BrowseJobsQuery {
+        category: Some("code".into()),
+        status: Some("open".into()),
+        limit: Some(25),
+        offset: Some(5),
+        min_reward: Some(10.0),
+    };
     assert_eq!(
         filtered_client
-            .browse_jobs_with_query(&query)
+            .browse_jobs_filtered(&query)
             .await
             .unwrap()["jobs"][0]["job_id"],
         "job_1"
     );
     filtered.assert();
+}
+
+#[tokio::test]
+async fn raw_query_escape_hatch_remains_available() {
+    let server = MockServer::start();
+    let mock = server.mock(|when, then| {
+        when.method(GET)
+            .path("/agent/jobs")
+            .query_param("future_filter", "value");
+        then.status(200).json_body(json!({"jobs": []}));
+    });
+    let client = AgentEconomyClient::new(server.base_url()).unwrap();
+    let query = vec![("future_filter".to_string(), "value".to_string())];
+    client.browse_jobs_with_query(&query).await.unwrap();
+    mock.assert();
 }
 
 #[tokio::test]
@@ -67,14 +89,17 @@ async fn reads_job_reputation_and_stats() {
 }
 
 #[tokio::test]
-async fn documented_mutating_examples_match_exact_routes_and_payloads_on_mock_only() {
+async fn current_post_claim_and_deliver_contracts_match_mock_payloads() {
     let server = MockServer::start();
     let post = server.mock(|when, then| {
         when.method(POST).path("/agent/jobs").json_body(json!({
             "poster_wallet": "RTCposter",
             "title": "Write docs",
+            "description": "Write a complete SDK usage guide.",
             "category": "writing",
-            "reward_rtc": 5.0
+            "reward_rtc": 5.0,
+            "ttl_seconds": 7200,
+            "tags": ["docs", "sdk"]
         }));
         then.status(201).json_body(json!({"job_id": "job_new"}));
     });
@@ -90,7 +115,7 @@ async fn documented_mutating_examples_match_exact_routes_and_payloads_on_mock_on
             .json_body(json!({
                 "worker_wallet": "RTCworker",
                 "deliverable_url": "https://example.com/work",
-                "result_summary": "Done"
+                "deliverable_hash": "sha256:abc"
             }));
         then.status(200).json_body(json!({"status": "delivered"}));
     });
@@ -100,9 +125,11 @@ async fn documented_mutating_examples_match_exact_routes_and_payloads_on_mock_on
             .post_job(&PostJobRequest {
                 poster_wallet: "RTCposter".into(),
                 title: "Write docs".into(),
+                description: "Write a complete SDK usage guide.".into(),
                 category: "writing".into(),
                 reward_rtc: 5.0,
-                description: None,
+                ttl_seconds: Some(7200),
+                tags: Some(vec!["docs".into(), "sdk".into()]),
             })
             .await
             .unwrap()["job_id"],
@@ -126,8 +153,9 @@ async fn documented_mutating_examples_match_exact_routes_and_payloads_on_mock_on
                 "job_1",
                 &DeliverJobRequest {
                     worker_wallet: "RTCworker".into(),
-                    deliverable_url: "https://example.com/work".into(),
-                    result_summary: "Done".into(),
+                    deliverable_url: Some("https://example.com/work".into()),
+                    deliverable_hash: Some("sha256:abc".into()),
+                    result_summary: None,
                 },
             )
             .await
@@ -140,7 +168,7 @@ async fn documented_mutating_examples_match_exact_routes_and_payloads_on_mock_on
 }
 
 #[tokio::test]
-async fn undocumented_action_bodies_are_caller_controlled_and_mocked_only() {
+async fn typed_accept_dispute_and_cancel_contracts_match_current_main() {
     let server = MockServer::start();
     let accept = server.mock(|when, then| {
         when.method(POST)
@@ -163,7 +191,13 @@ async fn undocumented_action_bodies_are_caller_controlled_and_mocked_only() {
     let client = AgentEconomyClient::new(server.base_url()).unwrap();
     assert_eq!(
         client
-            .accept_job("job_1", &json!({"poster_wallet": "RTCposter", "rating": 5}))
+            .accept_job(
+                "job_1",
+                &AcceptJobRequest {
+                    poster_wallet: "RTCposter".into(),
+                    rating: Some(5),
+                },
+            )
             .await
             .unwrap()["status"],
         "completed"
@@ -172,7 +206,10 @@ async fn undocumented_action_bodies_are_caller_controlled_and_mocked_only() {
         client
             .dispute_job(
                 "job_2",
-                &json!({"poster_wallet": "RTCposter", "reason": "incomplete"}),
+                &DisputeJobRequest {
+                    poster_wallet: "RTCposter".into(),
+                    reason: "incomplete".into(),
+                },
             )
             .await
             .unwrap()["status"],
@@ -180,7 +217,12 @@ async fn undocumented_action_bodies_are_caller_controlled_and_mocked_only() {
     );
     assert_eq!(
         client
-            .cancel_job("job_3", &json!({"poster_wallet": "RTCposter"}))
+            .cancel_job(
+                "job_3",
+                &CancelJobRequest {
+                    poster_wallet: "RTCposter".into(),
+                },
+            )
             .await
             .unwrap()["status"],
         "cancelled"
@@ -191,22 +233,66 @@ async fn undocumented_action_bodies_are_caller_controlled_and_mocked_only() {
 }
 
 #[tokio::test]
-async fn invalid_inputs_fail_before_network() {
+async fn current_contract_validation_fails_before_network() {
     let client = AgentEconomyClient::new("https://example.invalid").unwrap();
     assert!(client.job("../bad").await.is_err());
     assert!(client.reputation("wallet/bad").await.is_err());
+
+    let base = PostJobRequest {
+        poster_wallet: "RTCposter".into(),
+        title: "Valid title".into(),
+        description: "This description is long enough.".into(),
+        category: "code".into(),
+        reward_rtc: 1.0,
+        ttl_seconds: None,
+        tags: None,
+    };
+
+    let mut bad_title = base.clone();
+    bad_title.title = "x".into();
+    assert!(client.post_job(&bad_title).await.is_err());
+
+    let mut bad_description = base.clone();
+    bad_description.description = "short".into();
+    assert!(client.post_job(&bad_description).await.is_err());
+
+    let mut bad_category = base.clone();
+    bad_category.category = "made-up".into();
+    assert!(client.post_job(&bad_category).await.is_err());
+
+    let mut bad_reward = base.clone();
+    bad_reward.reward_rtc = 0.001;
+    assert!(client.post_job(&bad_reward).await.is_err());
+
     assert!(client
-        .post_job(&PostJobRequest {
-            poster_wallet: "RTCposter".into(),
-            title: "x".into(),
-            category: "code".into(),
-            reward_rtc: 0.0,
-            description: None,
-        })
+        .deliver_job(
+            "job_1",
+            &DeliverJobRequest {
+                worker_wallet: "RTCworker".into(),
+                deliverable_url: None,
+                deliverable_hash: Some("hash-only-is-not-enough".into()),
+                result_summary: None,
+            },
+        )
         .await
         .is_err());
+
     assert!(client
-        .accept_job("job_1", &json!(["not", "an", "object"]))
+        .accept_job(
+            "job_1",
+            &AcceptJobRequest {
+                poster_wallet: "RTCposter".into(),
+                rating: Some(9),
+            },
+        )
+        .await
+        .is_err());
+
+    assert!(client
+        .browse_jobs_filtered(&BrowseJobsQuery {
+            category: Some("invalid".into()),
+            ..BrowseJobsQuery::default()
+        })
         .await
         .is_err());
 }
