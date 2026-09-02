@@ -18,7 +18,13 @@ async fn browse_jobs_and_typed_filters_are_forwarded() {
 
     let filtered_server = MockServer::start();
     let filtered = filtered_server.mock(|when, then| {
-        when.method(GET).path("/agent/jobs");
+        when.method(GET)
+            .path("/agent/jobs")
+            .query_param("category", "code")
+            .query_param("status", "open")
+            .query_param("limit", "25")
+            .query_param("offset", "5")
+            .query_param("min_reward", "10.0");
         then.status(200)
             .json_body(json!({"jobs": [{"job_id": "job_1"}]}));
     });
