@@ -143,6 +143,12 @@ Reject a candidate before construction when any of the following is true:
 
 Safety is evaluated from the **actual requested work**, not keyword matching. Do not reject benign wallet/blockchain/reliability work simply because of terminology, and do not rephrase unsafe work to evade product protections.
 
+## Narrow execution allowlist
+
+To reduce content-rendering interruptions while preserving the existing safety boundary, detailed execution is restricted to: documentation, tutorials, localization/accessibility, ordinary functional reliability, developer tooling, SDK/examples, reproducible objective QA, content packages, receivable reconciliation, and other clearly benign contribution work.
+
+Candidates outside that allowlist are rejected at inventory stage before detailed source analysis. If a task stops being clearly benign during execution, stop it, record the blocker, and continue to the next legitimate opportunity. Do not rename or reframe a disallowed task to force it through.
+
 ## Communication discipline
 
 - Never send a generic adjudication reminder.
