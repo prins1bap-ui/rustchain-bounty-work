@@ -1,13 +1,13 @@
 {
-  "schema_version": 3,
-  "as_of": "2026-09-02T13:48:00-04:00",
+  "schema_version": 4,
+  "as_of": "2026-09-02T14:25:39-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 700,
+    "fixed_value_viable_pipeline_rtc": 698,
     "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 607,
+    "fixed_value_submitted_rtc": 605,
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
     "verified_24h_receivable_ceiling_rtc": 93,
@@ -22,7 +22,8 @@
     "route_first_screening": true,
     "delta_discovery_default": true,
     "terminal_rescan_without_trigger": false,
-    "execution_allowlist": ["documentation","tutorials","localization_accessibility","ordinary_functional_reliability","developer_tooling","sdk_examples","objective_qa","content_packages","receivable_reconciliation","clearly_benign_pr_work"]
+    "execution_allowlist": ["documentation","tutorials","localization_accessibility","ordinary_functional_reliability","developer_tooling","sdk_examples","objective_qa","content_packages","receivable_reconciliation","clearly_benign_pr_work"],
+    "spend_authorization_required_before_cost": true
   },
   "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
   "receivable_mode_actions": [
@@ -56,10 +57,13 @@
     "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
   },
   "latest_run_evidence": {
-    "gmail_reconciliation": "No new mail from sophia.eagent@gmail.com in the last 2 days; no new acceptance, pending ID, transaction hash, or receipt located.",
+    "gmail_reconciliation": "Fresh Gmail reconciliation found no new Sophia acceptance/pending/tx/receipt evidence. A single specific overdue-settlement reconciliation was sent in the existing #398 thread for the 43 RTC confirmed queued on 2026-08-29; no stage promotion.",
     "maintainer_queue": "Tracker issue #16403 updated 2026-09-02 reports 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items, materially confirming maintainer review bandwidth as the binding conversion constraint.",
     "delta_discovery": "Fresh open-issue delta contained claims, social/external-action tasks, security work, or previously blocked/saturated lanes; no new benign route-executable candidate cleared the elevated build gate.",
-    "scoreboard_changed": false
+    "scoreboard_changed": true,
+    "settlement_reconciliation_message_id": "1a0635db07b8f861",
+    "accounting_correction": "#100 Discovery Mode 2 RTC claim withdrawn as duplicate and removed from SUBMITTED/viable totals; 605 SUBMITTED / 698 viable pipeline now authoritative.",
+    "automation_health": "RTC Preflight Queue latest verified run 33666918267 succeeded at 2026-09-02T18:24:40Z; earlier failures are superseded."
   },
   "last_submission": {
     "issue": 2259,
@@ -70,5 +74,13 @@
     "artifact": "submissions/2259-cvpr-2026-github-post.md",
     "rtc_booked": 10
   },
-  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Reconcile authoritative settlement evidence first. Continue delta-only discovery and route-first screening. Do not add adjudication load unless a newly changed benign opportunity has an executable route and unusually strong conversion economics."
+  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Await only authoritative settlement evidence on the overdue queue; do not send another follow-up unless concrete new evidence triggers it. Continue delta-only discovery and route-first screening. Spend nothing without explicit cost authorization.",
+  "cost_control": {
+    "actual_monetary_cost_usd": 0,
+    "authorized_but_not_incurred_usd": 0,
+    "pending_cost_authorization": null,
+    "pre_spend_required_fields": ["exact_cost_or_narrow_range","cost_type","blocker_removed","expected_rtc_or_revenue_benefit","economic_justification","lower_cost_alternative","explicit_owner_authorization"],
+    "no_prior_approval_carries_forward_unless_within_explicit_reusable_budget": true,
+    "never_exceed_authorized_amount_or_scope": true
+  }
 }
