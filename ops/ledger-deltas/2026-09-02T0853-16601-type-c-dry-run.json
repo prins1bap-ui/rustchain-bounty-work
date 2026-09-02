@@ -1,0 +1,21 @@
+{
+  "timestamp_local": "2026-09-02T08:53:00-04:00",
+  "economic_claim_id": "16601-type-c-dry-run-preflight",
+  "issue": 16601,
+  "reward_rtc": 15,
+  "stage": "SUBMITTED",
+  "evidence": {
+    "package": "https://github.com/prins1bap-ui/rustchain-bounty-work/tree/main/16601-dry-run-short",
+    "direct_comment_result": "403 Resource not accessible by integration",
+    "fallback_email_message_id": "1a0622f19929041e"
+  },
+  "rolling_24h_delta": {
+    "submitted_rtc": 15,
+    "accepted_queued_rtc": 0,
+    "pending_on_chain_rtc": 0,
+    "received_rtc": 0
+  },
+  "target_received_rtc": 500,
+  "gap_to_target_received_rtc": 500,
+  "notes": "Distinct Type C package from prior reward-drift short. No acceptance, pending, or receipt asserted."
+}
