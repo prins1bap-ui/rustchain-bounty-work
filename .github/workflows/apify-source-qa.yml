@@ -15,7 +15,7 @@ permissions:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -51,3 +51,7 @@ jobs:
             exit 1
           fi
           echo 'No APIFY_TOKEN assignment is present in staged Actor source.'
+
+      - name: Build the exact Actor Docker image
+        run: |
+          docker build --pull --tag website-tech-contact-snapshot:qa apify_actor
