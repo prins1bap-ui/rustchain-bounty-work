@@ -1,26 +1,38 @@
 {
-  "schema_version": 7,
-  "as_of": "2026-09-02T15:41:28-04:00",
+  "schema_version": 8,
+  "as_of": "2026-09-02T19:46:00-04:00",
   "authority": "ops/rtc_ledger.json",
   "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "accounting_snapshot": {
-    "historical_fixed_value_submissions_rtc": 698,
-    "current_viable_fixed_value_submitted_rtc": 637,
+    "historical_fixed_value_submissions_rtc": 727,
+    "current_viable_fixed_value_submitted_rtc": 441,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "gap_to_500_received_rtc": 405,
-    "snapshot_source": "ops/rtc_ledger.json schema v8"
+    "verified_24h_receivable_ceiling_rtc": 0,
+    "snapshot_source": "ops/rtc_ledger.json schema v11"
   },
-  "receivables_priority": [402,16497,685,16601,16471,2259,13226,14014,293,102],
+  "receivables_priority": [
+    402,
+    16497,
+    685,
+    16601,
+    16471,
+    2259,
+    13226,
+    14014,
+    293,
+    102
+  ],
   "priority_basis": {
     "402": "50 RTC completion tranche on an already-greenlit 100 RTC Builder grant; kickoff 50 RTC already received.",
+    "685": "50 RTC Tier-1 Rust Agent Economy SDK; CI repair committed at 2158995 after identifying the filtered browse-query mock mismatch. Awaiting fresh workflow result and maintainer adjudication.",
+    "16471": "19 submitted findings under a variable 35 RTC + 10/confirmed-defect formula; no amount booked and expansion frozen pending adjudication.",
     "16497": "Two submitted 33 RTC articles under explicit two-per-person cap and authorized Gmail fallback.",
-    "685": "275 RTC across four submitted SDK/integration deliverables; large value but older, crowded issue and adjudication latency reduce confidence.",
-    "16601": "48 RTC remains viable: Type A 40 plus earliest Type D 8; competing/one-kit-per-type adjudication lowers payment probability.",
-    "16471": "19 submitted findings under a variable 35 RTC + 10/confirmed-defect formula; no amount booked and expansion frozen pending adjudication."
+    "16601": "48 RTC remains viable: Type A 40 plus earliest Type D 8; competing/one-kit-per-type adjudication lowers payment probability."
   },
   "receivable_mode_actions": [
     "check authoritative stage changes",
@@ -52,10 +64,19 @@
     "email_message_id": "1a06368a74d516b9",
     "rtc_booked_as_submitted_only": 40
   },
-  "next_action": "Convert the 637 RTC viable submitted backlog. Watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions. Preserve 95 RTC as the only collected-revenue figure.",
+  "next_action": "Convert the 441 RTC viable fixed-value submitted backlog. First verify the #685 CI repair, then watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions. Preserve 95 RTC as the only collected-revenue figure.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
     "pending_cost_authorization": null
-  }
+  },
+  "conversion_repairs": [
+    {
+      "issue": 685,
+      "at": "2026-09-02T19:46:00-04:00",
+      "action": "Patched tests/client.rs so the browse_jobs_filtered mock explicitly matches all five forwarded query parameters.",
+      "commit": "2158995afe66f8e7c6eed2edd4b40b3359587909",
+      "status": "AWAITING_CI"
+    }
+  ]
 }
