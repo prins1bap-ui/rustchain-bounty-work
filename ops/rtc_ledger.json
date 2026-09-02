@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-09-02T10:46:25-04:00",
+  "as_of": "2026-09-02T11:13:00-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
   "verified_totals": {
     "fixed_value_viable_pipeline_rtc": 725,
@@ -11,10 +11,10 @@
     "variable_value_submissions_excluded_from_fixed_totals": true
   },
   "rolling_24h_scoreboard": {
-    "window_as_of": "2026-09-02T10:46:25-04:00",
+    "window_as_of": "2026-09-02T11:13:00-04:00",
     "fixed_rtc_newly_submitted": 15,
     "variable_value_submissions_new": 1,
-    "variable_value_note": "#16471 finding 14 submitted; no RTC amount booked until maintainer confirms qualifying defects",
+    "variable_value_note": "#16471 finding 14 submitted; canonical 14-finding adjudication index then sent as a reply in the same Gmail thread after a fresh GitHub issue-comment attempt again returned 403; no additional claim or RTC booked",
     "rtc_newly_accepted_queued": 0,
     "rtc_newly_pending_on_chain": 0,
     "rtc_newly_received": 0,
@@ -67,7 +67,7 @@
     ["16471-14-docstring-weekly-cap-created-date",16471,"Submitted 2026-09-02 by documented email fallback after GitHub 403; current docstring gate filters weekly earnings by issue created_at rather than verification marker timestamp"]
   ],
   "variable_value_notes": {
-    "16471":"14 distinct finding submissions located/submitted. Formula is 35 RTC audit + 10 RTC per confirmed defect beyond first; book no fixed RTC until maintainer confirms defects.",
+    "16471":"14 distinct finding submissions located/submitted. Formula is 35 RTC audit + 10 RTC per confirmed defect beyond first; book no fixed RTC until maintainer confirms defects. On 2026-09-02 a canonical index of all 14 was sent by reply in the existing Gmail thread after GitHub issue-comment write again returned 403; this was consolidation only, not a new claim.",
     "102":"maintainer-determined; submission explicitly presumed no payout amount",
     "2070":"judging determines exact payout"
   },
@@ -86,14 +86,15 @@
     "747":"updates/resubmissions are not additional claims",
     "2143":"blocked ZIP + corrected TXT = one claim",
     "1109":"multiple fallback emails = one claim",
-    "16601":"updates to a package are not separate claims"
+    "16601":"updates to a package are not separate claims",
+    "16471":"canonical consolidation/reply is not an additional economic claim"
   },
   "settlement_status": {
     "last_authoritative_timing":"Sophia stated queued transfers confirm about 24 hours after queueing",
     "pending_id_found":false,
     "transaction_hash_found":false,
     "receipt_verified":false,
-    "last_reconciled":"2026-09-02T10:46:25-04:00",
+    "last_reconciled":"2026-09-02T11:13:00-04:00",
     "new_maintainer_payout_evidence":false
   }
 }
