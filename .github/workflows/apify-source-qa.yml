@@ -1,0 +1,53 @@
+name: Apify Actor Source QA
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - 'apify_actor/**'
+      - '.github/workflows/apify-source-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Reconstruct canonical scanner and verify hash
+        run: |
+          cd apify_actor
+          cat src/scanner_parts/part1.part src/scanner_parts/part2.part src/scanner_parts/part3.part src/scanner_parts/part4.part > src/scanner.py
+          echo '148c6a0a7f1d97c1d204f310c72afea5f0bd47a00b0ab572b6d2e71d4a3fcfff  src/scanner.py' | sha256sum --check --strict
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r apify_actor/requirements.txt pytest
+
+      - name: Run deterministic QA
+        run: |
+          cd apify_actor
+          python -m pytest -q
+          python -m compileall -q src
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('.actor').glob('*.json'):
+              with path.open(encoding='utf-8') as handle:
+                  json.load(handle)
+          print('Actor JSON parse OK')
+          PY
+
+      - name: Verify zero-secret source tree
+        run: |
+          if grep -R -n -E '(^|[^A-Z_])APIFY_TOKEN[[:space:]]*=' apify_actor --exclude-dir=tests; then
+            echo 'Unexpected token assignment found in Actor source.' >&2
+            exit 1
+          fi
+          echo 'No APIFY_TOKEN assignment is present in staged Actor source.'
