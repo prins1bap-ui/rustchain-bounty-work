@@ -4,9 +4,9 @@
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 725,
+    "fixed_value_viable_pipeline_rtc": 680,
     "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 632,
+    "fixed_value_submitted_rtc": 587,
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
     "variable_value_new_today":"#16471 finding 14 submitted; no RTC booked until confirmed"
@@ -36,9 +36,15 @@
     {"issue":36,"reason":"Python SDK bounty already approved to another claimant; multiple competing SDKs"},
     {"issue":755,"reason":"backup verifier saturated with multiple complete PRs"},
     {"issue":121,"reason":"known awarded/merged SEO implementation"},
-    {"issue":16253,"reason":"requires mergeable PR to Rustchain; no writable Rustchain fork route"},
+    {"issue":16253,"reason":"already merged/claimed elsewhere and no writable Rustchain fork route"},
     {"issue":16251,"reason":"requires real macOS + Linux verification and Rustchain PR route"},
-    {"issue":14018,"reason":"requires genuine local game build/play/FPS/screenshots; not yet demonstrated in current execution environment"}
+    {"issue":14018,"reason":"requires genuine local game build/play/FPS/screenshots; not yet demonstrated in current execution environment"},
+    {"issue":16601,"reason":"maintainer clarified one kit per type; Type B belongs to earlier ranka23 submission and Type C already accepted to AInoAKARI; our B/C removed from receivables; Type A has a credible earlier complete submission; Type D remains receivable-only pending adjudication"},
+    {"issue":3074,"reason":"acceptance requires open langchain-community PR or live PyPI package; no executable external fork/PyPI publication route presently available"},
+    {"issue":3075,"reason":"requires three live external directory listings; available connector set does not provide an honest executable three-directory publication route"},
+    {"issue":12788,"reason":"requires real target-platform attestation evidence and upstream PR; cannot honestly produce hardware evidence in current environment"},
+    {"issue":16271,"reason":"security hardening bounty; excluded from ordinary non-security RTC construction"},
+    {"issue":16472,"reason":"requires root cause from CI job logs plus BoTTube PR; no writable BoTTube fork route and first-prize deliverable cannot be completed through current tools"}
   ],
   "last_submission": {
     "issue":16471,
@@ -49,5 +55,5 @@
     "artifact":"16471-docstring-weekly-cap-created-date",
     "rtc_booked":null
   },
-  "next_action":"Continue current-source #16471 silent-success reliability review for genuinely distinct defects while hourly receivable monitoring checks for maintainer adjudication and payout evidence; otherwise promote only a fresh candidate that passes every availability gate."
+  "next_action":"Continue current-source #16471 review only for findings not already present in the public thread or our 14-submission ledger; reconcile maintainer movement immediately; do not start a speculative build unless a fresh standalone/email-capable slot survives competition and route checks."
 }
