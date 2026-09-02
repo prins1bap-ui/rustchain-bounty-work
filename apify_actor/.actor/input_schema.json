@@ -1,0 +1,35 @@
+{
+  "title": "Website Tech + Contact Snapshot input",
+  "description": "Enter public website URLs to scan. One lightweight HTML request is made per unique URL. Only successful HTML audits are billable.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "urls": {
+      "title": "Website URLs",
+      "type": "array",
+      "description": "Public HTTP/HTTPS websites to audit. Private/local network targets are rejected.",
+      "editor": "stringList",
+      "default": ["https://example.com"],
+      "items": {"type": "string"},
+      "minItems": 1,
+      "maxItems": 500
+    },
+    "timeoutSeconds": {
+      "title": "Per-site timeout",
+      "type": "integer",
+      "description": "Maximum seconds to wait for each network request.",
+      "default": 10,
+      "minimum": 3,
+      "maximum": 20
+    },
+    "maxRetries": {
+      "title": "Retries for transient failures",
+      "type": "integer",
+      "description": "Retries only timeouts, network errors, and transient HTTP statuses such as 429/503.",
+      "default": 1,
+      "minimum": 0,
+      "maximum": 2
+    }
+  },
+  "required": ["urls"]
+}
