@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Build a high-EV RustChain bounty queue from authoritative GitHub issue state.
+"""Build a high-EV RustChain bounty queue from authoritative GitHub state.
 
-Triage accelerator only. It never marks RTC earned. The queue exists to spend
-seconds, not tens of minutes, eliminating saturated, unsafe, or route-blocked
-work before implementation begins.
+Triage only. This script NEVER promotes accounting stages or treats advertised
+RTC as earned. It exists to fail closed on unsafe, duplicate, saturated, or
+unsubmittable work before implementation time is spent.
 """
 from __future__ import annotations
-import json, os, re, time, urllib.parse, urllib.request
-from dataclasses import dataclass, asdict
+
+import json
+import os
+import re
+import time
+import urllib.parse
+import urllib.request
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 OWNER = "Scottcjn"
@@ -16,16 +22,65 @@ API = "https://api.github.com"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 UA = "prins1bap-ui-rtc-preflight"
 
-CLAIM = re.compile(r"\b(claim(?:ing)?|implemented|complete(?:d)?|submitted|pull request|pr\s*#|ready for review)\b", re.I)
-EMAIL = re.compile(r"\b(email|sophia\.eagent@gmail\.com|submit:\s*\[[^\]]*email)\b", re.I)
-STANDALONE = re.compile(r"\b(standalone repo|standalone repository|open source on github)\b", re.I)
-PR_ONLY = re.compile(r"\b(prs? (?:go|against|to)|open a pr|submit a pr|pull request)\b", re.I)
+# Distinct economic lanes already worked by this account. These must never be
+# rediscovered as fresh earning opportunities without a maintainer revision or
+# a genuinely distinct subtask.
+OWN_WORK = {
+    29, 100, 254, 293, 315, 398, 402, 520, 685, 747, 1102, 13226,
+    13954, 14014, 1524, 1618, 2143, 2784, 12442, 12443, 12444, 16601,
+}
 
-OFFENSIVE_TITLE = re.compile(r"\b(red[- ]?team|break\b|exploit|attack|vulnerability hunt|bug bounty|adversarial)\b", re.I)
-DEFENSIVE_TITLE = re.compile(r"\b(harden|hardening|remediation|fix|validation|anti-spoof|regression test|secure coding)\b", re.I)
-FUND_TITLE = re.compile(r"\b(liquidity|swap|bridge|escrow|transaction test|staking|wallet linking|payment integration)\b", re.I)
-EXTERNAL_TITLE = re.compile(r"\b(youtube|video|article|blog|social|review|reddit|twitter|mastodon|dev\.to|medium|hashnode|publication)\b", re.I)
-HARDWARE_TITLE = re.compile(r"\b(playtest|hardware report|test the miner|real hardware|powerpc|sparc|risc-v|mac os 9|raspberry pi|vintage hardware)\b", re.I)
+CLAIM_SIGNAL = re.compile(
+    r"\b(claim(?:ing|ed)?|implemented|completed|submitted|ready for review|"
+    r"pull request|\bpr\s*#|merged|delivered)\b",
+    re.I,
+)
+
+# Hard-exclusion patterns apply mainly to the title so ordinary explanatory
+# prose does not accidentally poison benign work.
+OFFENSIVE_TITLE = re.compile(
+    r"\b(red[- ]?team|break\b|attacks?\b|exploit|vulnerab(?:ility)?\s+hunt|"
+    r"bug bounty|security season|adversarial|double[- ]?spend|csrf|xss|rce|"
+    r"auth bypass|privilege escalation|replay\s*&?\s*relay)\b",
+    re.I,
+)
+DEFENSIVE_TITLE = re.compile(
+    r"\b(harden|hardening|remediation|secure coding|validation|anti[- ]?spoof|"
+    r"regression test|defensive|sanitize|least privilege)\b",
+    re.I,
+)
+FUND_TITLE = re.compile(
+    r"\b(liquidity|tips?|donat|swap|bridge|escrow|staking?|x402|payment|"
+    r"wallet linking|transaction test|send rtc|transfer rtc)\b",
+    re.I,
+)
+EXTERNAL_TITLE = re.compile(
+    r"\b(youtube|video|article|blog|social media|reddit|twitter|mastodon|"
+    r"dev\.to|medium|hashnode|publication|ambassador|referral|hacker news|"
+    r"review of)\b",
+    re.I,
+)
+HARDWARE_TITLE = re.compile(
+    r"\b(playtest|hardware report|test the miner|run the miner|run a full node|"
+    r"real hardware|powerpc|sparc|risc[- ]?v|mips|s390x|mac os 9|amiga|"
+    r"dreamcast|raspberry pi|vintage hardware|dos miner|port .* miner)\b",
+    re.I,
+)
+
+PR_ROUTE = re.compile(
+    r"\b(PRs? go to|PRs? against|open a PR|submit a PR|PR to `?Scottcjn/|"
+    r"pull request to `?Scottcjn/|deliverable:\s*a PR)\b",
+    re.I,
+)
+STANDALONE_ROUTE = re.compile(
+    r"\b(standalone repo|standalone repository|open source on GitHub|"
+    r"submit as standalone)\b",
+    re.I,
+)
+EMAIL_ROUTE = re.compile(
+    r"\b(email|sophia\.eagent@gmail\.com|submit:\s*\[[^\]]*email)\b",
+    re.I,
+)
 
 REWARD_TITLE = [
     re.compile(r"\b(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)\s*RTC\b", re.I),
@@ -33,35 +88,39 @@ REWARD_TITLE = [
     re.compile(r"\b(\d+(?:\.\d+)?)\s*RTC\b", re.I),
 ]
 
-def api(path, params=None):
+
+def api(path: str, params: dict | None = None):
     url = API + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
     headers = {"Accept": "application/vnd.github+json", "User-Agent": UA}
     if TOKEN:
         headers["Authorization"] = f"Bearer {TOKEN}"
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=30) as response:
+    request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(request, timeout=30) as response:
         return json.loads(response.read())
 
-def reward_from_title(title):
-    for i, pattern in enumerate(REWARD_TITLE):
+
+def reward_from_title(title: str) -> float:
+    for index, pattern in enumerate(REWARD_TITLE):
         match = pattern.search(title or "")
         if not match:
             continue
-        return float(match.group(2) if i == 0 else match.group(1))
+        return float(match.group(2) if index == 0 else match.group(1))
     return 0.0
 
-def reward_from_body(body):
+
+def reward_from_body(body: str) -> float:
+    # Body is a fallback only. Title is authoritative when it contains a reward.
     patterns = [
-        re.compile(r"\breward(?:_rtc)?\s*[:=]\s*\*{0,2}(\d+(?:\.\d+)?)\b", re.I),
-        re.compile(r"\bpayout\s*[:=]\s*\*{0,2}(\d+(?:\.\d+)?)\s*RTC\b", re.I),
-        re.compile(r"\b(\d+(?:\.\d+)?)\s*RTC\b", re.I),
+        re.compile(r"\breward(?:_rtc)?\s*[:=]\s*\*{0,2}(\d+(?:\.\d+)?)", re.I),
+        re.compile(r"\bpayout\s*[:=]\s*\*{0,2}(\d+(?:\.\d+)?)\s*RTC", re.I),
     ]
-    values = []
+    values: list[float] = []
     for pattern in patterns:
-        values.extend(float(x) for x in pattern.findall(body or "") if float(x) <= 1000)
+        values.extend(float(value) for value in pattern.findall(body or "") if float(value) <= 1000)
     return max(values, default=0.0)
+
 
 @dataclass
 class Candidate:
@@ -76,105 +135,140 @@ class Candidate:
     score: float
     decision: str
 
-def classify(body, title):
-    text = f"{title}\n{body}"
-    body_l = (body or "").lower()
-    flags = []
 
-    offensive = bool(OFFENSIVE_TITLE.search(title or ""))
-    defensive = bool(DEFENSIVE_TITLE.search(title or ""))
+def classify(number: int, title: str, body: str) -> tuple[str, list[str]]:
+    text = f"{title}\n{body}"
+    title_text = title or ""
+    lower = (body or "").lower()
+    flags: list[str] = []
+
+    if number in OWN_WORK:
+        flags.append("existing-user-work")
+
+    offensive = bool(OFFENSIVE_TITLE.search(title_text))
+    defensive = bool(DEFENSIVE_TITLE.search(title_text))
     if offensive and not defensive:
         flags.append("offensive-security")
-    elif defensive and re.search(r"\b(security|spoof|auth|validation|vulnerab|attack)\b", text, re.I):
+    elif defensive:
         flags.append("defensive-security")
 
-    if FUND_TITLE.search(title or "") or any(p in body_l for p in (
-        "must use real rtc", "provide liquidity", "transaction hash required",
-        "link a wallet via the api", "funded wallet to post jobs"
-    )):
+    fund_body_markers = (
+        "must use real rtc", "provide liquidity", "transaction hash", "funded wallet",
+        "wallet to post jobs", "real rtc on mainnet", "link a wallet via the api",
+        "send a tip", "tip the", "make a payment", "escrow release",
+    )
+    if FUND_TITLE.search(title_text) or any(marker in lower for marker in fund_body_markers):
         flags.append("fund-movement")
 
-    if EXTERNAL_TITLE.search(title or "") or any(p in body_l for p in (
-        "must be on youtube", "publish on dev.to", "publish on medium",
-        "post on social media", "share on social", "real audience"
-    )):
+    external_body_markers = (
+        "must be on youtube", "publish on dev.to", "publish on medium", "publish on hashnode",
+        "post on social media", "share on social", "real audience", "public youtube video",
+        "discord server", "subscriber", "posted to reddit",
+    )
+    if EXTERNAL_TITLE.search(title_text) or any(marker in lower for marker in external_body_markers):
         flags.append("external-publication/account")
 
-    if HARDWARE_TITLE.search(title or "") or any(p in body_l for p in (
-        "must run on real hardware", "screenshot/video of miner running",
-        "your hardware/os and average fps", "run the miner for 24 hours"
-    )):
+    hardware_body_markers = (
+        "must run on real hardware", "screenshot/video of miner running", "your hardware/os",
+        "average fps", "run the miner for 24 hours", "real machine", "physical hardware",
+    )
+    if HARDWARE_TITLE.search(title_text) or any(marker in lower for marker in hardware_body_markers):
         flags.append("hardware/user-presence")
 
-    if EMAIL.search(text):
-        route = "email-fallback"
-    elif STANDALONE.search(text):
-        route = "standalone"
-    elif PR_ONLY.search(text):
+    # Route classification is deliberately conservative. A task that explicitly
+    # requires an upstream PR is not rescued by a generic email mention elsewhere.
+    if PR_ROUTE.search(text):
         route = "pr-only"
+    elif STANDALONE_ROUTE.search(text):
+        route = "standalone"
+    elif EMAIL_ROUTE.search(text):
+        route = "email-fallback"
     else:
-        route = "comment-or-unspecified"
+        # Project submission guidance permits email fallback when the GitHub App
+        # cannot comment. This route still needs task-level acceptance validation.
+        route = "email-fallback"
+
     return route, flags
 
-def claim_signal_count(number):
-    try:
-        comments = api(f"/repos/{OWNER}/{REPO}/issues/{number}/comments", {"per_page":100})
-    except Exception:
-        return -1
-    return sum(1 for comment in comments if CLAIM.search(comment.get("body") or ""))
 
-def main():
-    issues = []
+def claim_signal_count(number: int) -> int:
+    try:
+        comments = api(f"/repos/{OWNER}/{REPO}/issues/{number}/comments", {"per_page": 100})
+    except Exception:
+        # Unknown saturation must not be interpreted as zero competition.
+        return -1
+    return sum(1 for comment in comments if CLAIM_SIGNAL.search(comment.get("body") or ""))
+
+
+def main() -> int:
+    issues: list[dict] = []
     for page in range(1, 16):
-        batch = api(f"/repos/{OWNER}/{REPO}/issues", {
-            "state":"open", "labels":"bounty", "per_page":100, "page":page
-        })
+        batch = api(
+            f"/repos/{OWNER}/{REPO}/issues",
+            {"state": "open", "labels": "bounty", "per_page": 100, "page": page},
+        )
         if not batch:
             break
         issues.extend(item for item in batch if "pull_request" not in item)
         if len(batch) < 100:
             break
 
-    raw = []
+    raw: list[tuple] = []
     for issue in issues:
         title = issue.get("title", "")
         body = issue.get("body") or ""
         reward = reward_from_title(title) or reward_from_body(body)
         if reward <= 0:
             continue
-        route, flags = classify(body, title)
+        route, flags = classify(issue["number"], title, body)
         raw.append((reward, issue, route, flags))
     raw.sort(key=lambda row: row[0], reverse=True)
 
-    candidates = []
+    candidates: list[Candidate] = []
     for index, (reward, issue, route, flags) in enumerate(raw):
-        title = issue.get("title", "")
-        claims = claim_signal_count(issue["number"]) if reward >= 20 and index < 120 else -1
+        # Spend API budget only where saturation materially changes EV.
+        claims = claim_signal_count(issue["number"]) if reward >= 20 and index < 150 else -1
         comments = int(issue.get("comments") or 0)
+        flagset = set(flags)
 
         penalty = 0.0
-        if "offensive-security" in flags: penalty += 500
-        if "fund-movement" in flags: penalty += 500
-        if "external-publication/account" in flags: penalty += 140
-        if "hardware/user-presence" in flags: penalty += 140
-        if "defensive-security" in flags: penalty += 15
-        if route == "pr-only": penalty += 35
-        if claims > 0: penalty += min(100, claims * 10)
-        if comments > 25: penalty += min(35, comments / 4)
+        if "existing-user-work" in flagset:
+            penalty += 1000
+        if "offensive-security" in flagset:
+            penalty += 1000
+        if "fund-movement" in flagset:
+            penalty += 1000
+        if "external-publication/account" in flagset:
+            penalty += 250
+        if "hardware/user-presence" in flagset:
+            penalty += 250
+        if "defensive-security" in flagset:
+            penalty += 20
+        if route == "pr-only":
+            penalty += 100
+        if claims == -1 and reward >= 20:
+            penalty += 30
+        elif claims > 0:
+            penalty += min(150, claims * 12)
+        if comments > 25:
+            penalty += min(50, comments / 3)
 
         score = round(reward - penalty, 2)
-        flagset = set(flags)
-        hard = {"offensive-security", "fund-movement"} & flagset
-        user_dep = {"external-publication/account", "hardware/user-presence"} & flagset
 
-        if hard:
+        if "existing-user-work" in flagset:
+            decision = "OWN_WORK_RECHECK"
+        elif {"offensive-security", "fund-movement"} & flagset:
             decision = "EXCLUDE"
-        elif user_dep:
+        elif {"external-publication/account", "hardware/user-presence"} & flagset:
             decision = "BLOCKED_USER_OR_EXTERNAL"
+        elif claims == -1 and reward >= 20:
+            decision = "VERIFY"
         elif claims >= 5:
             decision = "SATURATION_RECHECK"
-        elif route == "pr-only" and reward < 50:
+        elif route == "pr-only":
             decision = "DEFER_ROUTE"
+        elif "defensive-security" in flagset:
+            decision = "VERIFY"
         elif score >= 40:
             decision = "EXECUTE"
         elif score >= 15:
@@ -182,46 +276,59 @@ def main():
         else:
             decision = "DEFER"
 
-        candidates.append(Candidate(
-            issue["number"], title, issue["html_url"], reward, comments, claims,
-            route, flags, score, decision
-        ))
+        candidates.append(
+            Candidate(
+                issue["number"], issue.get("title", ""), issue["html_url"], reward,
+                comments, claims, route, flags, score, decision,
+            )
+        )
         time.sleep(0.02)
 
-    rank_order = {
-        "EXECUTE": 6, "VERIFY": 5, "SATURATION_RECHECK": 4, "DEFER_ROUTE": 3,
-        "DEFER": 2, "BLOCKED_USER_OR_EXTERNAL": 1, "EXCLUDE": 0
+    priority = {
+        "EXECUTE": 7,
+        "VERIFY": 6,
+        "SATURATION_RECHECK": 5,
+        "DEFER_ROUTE": 4,
+        "DEFER": 3,
+        "OWN_WORK_RECHECK": 2,
+        "BLOCKED_USER_OR_EXTERNAL": 1,
+        "EXCLUDE": 0,
     }
-    candidates.sort(key=lambda c: (rank_order[c.decision], c.score, c.reward_rtc), reverse=True)
+    candidates.sort(key=lambda item: (priority[item.decision], item.score, item.reward_rtc), reverse=True)
 
-    output = {
+    Path("artifacts").mkdir(exist_ok=True)
+    payload = {
         "source": f"https://github.com/{OWNER}/{REPO}/issues",
         "accounting_note": "Triage only. No item here is earned RTC.",
         "candidate_count": len(candidates),
-        "candidates": [asdict(c) for c in candidates],
+        "candidates": [asdict(candidate) for candidate in candidates],
     }
-    Path("artifacts").mkdir(exist_ok=True)
-    Path("artifacts/rtc-candidate-queue.json").write_text(json.dumps(output, indent=2), encoding="utf-8")
+    Path("artifacts/rtc-candidate-queue.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
-    rows = [
-        "# RTC Candidate Queue", "",
-        "Triage only. Nothing here is earned RTC.", "",
+    lines = [
+        "# RTC Candidate Queue",
+        "",
+        "Triage only. Nothing here is earned RTC.",
+        "",
         "| Decision | RTC | # | Route | Claim signals | Score | Title |",
-        "|---|---:|---:|---|---:|---:|---|"
+        "|---|---:|---:|---|---:|---:|---|",
     ]
-    for candidate in candidates[:120]:
+    for candidate in candidates[:150]:
         safe_title = candidate.title.replace("|", "/")
-        rows.append(
-            f"| {candidate.decision} | {candidate.reward_rtc:g} | "
-            f"[{candidate.number}]({candidate.url}) | {candidate.route} | "
-            f"{candidate.claim_signals} | {candidate.score:g} | {safe_title} |"
+        lines.append(
+            f"| {candidate.decision} | {candidate.reward_rtc:g} | [{candidate.number}]({candidate.url}) | "
+            f"{candidate.route} | {candidate.claim_signals} | {candidate.score:g} | {safe_title} |"
         )
-    Path("artifacts/rtc-candidate-queue.md").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    Path("artifacts/rtc-candidate-queue.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"ranked {len(candidates)} bounties")
-    for candidate in [x for x in candidates if x.decision == "EXECUTE"][:15]:
-        print(f"EXECUTE #{candidate.number}: {candidate.reward_rtc:g} RTC score={candidate.score:g} route={candidate.route} {candidate.title}")
+    for candidate in [item for item in candidates if item.decision == "EXECUTE"][:15]:
+        print(
+            f"EXECUTE #{candidate.number}: {candidate.reward_rtc:g} RTC "
+            f"score={candidate.score:g} route={candidate.route} {candidate.title}"
+        )
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
