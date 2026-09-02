@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "as_of": "2026-09-02T12:22:00-04:00",
+  "as_of": "2026-09-02T13:48:00-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
@@ -22,18 +22,7 @@
     "route_first_screening": true,
     "delta_discovery_default": true,
     "terminal_rescan_without_trigger": false,
-    "execution_allowlist": [
-      "documentation",
-      "tutorials",
-      "localization_accessibility",
-      "ordinary_functional_reliability",
-      "developer_tooling",
-      "sdk_examples",
-      "objective_qa",
-      "content_packages",
-      "receivable_reconciliation",
-      "clearly_benign_pr_work"
-    ]
+    "execution_allowlist": ["documentation","tutorials","localization_accessibility","ordinary_functional_reliability","developer_tooling","sdk_examples","objective_qa","content_packages","receivable_reconciliation","clearly_benign_pr_work"]
   },
   "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
   "receivable_mode_actions": [
@@ -47,7 +36,7 @@
   "candidate_history": {
     "screened_out_compacted": true,
     "recheck_map": "ops/candidate_recheck_map.json",
-    "full historical reasons": "preserved in git history before schema v3",
+    "full_historical_reasons": "preserved in git history before schema v3",
     "default_recheck_behavior": "no rescan until trigger"
   },
   "route_status": {
@@ -66,6 +55,12 @@
     "16471": "freeze additional findings pending adjudication/request unless exceptional distinct high-confidence finding clears the adjudication-cost penalty",
     "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
   },
+  "latest_run_evidence": {
+    "gmail_reconciliation": "No new mail from sophia.eagent@gmail.com in the last 2 days; no new acceptance, pending ID, transaction hash, or receipt located.",
+    "maintainer_queue": "Tracker issue #16403 updated 2026-09-02 reports 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items, materially confirming maintainer review bandwidth as the binding conversion constraint.",
+    "delta_discovery": "Fresh open-issue delta contained claims, social/external-action tasks, security work, or previously blocked/saturated lanes; no new benign route-executable candidate cleared the elevated build gate.",
+    "scoreboard_changed": false
+  },
   "last_submission": {
     "issue": 2259,
     "id": "2259-cvpr-github-article",
@@ -75,5 +70,5 @@
     "artifact": "submissions/2259-cvpr-2026-github-post.md",
     "rtc_booked": 10
   },
-  "next_action": "Prioritize conversion of the existing 93 RTC ACCEPTED_QUEUED and 607 RTC SUBMITTED backlog. Perform delta discovery only for newly created or materially updated benign opportunities. Apply route viability before deep analysis. Do not expand #16471 or start ordinary speculative work unless the elevated build gate clears."
+  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Reconcile authoritative settlement evidence first. Continue delta-only discovery and route-first screening. Do not add adjudication load unless a newly changed benign opportunity has an executable route and unusually strong conversion economics."
 }
