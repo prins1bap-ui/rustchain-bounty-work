@@ -1,0 +1,94 @@
+name: RustChain miner dry-run #2271
+
+on:
+  push:
+    paths:
+      - '.github/workflows/rustchain-miner-dryrun-2271.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence repo
+        uses: actions/checkout@v4
+
+      - name: Checkout RustChain target
+        uses: actions/checkout@v4
+        with:
+          repository: Scottcjn/Rustchain
+          path: target
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --disable-pip-version-check requests psutil
+
+      - name: Run dry-run only and capture evidence
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p evidence
+          TARGET_SHA="$(git -C target rev-parse HEAD)"
+          RUNNER_OS="$(uname -a)"
+          CPU_MODEL="$(lscpu | sed -n 's/^Model name:[[:space:]]*//p' | head -n 1)"
+          ARCH="$(uname -m)"
+          CORES="$(nproc)"
+          MEM="$(free -h | awk '/^Mem:/ {print $2}')"
+          PYVER="$(python --version 2>&1)"
+          CMD="python3 rustchain_linux_miner.py --wallet RTCc5449fe1b93385961152720c864c0f073dae5855 --dry-run --show-payload"
+
+          cd target/miners/linux
+          set +e
+          python3 rustchain_linux_miner.py \
+            --wallet RTCc5449fe1b93385961152720c864c0f073dae5855 \
+            --dry-run \
+            --show-payload > ../../../evidence/2271-output.txt 2>&1
+          EXIT_CODE=$?
+          set -e
+          cd ../../..
+
+          {
+            echo '# RustChain bounty #2271 miner dry-run evidence'
+            echo
+            echo '- Claimant: `@prins1bap-ui`'
+            echo '- RTC wallet: `RTCc5449fe1b93385961152720c864c0f073dae5855`'
+            echo '- Execution environment: GitHub-hosted Ubuntu runner (virtual machine)'
+            echo "- OS: \`$RUNNER_OS\`"
+            echo "- CPU: \`$CPU_MODEL\`"
+            echo "- Architecture: \`$ARCH\`"
+            echo "- vCPU count: \`$CORES\`"
+            echo "- Memory: \`$MEM\`"
+            echo "- Python: \`$PYVER\`"
+            echo "- RustChain target commit: \`$TARGET_SHA\`"
+            echo "- Command: \`$CMD\`"
+            echo "- Exit code: \`$EXIT_CODE\`"
+            echo
+            echo 'This was dry-run only. No mining loop, enrollment, transfer, wallet spend, or state-changing action was started.'
+            echo
+            echo '## Output'
+            echo '```text'
+            cat evidence/2271-output.txt
+            echo '```'
+          } > evidence/2271-miner-dryrun.md
+
+      - name: Persist evidence
+        if: always()
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/2271-output.txt evidence/2271-miner-dryrun.md
+          if git diff --cached --quiet; then
+            echo 'No evidence changes to commit.'
+          else
+            git commit -m 'Capture RustChain miner dry-run evidence for bounty 2271'
+            git push
+          fi
