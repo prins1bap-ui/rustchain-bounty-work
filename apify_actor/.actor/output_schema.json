@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Website Tech + Contact Snapshot output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Website audit results",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}
