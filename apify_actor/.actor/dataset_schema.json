@@ -1,0 +1,80 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "requestedUrl": {"type": "string"},
+      "normalizedUrl": {"type": ["string", "null"]},
+      "finalUrl": {"type": ["string", "null"]},
+      "statusCode": {"type": ["integer", "null"]},
+      "redirectCount": {"type": "integer", "minimum": 0},
+      "status": {"type": "string", "enum": ["SUCCESS", "ERROR"]},
+      "errorCode": {"type": ["string", "null"]},
+      "errorMessage": {"type": ["string", "null"]},
+      "title": {"type": ["string", "null"]},
+      "metaDescription": {"type": ["string", "null"]},
+      "generator": {"type": ["string", "null"]},
+      "language": {"type": ["string", "null"]},
+      "canonicalUrl": {"type": ["string", "null"]},
+      "organizationName": {"type": ["string", "null"]},
+      "structuredDataTypes": {"type": "array", "items": {"type": "string"}},
+      "detectedTechnologies": {"type": "array", "items": {"type": "string"}},
+      "forms": {"type": "integer", "minimum": 0},
+      "emails": {"type": "array", "items": {"type": "string"}},
+      "phones": {"type": "array", "items": {"type": "string"}},
+      "socialProfiles": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "https": {"type": ["boolean", "null"]},
+      "server": {"type": ["string", "null"]},
+      "contentType": {"type": ["string", "null"]},
+      "bytesRead": {"type": "integer", "minimum": 0},
+      "securityHeadersPresent": {"type": "array", "items": {"type": "string"}},
+      "securityHeadersMissing": {"type": "array", "items": {"type": "string"}}
+    },
+    "required": [
+      "requestedUrl", "normalizedUrl", "finalUrl", "statusCode", "redirectCount",
+      "status", "errorCode", "errorMessage", "title", "metaDescription", "generator",
+      "language", "canonicalUrl", "organizationName", "structuredDataTypes",
+      "detectedTechnologies", "forms", "emails", "phones", "socialProfiles", "https",
+      "server", "contentType", "bytesRead", "securityHeadersPresent", "securityHeadersMissing"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Website audits",
+      "transformation": {
+        "fields": [
+          "requestedUrl", "status", "statusCode", "title", "organizationName",
+          "detectedTechnologies", "emails", "phones", "socialProfiles", "forms",
+          "https", "securityHeadersMissing", "server", "errorCode"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "requestedUrl": {"label": "Requested URL", "format": "link"},
+          "status": {"label": "Status", "format": "text"},
+          "statusCode": {"label": "HTTP", "format": "number"},
+          "title": {"label": "Title", "format": "text"},
+          "organizationName": {"label": "Organization", "format": "text"},
+          "detectedTechnologies": {"label": "Technologies", "format": "array"},
+          "emails": {"label": "Emails", "format": "array"},
+          "phones": {"label": "Phones", "format": "array"},
+          "socialProfiles": {"label": "Social profiles", "format": "object"},
+          "forms": {"label": "Forms", "format": "number"},
+          "https": {"label": "HTTPS", "format": "boolean"},
+          "securityHeadersMissing": {"label": "Missing security headers", "format": "array"},
+          "server": {"label": "Server", "format": "text"},
+          "errorCode": {"label": "Error", "format": "text"}
+        }
+      }
+    }
+  }
+}
