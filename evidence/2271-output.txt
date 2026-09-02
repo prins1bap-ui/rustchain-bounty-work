@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/runner/work/rustchain-bounty-work/rustchain-bounty-work/target/miners/linux/rustchain_linux_miner.py", line 986, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/rustchain-bounty-work/rustchain-bounty-work/target/miners/linux/rustchain_linux_miner.py", line 967, in main
+    miner = LocalMiner(
+            ^^^^^^^^^^^
+  File "/home/runner/work/rustchain-bounty-work/rustchain-bounty-work/target/miners/linux/rustchain_linux_miner.py", line 271, in __init__
+    self.keypair = generate_keypair()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/rustchain-bounty-work/rustchain-bounty-work/target/miners/linux/miner_crypto.py", line 64, in generate_keypair
+    raise RuntimeError("PyNaCl required: pip install PyNaCl")
+RuntimeError: PyNaCl required: pip install PyNaCl
