@@ -1,0 +1,160 @@
+            address = None
+        if address is not None and not address.is_global:
+            raise UnsafeUrlError("Private, local, reserved, or non-global network targets are not allowed")
+    return normalized
+
+
+def _decode_body(body: bytes, content_type: str) -> str:
+    match = CHARSET_RE.search(content_type or "")
+    candidates = [match.group(1) if match else None, "utf-8", "windows-1252"]
+    for encoding in candidates:
+        if not encoding:
+            continue
+        try:
+            return body.decode(encoding)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return body.decode("utf-8", errors="replace")
+
+
+def parse_html(html: str, *, base_url: str | None = None) -> dict:
+    parser = PageParser()
+    parser.feed(html)
+    visible_text = parser.visible_text
+    emails = set(parser.mailto_emails)
+    emails.update(email.lower() for email in EMAIL_RE.findall(visible_text))
+    phones = set(parser.tel_phones)
+    phones.update(" ".join(phone.split()) for phone in PHONE_RE.findall(visible_text))
+    detected = [name for name, patterns in TECH_PATTERNS.items() if any(pattern.search(html) for pattern in patterns)]
+    canonical = parser.canonical_href
+    if canonical and base_url:
+        canonical = urljoin(base_url, canonical)
+    social_profiles = {name: sorted(values)[:5] for name, values in parser.social_profiles.items() if values}
+    return {
+        "title": parser.title,
+        "metaDescription": parser.meta_description,
+        "generator": parser.generator,
+        "language": parser.language,
+        "canonicalUrl": canonical,
+        "organizationName": parser.organization_name,
+        "structuredDataTypes": sorted(parser.structured_data_types)[:30],
+        "detectedTechnologies": sorted(detected),
+        "forms": parser.forms,
+        "emails": sorted(emails)[:20],
+        "phones": sorted(phones)[:20],
+        "socialProfiles": social_profiles,
+    }
+
+
+def fetch_url(
+    url: str,
+    *,
+    timeout_seconds: float = 10.0,
+    max_retries: int = 1,
+    max_response_bytes: int = MAX_RESPONSE_BYTES,
+    client_factory=httpx.Client,
+) -> FetchResult:
+    normalized = validate_public_url(url)
+
+    def validate_request(request: httpx.Request) -> None:
+        validate_public_url(str(request.url))
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (compatible; WebsiteTechContactSnapshot/1.0; +https://apify.com)",
+        "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.1",
+        "Accept-Language": "en-US,en;q=0.8",
+    }
+    attempts = max(0, min(int(max_retries), 2)) + 1
+    last_error: Exception | None = None
+
+    with client_factory(
+        follow_redirects=True,
+        timeout=httpx.Timeout(timeout_seconds),
+        headers=headers,
+        event_hooks={"request": [validate_request]},
+    ) as client:
+        for attempt in range(attempts):
+            try:
+                with client.stream("GET", normalized) as response:
+                    if response.status_code in TRANSIENT_STATUS_CODES and attempt + 1 < attempts:
+                        time.sleep(0.5 * (2**attempt))
+                        continue
+                    chunks: list[bytes] = []
+                    total = 0
+                    for chunk in response.iter_bytes():
+                        total += len(chunk)
+                        if total > max_response_bytes:
+                            raise ResponseTooLargeError(f"Response exceeded {max_response_bytes} bytes")
+                        chunks.append(chunk)
+                    return FetchResult(
+                        requested_url=normalized,
+                        final_url=str(response.url),
+                        status_code=response.status_code,
+                        headers={k.lower(): v for k, v in response.headers.items()},
+                        body=b"".join(chunks),
+                        redirect_count=len(response.history),
+                    )
+            except (httpx.TimeoutException, httpx.NetworkError) as exc:
+                last_error = exc
+                if attempt + 1 < attempts:
+                    time.sleep(0.5 * (2**attempt))
+                    continue
+                raise
+    if last_error:
+        raise last_error
+    raise RuntimeError("Fetch failed without an explicit error")
+
+
+def audit_url(url: str, *, timeout_seconds: float = 10.0, max_retries: int = 1, client_factory=httpx.Client) -> dict:
+    try:
+        fetch = fetch_url(
+            url,
+            timeout_seconds=timeout_seconds,
+            max_retries=max_retries,
+            client_factory=client_factory,
+        )
+    except UnsafeUrlError as exc:
+        return _error_result(url, "UNSAFE_URL", str(exc))
+    except DnsResolutionError as exc:
+        return _error_result(url, "DNS_ERROR", str(exc))
+    except ValueError as exc:
+        return _error_result(url, "INVALID_URL", str(exc))
+    except ResponseTooLargeError as exc:
+        return _error_result(url, "RESPONSE_TOO_LARGE", str(exc))
+    except httpx.TimeoutException:
+        return _error_result(url, "TIMEOUT", "The website did not respond before the timeout")
+    except httpx.NetworkError as exc:
+        return _error_result(url, "NETWORK_ERROR", str(exc)[:300])
+    except Exception as exc:
+        return _error_result(url, "FETCH_ERROR", str(exc)[:300])
+
+    content_type = fetch.headers.get("content-type", "")
+    security_present = [header for header in SECURITY_HEADERS if fetch.headers.get(header)]
+    security_missing = [header for header in SECURITY_HEADERS if not fetch.headers.get(header)]
+    base = {
+        "requestedUrl": url,
+        "normalizedUrl": fetch.requested_url,
+        "finalUrl": fetch.final_url,
+        "statusCode": fetch.status_code,
+        "redirectCount": fetch.redirect_count,
+        "https": urlsplit(fetch.final_url).scheme.lower() == "https",
+        "server": fetch.headers.get("server"),
+        "contentType": content_type or None,
+        "bytesRead": len(fetch.body),
+        "securityHeadersPresent": security_present,
+        "securityHeadersMissing": security_missing,
+    }
+
+    if not (200 <= fetch.status_code < 300):
+        return {
+            **base,
+            "status": "ERROR",
+            "errorCode": f"HTTP_{fetch.status_code}",
+            "errorMessage": f"Website returned HTTP {fetch.status_code}",
+            **_empty_parsed_fields(),
+        }
+    if content_type and not any(kind in content_type.lower() for kind in ALLOWED_CONTENT_TYPES):
+        return {
+            **base,
+            "status": "ERROR",
+            "errorCode": "UNSUPPORTED_CONTENT_TYPE",
