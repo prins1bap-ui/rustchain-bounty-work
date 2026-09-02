@@ -1,0 +1,293 @@
+{
+  "tested_at_utc": "2026-09-02T18:03:02Z",
+  "results": [
+    {
+      "url": "https://bottube.ai/",
+      "status": 200,
+      "final_url": "https://bottube.ai/",
+      "latency_ms": 390,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 115952,
+      "sha256": "c9393c94944e9498e30214bed79cb1bffb01412b0731f668ab3dff50a28886bb"
+    },
+    {
+      "url": "https://bottube.ai/create",
+      "status": 200,
+      "final_url": "https://bottube.ai/create",
+      "latency_ms": 29,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 66060,
+      "sha256": "f40a3bba89593bb3438262157017dfcd3e93ba5ea4e451b83e3468643006e28a"
+    },
+    {
+      "url": "https://bottube.ai/credits",
+      "status": 200,
+      "final_url": "https://bottube.ai/credits",
+      "latency_ms": 29,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 68184,
+      "sha256": "8e195b7f77e4efe62c2e5ad6c4948ff50a62b6f22155b2b06f231caf3f7b584c"
+    },
+    {
+      "url": "https://bottube.ai/news",
+      "status": 200,
+      "final_url": "https://bottube.ai/news",
+      "latency_ms": 57,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 102994,
+      "sha256": "c24474814b3f578c2f254a65a81dab3b3f44da24b63e8634209bc0b0403d578f"
+    },
+    {
+      "url": "https://bottube.ai/trending",
+      "status": 200,
+      "final_url": "https://bottube.ai/trending",
+      "latency_ms": 133,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 117064,
+      "sha256": "3a8b352265373446a71e67c84013201d2c274e922da23780048462cc49d6a752"
+    },
+    {
+      "url": "https://bottube.ai/categories",
+      "status": 200,
+      "final_url": "https://bottube.ai/categories",
+      "latency_ms": 34,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 65929,
+      "sha256": "54328b3e4f6177fe3fcb7c02181697172d6ef4449c629be8f1b04b0e59769869"
+    },
+    {
+      "url": "https://bottube.ai/challenges",
+      "status": 200,
+      "final_url": "https://bottube.ai/challenges",
+      "latency_ms": 32,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 52586,
+      "sha256": "af2be1f412e4d13d0f8938a0a1ba706b7bc5405529c7aa748894fe3a40172584"
+    },
+    {
+      "url": "https://bottube.ai/bridge/wrtc",
+      "status": 200,
+      "final_url": "https://bottube.ai/bridge/wrtc",
+      "latency_ms": 29,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 62232,
+      "sha256": "3d9227295123fc1a861c5e8cfb4c494f81a5cfaac147169de94750dc7f7745c6"
+    },
+    {
+      "url": "https://bottube.ai/agents",
+      "status": 200,
+      "final_url": "https://bottube.ai/agents",
+      "latency_ms": 131,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1367825,
+      "sha256": "9d34c021694a1be3a401addf5429d5b5d3e0bdff0919d6c314619d967c312a2a"
+    },
+    {
+      "url": "https://bottube.ai/referrals",
+      "status": 200,
+      "final_url": "https://bottube.ai/referrals",
+      "latency_ms": 31,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 77295,
+      "sha256": "2b25f3b3b76a442d65d035d08b711d4faefb15492b6e31a8588d4c66ec441f43"
+    },
+    {
+      "url": "https://bottube.ai/reclaim",
+      "status": 200,
+      "final_url": "https://bottube.ai/reclaim",
+      "latency_ms": 30,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 53649,
+      "sha256": "8122ced15b893291ae7193007a81eb7f461ee5bddf1025d58f452148530bbc04"
+    },
+    {
+      "url": "https://bottube.ai/blog",
+      "status": 200,
+      "final_url": "https://bottube.ai/blog",
+      "latency_ms": 28,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 61653,
+      "sha256": "1c98b9b9bb4d6d1f42c4e9eb9abc952eb7ebd1d90157f09e16c0f48441e7cf89"
+    },
+    {
+      "url": "https://bottube.ai/community",
+      "status": 200,
+      "final_url": "https://bottube.ai/community",
+      "latency_ms": 27,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 59428,
+      "sha256": "9e77b4b3efb95907edcdd393007338ca67f2bb52c6ddc98467f570d77a58ec5d"
+    },
+    {
+      "url": "https://bottube.ai/upload",
+      "status": 200,
+      "final_url": "https://bottube.ai/upload",
+      "latency_ms": 28,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 64519,
+      "sha256": "a70be5ef8eb9a69d16df3d8ae9a406750f0be2c3bed48723d40891e57c446f33"
+    },
+    {
+      "url": "https://bottube.ai/login",
+      "status": 200,
+      "final_url": "https://bottube.ai/login",
+      "latency_ms": 27,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 58490,
+      "sha256": "671810f3aa2dd0b6999d00f1326bab398f2c1fc32ace8656f67e3b90af2f6aa7"
+    },
+    {
+      "url": "https://bottube.ai/docs",
+      "status": 200,
+      "final_url": "https://bottube.ai/docs",
+      "latency_ms": 28,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 94676,
+      "sha256": "14dd620c987a42e443780b2ee92609c401942e413ca78c79d3a6fdfe75f36073"
+    },
+    {
+      "url": "https://bottube.ai/join",
+      "status": 200,
+      "final_url": "https://bottube.ai/join",
+      "latency_ms": 28,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 70109,
+      "sha256": "d8eed778a6212eb25e2df39f6c32aa2ad8ea807b6cdf5aee00d136f47e9ae87a"
+    },
+    {
+      "url": "https://bottube.ai/watch/f5JLxh2FjUQ",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/f5JLxh2FjUQ",
+      "latency_ms": 193,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1452409,
+      "sha256": "6413f712fa859b31918014156aa6ebd5f8e1b4e3d80f2df0bd3e3bf83a850375"
+    },
+    {
+      "url": "https://bottube.ai/watch/ow8D4D8migp",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/ow8D4D8migp",
+      "latency_ms": 549,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1441021,
+      "sha256": "d7b2af08397021c839f4218577bf30e333955719ddc3f1a53ddb0af0c23d6ffd"
+    },
+    {
+      "url": "https://bottube.ai/watch/FE9Ns8uAs2M",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/FE9Ns8uAs2M",
+      "latency_ms": 995,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1641532,
+      "sha256": "94843870bcc9df2aca73c4a1b19dc48be823cabb5122b8e49bffaa620e071ed1"
+    },
+    {
+      "url": "https://bottube.ai/agent/boris_bot_1942",
+      "status": 200,
+      "final_url": "https://bottube.ai/agent/boris_bot_1942",
+      "latency_ms": 2050,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 91700,
+      "sha256": "d96ad86b69b2d8c84f8362b86d6db92e2746d843d91e2fb3d3ce5cc173110715"
+    },
+    {
+      "url": "https://bottube.ai/watch/Hkn193ZF8bZ",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/Hkn193ZF8bZ",
+      "latency_ms": 1670,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1439004,
+      "sha256": "11705f9bdf86c009c0bbcb2060a681af3c3c9603d7949c6f819e71f4085f123b"
+    },
+    {
+      "url": "https://bottube.ai/agent/sophia-elya",
+      "status": 200,
+      "final_url": "https://bottube.ai/agent/sophia-elya",
+      "latency_ms": 2209,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 319363,
+      "sha256": "ff0c0a27d3591c46681c8f7ecdc79494fa4cb28d5c567b2ac6de4e15df825883"
+    },
+    {
+      "url": "https://bottube.ai/watch/3rnONhxhxDW",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/3rnONhxhxDW",
+      "latency_ms": 2093,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1437468,
+      "sha256": "b72a317b35f5a5f6f2013b93b1e1f4f1a318fd41151e7cb3e47420f3912b4993"
+    },
+    {
+      "url": "https://bottube.ai/agent/glitchwave_vhs",
+      "status": 200,
+      "final_url": "https://bottube.ai/agent/glitchwave_vhs",
+      "latency_ms": 2546,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 100672,
+      "sha256": "71ab124ce80c57fb5df71e56f122eafdeb846a218f8ecee7b5bc6fe4a3e15858"
+    },
+    {
+      "url": "https://bottube.ai/watch/NQ_5JP2F04h",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/NQ_5JP2F04h",
+      "latency_ms": 202,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1199342,
+      "sha256": "fcc84092517421693ebb696a07f4e3671e7d76ac97e7e709b40963fcbfbefd01"
+    },
+    {
+      "url": "https://bottube.ai/agent/codex-poa-animated-explainer",
+      "status": 200,
+      "final_url": "https://bottube.ai/agent/codex-poa-animated-explainer",
+      "latency_ms": 137,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 67405,
+      "sha256": "f871c254d516642f4906e8e233d269c091773335488ac4093759b6d85cb63eb5"
+    },
+    {
+      "url": "https://bottube.ai/watch/7XlyZVF1IcK",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/7XlyZVF1IcK",
+      "latency_ms": 781,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1512540,
+      "sha256": "dca378d32504ca23f419dc813309dcd60779bb49ac99b88696ea65991065f387"
+    },
+    {
+      "url": "https://bottube.ai/agent/totally_not_skynet",
+      "status": 200,
+      "final_url": "https://bottube.ai/agent/totally_not_skynet",
+      "latency_ms": 970,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 84578,
+      "sha256": "75a957d041142366591e1c8365d3e7fbcde6b2b7c075fe356aa7baea79a7e9e4"
+    },
+    {
+      "url": "https://bottube.ai/watch/-BY9NkMf6hM",
+      "status": 200,
+      "final_url": "https://bottube.ai/watch/-BY9NkMf6hM",
+      "latency_ms": 1674,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1392548,
+      "sha256": "95cfd7585a8a852d1d10089a6ac4f5bb489d6f8447011b492ac458a471295e24"
+    },
+    {
+      "url": "https://bottube.ai/robots.txt",
+      "status": 200,
+      "final_url": "https://bottube.ai/robots.txt",
+      "latency_ms": 26,
+      "content_type": "text/plain; charset=utf-8",
+      "bytes": 1537,
+      "sha256": "38d9167cc620bfe8d5bc4ad98c89658d87b4e49f3214b870d85a3f883b866093"
+    },
+    {
+      "url": "https://bottube.ai/sitemap.xml",
+      "status": 200,
+      "final_url": "https://bottube.ai/sitemap.xml",
+      "latency_ms": 280,
+      "content_type": "application/xml; charset=utf-8",
+      "bytes": 4260899,
+      "sha256": "d5847ea295207b9bc289a3f972533c6a4393460efe0dd1acac69b3820f8a8b0d"
+    }
+  ]
+}
