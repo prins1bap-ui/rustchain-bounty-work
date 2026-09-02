@@ -32,15 +32,16 @@ Never promote a claim merely because it was built, emailed, merged, or described
 
 ## Current conversion state
 
-As of 2026-09-02 14:49 ET the verified fixed-value funnel is:
+As of 2026-09-02 15:03 ET:
 
-- `SUBMITTED`: 645 RTC
-- `ACCEPTED_QUEUED`: 0 RTC
-- `PENDING_ON_CHAIN`: 0 RTC
-- `RECEIVED`: 95 RTC
-- `gap_to_500_received_rtc`: 405 RTC
+- gross historical fixed-value `SUBMITTED`: **645 RTC**
+- viable fixed-value `SUBMITTED`: **584 RTC**
+- `ACCEPTED_QUEUED`: **0 RTC**
+- `PENDING_ON_CHAIN`: **0 RTC**
+- `RECEIVED`: **95 RTC**
+- `gap_to_500_received_rtc`: **405 RTC**
 
-The previous 93 RTC accepted/queued backlog has cleared through authoritative wallet-history receipt evidence. The remaining binding constraint is **maintainer adjudication of the 645 RTC submitted backlog**, not settlement of an accepted queue.
+The prior 93 RTC accepted/queued backlog has cleared through authoritative wallet-history receipt evidence. The viability discount from 645 gross submitted to 584 viable submitted is driven by authoritative #16601 one-kit-per-type adjudication: Type B belongs to ranka23, Type C was accepted to AInoAKARI, and duplicate Type D exposure cannot all pay. The remaining binding constraint is **maintainer adjudication of the 584 RTC viable submitted backlog**.
 
 The structured ledger in `ops/rtc_ledger.json` remains authoritative for individual claims. `ops/efficiency_policy.json` is authoritative for mode, recheck triggers, and discovery policy.
 
@@ -48,7 +49,7 @@ The structured ledger in `ops/rtc_ledger.json` remains authoritative for individ
 
 ### SETTLEMENT_ADJUDICATION mode — current default
 
-Remain in this mode while the fixed-value submitted backlog materially exceeds recent accepted/queued conversion or maintainer adjudication is the dominant bottleneck.
+Remain in this mode while the viable fixed-value submitted backlog materially exceeds recent accepted/queued conversion or maintainer adjudication is the dominant bottleneck.
 
 Allocation target:
 
@@ -95,6 +96,8 @@ Immediate kill if:
 - required fund movement/signing/payment is excluded;
 - only an unauthorized fallback exists.
 
+Current route constraint: merge-required BoTTube work is blocked from this environment because the connected identity has pull-only upstream access and no writable `prins1bap-ui/bottube` fork is present. Do not build such work unless a legitimate writable PR route becomes available.
+
 Only after route viability passes should the system spend effort on source-gap analysis, cap/slot checks, competing PR review, or implementation planning.
 
 ## Phase 3 — Delta discovery, not full rescans
@@ -133,6 +136,12 @@ In `SETTLEMENT_ADJUDICATION` mode, a new speculative build must satisfy all of t
 
 Keep at most one speculative build active.
 
+## Economic kills
+
+- **Docstring bounty lane:** current maintainer rate is 0.01 RTC/function and payment occurs only on merge. Treat this lane as economically dead unless terms materially change.
+- **#16601 Type B/C:** occupied for this round by other contributors.
+- **#16601 duplicate Type D exposure:** at most one Type D kit can pay this round.
+
 ## #16471 throttle
 
 The existing #16471 finding set is frozen at the current submitted count unless one of these occurs:
@@ -167,7 +176,7 @@ Track both:
 - `gap_to_500_received_rtc`
 - `verified_24h_receivable_ceiling_rtc`
 
-Current verified RECEIVED is 95 RTC, leaving a 405 RTC gap. With zero fixed-value claims presently at `ACCEPTED_QUEUED` or `PENDING_ON_CHAIN`, the directly receivable ceiling from already adjudicated work is currently 0 RTC. The submitted backlog can support further progress only after new maintainer acceptance.
+Current verified RECEIVED is 95 RTC, leaving a 405 RTC gap. With zero fixed-value claims presently at `ACCEPTED_QUEUED` or `PENDING_ON_CHAIN`, the directly receivable ceiling from already adjudicated work is currently 0 RTC. The **584 RTC viable submitted backlog** can support further progress only after new maintainer acceptance.
 
 Never imply the 500 RTC target is presently achievable unless authoritative evidence supports enough claims progressing through the required stages within the window.
 
