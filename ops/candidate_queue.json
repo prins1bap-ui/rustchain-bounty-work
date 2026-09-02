@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "as_of": "2026-09-02T14:25:39-04:00",
+  "as_of": "2026-09-02T14:34:00-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
@@ -26,13 +26,7 @@
     "spend_authorization_required_before_cost": true
   },
   "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
-  "receivable_mode_actions": [
-    "check authoritative stage changes",
-    "investigate overdue accepted/queued settlement discrepancy",
-    "execute concrete maintainer-requested revisions",
-    "repair missing evidence only when specific evidence gap is identified",
-    "do not send generic follow-ups"
-  ],
+  "receivable_mode_actions": ["check authoritative stage changes","investigate overdue accepted/queued settlement discrepancy","execute concrete maintainer-requested revisions","repair missing evidence only when specific evidence gap is identified","do not send generic follow-ups"],
   "candidates": [],
   "candidate_history": {
     "screened_out_compacted": true,
@@ -57,13 +51,13 @@
     "new_speculative_builds": "require elevated build gate while in SETTLEMENT_ADJUDICATION mode"
   },
   "latest_run_evidence": {
-    "gmail_reconciliation": "Fresh Gmail reconciliation found no new Sophia acceptance/pending/tx/receipt evidence. A single specific overdue-settlement reconciliation was sent in the existing #398 thread for the 43 RTC confirmed queued on 2026-08-29; no stage promotion.",
-    "maintainer_queue": "Tracker issue #16403 updated 2026-09-02 reports 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items, materially confirming maintainer review bandwidth as the binding conversion constraint.",
-    "delta_discovery": "Fresh open-issue delta contained claims, social/external-action tasks, security work, or previously blocked/saturated lanes; no new benign route-executable candidate cleared the elevated build gate.",
-    "scoreboard_changed": true,
+    "gmail_reconciliation": "Fresh Gmail search and direct read of the #398 settlement thread at 2026-09-02 14:34 ET found no Sophia reply newer than 2026-08-29 and no pending ID, transaction hash, confirmation, receipt, correction, or requested action. The specific overdue-settlement reconciliation sent at 14:24 ET remains unanswered. No second follow-up sent.",
+    "maintainer_queue": "Authoritative tracker #16403 still reports 56 BALL_IN_OUR_COURT and 159 NEVER_ANSWERED items, confirming maintainer bandwidth remains the conversion bottleneck.",
+    "delta_discovery": "GitHub open-issue delta since 2026-09-02T18:08:13Z returned only #16382, an existing third-party BoTTube docstring bounty claim. No newly created/materially updated benign route-executable bounty cleared the elevated build gate.",
+    "scoreboard_changed": false,
     "settlement_reconciliation_message_id": "1a0635db07b8f861",
-    "accounting_correction": "#100 Discovery Mode 2 RTC claim withdrawn as duplicate and removed from SUBMITTED/viable totals; 605 SUBMITTED / 698 viable pipeline now authoritative.",
-    "automation_health": "RTC Preflight Queue latest verified run 33666918267 succeeded at 2026-09-02T18:24:40Z; earlier failures are superseded."
+    "accounting_correction": "#100 Discovery Mode duplicate remains withdrawn; 605 SUBMITTED / 698 viable pipeline remains authoritative.",
+    "automation_health": "RTC Preflight Queue latest canonical verified run remains successful; newer Gmail failure notification predates/sits outside the canonical successful run evidence and does not alter RTC accounting."
   },
   "last_submission": {
     "issue": 2259,
@@ -74,7 +68,7 @@
     "artifact": "submissions/2259-cvpr-2026-github-post.md",
     "rtc_booked": 10
   },
-  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Await only authoritative settlement evidence on the overdue queue; do not send another follow-up unless concrete new evidence triggers it. Continue delta-only discovery and route-first screening. Spend nothing without explicit cost authorization.",
+  "next_action": "Remain in SETTLEMENT_ADJUDICATION mode. Do not send another settlement follow-up while the 2026-09-02 14:24 ET specific reconciliation is unanswered. Reconcile any authoritative reply immediately. Continue delta-only discovery from the new 14:34 ET checkpoint and route-first screening; no speculative build is justified by the current delta. Spend nothing without explicit cost authorization.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
