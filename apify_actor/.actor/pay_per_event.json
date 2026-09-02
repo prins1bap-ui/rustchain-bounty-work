@@ -1,0 +1,7 @@
+{
+  "website-audit": {
+    "eventTitle": "Successful website audit",
+    "eventDescription": "Charged once for each unique URL that returns a successful HTML audit result.",
+    "eventPriceUsd": 0.0010
+  }
+}
