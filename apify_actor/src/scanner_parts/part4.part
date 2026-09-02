@@ -1,0 +1,67 @@
+            "errorMessage": f"Expected HTML but received {content_type}",
+            **_empty_parsed_fields(),
+        }
+
+    html = _decode_body(fetch.body, content_type)
+    parsed = parse_html(html, base_url=fetch.final_url)
+    return {
+        **base,
+        "status": "SUCCESS",
+        "errorCode": None,
+        "errorMessage": None,
+        **parsed,
+    }
+
+
+def _empty_parsed_fields() -> dict:
+    return {
+        "title": None,
+        "metaDescription": None,
+        "generator": None,
+        "language": None,
+        "canonicalUrl": None,
+        "organizationName": None,
+        "structuredDataTypes": [],
+        "detectedTechnologies": [],
+        "forms": 0,
+        "emails": [],
+        "phones": [],
+        "socialProfiles": {},
+    }
+
+
+def _error_result(requested_url: str, code: str, message: str) -> dict:
+    return {
+        "requestedUrl": requested_url,
+        "normalizedUrl": None,
+        "finalUrl": None,
+        "statusCode": None,
+        "redirectCount": 0,
+        "status": "ERROR",
+        "errorCode": code,
+        "errorMessage": message,
+        **_empty_parsed_fields(),
+        "https": None,
+        "server": None,
+        "contentType": None,
+        "bytesRead": 0,
+        "securityHeadersPresent": [],
+        "securityHeadersMissing": [],
+    }
+
+
+def deduplicate_urls(urls: Iterable[str]) -> tuple[list[str], int]:
+    unique: list[str] = []
+    seen: set[str] = set()
+    duplicates = 0
+    for raw in urls:
+        try:
+            key = normalize_url(raw)
+        except Exception:
+            key = f"__invalid__:{raw!r}"
+        if key in seen:
+            duplicates += 1
+            continue
+        seen.add(key)
+        unique.append(raw)
+    return unique, duplicates
