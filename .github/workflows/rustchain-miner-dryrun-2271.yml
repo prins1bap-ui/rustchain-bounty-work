@@ -27,9 +27,9 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install runtime dependencies
+      - name: Install miner dependencies
         run: |
-          python -m pip install --disable-pip-version-check requests psutil
+          python -m pip install --disable-pip-version-check requests psutil PyNaCl
 
       - name: Run dry-run only and capture evidence
         shell: bash
@@ -72,6 +72,9 @@ jobs:
             echo "- Exit code: \`$EXIT_CODE\`"
             echo
             echo 'This was dry-run only. No mining loop, enrollment, transfer, wallet spend, or state-changing action was started.'
+            echo
+            echo '## Setup note'
+            echo 'The first clean-run attempt failed before the dry run because PyNaCl was absent. The repository includes `miners/linux/requirements-miner.txt` with PyNaCl, so the rerun installed that declared miner dependency and repeated the exact dry-run command.'
             echo
             echo '## Output'
             echo '```text'
