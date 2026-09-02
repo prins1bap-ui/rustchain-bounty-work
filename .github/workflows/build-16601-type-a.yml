@@ -1,0 +1,62 @@
+name: Build #16601 Type A package
+
+on:
+  push:
+    branches:
+      - bounty-16601-type-a-20260902
+    paths:
+      - 'bounty-16601-type-a/**'
+      - '.github/workflows/build-16601-type-a.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: bounty-16601-type-a-20260902
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install asset dependencies
+        run: |
+          python -m pip install --disable-pip-version-check Pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq espeak
+      - name: Generate visuals and narration
+        working-directory: bounty-16601-type-a
+        run: |
+          python scripts/generate_assets.py
+          python scripts/synthesize.py
+      - name: Validate package
+        working-directory: bounty-16601-type-a
+        run: |
+          python scripts/verify.py | tee /tmp/verify.txt
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('.')
+          out=Path('/tmp/verify.txt').read_text()
+          (root/'VERIFY.md').write_text(
+              '# Validation\n\nValidated in GitHub Actions on 2026-09-02.\n\n```text\n'
+              + out + '```\n\n## Reproduction\n\n```bash\npython scripts/generate_assets.py\n'
+              'python scripts/synthesize.py\npython scripts/verify.py\n```\n\n'
+              'Narration uses eSpeak at 145 words/minute as documented in `voiceover/ENGINE.md`.\n'
+          )
+          PY
+          python scripts/verify.py
+      - name: Commit generated media
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add bounty-16601-type-a/visuals bounty-16601-type-a/thumbnails bounty-16601-type-a/voiceover bounty-16601-type-a/VERIFY.md
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+          else
+            git commit -m 'Build #16601 Type A media assets [skip ci]'
+            git push origin HEAD:bounty-16601-type-a-20260902
+          fi
