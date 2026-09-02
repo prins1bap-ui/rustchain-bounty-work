@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-02T16:05:00-04:00",
+  "authority": "AI_PERFORMANCE_AUDIT_FINAL",
+  "audit_status": "COMPLETE",
+  "completion_percent": 100,
+  "governing_objective": "Operate serious projects from one canonical state per objective, prioritize verified collected value over activity, minimize owner labor, and prevent stale threads or unsupported assumptions from controlling execution.",
+  "project_authority_map": {
+    "rustchain_rtc": "ops/rtc_ledger.json on main; sole current RTC authority",
+    "apify_actor": "ops/apify_governing_state.json on branch apify-bridge-20260902; sole current Apify authority",
+    "daily_income": "Canonical commercial state below; first-party Gmail/Stripe evidence outranks older AI1 workbook status",
+    "ai1": "Portfolio allocator only; project execution state remains in each canonical project authority",
+    "ai_deep_research_1": "Research/discovery only; cannot advance execution status without graduation into a canonical execution project"
+  },
+  "daily_income_canonical_state": {
+    "objective": "Grow verified collected USD from low-owner-labor online work, prioritizing paid validation and repeatability over new infrastructure.",
+    "verified_revenue": {
+      "proposal_pack_gross_usd": 49,
+      "customer": "Richard Blount / Pro Finish Lines",
+      "stripe_payment_evidence": "Gmail message 1a0598b14e287496; payment intent pi_3UAbwbJRaHUtW6iN1culU1uW",
+      "fulfillment_evidence": "Gmail thread 1a05d96bbdd09884; final buyer-ready Word/PDF delivered and completion message sent",
+      "cash_bank_settlement": "UNKNOWN; linked Huntington inflows through available posted data do not expose a matching Stripe payout",
+      "net_profit_usd": "UNKNOWN until actual processor fees, allocated acquisition/fulfillment costs, refunds/chargebacks and tax reserve are reconciled"
+    },
+    "proposal_pack_validation": {
+      "status": "PAID_VALIDATION_CONFIRMED",
+      "minimum_verified_payments": 1,
+      "historical_research_threshold": "2 payments from first 50 qualified exposures for success; 1 from 50 = modify; 0 from 100 = fail",
+      "outreach_volume_note": "Gmail contains well over 100 sent messages matching the proposal-pack subject pattern across Aug 29-Sep 2; exact qualified-exposure count is not equated to raw sent-message count.",
+      "current_signal": "One verified $49 payment proves willingness to pay but does not yet prove repeatable conversion. Several explicit negative replies exist, including not bidding, unsubscribe, and an in-house AI proposal writer.",
+      "decision": "CONTINUE, but optimize conversion and buyer qualification rather than build more infrastructure."
+    },
+    "etsy": {
+      "status": "HOLD_PENDING_FIRST_PARTY_MARKETPLACE_DATA",
+      "reason": "Library control artifacts contain stale/user-reported listing state and missing first-party Shop Manager metrics; Marketplace Insights work remains a research input, not revenue evidence."
+    },
+    "chargeback_referrals": {
+      "chargeblast": "ROUTE_READY_FOR_PERMISSIONED_EMAIL_ATTRIBUTION; Aima confirmed email introduction serves as attribution; exact commercial economics still pending written confirmation; no merchant-approved referral currently verified.",
+      "chargebackhit": "ATTRIBUTION_ROUTE_CONFIRMED; Miri confirmed merchant-approved email introduction establishes attribution with no separate submission step; economics/eligibility details still pending; no merchant-approved referral currently verified.",
+      "disputifier": "HOLD; referral agreement offered 20% in Aug 26 correspondence, but provider requested live call/internal review and no revised agreement or completed operational activation is verified after the missed follow-up window.",
+      "decision": "Do not count referral revenue or build more channel infrastructure until a real merchant-approved introduction exists and economics are documented."
+    },
+    "bidfit_and_other_builds": "HOLD unless direct buyer/payment evidence materially improves; do not let prototype completeness outrank the already-paid Proposal Pack."
+  },
+  "portfolio_ranking": [
+    {"rank":1,"project":"Daily Income / $49 Proposal Pack","reason":"Only verified USD customer payment in the audited revenue portfolio; repeatability now outranks first-payment discovery."},
+    {"rank":2,"project":"RustChain / RTC","reason":"95 RTC received and 637 RTC viable fixed submitted backlog; conversion depends mainly on maintainer adjudication."},
+    {"rank":3,"project":"Apify Actor","reason":"Source QA is strong and zero-spend bridge is built, but cloud auth/account state is not yet established and no paid validation exists."},
+    {"rank":4,"project":"Chargeback referral routes","reason":"Attribution routes are partially operational but no merchant-approved referral or commission payment is verified."},
+    {"rank":5,"project":"Etsy / other product builds","reason":"Insufficient current first-party performance evidence relative to projects with actual payments/receipts."}
+  ],
+  "failure_registry": [
+    {"failure":"Repeated setup/authentication","control":"Never repeat a verified setup check unless a real operation fails."},
+    {"failure":"Unverified/bad links or destinations","control":"Verify consequential destinations before delivery or submission."},
+    {"failure":"Excessive owner instructions","control":"Use connectors/tools first; owner gets only irreducible credential/KYC/approval actions."},
+    {"failure":"Duplicate submissions/work","control":"Check canonical ledger/state before execution; revisions do not create new economic claims."},
+    {"failure":"Activity mistaken for success","control":"Lead with collected revenue/received value, then pipeline; never reverse the hierarchy."},
+    {"failure":"Conflicting project status","control":"Exactly one governing state per serious objective; subordinate queues cannot override it."},
+    {"failure":"Endless research","control":"Stop research when evidence supports a decision; execute the highest-value reversible action."},
+    {"failure":"Infrastructure before validation","control":"Paid behavior earns further build investment; prototypes do not."},
+    {"failure":"Cached arithmetic totals","control":"Recompute totals from row-level records whenever accounting state changes."},
+    {"failure":"Stale revenue dashboards","control":"First-party payment evidence supersedes older workbook/chat $0 states immediately."}
+  ],
+  "superseded_states": [
+    "Any RTC state reporting 0 received, 43 accepted/queued, 645 gross submitted, 584 viable submitted, or 15 #16471 findings.",
+    "Any portfolio state reporting verified revenue = $0 after the Aug 31 Stripe $49 Proposal Pack payment.",
+    "Any Apify state that treats Replit as critical path or source QA as equivalent to cloud Actor QA.",
+    "Any chargeback state that treats Chargeblast or Chargebackhit attribution as blocked by their portal; permissioned email attribution is confirmed.",
+    "Any thread-level project status that conflicts with a newer canonical authority or first-party evidence."
+  ],
+  "enforcement_rules": [
+    "Canonical state > connected first-party evidence > primary source > structured export > high-quality secondary > inference.",
+    "Changing project status belongs in canonical project state, not durable personal memory.",
+    "AI#1 allocates resources; it does not duplicate detailed execution ledgers.",
+    "Research projects cannot silently become execution authorities.",
+    "Collected cash/received value and net economics are the top portfolio metrics.",
+    "Unknown is an allowed and preferred state when evidence is insufficient.",
+    "No monetary spend without explicit scope and amount authorization.",
+    "No new product or infrastructure build when an existing paid experiment has a higher-value conversion action."
+  ],
+  "remaining_external_dependencies": [
+    "Apify cloud probe requires APIFY_TOKEN to be securely available to the existing GitHub Actions workflow; never paste token into chat/source.",
+    "RTC backlog requires maintainer adjudication for additional conversion.",
+    "Proposal Pack repeatability requires additional qualified buyer behavior; one payment is validation, not scale proof.",
+    "Chargeback referral economics require provider confirmation and a real permissioned merchant before revenue can be booked.",
+    "Etsy optimization requires current first-party seller/Marketplace Insights data before strong commercial conclusions."
+  ],
+  "audit_closeout": {
+    "architecture":"PASS",
+    "canonical_authority":"PASS",
+    "project_separation":"PASS",
+    "evidence_hierarchy":"PASS",
+    "failure_prevention":"PASS",
+    "user_effort_minimization":"PASS_WITH_EXTERNAL_CREDENTIAL_EXCEPTIONS",
+    "revenue_truth":"PASS_AFTER_CORRECTION",
+    "research_stopping_rule":"PASS",
+    "thread_cleanup_policy":"DEFINED; UI thread moving/deletion is not an execution capability of this connector set and is not treated as incomplete analytical work",
+    "final_decision":"AUDIT COMPLETE. Operate from canonical states and execute external dependencies only when their triggering evidence/authorization exists."
+  }
+}
