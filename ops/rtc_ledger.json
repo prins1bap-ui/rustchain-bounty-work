@@ -1,6 +1,6 @@
 {
-  "schema_version": 8,
-  "as_of": "2026-09-02T15:41:28-04:00",
+  "schema_version": 9,
+  "as_of": "2026-09-02T18:08:00-04:00",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "record_schema": {
@@ -26,8 +26,8 @@
     "Unknown mappings remain UNKNOWN; no inferential attribution."
   ],
   "verified_totals": {
-    "historical_fixed_value_submissions_rtc": 698,
-    "current_viable_fixed_value_submitted_rtc": 637,
+    "historical_fixed_value_submissions_rtc": 728,
+    "current_viable_fixed_value_submitted_rtc": 667,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
@@ -37,10 +37,11 @@
     "actual_monetary_cost_usd": 0
   },
   "arithmetic_reconciliation": {
-    "historical_fixed_value_basis": "637 RTC current viable + 61 RTC terminal/superseded fixed-value #16601 work = 698 RTC historical fixed submissions.",
+    "historical_fixed_value_basis": "667 RTC current viable + 61 RTC terminal/superseded fixed-value #16601 work = 728 RTC historical fixed submissions.",
     "16601_history": "Seven historical submissions: A40 + B15 + C15 + C15 + D8 + D8 + D8 = 109 RTC.",
     "16601_viable": "A40 + earliest D8 = 48 RTC viable. B15 + two C30 + two later D16 = 61 RTC terminal/superseded.",
-    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were also inconsistent with the one-kit-per-type adjustment."
+    "315_reconciliation": "#315 moved from HOLD to viable SUBMITTED at the authoritative current title rate of 30 RTC after genuine off-platform Wix distribution was published and the Live-URL evidence was sent to the maintainer on 2026-09-02. This is the same economic claim, not a duplicate.",
+    "prior_error": "Schema v6/v7 reported 645 gross and 584 viable because terminal #16601 rows were omitted from the gross row list and then subtracted again; retained Type D rows were also inconsistent with the one-kit-per-type adjustment. Schema v8 also left #315 in HOLD after its distribution blocker was subsequently satisfied."
   },
   "received": [
     {"id":"402-kickoff","issue":402,"title":"Bounty Spec Linter + Reward Drift Detector — kickoff tranche","reward_rtc":50,"status":"RECEIVED","accepted_rtc":50,"tx_ref":"cc97fdad4bc3be6b51888fa0fa7ee40d","received_rtc":50,"source":"Scottcjn/rustchain-bounties#402 + wallet history","route":"maintainer GitHub adjudication → wallet","blocker":null,"next_action":"None; settled."},
@@ -94,7 +95,8 @@
     ["443-review",443,3,"RECORDED","ADJ"],
     ["2271-dry-run",2271,2,"RECORDED","ADJ"],
     ["2259-cvpr-wix-article",2259,10,"GMAIL","ADJ"],
-    ["2259-cvpr-github-article",2259,10,"GMAIL","ADJ"]
+    ["2259-cvpr-github-article",2259,10,"GMAIL","ADJ"],
+    ["315-human-funnel",315,30,"GMAIL","ADJ"]
   ],
   "variable_value_submitted": [
     ["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],
@@ -125,7 +127,6 @@
     ["16601-type-c-dry-run-safety",16601,15,"REJECTED","Type C accepted to AInoAKARI for this round."],
     ["16601-type-d-article-1",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
     ["16601-type-d-article-2",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],
-    ["315-human-funnel",315,30,"HOLD","Requires genuine external live distribution URL."],
     ["747-verification-bot",747,null,"REJECTED","Competing claimant awarded."],
     ["13954-visual-explainer",13954,10,"REJECTED","Awarded/saturated."],
     ["docstring-current-rate",16683,null,"REJECTED","Repriced to 0.01 RTC/function and merge-required; economics fail."],
@@ -154,7 +155,7 @@
     "Liquid USD execution value of native RTC is not verified; published reference rates are not equivalent to cash proceeds."
   ],
   "decision": "HOLD_NEW_SPECULATIVE_BUILDING_AND_CONVERT_SUBMITTED_BACKLOG",
-  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 637 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
+  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 667 RTC viable fixed-value submitted backlog and execute only concrete requested revisions; do not add low-confidence duplicate work.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
