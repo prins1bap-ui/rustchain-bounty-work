@@ -1,6 +1,6 @@
 {
   "schema_version": 8,
-  "as_of": "2026-09-02T19:46:00-04:00",
+  "as_of": "2026-09-02T19:51:00-04:00",
   "authority": "ops/rtc_ledger.json",
   "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
@@ -29,7 +29,7 @@
   ],
   "priority_basis": {
     "402": "50 RTC completion tranche on an already-greenlit 100 RTC Builder grant; kickoff 50 RTC already received.",
-    "685": "50 RTC Tier-1 Rust Agent Economy SDK; CI repair committed at 2158995 after identifying the filtered browse-query mock mismatch. Awaiting fresh workflow result and maintainer adjudication.",
+    "685": "50 RTC Tier-1 Rust Agent Economy SDK; CI is green at commit 2158995 (workflow 33696749198), and the successful evidence was sent in the existing maintainer thread. Awaiting adjudication.",
     "16471": "19 submitted findings under a variable 35 RTC + 10/confirmed-defect formula; no amount booked and expansion frozen pending adjudication.",
     "16497": "Two submitted 33 RTC articles under explicit two-per-person cap and authorized Gmail fallback.",
     "16601": "48 RTC remains viable: Type A 40 plus earliest Type D 8; competing/one-kit-per-type adjudication lowers payment probability."
@@ -64,7 +64,7 @@
     "email_message_id": "1a06368a74d516b9",
     "rtc_booked_as_submitted_only": 40
   },
-  "next_action": "Convert the 441 RTC viable fixed-value submitted backlog. First verify the #685 CI repair, then watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions. Preserve 95 RTC as the only collected-revenue figure.",
+  "next_action": "Convert the 441 RTC viable fixed-value submitted backlog. #685 is CI-green and updated evidence has been supplied; watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
@@ -76,7 +76,10 @@
       "at": "2026-09-02T19:46:00-04:00",
       "action": "Patched tests/client.rs so the browse_jobs_filtered mock explicitly matches all five forwarded query parameters.",
       "commit": "2158995afe66f8e7c6eed2edd4b40b3359587909",
-      "status": "AWAITING_CI"
+      "status": "CI_GREEN_EVIDENCE_SENT",
+      "workflow_run_id": 33696749198,
+      "workflow_conclusion": "success",
+      "gmail_message_id": "1a0648848a6489d7"
     }
   ]
 }
