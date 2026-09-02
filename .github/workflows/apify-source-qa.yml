@@ -15,7 +15,7 @@ permissions:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -43,6 +43,13 @@ jobs:
                   json.load(handle)
           print('Actor JSON parse OK')
           PY
+
+      - name: Validate Actor schemas with official Apify CLI
+        run: |
+          npm install -g apify-cli
+          cd apify_actor
+          apify --version
+          apify validate-schema
 
       - name: Verify zero-secret source tree
         run: |
