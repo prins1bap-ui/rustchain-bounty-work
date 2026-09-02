@@ -1,0 +1,70 @@
+{
+    "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855",
+    "ok": true,
+    "total": 7,
+    "transactions": [
+        {
+            "amount": 50.0,
+            "epoch": 38987,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:cc97fdad4bc3be6b51888fa0fa7ee40d",
+            "timestamp": 1788186001,
+            "tx_hash": "cc97fdad4bc3be6b51888fa0fa7ee40d",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 1.0,
+            "epoch": 38984,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:d9cc7aebd0c7de3420da556409915721",
+            "timestamp": 1788184201,
+            "tx_hash": "d9cc7aebd0c7de3420da556409915721",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 1.0,
+            "epoch": 38984,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:6848f7e22c06f3988017aba4525c8eaf",
+            "timestamp": 1788184201,
+            "tx_hash": "6848f7e22c06f3988017aba4525c8eaf",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 10.0,
+            "epoch": 38861,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:880cc5a2ec914186d9c0a04780e5adf7",
+            "timestamp": 1788110401,
+            "tx_hash": "880cc5a2ec914186d9c0a04780e5adf7",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 25.0,
+            "epoch": 38852,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:57a95396d1aeca0fc4e7c79b0831404f",
+            "timestamp": 1788105001,
+            "tx_hash": "57a95396d1aeca0fc4e7c79b0831404f",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 7.0,
+            "epoch": 38852,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:e6efbe5c21185ad7015ae0b65f366418",
+            "timestamp": 1788105001,
+            "tx_hash": "e6efbe5c21185ad7015ae0b65f366418",
+            "type": "transfer_in"
+        },
+        {
+            "amount": 1.0,
+            "epoch": 38852,
+            "from": "founder_community",
+            "reason": "transfer_in:founder_community:447516f4e85887af8d52edadab984a2a",
+            "timestamp": 1788105001,
+            "tx_hash": "447516f4e85887af8d52edadab984a2a",
+            "type": "transfer_in"
+        }
+    ]
+}
