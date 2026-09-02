@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-02T12:22:00-04:00",
+  "operating_mode": "SETTLEMENT_ADJUDICATION",
+  "mode_reason": "607 fixed RTC submitted versus 93 accepted/queued and 0 pending/received; conversion and settlement are the binding constraints",
+  "mode_switch": {
+    "enter_settlement_adjudication_if": [
+      "accepted_queued is overdue relative to authoritative settlement guidance",
+      "fixed_value_submitted_rtc > 3 * accepted_queued_rtc without corresponding conversion"
+    ],
+    "return_to_production_if_any": [
+      "new pending_on_chain or received evidence demonstrates settlement is moving",
+      "submitted_to_accepted imbalance falls to <= 3x and recent adjudication velocity is positive",
+      "a new candidate clears the elevated build gate with materially superior expected collected RTC/hour"
+    ]
+  },
+  "allocation": {
+    "SETTLEMENT_ADJUDICATION": {
+      "receivables_and_conversion_pct": 70,
+      "delta_discovery_pct": 20,
+      "new_construction_pct": 10
+    },
+    "PRODUCTION": {
+      "fresh_high_conversion_pct": 55,
+      "fast_stackable_pct": 25,
+      "receivables_pct": 20
+    }
+  },
+  "route_first": true,
+  "route_gate_order": [
+    "submission_route_executable",
+    "external_proof_route_available",
+    "required_connector_action_available",
+    "safety_and_fund_movement_allowed",
+    "issue_open_and_payable",
+    "authoritative_title_reward_recorded",
+    "pool_cap_slot_available",
+    "claimant_cap_not_consumed",
+    "competition_checked",
+    "current_source_gap_confirmed",
+    "acceptance_criteria_satisfiable"
+  ],
+  "discovery_policy": {
+    "default": "delta_scan",
+    "delta_events": [
+      "new_issue",
+      "material_issue_update",
+      "reward_or_cap_change",
+      "competitor_pr_closed_or_rejected",
+      "route_or_connector_change",
+      "maintainer_adjudication_update"
+    ],
+    "full_rescan_allowed_when": [
+      "canonical inventory is stale or missing",
+      "major maintainer policy change",
+      "major connector capability change"
+    ]
+  },
+  "recheck_triggers": {
+    "never": "terminal: awarded, expired, cap consumed, superseded, or permanently ineligible",
+    "route_change": "revisit only if required write/publication/hardware/account route becomes executable",
+    "competitor_change": "revisit only if occupying implementation is rejected or closes without award",
+    "maintainer_update": "revisit only if reward, cap, assignment, acceptance criteria, or submission route materially changes",
+    "date_trigger": "revisit only on or after the stored date"
+  },
+  "elevated_build_gate": {
+    "required": [
+      "route executable now",
+      "clearly benign",
+      "objective acceptance criteria",
+      "not saturated or credibly occupied",
+      "claimant cap available",
+      "recent acceptance or settlement evidence for similar route",
+      "expected collected RTC/hour materially exceeds additional receivable work",
+      "does not add disproportionate adjudication burden"
+    ],
+    "max_active_speculative_builds": 1
+  },
+  "scoring": {
+    "formula": "reward_rtc * p_acceptance * p_payout_given_acceptance * settlement_velocity / estimated_hours",
+    "settlement_velocity_range": [0, 1],
+    "calibrate_from_real_outcomes": true,
+    "email_fallback_latency_penalty": true
+  },
+  "receivable_fields": [
+    "submitted_at",
+    "accepted_at",
+    "expected_review_by",
+    "expected_settlement_by",
+    "age_hours",
+    "next_action_trigger"
+  ],
+  "throttles": {
+    "issue_16471": {
+      "frozen_at_current_submitted_count": true,
+      "resume_if": [
+        "maintainer adjudicates current findings",
+        "maintainer requests more findings",
+        "exceptionally distinct high-confidence finding clears adjudication-cost penalty"
+      ]
+    }
+  },
+  "target_controls": {
+    "rolling_received_target_rtc": 500,
+    "track_verified_24h_receivable_ceiling": true,
+    "do_not_claim_target_achievable_without_authoritative_stage_evidence": true
+  }
+}
