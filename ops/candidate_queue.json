@@ -1,9 +1,18 @@
 {
-  "schema_version": 1,
-  "as_of": "2026-09-01",
+  "schema_version": 2,
+  "as_of": "2026-09-02",
   "active_build": null,
+  "rolling_target_rtc_24h": 500,
+  "accounting_snapshot": {
+    "fixed_value_viable_pipeline_rtc": 725,
+    "accepted_queued_rtc": 93,
+    "fixed_value_submitted_rtc": 632,
+    "pending_on_chain_rtc": 0,
+    "received_rtc": 0
+  },
   "rules": {
     "max_speculative_active_builds": 1,
+    "rank_metric": "expected_collected_rtc_per_hour",
     "minimum_required_checks": [
       "issue_open_and_payable",
       "authoritative_title_reward_recorded",
@@ -15,9 +24,22 @@
       "current_source_gap_confirmed",
       "acceptance_criteria_satisfiable",
       "submission_route_executable",
-      "evidence_can_be_produced_honestly"
+      "evidence_can_be_produced_honestly",
+      "not_already_submitted_by_prins1bap_ui"
     ]
   },
+  "receivables_priority": [402,16497,16601,685,16471,13226,14014,293,102],
   "candidates": [],
-  "screened_out": []
+  "screened_out": [
+    {"issue":747,"reason":"dead/awarded"},
+    {"issue":315,"reason":"external live-publication blocker"},
+    {"issue":13954,"reason":"dead/saturated"},
+    {"issue":100,"reason":"existing discovery/improvement claims already submitted"},
+    {"issue":1575,"reason":"already submitted"},
+    {"issue":293,"reason":"claimant cap 5/5 consumed"},
+    {"issue":1102,"reason":"claimant cap 2/2 consumed for accounting"},
+    {"issue":13226,"reason":"multiple existing submissions; do not add without proven differentiated slot"},
+    {"issue":685,"reason":"four existing high-value submissions; receivable only absent explicit open differentiated slot"}
+  ],
+  "next_action":"Reconcile authoritative maintainer responses and payout evidence, then scan fresh open payable issues in descending reward order before promoting one candidate."
 }
