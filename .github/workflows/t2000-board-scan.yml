@@ -1,0 +1,44 @@
+name: t2000 board scan
+
+on:
+  push:
+    paths:
+      - ".github/workflows/t2000-board-scan.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install t2000 CLI and read public board
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install -g @t2000/cli
+          mkdir -p t2000
+          if t2 --json job board > t2000/board.json 2>t2000/board.stderr; then
+            printf '{"scan_status":"success"}\n' > t2000/scan-status.json
+          else
+            code=$?
+            printf '{"scan_status":"failed","exit_code":%s}\n' "$code" > t2000/scan-status.json
+          fi
+      - name: Persist public board snapshot
+        if: always()
+        shell: bash
+        run: |
+          git config user.name 'bap2686-bounty-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add t2000/board.json t2000/board.stderr t2000/scan-status.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'No board changes to commit.'
+          else
+            git commit -m 'Capture live t2000 board snapshot'
+            git push
+          fi
