@@ -14,24 +14,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Query public RustChain wallet balance
+      - name: Query public RustChain wallet balance and history
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p evidence
-          URL='https://rustchain.org/wallet/balance?miner_id=RTCc5449fe1b93385961152720c864c0f073dae5855'
-          curl --fail --silent --show-error --location "$URL" > evidence/rtc-wallet-balance.json
-          python -m json.tool evidence/rtc-wallet-balance.json > evidence/rtc-wallet-balance.pretty.json
-          mv evidence/rtc-wallet-balance.pretty.json evidence/rtc-wallet-balance.json
-      - name: Persist balance evidence
+          WALLET='RTCc5449fe1b93385961152720c864c0f073dae5855'
+          curl --fail --silent --show-error --location \
+            "https://rustchain.org/wallet/balance?miner_id=${WALLET}" \
+            > evidence/rtc-wallet-balance.json
+          curl --fail --silent --show-error --location \
+            "https://rustchain.org/wallet/history?miner_id=${WALLET}" \
+            > evidence/rtc-wallet-history.json
+          for f in evidence/rtc-wallet-balance.json evidence/rtc-wallet-history.json; do
+            python -m json.tool "$f" > "${f}.pretty"
+            mv "${f}.pretty" "$f"
+          done
+      - name: Persist wallet evidence
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add evidence/rtc-wallet-balance.json
+          git add evidence/rtc-wallet-balance.json evidence/rtc-wallet-history.json
           if git diff --cached --quiet; then
-            echo 'No balance change.'
+            echo 'No wallet evidence change.'
           else
-            git commit -m 'Capture current RTC wallet balance'
+            git commit -m 'Capture current RTC wallet balance and history'
             git push
           fi
