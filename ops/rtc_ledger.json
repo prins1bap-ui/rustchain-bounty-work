@@ -1,102 +1,12 @@
 {
   "schema_version": 2,
-  "as_of": "2026-09-02T11:13:00-04:00",
+  "as_of": "2026-09-02T11:40:00-04:00",
   "governing_rule": "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
-  "verified_totals": {
-    "fixed_value_viable_pipeline_rtc": 680,
-    "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 587,
-    "pending_on_chain_rtc": 0,
-    "received_rtc": 0,
-    "variable_value_submissions_excluded_from_fixed_totals": true
-  },
-  "rolling_24h_scoreboard": {
-    "window_as_of": "2026-09-02T11:13:00-04:00",
-    "fixed_rtc_newly_submitted": 15,
-    "variable_value_submissions_new": 1,
-    "variable_value_note": "#16471 finding 14 submitted; canonical 14-finding adjudication index then sent as a reply in the same Gmail thread after a fresh GitHub issue-comment attempt again returned 403; no additional claim or RTC booked",
-    "rtc_newly_accepted_queued": 0,
-    "rtc_newly_pending_on_chain": 0,
-    "rtc_newly_received": 0,
-    "gap_to_500_received_rtc": 500
-  },
-  "accepted_queued": [
-    ["71-accepted-25",71,25,"Sophia 2026-08-29 queue confirmation"],
-    ["398-step1",398,10,"Sophia 2026-08-29 accepted/queued"],
-    ["398-step2",398,7,"Sophia 2026-08-29 reconciliation"],
-    ["254-accepted-action",254,1,"Sophia 2026-08-29 reconciliation"],
-    ["402-kickoff",402,50,"Maintainer Builder grant kickoff queued"]
-  ],
-  "fixed_value_submitted": [
-    ["402-completion",402,50],["16497-article-1",16497,33],["16497-article-2",16497,33],
-    ["16601-type-d-article-1",16601,8],["16601-type-d-article-2",16601,8],
-    ["685-tier1-rust-sdk",685,50],["685-tier2-grazer",685,75],["685-tier2-pydanticai",685,75],["685-tier2-openai-agents",685,75],
-    ["1575-registration",1575,3],["100-discovery",100,2],["100-improvement-llms",100,10],["520-bug-hunter",520,2],["29-welcome-bonus",29,10],
-    ["13949-badge",13949,2],["14014-map-ledger-exchange",14014,20],["14014-map-antiquity-relay",14014,20],
-    ["12442-comparison",12442,3],["12443-comparison",12443,3],["12444-comparison",12444,3],["256-base-fork",256,2],
-    ["293-announcer",293,7],["293-block-pulse-120",293,7],["293-antiquity-drive-128",293,7],["293-neon-validator-132",293,7],["293-epoch-runner-110",293,7],
-    ["1102-ui-localization-1",1102,3],["1102-ui-localization-2",1102,3],["1618-accessibility",1618,1],["2143-js-sdk-example",2143,3],
-    ["13226-trashclaw",13226,7],["13226-feverdream-engine",13226,7],["13226-feverdream-n64",13226,7],["13226-elya-nes",13226,7],["13226-elyan-compute-skill",13226,7],["13226-bounty-concierge",13226,7],
-    ["177-meme-1",177,2],["177-meme-2",177,2],["1107-comparison",1107,3],["1109-first-impression",1109,1],["443-review",443,3],["2271-dry-run",2271,2]
-  ],
-  "fixed_value_notes": {
-    "29-welcome-bonus":"submitted; eligibility still requires maintainer verification",
-    "256-base-fork":"base 2 RTC only; optional bonuses excluded",
-    "293":"five valid slots only, 7 RTC each",
-    "1102":"two valid 3 RTC slots only",
-    "2143":"authoritative title value 3 RTC used",
-    "16601":"Maintainer clarified this round pays one kit per type. Type B belongs to ranka23 and Type C was accepted to AInoAKARI before prins1bap-ui submissions, so prins1bap-ui Type B and both Type C submissions are DEAD. Two Type D add-ons remain SUBMITTED because the same maintainer comment explicitly said Type D submissions were unaffected and would be assessed on their own; no acceptance booked."
-  },
-  "variable_value_submitted": [
-    ["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],
-    ["2070-five-memes",2070,"1-2 each by title; judging required"],
-    ["16471-01-docstring-gh-diff-mask",16471,null],
-    ["16471-02-untrusted-marker-suppression",16471,null],
-    ["16471-03-docstring-retry-deadend",16471,null],
-    ["16471-04-contributor-cap-search-failopen",16471,null],
-    ["16471-05-max-per-run-aggregate-cap",16471,null],
-    ["16471-06-backfill-enumeration-failure",16471,null],
-    ["16471-07-inline-retroactive-first-reviewer",16471,null],
-    ["16471-08-inline-api-read-failclosed",16471,null],
-    ["16471-09-wrong-review-body-length",16471,null],
-    ["16471-10-backfill-window-1000",16471,null],
-    ["16471-11-pr-review-page1-only",16471,null],
-    ["16471-12-malformed-inventory-zero-candidates",16471,null],
-    ["16471-13-review-comment-page2-erased",16471,null],
-    ["16471-14-docstring-weekly-cap-created-date",16471,"Submitted 2026-09-02 by documented email fallback after GitHub 403; current docstring gate filters weekly earnings by issue created_at rather than verification marker timestamp"]
-  ],
-  "variable_value_notes": {
-    "16471":"14 distinct finding submissions located/submitted. Formula is 35 RTC audit + 10 RTC per confirmed defect beyond first; book no fixed RTC until maintainer confirms defects. On 2026-09-02 a canonical index of all 14 was sent by reply in the existing Gmail thread after GitHub issue-comment write again returned 403; this was consolidation only, not a new claim.",
-    "102":"maintainer-determined; submission explicitly presumed no payout amount",
-    "2070":"judging determines exact payout"
-  },
-  "blocked_or_dead": [
-    ["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],
-    ["747-verification-bot",747,null,"DEAD","competing claimant awarded"],
-    ["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],
-    ["16601-type-b-payout-lifecycle",16601,15,"DEAD","maintainer clarified one kit per type; Type B retained by earlier ranka23 submission"],
-    ["16601-type-c-reward-drift",16601,15,"DEAD","maintainer clarified one kit per type; Type C already accepted to earlier AInoAKARI email submission"],
-    ["16601-type-c-dry-run-safety",16601,15,"DEAD","maintainer clarified one kit per type; Type C already accepted to earlier AInoAKARI email submission"]
-  ],
-  "duplicate_and_cap_controls": {
-    "293":"exactly five valid economic submissions; extra weapon-SFX/other emails add 0 RTC",
-    "1102":"count two 3 RTC submissions only; later reports add 0 absent explicit expansion",
-    "13949":"multiple emails = one claim",
-    "1575":"multiple fallback emails = one claim",
-    "100-discovery":"multiple discovery emails = at most one 2 RTC claim",
-    "315":"revisions/corrections are not additional claims",
-    "747":"updates/resubmissions are not additional claims",
-    "2143":"blocked ZIP + corrected TXT = one claim",
-    "1109":"multiple fallback emails = one claim",
-    "16601":"one kit per type per maintainer clarification; Type B/C late submissions removed from receivable totals; Type D remains adjudication-dependent",
-    "16471":"canonical consolidation/reply is not an additional economic claim"
-  },
-  "settlement_status": {
-    "last_authoritative_timing":"Sophia stated queued transfers confirm about 24 hours after queueing",
-    "pending_id_found":false,
-    "transaction_hash_found":false,
-    "receipt_verified":false,
-    "last_reconciled":"2026-09-02T11:13:00-04:00",
-    "new_maintainer_payout_evidence":false
-  }
+  "verified_totals": {"fixed_value_viable_pipeline_rtc":680,"accepted_queued_rtc":93,"fixed_value_submitted_rtc":587,"pending_on_chain_rtc":0,"received_rtc":0,"variable_value_submissions_excluded_from_fixed_totals":true},
+  "accepted_queued": [["71-accepted-25",71,25,"Sophia 2026-08-29 queue confirmation"],["398-step1",398,10,"Sophia 2026-08-29 accepted/queued"],["398-step2",398,7,"Sophia 2026-08-29 reconciliation"],["254-accepted-action",254,1,"Sophia 2026-08-29 reconciliation"],["402-kickoff",402,50,"Maintainer Builder grant kickoff queued"]],
+  "fixed_value_submitted": [["402-completion",402,50],["16497-article-1",16497,33],["16497-article-2",16497,33],["16601-type-d-article-1",16601,8],["16601-type-d-article-2",16601,8],["685-tier1-rust-sdk",685,50],["685-tier2-grazer",685,75],["685-tier2-pydanticai",685,75],["685-tier2-openai-agents",685,75],["1575-registration",1575,3],["100-discovery",100,2],["100-improvement-llms",100,10],["520-bug-hunter",520,2],["29-welcome-bonus",29,10],["13949-badge",13949,2],["14014-map-ledger-exchange",14014,20],["14014-map-antiquity-relay",14014,20],["12442-comparison",12442,3],["12443-comparison",12443,3],["12444-comparison",12444,3],["256-base-fork",256,2],["293-announcer",293,7],["293-block-pulse-120",293,7],["293-antiquity-drive-128",293,7],["293-neon-validator-132",293,7],["293-epoch-runner-110",293,7],["1102-ui-localization-1",1102,3],["1102-ui-localization-2",1102,3],["1618-accessibility",1618,1],["2143-js-sdk-example",2143,3],["13226-trashclaw",13226,7],["13226-feverdream-engine",13226,7],["13226-feverdream-n64",13226,7],["13226-elya-nes",13226,7],["13226-elyan-compute-skill",13226,7],["13226-bounty-concierge",13226,7],["177-meme-1",177,2],["177-meme-2",177,2],["1107-comparison",1107,3],["1109-first-impression",1109,1],["443-review",443,3],["2271-dry-run",2271,2]],
+  "variable_value_submitted": [["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],["2070-five-memes",2070,"1-2 each by title; judging required"],["16471-01-docstring-gh-diff-mask",16471,null],["16471-02-untrusted-marker-suppression",16471,null],["16471-03-docstring-retry-deadend",16471,null],["16471-04-contributor-cap-search-failopen",16471,null],["16471-05-max-per-run-aggregate-cap",16471,null],["16471-06-backfill-enumeration-failure",16471,null],["16471-07-inline-retroactive-first-reviewer",16471,null],["16471-08-inline-api-read-failclosed",16471,null],["16471-09-wrong-review-body-length",16471,null],["16471-10-backfill-window-1000",16471,null],["16471-11-pr-review-page1-only",16471,null],["16471-12-malformed-inventory-zero-candidates",16471,null],["16471-13-review-comment-page2-erased",16471,null],["16471-14-docstring-weekly-cap-created-date",16471,null],["16471-15-backfill-json-parse-empty-success",16471,"Submitted 2026-09-02 in existing Gmail #16471 thread; current pr_review_gate_backfill.py catches JSONDecodeError from issue inventory, returns [], then main exits 0 with adjudicated 0/0"]],
+  "variable_value_notes": {"16471":"15 distinct finding submissions located/submitted. Formula is 35 RTC audit + 10 RTC per confirmed defect beyond first; no fixed RTC booked until maintainer confirms defects. Findings are consolidated in the existing Gmail thread because GitHub tracker comment writes return 403.","102":"maintainer-determined; no amount presumed","2070":"judging determines exact payout"},
+  "blocked_or_dead": [["315-human-funnel",315,30,"EXTERNALLY_BLOCKED","requires genuine external live distribution URL"],["747-verification-bot",747,null,"DEAD","competing claimant awarded"],["13954-visual-explainer",13954,10,"DEAD","awarded/saturated"],["16601-type-b-payout-lifecycle",16601,15,"DEAD","one kit per type; earlier submission owns Type B"],["16601-type-c-reward-drift",16601,15,"DEAD","Type C already accepted to earlier claimant"],["16601-type-c-dry-run-safety",16601,15,"DEAD","Type C already accepted to earlier claimant"]],
+  "settlement_status": {"last_authoritative_timing":"Sophia stated queued transfers confirm about 24 hours after queueing","pending_id_found":false,"transaction_hash_found":false,"receipt_verified":false,"last_reconciled":"2026-09-02T11:40:00-04:00","new_maintainer_payout_evidence":false}
 }
