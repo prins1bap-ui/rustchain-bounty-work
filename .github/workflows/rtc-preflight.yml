@@ -22,6 +22,8 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate preflight source
         run: python3 -m py_compile ops/rtc_preflight.py
@@ -41,6 +43,7 @@ jobs:
           assert data.get('generated_at'), 'missing generated_at'
           assert isinstance(data.get('candidates'), list), 'missing candidates list'
           assert data.get('candidate_count') == len(data['candidates']), 'candidate count mismatch'
+          assert 'Scottcjn-authored' in data.get('source', ''), 'queue is not definition-filtered'
           print(f"validated {data['candidate_count']} candidates; final_verify={data.get('final_verify_count', 0)}")
           PY
 
@@ -51,10 +54,23 @@ jobs:
           git add artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
           if git diff --cached --quiet; then
             echo "Queue unchanged"
-          else
-            git commit -m "Update RTC preflight candidate queue [skip ci]"
-            git push origin HEAD:main
+            exit 0
           fi
+
+          git commit -m "Update RTC preflight candidate queue [skip ci]"
+
+          # Other revenue workflows can legitimately commit while this scan is
+          # running. Rebase instead of failing a non-fast-forward push and
+          # throwing away a completed 80-second scan.
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "Failed to persist queue after 3 race-safe attempts" >&2
+          exit 1
 
       - name: Upload candidate queue
         uses: actions/upload-artifact@v4
