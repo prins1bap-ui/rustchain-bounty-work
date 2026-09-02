@@ -1,59 +1,34 @@
 {
   "schema_version": 2,
-  "as_of": "2026-09-02",
+  "as_of": "2026-09-02T11:52:00-04:00",
   "active_build": null,
   "rolling_target_rtc_24h": 500,
   "accounting_snapshot": {
-    "fixed_value_viable_pipeline_rtc": 680,
+    "fixed_value_viable_pipeline_rtc": 700,
     "accepted_queued_rtc": 93,
-    "fixed_value_submitted_rtc": 587,
+    "fixed_value_submitted_rtc": 607,
     "pending_on_chain_rtc": 0,
     "received_rtc": 0,
-    "variable_value_new_today":"#16471 finding 14 submitted; no RTC booked until confirmed"
+    "variable_value_new_today":"#16471 finding 15 submitted; no RTC booked until confirmed"
   },
   "rules": {
     "max_speculative_active_builds": 1,
     "rank_metric": "expected_collected_rtc_per_hour",
-    "minimum_required_checks": [
-      "issue_open_and_payable","authoritative_title_reward_recorded","pool_cap_slot_available","claimant_cap_not_consumed","issue_comments_checked","open_competing_prs_checked","recent_merged_equivalents_checked","current_source_gap_confirmed","acceptance_criteria_satisfiable","submission_route_executable","evidence_can_be_produced_honestly","not_already_submitted_by_prins1bap_ui"
-    ]
+    "minimum_required_checks": ["issue_open_and_payable","authoritative_title_reward_recorded","pool_cap_slot_available","claimant_cap_not_consumed","issue_comments_checked","open_competing_prs_checked","recent_merged_equivalents_checked","current_source_gap_confirmed","acceptance_criteria_satisfiable","submission_route_executable","evidence_can_be_produced_honestly","not_already_submitted_by_prins1bap_ui"]
   },
-  "receivables_priority": [402,16497,16601,685,16471,13226,14014,293,102],
+  "receivables_priority": [402,16497,16601,685,16471,2259,13226,14014,293,102],
   "candidates": [],
   "screened_out": [
-    {"issue":747,"reason":"dead/awarded"},
-    {"issue":315,"reason":"external live-publication blocker"},
-    {"issue":13954,"reason":"dead/saturated"},
-    {"issue":100,"reason":"existing claims already submitted"},
-    {"issue":1575,"reason":"already submitted"},
-    {"issue":293,"reason":"claimant cap 5/5 consumed"},
-    {"issue":1102,"reason":"claimant cap 2/2 consumed"},
-    {"issue":13226,"reason":"six existing submissions; crowded"},
-    {"issue":685,"reason":"four existing high-value submissions; receivable only absent proven differentiated slot"},
-    {"issue":1579,"reason":"owned non-fork repos were created 2026-08-30/31, after bounty creation 2026-03-10; ineligible by explicit pre-existing-repo rule"},
-    {"issue":515,"reason":"required profile repo prins1bap-ui/prins1bap-ui does not exist and connector cannot create repositories"},
-    {"issue":49,"reason":"full data-export bounty already approved to another claimant; additional competing implementations present"},
-    {"issue":36,"reason":"Python SDK bounty already approved to another claimant; multiple competing SDKs"},
-    {"issue":755,"reason":"backup verifier saturated with multiple complete PRs"},
-    {"issue":121,"reason":"known awarded/merged SEO implementation"},
-    {"issue":16253,"reason":"already merged/claimed elsewhere and no writable Rustchain fork route"},
-    {"issue":16251,"reason":"requires real macOS + Linux verification and Rustchain PR route"},
-    {"issue":14018,"reason":"requires genuine local game build/play/FPS/screenshots; not yet demonstrated in current execution environment"},
-    {"issue":16601,"reason":"maintainer clarified one kit per type; Type B belongs to earlier ranka23 submission and Type C already accepted to AInoAKARI; our B/C removed from receivables; Type A has a credible earlier complete submission; Type D remains receivable-only pending adjudication"},
-    {"issue":3074,"reason":"acceptance requires open langchain-community PR or live PyPI package; no executable external fork/PyPI publication route presently available"},
-    {"issue":3075,"reason":"requires three live external directory listings; available connector set does not provide an honest executable three-directory publication route"},
-    {"issue":12788,"reason":"requires real target-platform attestation evidence and upstream PR; cannot honestly produce hardware evidence in current environment"},
-    {"issue":16271,"reason":"security hardening bounty; excluded from ordinary non-security RTC construction"},
-    {"issue":16472,"reason":"requires root cause from CI job logs plus BoTTube PR; no writable BoTTube fork route and first-prize deliverable cannot be completed through current tools"}
+    {"issue":747,"reason":"dead/awarded"},{"issue":315,"reason":"external live-publication blocker"},{"issue":13954,"reason":"dead/saturated"},{"issue":100,"reason":"existing claims already submitted"},{"issue":1575,"reason":"already submitted"},{"issue":293,"reason":"claimant cap 5/5 consumed"},{"issue":1102,"reason":"claimant cap 2/2 consumed"},{"issue":13226,"reason":"six existing submissions; crowded"},{"issue":685,"reason":"four existing high-value submissions; receivable only absent proven differentiated slot"},{"issue":1579,"reason":"owned non-fork repos were created after bounty creation; ineligible by pre-existing-repo rule"},{"issue":515,"reason":"required profile repo does not exist and connector cannot create repositories"},{"issue":49,"reason":"already approved to another claimant; competing implementations"},{"issue":36,"reason":"Python SDK bounty approved elsewhere"},{"issue":755,"reason":"saturated with complete PRs"},{"issue":121,"reason":"awarded/merged"},{"issue":16253,"reason":"already merged/claimed elsewhere and no writable Rustchain fork route"},{"issue":16251,"reason":"requires real macOS/Linux verification and Rustchain PR"},{"issue":14018,"reason":"requires genuine local game build/play/FPS/screenshots"},{"issue":16601,"reason":"one kit per type; our B/C dead, Type A credibly occupied, Type D receivable-only"},{"issue":3074,"reason":"requires LangChain PR or live PyPI publication; route unavailable"},{"issue":3075,"reason":"requires three live external directory listings; route unavailable"},{"issue":12788,"reason":"requires target-platform attestation evidence and upstream PR"},{"issue":16271,"reason":"security hardening excluded from ordinary construction"},{"issue":16472,"reason":"requires CI log root cause plus BoTTube PR; route unavailable"},{"issue":2960,"reason":"first-20 social cap but issue already has 65 comments; likely saturated, poor EV"},{"issue":504,"reason":"exporter already implemented/merged; issue comments identify complete implementation and competing PRs"},{"issue":730,"reason":"multiple complete wallet-extension implementations already submitted; saturated"},{"issue":1113,"reason":"multiple completed token-distribution reports already submitted; saturated"}
   ],
   "last_submission": {
-    "issue":16471,
-    "id":"16471-14-docstring-weekly-cap-created-date",
+    "issue":2259,
+    "id":"2259-cvpr-github-article",
     "stage":"SUBMITTED",
-    "route":"documented email fallback after upstream GitHub 403",
-    "email_message_id":"1a0624992c460d3b",
-    "artifact":"16471-docstring-weekly-cap-created-date",
-    "rtc_booked":null
+    "route":"public GitHub repo article + reply in existing #2259 Gmail thread after tracker 403",
+    "email_message_id":"1a062bcc202b7696",
+    "artifact":"submissions/2259-cvpr-2026-github-post.md",
+    "rtc_booked":10
   },
-  "next_action":"Continue current-source #16471 review only for findings not already present in the public thread or our 14-submission ledger; reconcile maintainer movement immediately; do not start a speculative build unless a fresh standalone/email-capable slot survives competition and route checks."
+  "next_action":"Reconcile maintainer movement immediately. Continue #16471 current-source review only for defects not already public or in our 15-finding ledger. Seek additional distinct #2259 platforms only when a connected publication route is actually available; LinkedIn is presently blocked by Upload-Post monthly quota, Reddit remains unauthorized. Promote no speculative build unless it survives competition and route checks."
 }
