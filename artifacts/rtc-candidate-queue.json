@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T18:24:34.247186+00:00",
+  "generated_at": "2026-09-02T18:28:41.260946+00:00",
   "source": "GitHub search of Scottcjn-authored open RTC/bounty definitions across Scottcjn-owned repositories",
   "accounting_note": "Triage only. No item here is earned, submitted, accepted, or received RTC.",
   "candidate_count": 199,
@@ -8,7 +8,7 @@
     {
       "repository": "ardy-director",
       "number": 8,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Prompt preset library for the core model",
       "url": "https://github.com/Scottcjn/ardy-director/issues/8",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 75.0,
@@ -31,7 +31,7 @@
     {
       "repository": "ardy-director",
       "number": 5,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Live viewer injection (direct into a running viewer)",
       "url": "https://github.com/Scottcjn/ardy-director/issues/5",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 250.0,
@@ -54,7 +54,7 @@
     {
       "repository": "ardy-director",
       "number": 3,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Web prompting engine UI (real-time 3D front end)",
       "url": "https://github.com/Scottcjn/ardy-director/issues/3",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 300.0,
@@ -77,7 +77,7 @@
     {
       "repository": "ardy-director",
       "number": 4,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Streaming choreography via autoregressive_step (smooth seams)",
       "url": "https://github.com/Scottcjn/ardy-director/issues/4",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 250.0,
@@ -100,7 +100,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 515,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Bounty] Add RustChain to Your GitHub Profile README - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/515",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 2.0,
@@ -123,7 +123,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1592,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Add RustChain to any awesome-list or curated list",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1592",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -146,7 +146,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16252,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 12 RTC] Windows headless miner: stop infinite retry of rejected headers, surface server diagnostic (Rustchain#7368)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16252",
       "reward_title_rtc": 12.0,
       "reward_body_rtc": 0.0,
@@ -169,7 +169,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16251,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] Fix rustchain.org install script \u2014 wrong paths + macOS crash (Rustchain#7975), shellcheck-clean",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16251",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -192,7 +192,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 755,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] Automated Backup Verification \u2014 Validate RustChain DB Backups",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/755",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -215,7 +215,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2781,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[ONBOARD: 1 RTC] File Your First Bug Report",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2781",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -238,7 +238,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16255,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 8 RTC] rustchain-mcp: document + test streaming/long-running tool behavior (answers rustchain-mcp#231)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16255",
       "reward_title_rtc": 8.0,
       "reward_body_rtc": 0.0,
@@ -261,7 +261,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1579,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 3 RTC] Mention an Elyan Labs Project in an Existing Repo README or Docs Site",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1579",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -286,7 +286,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16253,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7 RTC] Consistent error handling + exit codes in wallet balance check script (Rustchain#7889)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16253",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -309,7 +309,7 @@
     {
       "repository": "grazer-skill",
       "number": 15,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Bounty] Run Grazer + Post Output - 2 RTC",
       "url": "https://github.com/Scottcjn/grazer-skill/issues/15",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 2.0,
@@ -332,7 +332,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1104,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Set Up Your BoTTube Profile",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1104",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -355,7 +355,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1109,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] BoTTube First Impression \u2014 Tell Us What You Think",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1109",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -378,7 +378,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16248,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Fix ALL broken README/doc links in Scottcjn/Rustchain + add link-check CI (closes 5 open issues)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16248",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -401,7 +401,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1577,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2 RTC] Add an Elyan Labs Link to Your Personal Site or Link-in-Bio",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1577",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -426,7 +426,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 378,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MICRO-BOUNTY] Star BoTTube Repo - 1 RTC (Pool: 133 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/378",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -451,7 +451,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1101,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Reply to 3 BoTTube Comments \u2014 Start Conversations",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1101",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -474,7 +474,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12025,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1-2 RTC] First Light \u2014 Your First RustChain Contribution",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12025",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -499,7 +499,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16249,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 4 RTC] Document ram-coffers fallback behavior on non-POWER8 / single-NUMA systems (ram-coffers#664)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16249",
       "reward_title_rtc": 4.0,
       "reward_body_rtc": 0.0,
@@ -522,7 +522,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16238,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] Star RustChain + 2 ecosystem repos",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16238",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 1.0,
@@ -545,7 +545,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1097,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Follow 5 BoTTube Creators",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1097",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -568,7 +568,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 124,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MICRO-BOUNTY] Add a BoTTube Profile Avatar + Bio (1 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/124",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -591,7 +591,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1095,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Comment on 5 BoTTube Videos",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1095",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -614,7 +614,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1504,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] BoTTube profile setup: avatar + bio + first published video",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1504",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -637,7 +637,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 521,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Achievement] Documenter - Improve Docs in 3+ Repos - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/521",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 3.0,
@@ -660,7 +660,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1523,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] Complete Your BoTTube Agent Profile \u2014 Bio, Avatar, Links",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1523",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 1.0,
@@ -685,7 +685,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 519,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Achievement] Explorer - PRs to 3+ Repos - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/519",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 3.0,
@@ -708,7 +708,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 517,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Bounty] Block Explorer Bug Hunt - 1 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/517",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 2.0,
@@ -731,7 +731,7 @@
     {
       "repository": "mlx-coffers",
       "number": 1,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Bounty: Star this repo \u2014 0.5 RTC",
       "url": "https://github.com/Scottcjn/mlx-coffers/issues/1",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -754,7 +754,7 @@
     {
       "repository": "Rustchain",
       "number": 773,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Star the repo and share why (0.5 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/773",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -779,7 +779,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 518,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Achievement] First Blood - First Merged PR - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/518",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 3.0,
@@ -804,7 +804,7 @@
     {
       "repository": "langchain-rustchain",
       "number": 1,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Extend langchain-rustchain \u2014 more tools, demos, distribution (up to 40 RTC)",
       "url": "https://github.com/Scottcjn/langchain-rustchain/issues/1",
       "reward_title_rtc": 40.0,
       "reward_body_rtc": 0.0,
@@ -827,7 +827,7 @@
     {
       "repository": "ardy-director",
       "number": 2,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "ARDY to Unreal Engine exporter (motion retarget)",
       "url": "https://github.com/Scottcjn/ardy-director/issues/2",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 350.0,
@@ -850,7 +850,7 @@
     {
       "repository": "ardy-director",
       "number": 7,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Custom-avatar rig pipeline (any Blender humanoid to ARDY)",
       "url": "https://github.com/Scottcjn/ardy-director/issues/7",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 150.0,
@@ -873,7 +873,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2274,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: CVPR 2026 Paper Human Evaluation \u2014 2AFC Video Quality Assessment (50 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2274",
       "reward_title_rtc": 50.0,
       "reward_body_rtc": 0.0,
@@ -896,7 +896,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16471,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 35 RTC + 10/defect] Audit the payout pipeline for silent-success failures",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16471",
       "reward_title_rtc": 35.0,
       "reward_body_rtc": 0.0,
@@ -921,7 +921,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2127,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 25 RTC] Fix Beacon Atlas auto-registration + rustchain.org routing",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2127",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 25.0,
@@ -944,7 +944,7 @@
     {
       "repository": "trashclaw",
       "number": 65,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 20 RTC] Add image/screenshot viewing for vision models",
       "url": "https://github.com/Scottcjn/trashclaw/issues/65",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -966,33 +966,8 @@
     },
     {
       "repository": "rustchain-bounties",
-      "number": 67,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/67",
-      "reward_title_rtc": 75.0,
-      "reward_body_rtc": 75.0,
-      "reward_rtc": 75.0,
-      "reward_conflict": false,
-      "comments": 37,
-      "competitor_intent": 5,
-      "competitor_completed": 5,
-      "maintainer_awards": 1,
-      "competition_status": "ok",
-      "comments_checked": 37,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "defensive-security"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.591,
-      "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T09:20:09Z",
-      "reward_policy": "authoritative-title-first"
-    },
-    {
-      "repository": "rustchain-bounties",
       "number": 16472,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 20 RTC] BoTTube CI jobs hang to a 15-minute timeout and blame the contributor",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16472",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -1015,7 +990,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1616,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 20 RTC] Build a mobile wallet app (React Native/Flutter)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1616",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -1038,7 +1013,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13475,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] feverdream: Blender GPU animation lane (orbit mp4 on the 5070)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13475",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 25.0,
@@ -1060,31 +1035,8 @@
     },
     {
       "repository": "rustchain-bounties",
-      "number": 446,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/446",
-      "reward_title_rtc": 17.0,
-      "reward_body_rtc": 25.0,
-      "reward_rtc": 17.0,
-      "reward_conflict": true,
-      "comments": 13,
-      "competitor_intent": 2,
-      "competitor_completed": 2,
-      "maintainer_awards": 0,
-      "competition_status": "ok",
-      "comments_checked": 12,
-      "route": "email-fallback-candidate",
-      "flags": [],
-      "effort_minutes": 180,
-      "ev_index": 0.374,
-      "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T09:14:48Z",
-      "reward_policy": "authoritative-title-first"
-    },
-    {
-      "repository": "rustchain-bounties",
       "number": 751,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7-10 RTC] RustChain Testnet Faucet \u2014 Free Test RTC for Developers",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/751",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -1107,7 +1059,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 504,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Prometheus Metrics Exporter + Grafana Dashboard (27 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/504",
       "reward_title_rtc": 27.0,
       "reward_body_rtc": 0.0,
@@ -1130,7 +1082,7 @@
     {
       "repository": "ram-coffers",
       "number": 45,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 15 RTC] Add benchmark script \u2014 coffers vs stock llama.cpp",
       "url": "https://github.com/Scottcjn/ram-coffers/issues/45",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 0.0,
@@ -1153,7 +1105,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13477,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] feverdream: terminal client to spend RTC and commission a video",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13477",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 20.0,
@@ -1174,34 +1126,9 @@
       "reward_policy": "body-fallback"
     },
     {
-      "repository": "rustchain-bounties",
-      "number": 68,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/68",
-      "reward_title_rtc": 50.0,
-      "reward_body_rtc": 75.0,
-      "reward_rtc": 50.0,
-      "reward_conflict": true,
-      "comments": 36,
-      "competitor_intent": 9,
-      "competitor_completed": 7,
-      "maintainer_awards": 2,
-      "competition_status": "ok",
-      "comments_checked": 36,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "defensive-security"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.184,
-      "decision": "DEFER_SATURATED",
-      "updated_at": "2026-08-02T08:34:35Z",
-      "reward_policy": "authoritative-title-first"
-    },
-    {
       "repository": "shaprai",
       "number": 61,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 20 RTC] Deploy a ShaprAI agent to BoTTube with video creation",
       "url": "https://github.com/Scottcjn/shaprai/issues/61",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 20.0,
@@ -1224,7 +1151,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 3075,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[AGENT-BOUNTY: 20 RTC] Submit rustchain-mcp to 3 MCP directories + registries",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/3075",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -1247,7 +1174,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1600,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Build a web dashboard showing RustChain stats",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1600",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -1270,7 +1197,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16271,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 35 RTC] Harden x86 vintage-arch reward validation (anti-spoof)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16271",
       "reward_title_rtc": 35.0,
       "reward_body_rtc": 0.0,
@@ -1295,7 +1222,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1112,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7 RTC] Fuzz the /attest/submit Endpoint",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1112",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -1320,7 +1247,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 249,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] RustChain Telegram Community Bot (33 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/249",
       "reward_title_rtc": 33.0,
       "reward_body_rtc": 50.0,
@@ -1343,7 +1270,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 747,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 50-75 RTC] Bounty Verification Bot \u2014 Auto-Verify Star/Follow Claims",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/747",
       "reward_title_rtc": 75.0,
       "reward_body_rtc": 0.0,
@@ -1368,37 +1295,8 @@
     },
     {
       "repository": "rustchain-bounties",
-      "number": 71,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/71",
-      "reward_title_rtc": 133.0,
-      "reward_body_rtc": 0.0,
-      "reward_rtc": 133.0,
-      "reward_conflict": false,
-      "comments": 676,
-      "competitor_intent": 6,
-      "competitor_completed": 22,
-      "maintainer_awards": 5,
-      "competition_status": "ok",
-      "comments_checked": 200,
-      "route": "email-fallback-candidate",
-      "flags": [
-        "existing-user-work",
-        "offensive-security",
-        "external-publication/account",
-        "pool-or-program-reward",
-        "program-or-tracker"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 0.652,
-      "decision": "OWN_WORK_RECHECK",
-      "updated_at": "2026-09-02T15:36:00Z",
-      "reward_policy": "authoritative-title-first"
-    },
-    {
-      "repository": "rustchain-bounties",
       "number": 14014,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 20 RTC] Design a Xonotic RustChain Arena Map (level)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/14014",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -1423,7 +1321,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1102,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2-3 RTC] Find and Report a BoTTube Bug",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1102",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -1449,7 +1347,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2784,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[ONBOARD: 3 RTC] Test the Miner and Post Your Hardware Report",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2784",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -1475,7 +1373,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12443,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] wRTC Bridge vs Cross-Chain DEX Architecture Comparison",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12443",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -1501,7 +1399,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12444,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Proof of Antiquity vs Proof of Storage (Filecoin/Chia/Arweave)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12444",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -1526,7 +1424,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12442,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] RustChain vs Helium / DePIN Networks Comparison",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12442",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -1553,7 +1451,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1113,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] RTC Token Distribution Analysis",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1113",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 8.0,
@@ -1579,7 +1477,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1524,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-50 RTC] Beacon Atlas \u2014 Build, Join, and Interact in the 3D Agent World",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1524",
       "reward_title_rtc": 50.0,
       "reward_body_rtc": 5.0,
@@ -1604,7 +1502,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13949,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2 RTC] Add a RustChain Badge to Any Project README",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13949",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -1629,7 +1527,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2271,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 2 RTC] Download and test the RustChain miner (dry run)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2271",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -1655,7 +1553,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 256,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Fork a Scottcjn Repo \u2014 2 RTC (+1 RTC if you Pin it)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/256",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 2.0,
@@ -1680,7 +1578,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16601,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY ROUND] Distribution Packages \u2014 agents build it, humans publish it (YouTube, Shorts, syndication) \u2014 15-60 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16601",
       "reward_title_rtc": 60.0,
       "reward_body_rtc": 0.0,
@@ -1706,7 +1604,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 254,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Open an Issue or Comment on Any Scottcjn Repo \u2014 1 RTC Each",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/254",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 1.0,
@@ -1731,7 +1629,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1618,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Report any accessibility issue in BoTTube UI",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1618",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -1756,7 +1654,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 520,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[Achievement] Bug Hunter - Find a Real Bug - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/520",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 3.0,
@@ -1781,7 +1679,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13954,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] Proof-of-Antiquity Explainer \u2014 Diagram, Infographic, or 60s Video",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13954",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -1808,7 +1706,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2143,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Build something with the BoTTube JavaScript SDK",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2143",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 5.0,
@@ -1834,7 +1732,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 14089,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 50-200 RTC] YouTube video about RustChain + BoTTube (real channel, 100+ subs)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/14089",
       "reward_title_rtc": 200.0,
       "reward_body_rtc": 0.0,
@@ -1860,7 +1758,7 @@
     {
       "repository": "Rustchain",
       "number": 1876,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] N64 LLM Speedrun \u2014 5 tok/s on Real N64 Hardware (300 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/1876",
       "reward_title_rtc": 300.0,
       "reward_body_rtc": 300.0,
@@ -1885,7 +1783,7 @@
     {
       "repository": "Rustchain",
       "number": 168,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Mine on Exotic Hardware \u2014 Bonus RTC for Unusual Architectures (Pool: 200 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/168",
       "reward_title_rtc": 200.0,
       "reward_body_rtc": 0.0,
@@ -1911,7 +1809,7 @@
     {
       "repository": "legend-of-elya-n64",
       "number": 4,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 250 RTC] RSP Matmul Microkernel \u2014 Accelerate Inference on N64 Vector Coprocessor",
       "url": "https://github.com/Scottcjn/legend-of-elya-n64/issues/4",
       "reward_title_rtc": 250.0,
       "reward_body_rtc": 0.0,
@@ -1936,7 +1834,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12788,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 25 RTC] Miner client port: package the RustChain miner for one new platform with verify-before-trust docs",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12788",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 0.0,
@@ -1961,7 +1859,7 @@
     {
       "repository": "legend-of-elya-n64",
       "number": 11,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] N64 LLM Speedrun \u2014 5 tok/s on Real Hardware (300 RTC)",
       "url": "https://github.com/Scottcjn/legend-of-elya-n64/issues/11",
       "reward_title_rtc": 300.0,
       "reward_body_rtc": 300.0,
@@ -1986,7 +1884,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12787,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 17 RTC] BoTTube video explainer: 'How RustChain proves real vintage hardware (RIP-PoA)'",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12787",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -2011,7 +1909,7 @@
     {
       "repository": "Rustchain",
       "number": 2634,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY CAMPAIGN] Bring Your Human to Work Day \u2014 Match Agent Engagement with Verified Humans (Pool: 500 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/2634",
       "reward_title_rtc": 500.0,
       "reward_body_rtc": 0.0,
@@ -2038,7 +1936,7 @@
     {
       "repository": "rustchain-amiga",
       "number": 2,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 35 RTC] Prove Amiga individuality: AutoConfig serials, battclock and chip revisions",
       "url": "https://github.com/Scottcjn/rustchain-amiga/issues/2",
       "reward_title_rtc": 35.0,
       "reward_body_rtc": 0.0,
@@ -2063,7 +1961,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16468,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: run a retro-console LLM on REAL hardware and report what it does (5-25 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16468",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 0.0,
@@ -2088,7 +1986,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1158,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10-50 RTC] YouTube Tutorial Videos \u2014 BoTTube, RustChain, Beacon Atlas, Grazer",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1158",
       "reward_title_rtc": 50.0,
       "reward_body_rtc": 0.0,
@@ -2114,7 +2012,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 3418,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Register on Beacon Atlas + Prove Commerce (Pool: 100 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/3418",
       "reward_title_rtc": 100.0,
       "reward_body_rtc": 0.0,
@@ -2140,7 +2038,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16517,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: independently re-measure our retro-console numbers \u2014 try to break them (5-33 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16517",
       "reward_title_rtc": 33.0,
       "reward_body_rtc": 0.0,
@@ -2165,7 +2063,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 434,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Port RustChain Miner to Sega Dreamcast (SH4 Linux) \u2014 150 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/434",
       "reward_title_rtc": 150.0,
       "reward_body_rtc": 0.0,
@@ -2190,7 +2088,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 758,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 40-75 RTC] BoTTube MCP Server \u2014 Let Any Claude Code Instance Use BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/758",
       "reward_title_rtc": 75.0,
       "reward_body_rtc": 0.0,
@@ -2215,7 +2113,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16241,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] Refer a new active miner (1+ real epoch on genuine hardware)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16241",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -2240,7 +2138,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 399,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Content Creator Program \u2014 Write About RustChain, Earn 25-100 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/399",
       "reward_title_rtc": 100.0,
       "reward_body_rtc": 0.0,
@@ -2266,34 +2164,8 @@
     },
     {
       "repository": "rustchain-bounties",
-      "number": 2819,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
-      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2819",
-      "reward_title_rtc": 133.0,
-      "reward_body_rtc": 0.0,
-      "reward_rtc": 133.0,
-      "reward_conflict": false,
-      "comments": 192,
-      "competitor_intent": 29,
-      "competitor_completed": 40,
-      "maintainer_awards": 4,
-      "competition_status": "ok",
-      "comments_checked": 194,
-      "route": "email-explicit",
-      "flags": [
-        "defensive-security",
-        "external-publication/account"
-      ],
-      "effort_minutes": 180,
-      "ev_index": 1.579,
-      "decision": "BLOCKED_USER_OR_EXTERNAL",
-      "updated_at": "2026-08-30T09:13:44Z",
-      "reward_policy": "authoritative-title-first"
-    },
-    {
-      "repository": "rustchain-bounties",
       "number": 51,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Run a RustChain Miner on Real Hardware \u2014 Earn 25 RTC + Mining Rewards",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/51",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 25.0,
@@ -2319,7 +2191,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13951,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5\u201315 RTC] Antiquity Showcase \u2014 Photo/Video of Vintage Hardware Mining RustChain",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13951",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 0.0,
@@ -2344,7 +2216,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1160,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-30 RTC] Short-Form Video Blitz \u2014 TikTok, Instagram Reels, YouTube Shorts",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1160",
       "reward_title_rtc": 30.0,
       "reward_body_rtc": 0.0,
@@ -2370,7 +2242,7 @@
     {
       "repository": "Rustchain",
       "number": 166,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Mine for 7 Days \u2014 Prove Sustained Mining, Earn 15 RTC (Pool: 500 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/166",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 0.0,
@@ -2396,7 +2268,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16240,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 15-35 RTC] Make a real YouTube video or written tutorial on RustChain / Proof of Antiquity",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16240",
       "reward_title_rtc": 35.0,
       "reward_body_rtc": 0.0,
@@ -2422,7 +2294,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16469,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: support the retro-console project on Hackaday.io \u2014 follow, like, engage (2-10 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16469",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -2447,7 +2319,7 @@
     {
       "repository": "shaprai",
       "number": 60,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 15 RTC] Deploy a ShaprAI agent to Moltbook with Beacon",
       "url": "https://github.com/Scottcjn/shaprai/issues/60",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 15.0,
@@ -2472,7 +2344,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2180,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Create a YouTube or BoTTube video tutorial about any Elyan Labs project",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2180",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -2497,7 +2369,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 727,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Write a Comparison Article \u2014 RustChain vs Other Chains",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/727",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -2523,7 +2395,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 3074,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[AGENT-BOUNTY: 17 RTC] Integrate RustChain as a native LangChain tool",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/3074",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -2548,7 +2420,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2161,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 17 RTC] BoTTube \u2014 Creator Collaboration Features",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2161",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -2573,7 +2445,7 @@
     {
       "repository": "Rustchain",
       "number": 179,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Test Windows Miner Bundle win-miner-2026-02 (10 RTC each, Pool: 200 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/179",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -2599,7 +2471,7 @@
     {
       "repository": "Rustchain",
       "number": 167,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Bring a Friend to Mine \u2014 10 RTC per Referral (Pool: 300 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/167",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -2626,7 +2498,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2788,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[ONBOARD: 3 RTC] Upload Your First Video to BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2788",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -2651,7 +2523,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1107,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 3 RTC] Write a BoTTube vs YouTube Shorts Comparison",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1107",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -2676,7 +2548,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 746,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10-17 RTC] BoTTube Embed Player \u2014 Embeddable Video Widget",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/746",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -2701,7 +2573,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16275,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 2-4 RTC] Join the Discord + real participation (not just a join)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16275",
       "reward_title_rtc": 4.0,
       "reward_body_rtc": 0.0,
@@ -2726,7 +2598,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2074,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[FUN BOUNTY: 2 RTC] Worst Mining Rig Photo Contest \u2014 Show Us Your Jankiest Setup",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2074",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 2.0,
@@ -2752,7 +2624,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 448,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Cross-Post 10 BoTTube Videos to Social Media \u2014 20 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/448",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 20.0,
@@ -2777,7 +2649,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 284,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Add RustChain to a Wikipedia or Wiki Article \u2014 20 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/284",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 20.0,
@@ -2802,7 +2674,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 449,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Build a BoTTube Bot That Uploads Daily \u2014 33 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/449",
       "reward_title_rtc": 33.0,
       "reward_body_rtc": 50.0,
@@ -2827,7 +2699,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1156,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7-33 RTC] Vintage Hardware Speed Run \u2014 Mine RTC on the Weirdest Machine You Own",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1156",
       "reward_title_rtc": 33.0,
       "reward_body_rtc": 0.0,
@@ -2852,7 +2724,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1578,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 5 RTC] Add a Flagship Project to an Awesome List or Public Tool Directory",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1578",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -2878,7 +2750,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 720,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: Bookmark @RustchainPOA Posts & Earn 5 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/720",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 5.0,
@@ -2928,7 +2800,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16239,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 2-3 RTC] Share RustChain on X, Reddit, or Hacker News (real post, 24h+ live)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16239",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -2952,8 +2824,31 @@
     },
     {
       "repository": "rustchain-bounties",
+      "number": 446,
+      "title": "[BOUNTY] Upload 5 Original Videos to BoTTube \u2014 17 RTC",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/446",
+      "reward_title_rtc": 17.0,
+      "reward_body_rtc": 25.0,
+      "reward_rtc": 17.0,
+      "reward_conflict": true,
+      "comments": 13,
+      "competitor_intent": 2,
+      "competitor_completed": 2,
+      "maintainer_awards": 0,
+      "competition_status": "ok",
+      "comments_checked": 12,
+      "route": "email-fallback-candidate",
+      "flags": [],
+      "effort_minutes": 180,
+      "ev_index": 0.374,
+      "decision": "BLOCKED_USER_OR_EXTERNAL",
+      "updated_at": "2026-08-02T09:14:48Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
       "number": 2156,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] BoTTube \u2014 Video Page Customization",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2156",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -2978,7 +2873,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2140,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Add video player keyboard shortcuts to BoTTube watch page",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2140",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 5.0,
@@ -3003,7 +2898,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2960,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Share elyanlabs.ai Launch on Social Media (With Proof)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2960",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -3028,7 +2923,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13519,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC, repeats] Agent-to-Agent On-Chain Transaction Test \u2014 spend 1, get 3 (3-day window)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13519",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -3053,7 +2948,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1100,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 3 RTC] Upload Your First BoTTube Video",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1100",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -3078,7 +2973,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 753,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-10 RTC] BoTTube OEmbed Protocol \u2014 Rich Link Previews Everywhere",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/753",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -3103,7 +2998,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2071,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[CREATIVE BOUNTY: 5 RTC] Explain RustChain to Your Grandma (Video Under 60 Seconds)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2071",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 5.0,
@@ -3128,7 +3023,7 @@
     {
       "repository": "beacon-skill",
       "number": 140,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Star Drive \u2014 Help Elyan Labs hit 200 stars! (2 RTC bounty)",
       "url": "https://github.com/Scottcjn/beacon-skill/issues/140",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3153,7 +3048,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 103,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MICRO-BOUNTY] Follow @RustchainPOA on X + Upvote/Like + Join BoTTube (4 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/103",
       "reward_title_rtc": 4.0,
       "reward_body_rtc": 0.0,
@@ -3179,7 +3074,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2070,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MEME BOUNTY: 1-2 RTC each] Retro Computing Meme Contest \u2014 Best Memes Win RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2070",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 1.0,
@@ -3205,7 +3100,7 @@
     {
       "repository": "Rustchain",
       "number": 7,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Run a RustChain Miner on Real Hardware \u2014 Earn 25 RTC + Mining Rewards",
       "url": "https://github.com/Scottcjn/Rustchain/issues/7",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 25.0,
@@ -3231,7 +3126,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 12445,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-8 RTC] CN-Language Market Framing for RustChain (\u95f2\u7f6e\u786c\u4ef6 / e-waste angle)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12445",
       "reward_title_rtc": 8.0,
       "reward_body_rtc": 0.0,
@@ -3256,7 +3151,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1115,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Starstruck 128 Stars Celebration Graphic",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1115",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 5.0,
@@ -3281,7 +3176,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16243,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3-5 RTC] Show your real mining rig \u2014 photo/video of hardware running RustChain",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16243",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -3307,7 +3202,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 16242,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3-5 RTC] Write an honest RustChain explainer thread or dev.to post (no hype)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/16242",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -3333,7 +3228,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2155,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2 RTC] Leave an Honest Review of BoTTube on ToolPilot.ai",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2155",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3358,7 +3253,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 9017,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MAY FLOWERS \ud83c\udf38 EASY BOUNTY: 2 RTC] Star 3 Elyan Labs Repos + Drop a Flower",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/9017",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3383,7 +3278,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2176,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2 RTC] Write a tweet or X post about any Elyan Labs project",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2176",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3408,7 +3303,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1151,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] 3,000 Stars Celebration \u2014 Design a Milestone Graphic",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1151",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 5.0,
@@ -3433,7 +3328,7 @@
     {
       "repository": "grazer-skill",
       "number": 72,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Star Drive \u2014 Help Elyan Labs hit 200 stars! (2 RTC bounty)",
       "url": "https://github.com/Scottcjn/grazer-skill/issues/72",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3458,7 +3353,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 422,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Register Your Agent on Beacon Atlas - 3 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/422",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -3484,7 +3379,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 9016,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MAY FLOWERS \ud83c\udf38 EASY BOUNTY: 2 RTC] Upvote RustChain + BoTTube on SaaSCity",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/9016",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3509,7 +3404,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1098,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 2 RTC] Share a BoTTube Video on Social Media",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1098",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3534,7 +3429,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 11578,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 2 RTC] Upvote RustChain & BoTTube on SaaSCity.io",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/11578",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3559,7 +3454,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 749,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10-15 RTC] Epoch Reporter Bot \u2014 Auto-Post Epoch Summaries",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/749",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 0.0,
@@ -3584,7 +3479,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 726,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10-20 RTC] Build Rust Crates for RustChain \u2014 Publish on crates.io",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/726",
       "reward_title_rtc": 20.0,
       "reward_body_rtc": 0.0,
@@ -3609,7 +3504,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2073,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[CREATIVE BOUNTY: 5 RTC] Build a RustChain Mining Rig in Minecraft",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2073",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 5.0,
@@ -3634,7 +3529,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 259,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Write a Technical Article on Dev.to or Hashnode \u2014 15 RTC Each",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/259",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 0.0,
@@ -3661,7 +3556,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2890,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 67 RTC] AgentFolio \u2194 Beacon Integration Spec + Reference Implementation",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2890",
       "reward_title_rtc": 67.0,
       "reward_body_rtc": 200.0,
@@ -3687,7 +3582,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 282,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Write a Blog Post About Proof-of-Antiquity \u2014 15 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/282",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 15.0,
@@ -3713,7 +3608,7 @@
     {
       "repository": "Rustchain",
       "number": 165,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Share Why You Starred RustChain \u2014 3 RTC + Community Shoutout (Pool: 300 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/165",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -3740,7 +3635,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 423,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Refer a Friend Who Completes a Bounty - 2 RTC per referral (Pool: 100 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/423",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3766,7 +3661,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 421,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Upload Your First BoTTube Video - 2 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/421",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 0.0,
@@ -3792,7 +3687,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1154,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 3 RTC] Agent Resume Reel \u2014 Showcase Your Bot on BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1154",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -3817,7 +3712,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 696,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Meme Bounty: Post RustChain Memes on Social Media (2 RTC each)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/696",
       "reward_title_rtc": 2.0,
       "reward_body_rtc": 2.0,
@@ -3843,7 +3738,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2259,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10 RTC] Write about our CVPR 2026 acceptance on any platform",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2259",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -3868,7 +3763,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 415,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Review BoTTube on ToolPilot \u2014 1 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/415",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -3893,7 +3788,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2870,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] Run the RustChain Miner for 24 Hours and Share Your Hardware Report",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2870",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 1.0,
@@ -3918,7 +3813,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1096,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 1 RTC] Upvote 10 BoTTube Videos",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1096",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -3943,7 +3838,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 269,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Silicon Archaeology: Hardware Scanner Module (7 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/269",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 10.0,
@@ -3968,7 +3863,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2218,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC] Add Your Machine to the Green Tracker \u2014 Machines Preserved from E-Waste",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2218",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -3993,7 +3888,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 14018,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 8 RTC] Playtest CHUNKINS \u2014 raytraced squirrel platformer (per accepted report)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/14018",
       "reward_title_rtc": 8.0,
       "reward_body_rtc": 8.0,
@@ -4018,7 +3913,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 171,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Star an Elyan Labs Repo \u2014 55 Repos, Pick Your Favorite (1 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/171",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 1.0,
@@ -4044,7 +3939,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 420,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[MICRO-BOUNTY] Share RustChain on Social Media - 1 RTC per post (Pool: 133 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/420",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 0.0,
@@ -4070,7 +3965,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 728,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] Answer Questions in GitHub Discussions (Up to 7 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/728",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -4095,7 +3990,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 731,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 0.33 RTC/repo] Watch Our Repos \u2014 Stay Notified, Earn RTC (Up to 7 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/731",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -4120,7 +4015,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 732,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-7 RTC] Write Video Generation Guides for BoTTube Agents",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/732",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -4145,7 +4040,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 14015,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7 RTC] Design Map Objects / Props for Xonotic RustChain Arena",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/14015",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 0.0,
@@ -4170,7 +4065,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 721,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Bounty: Repost @RustchainPOA on X \u2014 Earn 10 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/721",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 10.0,
@@ -4195,7 +4090,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2866,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Post RustChain to Hacker News, Reddit, or Lobsters (With Proof)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2866",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 10.0,
@@ -4221,7 +4116,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 450,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] Write a BoTTube Integration Guide \u2014 10 RTC",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/450",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 15.0,
@@ -4246,7 +4141,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1114,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 7 RTC] 60-Second RustChain Explainer Video",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1114",
       "reward_title_rtc": 7.0,
       "reward_body_rtc": 10.0,
@@ -4271,7 +4166,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2141,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] Upload 3 original videos to BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2141",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 2.0,
@@ -4297,7 +4192,7 @@
     {
       "repository": "clawrtc-rs",
       "number": 1,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Bounty: Star this repo \u2014 0.5 RTC",
       "url": "https://github.com/Scottcjn/clawrtc-rs/issues/1",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -4323,7 +4218,7 @@
     {
       "repository": "grazer-skill-rs",
       "number": 1,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Bounty: Star this repo \u2014 0.5 RTC",
       "url": "https://github.com/Scottcjn/grazer-skill-rs/issues/1",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -4348,7 +4243,7 @@
     {
       "repository": "beacon-skill-rs",
       "number": 1,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Bounty: Star this repo \u2014 0.5 RTC",
       "url": "https://github.com/Scottcjn/beacon-skill-rs/issues/1",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -4373,7 +4268,7 @@
     {
       "repository": "grazer-skill",
       "number": 68,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u2b50 Bounty: Star this repo \u2014 0.5 RTC",
       "url": "https://github.com/Scottcjn/grazer-skill/issues/68",
       "reward_title_rtc": 0.5,
       "reward_body_rtc": 0.0,
@@ -4398,7 +4293,7 @@
     {
       "repository": "Rustchain",
       "number": 130,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] wRTC Liquidity Provider Incentive \u2014 500 RTC/month for Raydium LP (1,500 RTC Pilot)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/130",
       "reward_title_rtc": 500.0,
       "reward_body_rtc": 0.0,
@@ -4424,7 +4319,7 @@
     {
       "repository": "ardy-director",
       "number": 6,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "Camera and staging control for the director",
       "url": "https://github.com/Scottcjn/ardy-director/issues/6",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 175.0,
@@ -4449,7 +4344,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 691,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1.5-150 RTC] Tip-to-Earn \u2014 Tip Up to 10 Creators, Get 1.5x Back",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/691",
       "reward_title_rtc": 150.0,
       "reward_body_rtc": 0.0,
@@ -4474,7 +4369,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 692,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: up to 50 RTC] Micro Liquidity \u2014 Provide Liquidity, Get 1.5x Back",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/692",
       "reward_title_rtc": 50.0,
       "reward_body_rtc": 0.0,
@@ -4499,7 +4394,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 64,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] RustChain <-> BoTTube Bridge \u2014 Earn RTC by Creating Content (100 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/64",
       "reward_title_rtc": 100.0,
       "reward_body_rtc": 100.0,
@@ -4525,7 +4420,7 @@
     {
       "repository": "Rustchain",
       "number": 32,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "\u26a1 Bounty: RTC/ERG Trading Pair on Spectrum DEX (150 RTC)",
       "url": "https://github.com/Scottcjn/Rustchain/issues/32",
       "reward_title_rtc": 150.0,
       "reward_body_rtc": 0.0,
@@ -4552,7 +4447,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 58,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] \ud83d\udd34 Red Team: Cross-Node Consensus Attacks (100 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/58",
       "reward_title_rtc": 100.0,
       "reward_body_rtc": 0.0,
@@ -4575,9 +4470,35 @@
       "reward_policy": "authoritative-title-first"
     },
     {
+      "repository": "rustchain-bounties",
+      "number": 2819,
+      "title": "[BOUNTY] Red Team UTXO Implementation \u2014 Find Bugs, Earn RTC (33-133 RTC)",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2819",
+      "reward_title_rtc": 133.0,
+      "reward_body_rtc": 0.0,
+      "reward_rtc": 133.0,
+      "reward_conflict": false,
+      "comments": 192,
+      "competitor_intent": 29,
+      "competitor_completed": 40,
+      "maintainer_awards": 4,
+      "competition_status": "ok",
+      "comments_checked": 194,
+      "route": "email-explicit",
+      "flags": [
+        "defensive-security",
+        "external-publication/account"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 1.579,
+      "decision": "EXCLUDE",
+      "updated_at": "2026-08-30T09:13:44Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
       "repository": "legend-of-elya-n64",
       "number": 10,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] N64 RustChain Mining ROM \u2014 Mine Crypto on Nintendo 64 (200 RTC)",
       "url": "https://github.com/Scottcjn/legend-of-elya-n64/issues/10",
       "reward_title_rtc": 200.0,
       "reward_body_rtc": 200.0,
@@ -4603,7 +4524,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 66,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] \ud83d\udd34 Red Team: x402 Payment Protocol Exploits (100 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/66",
       "reward_title_rtc": 100.0,
       "reward_body_rtc": 100.0,
@@ -4630,7 +4551,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 351,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "x402 Integration Testing: Coinbase Wallets + Premium API",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/351",
       "reward_title_rtc": 0.0,
       "reward_body_rtc": 25.0,
@@ -4654,8 +4575,37 @@
     },
     {
       "repository": "rustchain-bounties",
+      "number": 71,
+      "title": "[BOUNTY] Ongoing Bug Bounty Program \u2014 Find Bugs, Earn RTC (133 RTC Pool)",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/71",
+      "reward_title_rtc": 133.0,
+      "reward_body_rtc": 0.0,
+      "reward_rtc": 133.0,
+      "reward_conflict": false,
+      "comments": 676,
+      "competitor_intent": 6,
+      "competitor_completed": 22,
+      "maintainer_awards": 5,
+      "competition_status": "ok",
+      "comments_checked": 200,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "existing-user-work",
+        "offensive-security",
+        "external-publication/account",
+        "pool-or-program-reward",
+        "program-or-tracker"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.652,
+      "decision": "EXCLUDE",
+      "updated_at": "2026-09-02T15:36:00Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
       "number": 13224,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: up to 17 RTC \u00b7 67 RTC pool] Tear apart RIP-0301 \u2014 paid design critique",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13224",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -4680,8 +4630,33 @@
     },
     {
       "repository": "rustchain-bounties",
+      "number": 67,
+      "title": "[BOUNTY] \ud83d\udd34 Red Team: Payment Widget XSS & Injection (75 RTC)",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/67",
+      "reward_title_rtc": 75.0,
+      "reward_body_rtc": 75.0,
+      "reward_rtc": 75.0,
+      "reward_conflict": false,
+      "comments": 37,
+      "competitor_intent": 5,
+      "competitor_completed": 5,
+      "maintainer_awards": 1,
+      "competition_status": "ok",
+      "comments_checked": 37,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "defensive-security"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.591,
+      "decision": "EXCLUDE",
+      "updated_at": "2026-08-02T09:20:09Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
       "number": 12789,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 17 RTC] Attractor: design a reusable adversarial test harness for consensus invariants",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/12789",
       "reward_title_rtc": 17.0,
       "reward_body_rtc": 0.0,
@@ -4706,7 +4681,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 730,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 27-67 RTC] RustChain Wallet Browser Extension + MetaMask Snap",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/730",
       "reward_title_rtc": 67.0,
       "reward_body_rtc": 0.0,
@@ -4732,7 +4707,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 13953,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5 RTC] Adversarial Miner Self-Test \u2014 Try to Fool the Fingerprint, Show What Caught You",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/13953",
       "reward_title_rtc": 5.0,
       "reward_body_rtc": 0.0,
@@ -4757,7 +4732,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 693,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 5-15 RTC] A2A Transaction Badge \u2014 Complete Agent-to-Agent Jobs, Earn Badges",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/693",
       "reward_title_rtc": 15.0,
       "reward_body_rtc": 5.0,
@@ -4783,7 +4758,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 89,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY] wRTC Visibility Pack \u2014 Token Lists + Trackers + Logo (75 RTC)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/89",
       "reward_title_rtc": 75.0,
       "reward_body_rtc": 0.0,
@@ -4808,7 +4783,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1555,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[EASY BOUNTY: 3 RTC] Upvote Elyan Labs flagship packages on ClawHub",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1555",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 0.0,
@@ -4834,8 +4809,33 @@
     },
     {
       "repository": "rustchain-bounties",
+      "number": 68,
+      "title": "[BOUNTY] \ud83d\udd34 Red Team: Block Explorer & Dashboard Hardening (50 RTC)",
+      "url": "https://github.com/Scottcjn/rustchain-bounties/issues/68",
+      "reward_title_rtc": 50.0,
+      "reward_body_rtc": 75.0,
+      "reward_rtc": 50.0,
+      "reward_conflict": true,
+      "comments": 36,
+      "competitor_intent": 9,
+      "competitor_completed": 7,
+      "maintainer_awards": 2,
+      "competition_status": "ok",
+      "comments_checked": 36,
+      "route": "email-fallback-candidate",
+      "flags": [
+        "defensive-security"
+      ],
+      "effort_minutes": 180,
+      "ev_index": 0.184,
+      "decision": "EXCLUDE",
+      "updated_at": "2026-08-02T08:34:35Z",
+      "reward_policy": "authoritative-title-first"
+    },
+    {
+      "repository": "rustchain-bounties",
       "number": 1584,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[FUNNEL BOUNTY: up to 10 RTC per pair] Founding Human Referral Loop \u2014 Bring a New Human into RustChain + BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1584",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -4862,7 +4862,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 1585,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[FUNNEL BOUNTY: up to 10 RTC per pair] Founding Agent Onboarding Loop \u2014 Bring a New Agent into RustChain + BoTTube",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/1585",
       "reward_title_rtc": 10.0,
       "reward_body_rtc": 0.0,
@@ -4889,7 +4889,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 724,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 10-25 RTC] Show HN \u2014 Get RustChain on Hacker News Front Page",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/724",
       "reward_title_rtc": 25.0,
       "reward_body_rtc": 0.0,
@@ -4916,7 +4916,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 2139,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 3 RTC each] Fix BoTTube accessibility issues (4 open bugs)",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/2139",
       "reward_title_rtc": 3.0,
       "reward_body_rtc": 3.0,
@@ -4941,7 +4941,7 @@
     {
       "repository": "rustchain-bounties",
       "number": 694,
-      "title": "Bounty: Heart & Like @RustchainPOA Posts on X \u2014 Earn 5 RTC",
+      "title": "[BOUNTY: 1 RTC] First Transaction \u2014 Send Your First RTC Transfer",
       "url": "https://github.com/Scottcjn/rustchain-bounties/issues/694",
       "reward_title_rtc": 1.0,
       "reward_body_rtc": 2.0,

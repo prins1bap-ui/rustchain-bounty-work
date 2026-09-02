@@ -564,7 +564,7 @@ def main() -> int:
             Candidate(
                 repository=repo,
                 number=number,
-                title=title,
+                title=issue.get("title") or "",
                 url=issue.get("html_url") or "",
                 reward_title_rtc=title_reward,
                 reward_body_rtc=body_reward,
