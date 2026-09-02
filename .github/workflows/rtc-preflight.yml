@@ -1,0 +1,30 @@
+name: RTC Preflight Queue
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ops/rtc_preflight.py"
+      - ".github/workflows/rtc-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  rank:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build authoritative candidate queue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 ops/rtc_preflight.py
+      - name: Upload candidate queue
+        uses: actions/upload-artifact@v4
+        with:
+          name: rtc-candidate-queue
+          path: |
+            artifacts/rtc-candidate-queue.json
+            artifacts/rtc-candidate-queue.md
+          if-no-files-found: error
