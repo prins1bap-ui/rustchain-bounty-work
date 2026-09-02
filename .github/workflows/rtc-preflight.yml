@@ -8,7 +8,7 @@ on:
       - ".github/workflows/rtc-preflight.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   rank:
@@ -20,6 +20,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 ops/rtc_preflight.py
+      - name: Persist latest queue in repository
+        run: |
+          git config user.name "rtc-preflight[bot]"
+          git config user.email "rtc-preflight[bot]@users.noreply.github.com"
+          git add artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
+          if git diff --cached --quiet; then
+            echo "Queue unchanged"
+          else
+            git commit -m "Update RTC preflight candidate queue [skip ci]"
+            git push origin HEAD:main
+          fi
       - name: Upload candidate queue
         uses: actions/upload-artifact@v4
         with:
