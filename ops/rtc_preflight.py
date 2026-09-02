@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Build a fail-closed cross-repository RTC opportunity queue.
+"""Build a fail-closed, cross-repository RTC opportunity queue.
 
-Triage only. This script NEVER promotes accounting stages and NEVER treats
-advertised RTC as earned. It discovers live RTC/bounty issues across Scottcjn-
-owned repositories, detects reward drift, classifies route/safety constraints,
-deduplicates our own economic lanes, and weights substantive competitor work
-more heavily than claim chatter.
+This is triage only. It never promotes accounting stages and never treats an
+advertised reward as earned. It searches authoritative Scottcjn-created issues,
+filters claimant/submission noise, detects reward drift and route constraints,
+and ranks survivors by collectible RTC per estimated execution hour.
 """
 from __future__ import annotations
 
@@ -20,13 +19,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 API = "https://api.github.com"
-TOKEN = os.getenv("GITHUB_TOKEN", "")
-UA = "prins1bap-ui-rtc-preflight-v2"
 OWNER = "Scottcjn"
 USER_LOGIN = "prins1bap-ui"
+TOKEN = os.getenv("GITHUB_TOKEN", "")
+UA = "prins1bap-ui-rtc-preflight-v3"
 
-# Key by repository + issue number. Same-number issues in different repos are
-# different economic lanes (for example Rustchain#29 vs rustchain-bounties#29).
+# Economic lanes we already touched. Repository is part of the key so unrelated
+# same-number issues are never suppressed accidentally.
 OWN_WORK: set[tuple[str, int]] = {
     ("rustchain-bounties", 100), ("rustchain-bounties", 254),
     ("rustchain-bounties", 293), ("rustchain-bounties", 315),
@@ -41,10 +40,15 @@ OWN_WORK: set[tuple[str, int]] = {
     ("rustchain-bounties", 16601), ("Rustchain", 29),
 }
 
+# Titles that are claimant/payment/admin records rather than bounty definitions.
+NON_DEFINITION_TITLE = re.compile(
+    r"^\s*(?:\[(?:claim|bounty claim|submission|utxo-bug|wallet)\]|"
+    r"claim\s*:|bounty claim\b|rtc bounty claim\b|pr review\b|"
+    r"wallet transfer request\b|agent economy delivery review request\b)", re.I)
 OFFENSIVE = re.compile(
     r"\b(red[- ]?team|exploit|vulnerab(?:ility|ility hunt)|bug bounty|security season|"
     r"adversarial|double[- ]?spend|auth bypass|privilege escalation|csrf|xss|rce|"
-    r"break(?:ing)? security|replay attack)\b", re.I)
+    r"replay attack|break(?:ing)? security)\b", re.I)
 DEFENSIVE = re.compile(
     r"\b(harden|hardening|remediation|secure coding|validation|anti[- ]?spoof|"
     r"regression test|defensive|sanitize|least privilege|reliability)\b", re.I)
@@ -102,13 +106,13 @@ def api(path: str, params: dict | None = None):
     headers = {"Accept": "application/vnd.github+json", "User-Agent": UA}
     if TOKEN:
         headers["Authorization"] = f"Bearer {TOKEN}"
-    request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=30) as response:
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=30) as response:
         return json.loads(response.read())
 
 
-def repo_name_from_url(repository_url: str) -> str:
-    return repository_url.rstrip("/").split("/")[-1]
+def repo_name(issue: dict) -> str:
+    return (issue.get("repository_url") or "").rstrip("/").split("/")[-1]
 
 
 def reward_from_title(title: str) -> float:
@@ -126,11 +130,11 @@ def reward_from_body(body: str) -> float:
     text = body or ""
     values: list[float] = []
     for pattern in BODY_DIRECT:
-        for match in pattern.findall(text):
-            value = float(match if isinstance(match, str) else next(x for x in match if x))
+        for raw in pattern.findall(text):
+            value = float(raw if isinstance(raw, str) else next(v for v in raw if v))
             if 0 < value <= 1000:
                 values.append(value)
-    # Early headings frequently contain the current reward when the issue title is stale.
+    # The opening block often contains a corrected reward while the title is stale.
     for line in text.splitlines()[:12]:
         if "pool" in line.lower():
             continue
@@ -166,48 +170,46 @@ def competition(repo: str, number: int) -> Competition:
         body = comment.get("body") or ""
         if login.lower() == OWNER.lower() and AWARD_SIGNAL.search(body):
             maintainer_awards += 1
-        stage = 0
-        if INTENT_SIGNAL.search(body):
-            stage = 1
-        if COMPLETED_SIGNAL.search(body):
-            stage = 2
+        stage = 2 if COMPLETED_SIGNAL.search(body) else (1 if INTENT_SIGNAL.search(body) else 0)
         if stage:
             stages[login.lower()] = max(stage, stages.get(login.lower(), 0))
     return Competition(
         status="ok",
-        intent_users=sum(1 for stage in stages.values() if stage == 1),
-        completed_users=sum(1 for stage in stages.values() if stage >= 2),
+        intent_users=sum(v == 1 for v in stages.values()),
+        completed_users=sum(v >= 2 for v in stages.values()),
         maintainer_awards=maintainer_awards,
         comments_checked=len(comments),
     )
 
 
 def discover_open_rtc_issues() -> list[dict]:
-    """Discover across Scottcjn-owned repositories instead of one hardcoded repo."""
+    """Search Scottcjn-owned repos but retain only Scottcjn-authored definitions."""
     seen: dict[tuple[str, int], dict] = {}
     queries = (
-        f"user:{OWNER} is:issue is:open RTC",
-        f"user:{OWNER} is:issue is:open bounty",
+        f"user:{OWNER} author:{OWNER} is:issue is:open RTC",
+        f"user:{OWNER} author:{OWNER} is:issue is:open bounty",
     )
     for query in queries:
         for page in range(1, 11):
             payload = api("/search/issues", {
-                "q": query, "sort": "updated", "order": "desc",
-                "per_page": 100, "page": page,
+                "q": query, "sort": "updated", "order": "desc", "per_page": 100, "page": page,
             })
             items = payload.get("items") or []
             for issue in items:
-                repo = repo_name_from_url(issue.get("repository_url") or "")
+                creator = ((issue.get("user") or {}).get("login") or "")
                 title = issue.get("title") or ""
                 body = issue.get("body") or ""
-                if not repo:
+                repo = repo_name(issue)
+                if creator.lower() != OWNER.lower() or not repo:
+                    continue
+                if NON_DEFINITION_TITLE.search(title):
                     continue
                 if "rtc" not in f"{title}\n{body}".lower() and "bounty" not in title.lower():
                     continue
                 seen[(repo, int(issue["number"]))] = issue
             if len(items) < 100:
                 break
-            time.sleep(0.08)
+            time.sleep(0.05)
     return list(seen.values())
 
 
@@ -235,32 +237,30 @@ def route_and_flags(repo: str, number: int, title: str, body: str) -> tuple[str,
     if POOL_NEAR_VALUE.search(text):
         flags.append("pool-or-program-reward")
 
-    if EMAIL_ROUTE.search(text):
+    if "merge-gated" in flags:
+        route = "merge-gated"
+    elif EMAIL_ROUTE.search(text):
         route = "email-explicit"
     elif STANDALONE_ROUTE.search(text):
         route = "standalone"
     elif PR_ROUTE.search(text):
         route = "pr-only"
     elif repo == "rustchain-bounties":
-        # Documented 403 fallback exists, but unspecified-route work still needs
-        # final verification before the fallback can be assumed valid.
         route = "email-fallback-candidate"
     else:
         route = "unknown"
-    if "merge-gated" in flags:
-        route = "merge-gated"
     return route, flags
 
 
 def effort_minutes(title: str, body: str) -> int:
     text = f"{title}\n{body}".lower()
-    if any(word in text for word in ("mobile app", "browser extension", "full stack", "n64", "emulator")):
+    if any(x in text for x in ("mobile app", "browser extension", "full stack", "n64", "emulator")):
         return 360
-    if any(word in text for word in ("integration", "sdk", "mcp server", "wallet", "miner client", "port ")):
+    if any(x in text for x in ("integration", "sdk", "mcp server", "wallet", "miner client", "port ")):
         return 180
-    if any(word in text for word in ("audit", "analysis", "research", "report", "documentation", "docs", "readme")):
+    if any(x in text for x in ("audit", "analysis", "research", "report", "documentation", "docs", "readme")):
         return 75
-    if any(word in text for word in ("fix", "bug", "test", "script", "ci", "accessibility", "localization")):
+    if any(x in text for x in ("fix", "bug", "test", "script", "ci", "accessibility", "localization")):
         return 90
     return 120
 
@@ -270,16 +270,10 @@ def freshness_factor(updated_at: str | None) -> float:
         return 0.75
     try:
         updated = datetime.fromisoformat(updated_at.replace("Z", "+00:00"))
-        age_days = max(0.0, (datetime.now(timezone.utc) - updated).total_seconds() / 86400)
+        age = max(0.0, (datetime.now(timezone.utc) - updated).total_seconds() / 86400)
     except Exception:
         return 0.75
-    if age_days <= 14:
-        return 1.0
-    if age_days <= 45:
-        return 0.9
-    if age_days <= 120:
-        return 0.75
-    return 0.6
+    return 1.0 if age <= 14 else 0.9 if age <= 45 else 0.75 if age <= 120 else 0.6
 
 
 def route_factor(route: str) -> float:
@@ -291,20 +285,13 @@ def route_factor(route: str) -> float:
 
 
 def competition_factor(comp: Competition) -> float:
-    if comp.status != "ok":
-        return 0.55
-    if comp.maintainer_awards:
-        return 0.05
-    if comp.completed_users >= 3:
-        return 0.12
-    if comp.completed_users == 2:
-        return 0.22
-    if comp.completed_users == 1:
-        return 0.50
-    if comp.intent_users >= 5:
-        return 0.65
-    if comp.intent_users >= 2:
-        return 0.80
+    if comp.status != "ok": return 0.55
+    if comp.maintainer_awards: return 0.05
+    if comp.completed_users >= 3: return 0.12
+    if comp.completed_users == 2: return 0.22
+    if comp.completed_users == 1: return 0.50
+    if comp.intent_users >= 5: return 0.65
+    if comp.intent_users >= 2: return 0.80
     return 1.0
 
 
@@ -335,37 +322,32 @@ def main() -> int:
     issues = discover_open_rtc_issues()
     preliminary: list[tuple] = []
     for issue in issues:
-        repo = repo_name_from_url(issue.get("repository_url") or "")
+        repo = repo_name(issue)
         number = int(issue["number"])
         title = issue.get("title") or ""
         body = issue.get("body") or ""
-        title_reward = reward_from_title(title)
-        body_reward = reward_from_body(body)
+        title_reward, body_reward = reward_from_title(title), reward_from_body(body)
         reward = max(title_reward, body_reward)
         if reward <= 0:
             continue
         conflict = title_reward > 0 and body_reward > 0 and abs(title_reward - body_reward) > 0.01
         route, flags = route_and_flags(repo, number, title, body)
         effort = effort_minutes(title, body)
-        raw_priority = reward * route_factor(route) * freshness_factor(issue.get("updated_at")) / max(1.0, effort / 60)
-        preliminary.append((raw_priority, issue, route, flags, title_reward, body_reward, conflict, effort))
+        raw_ev = reward * route_factor(route) * freshness_factor(issue.get("updated_at")) / max(1.0, effort / 60)
+        preliminary.append((raw_ev, issue, route, flags, title_reward, body_reward, conflict, effort))
     preliminary.sort(key=lambda row: row[0], reverse=True)
 
     candidates: list[Candidate] = []
-    competition_budget = 160
+    # Fetch expensive comment history only for the candidates most likely to matter.
     for index, (_, issue, route, flags, title_reward, body_reward, conflict, effort) in enumerate(preliminary):
-        repo = repo_name_from_url(issue.get("repository_url") or "")
-        number = int(issue["number"])
-        title = issue.get("title") or ""
+        repo, number = repo_name(issue), int(issue["number"])
         reward = max(title_reward, body_reward)
-        comp = competition(repo, number) if index < competition_budget else Competition(status="unknown")
+        comp = competition(repo, number) if index < 160 else Competition(status="unknown")
         flagset = set(flags)
-        factor = (
-            route_factor(route) * competition_factor(comp) * freshness_factor(issue.get("updated_at"))
-            * (0.70 if conflict else 1.0)
-            * (0.75 if "pool-or-program-reward" in flagset else 1.0)
-            * (0.75 if "defensive-security" in flagset else 1.0)
-        )
+        factor = route_factor(route) * competition_factor(comp) * freshness_factor(issue.get("updated_at"))
+        if conflict: factor *= 0.70
+        if "pool-or-program-reward" in flagset: factor *= 0.75
+        if "defensive-security" in flagset: factor *= 0.75
         ev_index = round(reward * factor / max(1.0, effort / 60), 3)
 
         if "existing-user-work" in flagset:
@@ -391,23 +373,18 @@ def main() -> int:
         elif "pool-or-program-reward" in flagset:
             decision = "VERIFY_REWARD"
         else:
-            # Never blind-execute. Every survivor gets one final live inspection.
             decision = "FINAL_VERIFY"
 
         candidates.append(Candidate(
-            repository=repo, number=number, title=title,
-            url=issue.get("html_url") or "",
-            reward_title_rtc=title_reward, reward_body_rtc=body_reward,
-            reward_rtc=reward, reward_conflict=conflict,
-            comments=int(issue.get("comments") or 0),
-            competitor_intent=comp.intent_users,
-            competitor_completed=comp.completed_users,
-            maintainer_awards=comp.maintainer_awards,
+            repository=repo, number=number, title=issue.get("title") or "",
+            url=issue.get("html_url") or "", reward_title_rtc=title_reward,
+            reward_body_rtc=body_reward, reward_rtc=reward, reward_conflict=conflict,
+            comments=int(issue.get("comments") or 0), competitor_intent=comp.intent_users,
+            competitor_completed=comp.completed_users, maintainer_awards=comp.maintainer_awards,
             competition_status=comp.status, route=route, flags=flags,
             effort_minutes=effort, ev_index=ev_index, decision=decision,
             updated_at=issue.get("updated_at"),
         ))
-        time.sleep(0.01)
 
     priority = {
         "FINAL_VERIFY": 10, "VERIFY_REWARD": 9, "VERIFY_ROUTE": 8,
@@ -415,18 +392,17 @@ def main() -> int:
         "DEFER_SATURATED": 4, "OWN_WORK_RECHECK": 3,
         "BLOCKED_USER_OR_EXTERNAL": 2, "EXCLUDE": 0,
     }
-    candidates.sort(key=lambda item: (
-        priority.get(item.decision, 1), item.ev_index, item.reward_rtc), reverse=True)
+    candidates.sort(key=lambda c: (priority.get(c.decision, 1), c.ev_index, c.reward_rtc), reverse=True)
 
     generated_at = datetime.now(timezone.utc).isoformat()
     Path("artifacts").mkdir(exist_ok=True)
     payload = {
         "generated_at": generated_at,
-        "source": f"GitHub issue search across {OWNER}-owned repositories",
+        "source": f"GitHub search of {OWNER}-authored open RTC/bounty definitions across {OWNER}-owned repositories",
         "accounting_note": "Triage only. No item here is earned, submitted, accepted, or received RTC.",
         "candidate_count": len(candidates),
-        "final_verify_count": sum(1 for item in candidates if item.decision == "FINAL_VERIFY"),
-        "candidates": [asdict(candidate) for candidate in candidates],
+        "final_verify_count": sum(c.decision == "FINAL_VERIFY" for c in candidates),
+        "candidates": [asdict(c) for c in candidates],
     }
     Path("artifacts/rtc-candidate-queue.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
@@ -436,28 +412,18 @@ def main() -> int:
         "| Decision | EV index | RTC | Repo/# | Route | Competitors I/C/A | Effort | Reward source | Title |",
         "|---|---:|---:|---|---|---:|---:|---|---|",
     ]
-    for candidate in candidates[:200]:
-        safe_title = candidate.title.replace("|", "/")
-        reward_source = (
-            f"title {candidate.reward_title_rtc:g} / body {candidate.reward_body_rtc:g}"
-            if candidate.reward_conflict else
-            ("body" if candidate.reward_body_rtc > candidate.reward_title_rtc else "title")
-        )
+    for c in candidates[:200]:
+        reward_source = f"title {c.reward_title_rtc:g} / body {c.reward_body_rtc:g}" if c.reward_conflict else ("body" if c.reward_body_rtc > c.reward_title_rtc else "title")
         lines.append(
-            f"| {candidate.decision} | {candidate.ev_index:g} | {candidate.reward_rtc:g} | "
-            f"[{candidate.repository}#{candidate.number}]({candidate.url}) | {candidate.route} | "
-            f"{candidate.competitor_intent}/{candidate.competitor_completed}/{candidate.maintainer_awards} | "
-            f"{candidate.effort_minutes}m | {reward_source} | {safe_title} |"
+            f"| {c.decision} | {c.ev_index:g} | {c.reward_rtc:g} | [{c.repository}#{c.number}]({c.url}) | "
+            f"{c.route} | {c.competitor_intent}/{c.competitor_completed}/{c.maintainer_awards} | "
+            f"{c.effort_minutes}m | {reward_source} | {c.title.replace('|', '/')} |"
         )
     Path("artifacts/rtc-candidate-queue.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    print(f"ranked {len(candidates)} RTC candidates across Scottcjn-owned repositories")
-    for candidate in [item for item in candidates if item.decision == "FINAL_VERIFY"][:20]:
-        print(
-            f"FINAL_VERIFY {candidate.repository}#{candidate.number}: "
-            f"{candidate.reward_rtc:g} RTC ev={candidate.ev_index:g} route={candidate.route} "
-            f"completed_competitors={candidate.competitor_completed} {candidate.title}"
-        )
+    print(f"ranked {len(candidates)} authoritative RTC definitions across Scottcjn-owned repositories")
+    for c in [x for x in candidates if x.decision == "FINAL_VERIFY"][:20]:
+        print(f"FINAL_VERIFY {c.repository}#{c.number}: {c.reward_rtc:g} RTC ev={c.ev_index:g} route={c.route} completed={c.competitor_completed} {c.title}")
     return 0
 
 
