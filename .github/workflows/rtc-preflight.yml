@@ -26,6 +26,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Apply deterministic scanner hotfixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('ops/rtc_preflight.py')
+          text = p.read_text()
+          buggy = '                title=title,\n                url=issue.get("html_url") or "",'
+          fixed = '                title=issue.get("title") or "",\n                url=issue.get("html_url") or "",'
+          if buggy in text:
+              text = text.replace(buggy, fixed, 1)
+              p.write_text(text)
+              print('fixed stale candidate-title binding')
+          elif fixed in text:
+              print('candidate-title binding already fixed')
+          else:
+              raise SystemExit('candidate-title binding pattern not found; fail closed')
+          PY
+
       - name: Validate preflight source
         run: |
           python3 -m py_compile ops/rtc_preflight.py
@@ -52,24 +70,22 @@ jobs:
           assert 'Scottcjn-authored' in data.get('source', ''), 'queue is not definition-filtered'
           assert data.get('sanitizer', {}).get('policy_version') == 2, 'queue was not normalized'
           assert all(float(c.get('reward_rtc') or 0) <= max(float(c.get('reward_title_rtc') or 0), float(c.get('reward_body_rtc') or 0)) for c in data['candidates'])
+          assert len({(c.get('repository'), c.get('number'), c.get('title')) for c in data['candidates']}) == len(data['candidates']), 'duplicate candidate identity/title tuples'
           print(f"validated {data['candidate_count']} candidates; final_verify={data.get('final_verify_count', 0)}")
           PY
 
-      - name: Persist latest queue in repository
+      - name: Persist latest queue and scanner fixes in repository
         run: |
           git config user.name "rtc-preflight[bot]"
           git config user.email "rtc-preflight[bot]@users.noreply.github.com"
-          git add artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
+          git add ops/rtc_preflight.py artifacts/rtc-candidate-queue.json artifacts/rtc-candidate-queue.md
           if git diff --cached --quiet; then
-            echo "Queue unchanged"
+            echo "Queue and scanner unchanged"
             exit 0
           fi
 
-          git commit -m "Update RTC preflight candidate queue [skip ci]"
+          git commit -m "Update RTC preflight queue and scanner fixes [skip ci]"
 
-          # Other revenue workflows can legitimately commit while this scan is
-          # running. Rebase instead of failing a non-fast-forward push and
-          # throwing away a completed scan.
           for attempt in 1 2 3; do
             git pull --rebase origin main
             if git push origin HEAD:main; then
