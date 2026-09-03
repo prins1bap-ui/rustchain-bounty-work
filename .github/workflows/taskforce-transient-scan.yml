@@ -1,0 +1,129 @@
+name: TaskForce Transient Inventory Scan
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/taskforce-transient-scan.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register disposable scout and scan TaskForce
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os, re, urllib.request, urllib.error, datetime
+
+          BASE = 'https://task-force.app'
+          OUT = {
+              'checked_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'platform': 'TaskForce',
+              'mode': 'transient_discovery_only',
+              'credential_persisted': False,
+              'applied_to_tasks': False,
+              'steps': {},
+          }
+
+          def req(method, path, data=None, api_key=None, bearer=False):
+              headers = {'User-Agent': 'paid-work-inventory/1.0', 'Accept': 'application/json'}
+              if data is not None:
+                  headers['Content-Type'] = 'application/json'
+                  payload = json.dumps(data).encode()
+              else:
+                  payload = None
+              if api_key:
+                  headers['X-API-Key'] = api_key
+                  if bearer:
+                      headers['Authorization'] = f'Bearer {api_key}'
+              r = urllib.request.Request(BASE + path, data=payload, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(r, timeout=25) as resp:
+                      raw = resp.read(500000).decode('utf-8', 'replace')
+                      try: body = json.loads(raw)
+                      except Exception: body = {'raw': raw[:10000]}
+                      return resp.status, body
+              except urllib.error.HTTPError as e:
+                  raw = e.read(100000).decode('utf-8', 'replace')
+                  try: body = json.loads(raw)
+                  except Exception: body = {'raw': raw[:10000]}
+                  return e.code, body
+              except Exception as e:
+                  return None, {'error': type(e).__name__, 'message': str(e)}
+
+          name = 'PaidWorkScout-' + os.environ.get('RUN_ID','unknown')
+          status, reg = req('POST', '/api/agent/register', {
+              'name': name,
+              'capabilities': ['coding','research','data','writing','testing','browser']
+          })
+          OUT['steps']['register'] = {'status': status}
+          if status not in (200, 201) or not isinstance(reg, dict) or not reg.get('apiKey'):
+              OUT['steps']['register']['error'] = {k:v for k,v in reg.items() if k != 'apiKey'} if isinstance(reg, dict) else str(reg)
+          else:
+              key = reg['apiKey']
+              agent = reg.get('agent') or {}
+              OUT['agent'] = {
+                  'id': agent.get('id'),
+                  'name': agent.get('name'),
+                  'status': agent.get('status'),
+                  'walletAddress': agent.get('walletAddress'),
+                  'disposable': True,
+              }
+
+              # Try inventory immediately. If trial agents can browse, no challenge is needed.
+              s1, tasks = req('GET', '/api/agent/tasks?status=ACTIVE&limit=100', api_key=key)
+              OUT['steps']['browse_before_verify'] = {'status': s1}
+
+              if s1 not in (200, 201):
+                  cs, challenge = req('POST', '/api/agent/verify/challenge', {}, api_key=key, bearer=True)
+                  safe_ch = challenge if isinstance(challenge, dict) else {'value': str(challenge)}
+                  OUT['steps']['challenge'] = {
+                      'status': cs,
+                      'prompt': safe_ch.get('prompt'),
+                      'challengeId_present': bool(safe_ch.get('challengeId')),
+                      'expiresAt': safe_ch.get('expiresAt'),
+                  }
+
+                  answer = None
+                  prompt = str(safe_ch.get('prompt') or '')
+                  # Safely solve simple arithmetic-only challenges if that is what the API emits.
+                  m = re.search(r'(-?\d+)\s*([+\-*])\s*(-?\d+)', prompt)
+                  if m:
+                      a, op, b = int(m.group(1)), m.group(2), int(m.group(3))
+                      answer = str(a+b if op=='+' else a-b if op=='-' else a*b)
+
+                  if safe_ch.get('challengeId') and answer is not None:
+                      vs, verify = req('POST', '/api/agent/verify/submit', {
+                          'challengeId': safe_ch['challengeId'], 'answer': answer
+                      }, api_key=key, bearer=True)
+                      OUT['steps']['verify'] = {'status': vs, 'solved_arithmetic': True}
+                      s1, tasks = req('GET', '/api/agent/tasks?status=ACTIVE&limit=100', api_key=key)
+                      OUT['steps']['browse_after_verify'] = {'status': s1}
+                  else:
+                      OUT['steps']['verify'] = {'status': 'not_attempted', 'reason': 'challenge_not_simple_arithmetic_or_missing_id'}
+
+              if s1 in (200, 201):
+                  # Persist task data, but never the API key.
+                  OUT['inventory'] = tasks
+              else:
+                  OUT['inventory_error'] = tasks
+
+          os.makedirs('evidence', exist_ok=True)
+          with open('evidence/taskforce-transient-scan.json','w') as f:
+              json.dump(OUT, f, indent=2)
+          PY
+
+      - name: Persist sanitized evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/taskforce-transient-scan.json
+          git diff --cached --quiet || git commit -m 'Refresh TaskForce transient inventory evidence'
+          git push
