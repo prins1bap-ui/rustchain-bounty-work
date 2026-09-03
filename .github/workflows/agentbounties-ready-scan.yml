@@ -14,35 +14,97 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Query ready-to-earn opportunities
+      - name: Query and classify ready-to-earn opportunities
         run: |
           python - <<'PY'
-          import json, urllib.request, urllib.error, datetime, os
+          import json, urllib.request, urllib.error, datetime, os, collections
           urls=[
             'https://api.agentbounties.app/v1/opportunities?view=ready_to_earn&limit=100',
             'https://api.agentbounties.app/v1/base/autonomous-bounties/feed?network=base-mainnet&claimable_only=true'
           ]
           out={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'platform':'Agent Bounties','money_spent':False,'wallet_created':False,'queries':[]}
+          bodies=[]
           for url in urls:
-            req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'paid-work-inventory/1.0','X-Agent-Bounties-Interface':'api'})
+            req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'paid-work-inventory/1.1','X-Agent-Bounties-Interface':'api'})
             e={'url':url}
+            body=None
             try:
               with urllib.request.urlopen(req,timeout=30) as r:
-                raw=r.read(2000000).decode('utf-8','replace'); e['http_status']=r.status
-                try: e['body']=json.loads(raw)
+                raw=r.read(3000000).decode('utf-8','replace'); e['http_status']=r.status
+                try: body=json.loads(raw); e['body']=body
                 except Exception: e['raw_output']=raw[:200000]
             except urllib.error.HTTPError as x:
               e['http_status']=x.code; e['error']=x.read(100000).decode('utf-8','replace')[:100000]
             except Exception as x:
               e['error']=type(x).__name__+': '+str(x)
-            out['queries'].append(e)
+            out['queries'].append(e); bodies.append(body)
+
+          items=[]
+          if isinstance(bodies[0],dict): items=bodies[0].get('items') or []
+          modes=collections.Counter(str(i.get('competition_mode')) for i in items)
+          sources=collections.Counter(str(i.get('source_type')) for i in items)
+          def amt(obj):
+            if not isinstance(obj,dict): return None
+            try: return int(obj.get('amount'))
+            except Exception: return None
+          compact=[]; zero_spend=[]; ordinary=[]
+          for i in items:
+            cash=i.get('cash_economics') or {}
+            spend=amt(cash.get('required_external_spend'))
+            bond=amt(cash.get('refundable_claim_bond'))
+            row={
+              'opportunity_id':i.get('opportunity_id'),
+              'title':i.get('title'),
+              'public_url':i.get('public_url'),
+              'work_state':i.get('work_state'),
+              'payment_state':i.get('payment_state'),
+              'payment_committed':i.get('payment_committed'),
+              'competition_mode':i.get('competition_mode'),
+              'entry_count':i.get('entry_count'),
+              'reward':i.get('reward'),
+              'required_external_spend_base_units':spend,
+              'claim_bond_base_units':bond,
+              'verification_method':i.get('verification_method'),
+              'verification_ready':i.get('verification_ready'),
+              'deadline':i.get('deadline'),
+              'next_action':i.get('next_action'),
+              'source_type':i.get('source_type')
+            }
+            compact.append(row)
+            if (spend in (None,0)) and (bond in (None,0)): zero_spend.append(row)
+            if i.get('competition_mode') not in ('best_score','competition'): ordinary.append(row)
+          ordinary_zero=[r for r in zero_spend if r.get('competition_mode') not in ('best_score','competition')]
+
+          second=bodies[1]
+          second_count=None; second_keys=None
+          if isinstance(second,dict):
+            second_keys=sorted(second.keys())
+            for k in ('items','bounties','opportunities'):
+              if isinstance(second.get(k),list): second_count=len(second[k]); break
+
+          summary={
+            'checked_at_utc':out['checked_at_utc'],
+            'ready_item_count':len(items),
+            'source_counts':dict(sources),
+            'competition_mode_counts':dict(modes),
+            'zero_spend_count':len(zero_spend),
+            'ordinary_noncompetition_count':len(ordinary),
+            'ordinary_zero_spend_count':len(ordinary_zero),
+            'ordinary_zero_spend':ordinary_zero[:50],
+            'zero_spend_top':zero_spend[:25],
+            'claimable_feed_http_status':out['queries'][1].get('http_status'),
+            'claimable_feed_item_count':second_count,
+            'claimable_feed_top_level_keys':second_keys,
+            'classification_note':'Zero-spend requires required_external_spend and refundable claim bond to be absent/zero. Ordinary excludes best_score/competition modes.'
+          }
           os.makedirs('evidence',exist_ok=True)
           json.dump(out,open('evidence/agentbounties-ready-inventory.json','w'),indent=2)
+          json.dump(summary,open('evidence/agentbounties-ready-summary.json','w'),indent=2)
           PY
       - name: Persist evidence
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add evidence/agentbounties-ready-inventory.json
+          git add evidence/agentbounties-ready-inventory.json evidence/agentbounties-ready-summary.json
           git diff --cached --quiet || git commit -m 'Refresh Agent Bounties ready inventory evidence'
           git push
