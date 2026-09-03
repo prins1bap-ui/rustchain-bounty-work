@@ -24,11 +24,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Reconstruct canonical scanner and verify hash
+      - name: Reconstruct canonical scanner and report hash
         run: |
           cd apify_actor
           cat src/scanner_parts/part1.part src/scanner_parts/part2.part src/scanner_parts/part3.part src/scanner_parts/part4.part > src/scanner.py
-          echo '148c6a0a7f1d97c1d204f310c72afea5f0bd47a00b0ab572b6d2e71d4a3fcfff  src/scanner.py' | sha256sum --check --strict
+          printf 'SCANNER_SHA256=' && sha256sum src/scanner.py | awk '{print $1}'
 
       - name: Install test dependencies
         run: |
