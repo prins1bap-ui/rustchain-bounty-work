@@ -75,6 +75,17 @@ def _assert_safe_pricing_configuration() -> None:
             )
 
 
+def _can_charge_at_least_one_success() -> bool:
+    """Avoid doing network work when a PPE run cannot pay for even one success."""
+    charging_manager = Actor.get_charging_manager()
+    pricing_info = charging_manager.get_pricing_info()
+    if not _is_pay_per_event(pricing_info):
+        return True
+
+    remaining = charging_manager.calculate_max_event_charge_count_within_limit(CHARGED_EVENT)
+    return remaining is None or remaining > 0
+
+
 def _require_declared_html_content_type(result: dict) -> dict:
     """Defense in depth: never charge a response without a declared HTML content type."""
     if result.get("status") != "SUCCESS" or result.get("contentType"):
@@ -109,6 +120,10 @@ async def main() -> None:
         # charges for invalid/failed targets. Fail closed if platform pricing
         # drifts from that contract.
         _assert_safe_pricing_configuration()
+        if not _can_charge_at_least_one_success():
+            Actor.log.info("Run charge limit cannot fund one website audit; exiting before network work.")
+            return
+
         run_started_at = monotonic()
 
         actor_input = await Actor.get_input() or {}
