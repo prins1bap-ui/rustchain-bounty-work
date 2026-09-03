@@ -79,6 +79,27 @@ def fetch_url(
                     if response.status_code in TRANSIENT_STATUS_CODES and attempt + 1 < attempts:
                         time.sleep(0.5 * (2**attempt))
                         continue
+
+                    response_headers = {k.lower(): v for k, v in response.headers.items()}
+                    content_type = response_headers.get("content-type", "")
+                    body_is_needed = (
+                        200 <= response.status_code < 300
+                        and bool(content_type)
+                        and any(kind in content_type.lower() for kind in ALLOWED_CONTENT_TYPES)
+                    )
+                    if not body_is_needed:
+                        # Failed, non-HTML, and ambiguous responses are uncharged. Do not
+                        # download their bodies merely to throw them away afterwards: a
+                        # hostile endpoint could otherwise amplify developer transfer cost.
+                        return FetchResult(
+                            requested_url=normalized,
+                            final_url=str(response.url),
+                            status_code=response.status_code,
+                            headers=response_headers,
+                            body=b"",
+                            redirect_count=len(response.history),
+                        )
+
                     chunks: list[bytes] = []
                     total = 0
                     for chunk in response.iter_bytes():
@@ -90,7 +111,7 @@ def fetch_url(
                         requested_url=normalized,
                         final_url=str(response.url),
                         status_code=response.status_code,
-                        headers={k.lower(): v for k, v in response.headers.items()},
+                        headers=response_headers,
                         body=b"".join(chunks),
                         redirect_count=len(response.history),
                     )
@@ -153,7 +174,15 @@ def audit_url(url: str, *, timeout_seconds: float = 10.0, max_retries: int = 1, 
             "errorMessage": f"Website returned HTTP {fetch.status_code}",
             **_empty_parsed_fields(),
         }
-    if content_type and not any(kind in content_type.lower() for kind in ALLOWED_CONTENT_TYPES):
+    if not content_type:
+        return {
+            **base,
+            "status": "ERROR",
+            "errorCode": "UNVERIFIED_CONTENT_TYPE",
+            "errorMessage": "Response omitted Content-Type, so HTML could not be verified safely",
+            **_empty_parsed_fields(),
+        }
+    if not any(kind in content_type.lower() for kind in ALLOWED_CONTENT_TYPES):
         return {
             **base,
             "status": "ERROR",
