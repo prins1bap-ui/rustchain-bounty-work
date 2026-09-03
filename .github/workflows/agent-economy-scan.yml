@@ -1,0 +1,49 @@
+name: Agent Economy Funded Job Scan
+
+on:
+  push:
+    paths:
+      - '.github/workflows/agent-economy-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Query live Agent Economy
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          curl -ksS --fail-with-body --connect-timeout 15 --max-time 30 \
+            'https://50.28.86.131/agent/jobs' \
+            -o evidence/agent-economy-jobs.json
+          curl -ksS --fail-with-body --connect-timeout 15 --max-time 30 \
+            'https://50.28.86.131/agent/stats' \
+            -o evidence/agent-economy-stats.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for p in [Path('evidence/agent-economy-jobs.json'), Path('evidence/agent-economy-stats.json')]:
+              data = json.loads(p.read_text())
+              p.write_text(json.dumps(data, indent=2, sort_keys=True) + '\n')
+          PY
+      - name: Persist current evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/agent-economy-jobs.json evidence/agent-economy-stats.json
+          if git diff --cached --quiet; then
+            echo 'No evidence change.'
+            exit 0
+          fi
+          git commit -m 'Capture current Agent Economy funded jobs'
+          git push
