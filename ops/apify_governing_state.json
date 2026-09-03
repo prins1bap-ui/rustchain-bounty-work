@@ -1,12 +1,13 @@
 {
-  "schema_version": 1,
-  "as_of": "2026-09-02T15:50:00-04:00",
+  "schema_version": 2,
+  "as_of": "2026-09-02T20:45:00-04:00",
   "authority": "SOLE_CURRENT_APIFY_GOVERNING_STATE",
   "objective": "Reach a successfully built and cloud-QA-verified private Apify Actor with zero unauthorized monetary spend, then prepare for Store publication without publishing until economics, safety, pricing, and validation gates pass.",
   "current_state": {
     "repository": "prins1bap-ui/rustchain-bounty-work",
     "branch": "apify-bridge-20260902",
     "actor_path": "apify_actor",
+    "direct_git_source": "https://github.com/prins1bap-ui/rustchain-bounty-work#apify-bridge-20260902:apify_actor",
     "source_qa": "PASS",
     "source_qa_run_id": 33665297854,
     "source_qa_head_sha": "89bdf037f73c0452871876d4e1044f98f45bc2c9",
@@ -15,10 +16,16 @@
     "zero_secret_source_scan": "PASS",
     "docker_build": "PASS",
     "store_readme_staged": true,
+    "apify_console_authentication": "VERIFIED_BY_AUTHENTICATED_CONSOLE_SCREEN",
+    "apify_current_month_usage_observed_usd": 0.0,
+    "apify_plan_and_overage_exposure": "NOT_YET_VERIFIED",
+    "apify_actor_cloud_build": "NOT_YET_RUN",
+    "apify_cloud_qa": "NOT_YET_RUN",
     "planned_price": "$0.001 per successful website audit ($1/1000)",
     "published": false,
     "paid_validation_started": false,
     "revenue_collected_usd": 0,
+    "net_profit_usd": 0,
     "unauthorized_spend_usd": 0
   },
   "bridge": {
@@ -27,29 +34,33 @@
     "secret_name": "APIFY_TOKEN",
     "behavior_without_token": "CONFIG_REQUIRED; zero Apify network calls; zero paid actions",
     "behavior_with_token": "read-only calls to users/me, users/me/limits, actors?my=1; zero paid actions",
-    "token_value": "NEVER_STORE_IN_SOURCE"
+    "token_value": "NEVER_STORE_IN_SOURCE",
+    "status": "OPTIONAL_FALLBACK_NOT_PRIMARY_DEPLOYMENT_PATH"
   },
   "locked_decisions": [
     "Replit is not on the critical path.",
-    "GitHub Actions is the execution bridge.",
+    "Direct public Git source import is the preferred Actor deployment source path.",
+    "A GitHub APIFY_TOKEN secret is not required merely to let Apify clone the public Actor source and is not the preferred initial deployment path.",
     "Do not publish to the Apify Store until cloud account/Actor QA, pricing/economics, safety, and validation gates pass.",
     "Do not incur monetary spend without explicit authorization for amount and scope.",
     "Do not claim demand, accuracy percentages, customer results, or savings without evidence.",
-    "Invalid/blocked/failed targets are intended to remain non-billable; Console monetization configuration must be verified before publication."
+    "Invalid/blocked/failed targets must remain non-billable; monetization configuration must be verified before publication."
   ],
   "current_blocker": {
-    "code": "APIFY_CLOUD_AUTH_REQUIRED",
-    "description": "A usable APIFY_TOKEN is required in the GitHub Actions repository secret to perform the existing read-only cloud probe and establish authoritative Apify account/Actor state.",
-    "owner_action_required": "Configure APIFY_TOKEN in the repository secret only if it is not already configured. Never paste the token into chat or source.",
-    "assistant_can_proceed_without_owner": false
+    "code": "APIFY_CONTROLLED_CLOUD_SESSION_AND_ZERO_SPEND_PROOF_REQUIRED",
+    "description": "The Apify account is authenticated in the user's browser, but no assistant-controlled authenticated Apify session is currently available. Current plan, usage limits, overage behavior, and monetary exposure must be verified before any cloud build or run.",
+    "owner_action_required": "NONE_WHILE_SOURCE_HARDENING_CONTINUES. Do not request another connector setup merely because the assistant-controlled browser path is unavailable.",
+    "assistant_can_proceed_without_owner": true,
+    "cloud_actions_blocked_until_verified": true
   },
-  "next_action": "Once APIFY_TOKEN is available to the workflow, run/read the zero-paid-action probe, reconcile account limits and owned Actors, then perform only authorized cloud QA. Publication remains gated.",
+  "next_action": "Continue zero-cost source hardening and billing-safety QA autonomously. When a controlled authenticated Apify route is available, reconcile plan/limits and owned Actors, prevent duplication, then build only if the zero-spend gate is proven. Publication remains gated.",
   "failure_controls": [
-    "Never expose APIFY_TOKEN in chat, logs, artifacts, or source.",
+    "Never expose APIFY_TOKEN in chat, logs, artifacts, source, or URLs.",
     "Never treat local/source QA as cloud Actor QA.",
     "Never treat Store preparation as publication.",
     "Never spend without explicit authorization.",
-    "Never substitute Replit for the verified GitHub Actions bridge.",
-    "Never claim paid validation before actual paid usage."
+    "Never substitute Replit for the verified GitHub/direct-Git path.",
+    "Never claim paid validation before actual paid usage.",
+    "Never ask the user to configure a new connector unless it becomes a genuinely unavoidable user-owned boundary after all autonomous routes are exhausted."
   ]
 }
