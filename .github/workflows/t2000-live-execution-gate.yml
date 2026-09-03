@@ -1,0 +1,53 @@
+name: t2000 Live Execution Gate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/t2000-live-execution-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect exact CLI and live board
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install -g @t2000/cli
+          mkdir -p evidence
+          {
+            echo '=== t2 --help ==='; t2 --help || true
+            echo '=== t2 job --help ==='; t2 job --help || true
+            echo '=== t2 job claim --help ==='; t2 job claim --help || true
+            echo '=== t2 job deliver --help ==='; t2 job deliver --help || true
+            echo '=== t2 job watch --help ==='; t2 job watch --help || true
+            echo '=== init ==='; t2 init || true
+            echo '=== status ==='; t2 status || true
+            echo '=== board ==='; t2 job board || true
+          } > /tmp/gate.log 2>&1
+          python3 - <<'PY'
+          import json,re,datetime
+          s=open('/tmp/gate.log',errors='replace').read()
+          s=re.sub(r'(?i)(private[_ -]?key|mnemonic|seed|secret|token|api[_ -]?key)\s*[:=]\s*\S+',r'\1: [REDACTED]',s)
+          s=re.sub(r'\bsuiprivkey1[0-9a-z]+\b','[REDACTED_SUI_PRIVATE_KEY]',s,flags=re.I)
+          open('evidence/t2000-live-execution-gate.json','w').write(json.dumps({'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sanitized_output':s[-30000:]},indent=2))
+          PY
+      - name: Persist sanitized gate evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git pull --rebase origin main || true
+          git add evidence/t2000-live-execution-gate.json
+          git commit -m 'evidence: t2000 live execution gate' || exit 0
+          git push
