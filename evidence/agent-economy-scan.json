@@ -1,0 +1,26 @@
+{
+  "jobs_domain": {
+    "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+    "error": "HTTP Error 404: Not Found",
+    "status": 404,
+    "url": "https://rustchain.org/agent/jobs"
+  },
+  "jobs_primary": {
+    "body": "<html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+    "error": "HTTP Error 403: Forbidden",
+    "status": 403,
+    "url": "https://50.28.86.131/agent/jobs"
+  },
+  "stats_domain": {
+    "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+    "error": "HTTP Error 404: Not Found",
+    "status": 404,
+    "url": "https://rustchain.org/agent/stats"
+  },
+  "stats_primary": {
+    "body": "<html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+    "error": "HTTP Error 403: Forbidden",
+    "status": 403,
+    "url": "https://50.28.86.131/agent/stats"
+  }
+}
