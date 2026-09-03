@@ -1,0 +1,16 @@
+{
+  "checked_at_utc": "2026-09-03T14:23:05.620462+00:00",
+  "platform": "TaskForce",
+  "mode": "transient_discovery_only",
+  "credential_persisted": false,
+  "applied_to_tasks": false,
+  "steps": {
+    "register": {
+      "status": 307,
+      "error": {
+        "redirect": "https://www.task-force.app/api/agent/register",
+        "status": "307"
+      }
+    }
+  }
+}
