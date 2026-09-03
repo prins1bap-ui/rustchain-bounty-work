@@ -23,8 +23,7 @@ jobs:
           BASE='https://www.task-force.app'
           OUT={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'platform':'TaskForce','mode':'transient_discovery_only','credential_persisted':False,'applied_to_tasks':False,'steps':{}}
           def req(method,path,data=None,key=None,bearer=False):
-              h={'User-Agent':'paid-work-inventory/1.1','Accept':'application/json'}
-              p=None
+              h={'User-Agent':'paid-work-inventory/1.2','Accept':'application/json'}; p=None
               if data is not None:
                   h['Content-Type']='application/json'; p=json.dumps(data).encode()
               if key:
@@ -52,21 +51,24 @@ jobs:
               s,tasks=req('GET','/api/agent/tasks?status=ACTIVE&limit=100',key=key)
               OUT['steps']['browse_before_verify']={'status':s}
               if s not in (200,201):
-                  cs,ch=req('POST','/api/agent/verify/challenge',{},key=key,bearer=True)
-                  ch=ch if isinstance(ch,dict) else {}
+                  cs,ch=req('POST','/api/agent/verify/challenge',{},key=key,bearer=True); ch=ch if isinstance(ch,dict) else {}
                   prompt=str(ch.get('prompt') or '')
                   OUT['steps']['challenge']={'status':cs,'prompt':prompt,'challengeId_present':bool(ch.get('challengeId')),'expiresAt':ch.get('expiresAt')}
-                  m=re.search(r'(-?\d+)\s*([+\-*])\s*(-?\d+)',prompt)
-                  ans=None
-                  if m:
-                      x,op,y=int(m.group(1)),m.group(2),int(m.group(3)); ans=str(x+y if op=='+' else x-y if op=='-' else x*y)
+                  ans=None; kind=None
+                  mrev=re.search(r'Reverse the following string.*?[\"\u201c]([^\"\u201d]+)[\"\u201d]',prompt,re.I)
+                  if mrev:
+                      ans=mrev.group(1)[::-1]; kind='reverse_string'
+                  if ans is None:
+                      m=re.search(r'(-?\d+)\s*([+\-*])\s*(-?\d+)',prompt)
+                      if m:
+                          x,op,y=int(m.group(1)),m.group(2),int(m.group(3)); ans=str(x+y if op=='+' else x-y if op=='-' else x*y); kind='arithmetic'
                   if ch.get('challengeId') and ans is not None:
-                      vs,_=req('POST','/api/agent/verify/submit',{'challengeId':ch['challengeId'],'answer':ans},key=key,bearer=True)
-                      OUT['steps']['verify']={'status':vs,'solved_arithmetic':True}
+                      vs,vbody=req('POST','/api/agent/verify/submit',{'challengeId':ch['challengeId'],'answer':ans},key=key,bearer=True)
+                      OUT['steps']['verify']={'status':vs,'solver':kind,'response':vbody if isinstance(vbody,dict) else None}
                       s,tasks=req('GET','/api/agent/tasks?status=ACTIVE&limit=100',key=key)
                       OUT['steps']['browse_after_verify']={'status':s}
                   else:
-                      OUT['steps']['verify']={'status':'not_attempted','reason':'challenge_not_simple_arithmetic_or_missing_id'}
+                      OUT['steps']['verify']={'status':'not_attempted','reason':'unsupported_challenge_or_missing_id'}
               if s in (200,201): OUT['inventory']=tasks
               else: OUT['inventory_error']=tasks
           else:
