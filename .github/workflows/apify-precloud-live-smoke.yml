@@ -7,6 +7,7 @@ on:
       - apify-bridge-20260902
     paths:
       - '.github/workflows/apify-precloud-live-smoke.yml'
+      - 'ops/pilot_input.json'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +16,7 @@ permissions:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,58 +31,57 @@ jobs:
         working-directory: apify_actor
         run: pip install -r requirements.txt
 
-      - name: Run live public-network smoke test
+      - name: Run zero-cost pilot fulfillment
         working-directory: apify_actor
         run: |
           python - <<'PY'
-          import json
-          from src.scanner import audit_url
+          import csv, json
+          from pathlib import Path
+          from src.scanner import audit_url, deduplicate_urls
           from src.public_transport import public_client_factory
 
-          success = audit_url('https://example.com', timeout_seconds=10, max_retries=0, client_factory=public_client_factory)
-          blocked = audit_url('http://127.0.0.1', timeout_seconds=3, max_retries=0, client_factory=public_client_factory)
+          payload = json.loads(Path('../ops/pilot_input.json').read_text(encoding='utf-8'))
+          raw_urls = payload.get('urls') or []
+          urls, duplicate_count = deduplicate_urls(raw_urls[:250])
+          results = [audit_url(url, timeout_seconds=10, max_retries=1, client_factory=public_client_factory) for url in urls]
 
-          safe_success = {
-              'requestedUrl': success.get('requestedUrl'),
-              'finalUrl': success.get('finalUrl'),
-              'statusCode': success.get('statusCode'),
-              'status': success.get('status'),
-              'errorCode': success.get('errorCode'),
-              'title': success.get('title'),
-              'contentType': success.get('contentType'),
-              'detectedTechnologies': success.get('detectedTechnologies'),
-              'emails': success.get('emails'),
-              'phones': success.get('phones'),
-              'socialProfiles': success.get('socialProfiles'),
-              'forms': success.get('forms'),
-              'https': success.get('https'),
-              'bytesRead': success.get('bytesRead'),
-          }
-          safe_blocked = {
-              'requestedUrl': blocked.get('requestedUrl'),
-              'status': blocked.get('status'),
-              'errorCode': blocked.get('errorCode'),
-              'errorMessage': blocked.get('errorMessage'),
-          }
-          result = {
-              'status': 'PASS' if success.get('status') == 'SUCCESS' and blocked.get('status') == 'ERROR' else 'FAIL',
-              'public_site': safe_success,
-              'blocked_private_target': safe_blocked,
+          out = Path('../pilot_output')
+          out.mkdir(exist_ok=True)
+          (out / 'results.json').write_text(json.dumps(results, indent=2, sort_keys=True), encoding='utf-8')
+
+          fields = ['requestedUrl','normalizedUrl','finalUrl','statusCode','redirectCount','status','errorCode','errorMessage','title','metaDescription','generator','language','canonicalUrl','organizationName','detectedTechnologies','forms','emails','phones','socialProfiles','https','server','contentType','bytesRead']
+          with open(out / 'results.csv', 'w', newline='', encoding='utf-8') as f:
+              writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
+              writer.writeheader()
+              for row in results:
+                  item = dict(row)
+                  for key in ('detectedTechnologies','emails','phones'):
+                      item[key] = '; '.join(item.get(key) or [])
+                  item['socialProfiles'] = json.dumps(item.get('socialProfiles') or {}, sort_keys=True)
+                  writer.writerow(item)
+
+          success_count = sum(r.get('status') == 'SUCCESS' for r in results)
+          error_count = len(results) - success_count
+          summary = {
+              'status': 'PASS' if success_count >= 1 else 'FAIL',
+              'processed_unique_count': len(results),
+              'success_count': success_count,
+              'error_count': error_count,
+              'duplicate_count': duplicate_count,
               'apify_cloud_calls_made': 0,
-              'paid_actions_made': 0,
+              'paid_actions_made': 0
           }
-          with open('../apify_precloud_live_smoke_result.json', 'w', encoding='utf-8') as f:
-              json.dump(result, f, indent=2, sort_keys=True)
-          print(json.dumps(result, sort_keys=True))
-          if result['status'] != 'PASS':
+          (out / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True), encoding='utf-8')
+          print(json.dumps(summary, sort_keys=True))
+          if summary['status'] != 'PASS':
               raise SystemExit(1)
           PY
 
-      - name: Upload sanitized smoke result
+      - name: Upload sanitized pilot output
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: apify-precloud-live-smoke-result
-          path: apify_precloud_live_smoke_result.json
+          path: pilot_output/
           if-no-files-found: warn
-          retention-days: 1
+          retention-days: 7
