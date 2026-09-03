@@ -1,0 +1,90 @@
+name: Bountymin Live Inventory Discovery
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/bountymin-discovery.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Discover public Bountymin inventory endpoints
+        run: |
+          python - <<'PY'
+          import datetime, json, os, re, urllib.parse, urllib.request
+
+          base='https://bountymin.com'
+          headers={'User-Agent':'paid-work-inventory/1.1','Accept':'*/*'}
+          def get(url):
+              req=urllib.request.Request(url,headers=headers)
+              try:
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      return {'url':url,'status':r.status,'content_type':r.headers.get('content-type'),'body':r.read(500000).decode('utf-8','replace')}
+              except Exception as e:
+                  body=''
+                  try: body=e.read(500000).decode('utf-8','replace')
+                  except Exception: pass
+                  return {'url':url,'status':getattr(e,'code',None),'error':str(e),'body':body}
+
+          out={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'homepage':None,'scripts':[],'candidate_endpoints':{},'discovered_strings':[]}
+          home=get(base+'/')
+          out['homepage']={k:v for k,v in home.items() if k!='body'}
+          html=home.get('body','')
+          scripts=[]
+          for src in re.findall(r'<script[^>]+src=["\']([^"\']+)["\']',html):
+              u=urllib.parse.urljoin(base,src)
+              if u.startswith(base) and u not in scripts:
+                  scripts.append(u)
+          blobs=[html]
+          for u in scripts[:60]:
+              r=get(u)
+              body=r.pop('body','')
+              r['bytes']=len(body.encode('utf-8','replace'))
+              out['scripts'].append(r)
+              blobs.append(body)
+
+          text='\n'.join(blobs)
+          pats=[
+              r'https?://[^"\'\\\s]+',
+              r'/(?:api|v1)/[A-Za-z0-9_?=&./:{}-]+',
+              r'(?:bounties|claims|rewards)[A-Za-z0-9_?=&./:{}-]{0,100}'
+          ]
+          found=set()
+          for p in pats:
+              for m in re.findall(p,text,re.I):
+                  if isinstance(m,tuple): m=''.join(m)
+                  if 'bount' in m.lower() or '/api/' in m.lower() or '/v1/' in m.lower() or 'claim' in m.lower():
+                      found.add(m[:500])
+          out['discovered_strings']=sorted(found)[:500]
+
+          candidates=[
+              '/api/bounties','/api/bounties?status=open','/api/bounties?state=open',
+              '/api/v1/bounties','/api/v1/bounties?status=open','/v1/bounties','/v1/bounties?status=open',
+              '/api/rewards','/api/issues','/api/public/bounties','/api/bounty'
+          ]
+          for s in out['discovered_strings']:
+              if s.startswith('/') and ('bount' in s.lower() or 'reward' in s.lower()) and len(s)<220:
+                  candidates.append(s)
+          for path in dict.fromkeys(candidates):
+              u=urllib.parse.urljoin(base,path)
+              r=get(u)
+              body=r.pop('body','')
+              out['candidate_endpoints'][path]={**r,'body_preview':body[:120000]}
+
+          os.makedirs('evidence',exist_ok=True)
+          with open('evidence/bountymin-discovery.json','w') as f:
+              json.dump(out,f,indent=2)
+          PY
+      - name: Persist evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/bountymin-discovery.json
+          git diff --cached --quiet || git commit -m 'Refresh Bountymin live inventory evidence'
+          git push
