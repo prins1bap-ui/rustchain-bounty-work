@@ -4,8 +4,15 @@
   "properties": {
     "results": {
       "type": "string",
-      "title": "Website audit results",
-      "template": "{{links.apiDefaultDatasetUrl}}/items"
+      "title": "Successful website audits",
+      "description": "Successful, billable website audit records.",
+      "template": "{{storages.datasets.default.apiUrl}}/items"
+    },
+    "errors": {
+      "type": "string",
+      "title": "Uncharged error records",
+      "description": "Invalid, blocked, failed, timed-out, oversized, or unsupported targets. Stored outside the default dataset so the built-in default-dataset-item event cannot bill them.",
+      "template": "{{storages.datasets.errors.apiUrl}}/items"
     }
   }
 }
