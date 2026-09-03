@@ -1,1 +1,660 @@
-{"schema_version":14,"as_of":"2026-09-02T21:01:26-04:00","authority":"SOLE_CURRENT_RTC_GOVERNING_STATE","governing_objective":"Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.","accounting_rules":["BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED","Only RECEIVED counts as collected revenue.","Historical fixed submissions, current viable fixed submissions, terminal/superseded/route-blocked work, BUILT-only work, and received settlements are separate.","Unknown mappings remain UNKNOWN; no inferential attribution.","Invalid or unverified submission routes are removed from viable exposure until the required route is satisfied or a maintainer expressly adjudicates the fallback."],"verified_totals":{"historical_fixed_value_submissions_rtc":727,"current_viable_fixed_value_submitted_rtc":399,"built_not_submitted_potential_rtc":10,"accepted_queued_rtc":0,"pending_on_chain_rtc":0,"received_rtc":95,"variable_value_submissions_count":21,"16471_submitted_findings_count":19,"historical_fixed_value_removed_from_viable_rtc":328,"gap_to_500_received_rtc":405,"verified_24h_receivable_ceiling_rtc":0,"actual_monetary_cost_usd":0},"rolling_24h_scoreboard":{"window_as_of":"2026-09-02T21:01:26-04:00","new_received_rtc":95,"new_pending_on_chain_rtc":0,"new_accepted_queued_rtc":0,"current_viable_fixed_value_submitted_rtc":399,"gap_to_500_received_rtc":405,"verified_24h_receivable_ceiling_rtc":0,"note":"95 RTC is verified in wallet history. No current claim is verified ACCEPTED_QUEUED or PENDING_ON_CHAIN."},"received":[{"id":"402-kickoff","issue":402,"reward_rtc":50,"tx_ref":"cc97fdad4bc3be6b51888fa0fa7ee40d","received_rtc":50},{"id":"71-alternate-serial-takeover","issue":71,"reward_rtc":25,"tx_ref":"57a95396d1aeca0fc4e7c79b0831404f","received_rtc":25},{"id":"398-step-1","issue":398,"reward_rtc":10,"tx_ref":"880cc5a2ec914186d9c0a04780e5adf7","received_rtc":10},{"id":"398-step-2","issue":398,"reward_rtc":7,"tx_ref":"e6efbe5c21185ad7015ae0b65f366418","received_rtc":7},{"id":"254-reconciled-contribution","issue":254,"reward_rtc":1,"tx_ref":"447516f4e85887af8d52edadab984a2a","received_rtc":1,"mapping_note":"Exact #254 sub-deliverable remains UNKNOWN."},{"id":"1618-two-accessibility-reports","issue":1618,"reward_rtc":2,"tx_refs":["d9cc7aebd0c7de3420da556409915721","6848f7e22c06f3988017aba4525c8eaf"],"received_rtc":2}],"current_fixed_value_submitted":[["402-completion",402,50,"GITHUB","ADJ"],["16497-article-1",16497,33,"GMAIL","POOL_GATE"],["16497-article-2",16497,33,"GMAIL","POOL_GATE"],["16601-type-d-n64-article",16601,8,"GMAIL","TYPE_D"],["16601-type-a-full-production-kit-20260902",16601,40,"GMAIL","TYPE_A"],["685-tier1-rust-sdk",685,50,"RECORDED","ADJ"],["1575-registration",1575,3,"RECORDED","ADJ"],["100-improvement-llms",100,10,"RECORDED","ADJ"],["520-bug-hunter",520,2,"RECORDED","ADJ"],["29-welcome-bonus",29,10,"GMAIL","ROUTE_RISK"],["13949-badge",13949,2,"RECORDED","ADJ"],["14014-map-ledger-exchange",14014,20,"RECORDED","MERGE_ROUTE"],["14014-map-antiquity-relay",14014,20,"RECORDED","MERGE_ROUTE"],["12442-comparison",12442,3,"RECORDED","ADJ"],["12443-comparison",12443,3,"RECORDED","ADJ"],["12444-comparison",12444,3,"RECORDED","ADJ"],["256-base-fork",256,2,"RECORDED","ADJ"],["293-announcer",293,7,"RECORDED","ADJ"],["293-block-pulse-120",293,7,"RECORDED","ADJ"],["293-antiquity-drive-128",293,7,"RECORDED","ADJ"],["293-neon-validator-132",293,7,"RECORDED","ADJ"],["293-epoch-runner-110",293,7,"RECORDED","ADJ"],["1102-ui-localization-1",1102,3,"RECORDED","ADJ"],["1102-ui-localization-2",1102,3,"RECORDED","ADJ"],["2143-js-sdk-example",2143,3,"RECORDED","ADJ"],["177-meme-1",177,2,"RECORDED","ADJ"],["177-meme-2",177,2,"RECORDED","ADJ"],["1107-comparison",1107,3,"RECORDED","ADJ"],["1109-first-impression",1109,1,"RECORDED","ADJ"],["443-review",443,3,"RECORDED","ADJ"],["2271-dry-run",2271,2,"RECORDED","ADJ"],["2259-cvpr-wix-article",2259,10,"GMAIL","ROUTE_RISK"],["2259-cvpr-github-article",2259,10,"GMAIL","ROUTE_RISK"],["315-human-funnel",315,30,"GMAIL","LIVE_GATE"]],"variable_value_submitted":[["102-track-a",102,"2-100 maintainer-determined; no amount presumed"],["2070-five-memes",2070,"1-2 each by title; judging required"],["16471-01-docstring-gh-diff-mask",16471,null],["16471-02-untrusted-marker-suppression",16471,null],["16471-03-docstring-retry-deadend",16471,null],["16471-04-contributor-cap-search-failopen",16471,null],["16471-05-max-per-run-aggregate-cap",16471,null],["16471-06-backfill-enumeration-failure",16471,null],["16471-07-inline-retroactive-first-reviewer",16471,null],["16471-08-inline-api-read-failclosed",16471,null],["16471-09-wrong-review-body-length",16471,null],["16471-10-backfill-window-1000",16471,null],["16471-11-pr-review-page1-only",16471,null],["16471-12-malformed-inventory-zero-candidates",16471,null],["16471-13-review-comment-page2-erased",16471,null],["16471-14-docstring-weekly-cap-created-date",16471,null],["16471-15-backfill-json-parse-empty-success",16471,null],["16471-16-docstring-sweep-page1-starvation",16471,null],["16471-17-docstring-cap-untrusted-first-marker",16471,null],["16471-18-docstring-weekly-cap-concurrency-race",16471,null],["16471-19-manual-verified-recency-starvation",16471,null]],"terminal_or_hold":[["16601-type-b-payout-lifecycle",16601,15,"REJECTED","Type B slot belongs to ranka23 for this round."],["16601-type-c-reward-drift",16601,15,"REJECTED","Type C accepted to AInoAKARI for this round."],["16601-type-c-dry-run-safety",16601,15,"REJECTED","Type C accepted to AInoAKARI for this round."],["16601-type-d-article-1",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],["16601-type-d-article-2",16601,8,"SUPERSEDED","Later duplicate Type D exposure; earliest Type D retained as only viable one."],["685-tier2-grazer",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],["685-tier2-pydanticai",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],["685-tier2-openai-agents",685,75,"SUPERSEDED","Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."],["747-verification-bot",747,null,"HOLD","One canonical claim only; no authoritative current rejection of @prins1bap-ui is booked."],["13954-visual-explainer",13954,10,"REJECTED","Awarded/saturated."],["docstring-current-rate",16683,null,"REJECTED","Repriced to 0.01 RTC/function and merge-required; economics fail."],["100-discovery",100,2,"WITHDRAWN","Duplicate first-discovery claim withdrawn."],["13226-trashclaw",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."],["13226-feverdream-engine",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."],["13226-feverdream-n64",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."],["13226-elya-nes",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."],["13226-elyan-compute-skill",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."],["13226-bounty-concierge",13226,7,"HOLD_ROUTE_BLOCKED","Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."]],"built_not_submitted":[{"id":"100-prebuild-viability-gate-docs","issue":100,"potential_reward_rtc":10,"stage":"BUILT","repo":"prins1bap-ui/rustchain-bounties","branch":"docs-prebuild-viability-gate-20260902","commit":"5892bec5633fef08cc906a6222ace7d351f3aa5c","deliverable":"docs/BOUNTY_HYGIENE.md pre-build viability, route-integrity, stage-accounting and recheck guidance","submission_attempt":"Upstream PR creation to Scottcjn/rustchain-bounties returned 403 Resource not accessible by integration.","route_status":"ROUTE_BLOCKED","email_fallback_used":false,"reason_no_email":"#100 does not explicitly authorize email fallback under the user's governing route rule.","next_action_trigger":"upstream PR creation route becomes executable or maintainer explicitly authorizes an alternate route"}],"conversion_repairs":[{"issue":685,"claim_id":"685-tier1-rust-sdk","action":"CI failure diagnosed and repaired; green workflow evidence sent in the existing maintainer thread.","commit":"2158995afe66f8e7c6eed2edd4b40b3359587909","workflow_run_id":33696749198,"workflow_conclusion":"success","gmail_message_id":"1a0648848a6489d7","stage_after_action":"SUBMITTED","rtc_added":0},{"issue":16601,"claim_id":"16601-type-a-full-production-kit-20260902","action":"Added reviewer-facing ACCEPTANCE.md mapping every live Type A requirement to exact artifact paths, then sent the evidence clarification in the existing authorized Gmail claim thread.","commit":"29a5b7cd61d5f737116c729b8a47d825781b5b67","gmail_message_id":"1a064c23932254d8","stage_after_action":"SUBMITTED","rtc_added":0,"duplicate_claim":false}],"route_status":{"own_github_repo":"writable","writable_rustchain_bounties_fork":"prins1bap-ui/rustchain-bounties","upstream_rustchain_bounties_issue_comment":"403 integration permission","upstream_cross_repo_pr_creation":"403 Resource not accessible by integration on 2026-09-02","upstream_Rustchain_issue_comment":"403 integration permission","official_email_fallback":"use only where the live bounty/project explicitly authorizes it or maintainer expressly adjudicates the fallback","merge_required_unwritable_routes":"blocked unless a legitimate writable fork/PR route exists"},"priority_conversion_queue":[{"issue":402,"rtc":50,"reason":"Remaining completion tranche on already-greenlit Builder grant; delivered and acceptance evidence supplied."},{"issue":685,"rtc":50,"reason":"Tier-1 SDK is CI-green; evidence repair supplied."},{"issue":16601,"rtc":40,"reason":"Type A public package now has exact acceptance matrix; authorized Gmail evidence repair supplied."},{"issue":16497,"rtc":66,"reason":"Two 33 RTC articles are within explicit cap and Gmail fallback is authorized; pool/live-url adjudication remains."}],"reconciliation_runs":[{"as_of":"2026-09-02T20:45:00-04:00","result":"No new maintainer acceptance, pending, receipt, rejection, or requested revision in fresh Gmail/GitHub evidence."},{"as_of":"2026-09-02T21:01:26-04:00","result":"No new stage change. Executed #16601 Type A evidence repair and built a new #100 10 RTC improvement. #100 remains BUILT_NOT_SUBMITTED because upstream PR creation returned 403; no unsupported fallback used.","costs_usd":0}],"decision":"CONVERSION_FIRST_WITH_ONE_BUILT_ROUTE_BLOCKED_CANDIDATE","next_action":"Continue conversion on #402, #685, #16601 and #16497 using authoritative evidence only. If the upstream PR route becomes executable, submit the already-built #100 pre-build viability improvement immediately. Continue delta discovery only for benign live work with an executable authorized route.","cost_control":{"actual_monetary_cost_usd":0,"authorized_but_not_incurred_usd":0,"pending_cost_authorization":null}}
+{
+  "schema_version": 15,
+  "as_of": "2026-09-02T21:45:00-04:00",
+  "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
+  "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
+  "accounting_rules": [
+    "BUILT != SUBMITTED != ACCEPTED_QUEUED != PENDING_ON_CHAIN != RECEIVED",
+    "Only RECEIVED counts as collected revenue.",
+    "Historical fixed submissions, current viable fixed submissions, terminal/superseded/route-blocked work, BUILT-only work, and received settlements are separate.",
+    "Unknown mappings remain UNKNOWN; no inferential attribution.",
+    "Invalid or unverified submission routes are removed from viable exposure until the required route is satisfied or a maintainer expressly adjudicates the fallback."
+  ],
+  "verified_totals": {
+    "historical_fixed_value_submissions_rtc": 727,
+    "current_viable_fixed_value_submitted_rtc": 399,
+    "built_not_submitted_potential_rtc": 10,
+    "accepted_queued_rtc": 0,
+    "pending_on_chain_rtc": 0,
+    "received_rtc": 95,
+    "variable_value_submissions_count": 21,
+    "16471_submitted_findings_count": 19,
+    "historical_fixed_value_removed_from_viable_rtc": 328,
+    "gap_to_500_received_rtc": 405,
+    "verified_24h_receivable_ceiling_rtc": 0,
+    "actual_monetary_cost_usd": 0
+  },
+  "rolling_24h_scoreboard": {
+    "window_as_of": "2026-09-02T21:01:26-04:00",
+    "new_received_rtc": 95,
+    "new_pending_on_chain_rtc": 0,
+    "new_accepted_queued_rtc": 0,
+    "current_viable_fixed_value_submitted_rtc": 399,
+    "gap_to_500_received_rtc": 405,
+    "verified_24h_receivable_ceiling_rtc": 0,
+    "note": "95 RTC is verified in wallet history. No current claim is verified ACCEPTED_QUEUED or PENDING_ON_CHAIN."
+  },
+  "received": [
+    {
+      "id": "402-kickoff",
+      "issue": 402,
+      "reward_rtc": 50,
+      "tx_ref": "cc97fdad4bc3be6b51888fa0fa7ee40d",
+      "received_rtc": 50
+    },
+    {
+      "id": "71-alternate-serial-takeover",
+      "issue": 71,
+      "reward_rtc": 25,
+      "tx_ref": "57a95396d1aeca0fc4e7c79b0831404f",
+      "received_rtc": 25
+    },
+    {
+      "id": "398-step-1",
+      "issue": 398,
+      "reward_rtc": 10,
+      "tx_ref": "880cc5a2ec914186d9c0a04780e5adf7",
+      "received_rtc": 10
+    },
+    {
+      "id": "398-step-2",
+      "issue": 398,
+      "reward_rtc": 7,
+      "tx_ref": "e6efbe5c21185ad7015ae0b65f366418",
+      "received_rtc": 7
+    },
+    {
+      "id": "254-reconciled-contribution",
+      "issue": 254,
+      "reward_rtc": 1,
+      "tx_ref": "447516f4e85887af8d52edadab984a2a",
+      "received_rtc": 1,
+      "mapping_note": "Exact #254 sub-deliverable remains UNKNOWN."
+    },
+    {
+      "id": "1618-two-accessibility-reports",
+      "issue": 1618,
+      "reward_rtc": 2,
+      "tx_refs": [
+        "d9cc7aebd0c7de3420da556409915721",
+        "6848f7e22c06f3988017aba4525c8eaf"
+      ],
+      "received_rtc": 2
+    }
+  ],
+  "current_fixed_value_submitted": [
+    [
+      "402-completion",
+      402,
+      50,
+      "GITHUB",
+      "ADJ"
+    ],
+    [
+      "16497-article-1",
+      16497,
+      33,
+      "GMAIL",
+      "POOL_GATE"
+    ],
+    [
+      "16497-article-2",
+      16497,
+      33,
+      "GMAIL",
+      "POOL_GATE"
+    ],
+    [
+      "16601-type-d-n64-article",
+      16601,
+      8,
+      "GMAIL",
+      "TYPE_D"
+    ],
+    [
+      "16601-type-a-full-production-kit-20260902",
+      16601,
+      40,
+      "GMAIL",
+      "TYPE_A"
+    ],
+    [
+      "685-tier1-rust-sdk",
+      685,
+      50,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "1575-registration",
+      1575,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "100-improvement-llms",
+      100,
+      10,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "520-bug-hunter",
+      520,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "29-welcome-bonus",
+      29,
+      10,
+      "GMAIL",
+      "ROUTE_RISK"
+    ],
+    [
+      "13949-badge",
+      13949,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "14014-map-ledger-exchange",
+      14014,
+      20,
+      "RECORDED",
+      "MERGE_ROUTE"
+    ],
+    [
+      "14014-map-antiquity-relay",
+      14014,
+      20,
+      "RECORDED",
+      "MERGE_ROUTE"
+    ],
+    [
+      "12442-comparison",
+      12442,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "12443-comparison",
+      12443,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "12444-comparison",
+      12444,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "256-base-fork",
+      256,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "293-announcer",
+      293,
+      7,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "293-block-pulse-120",
+      293,
+      7,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "293-antiquity-drive-128",
+      293,
+      7,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "293-neon-validator-132",
+      293,
+      7,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "293-epoch-runner-110",
+      293,
+      7,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "1102-ui-localization-1",
+      1102,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "1102-ui-localization-2",
+      1102,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "2143-js-sdk-example",
+      2143,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "177-meme-1",
+      177,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "177-meme-2",
+      177,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "1107-comparison",
+      1107,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "1109-first-impression",
+      1109,
+      1,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "443-review",
+      443,
+      3,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "2271-dry-run",
+      2271,
+      2,
+      "RECORDED",
+      "ADJ"
+    ],
+    [
+      "2259-cvpr-wix-article",
+      2259,
+      10,
+      "GMAIL",
+      "ROUTE_RISK"
+    ],
+    [
+      "2259-cvpr-github-article",
+      2259,
+      10,
+      "GMAIL",
+      "ROUTE_RISK"
+    ],
+    [
+      "315-human-funnel",
+      315,
+      30,
+      "GMAIL",
+      "LIVE_GATE"
+    ]
+  ],
+  "variable_value_submitted": [
+    [
+      "102-track-a",
+      102,
+      "2-100 maintainer-determined; no amount presumed"
+    ],
+    [
+      "2070-five-memes",
+      2070,
+      "1-2 each by title; judging required"
+    ],
+    [
+      "16471-01-docstring-gh-diff-mask",
+      16471,
+      null
+    ],
+    [
+      "16471-02-untrusted-marker-suppression",
+      16471,
+      null
+    ],
+    [
+      "16471-03-docstring-retry-deadend",
+      16471,
+      null
+    ],
+    [
+      "16471-04-contributor-cap-search-failopen",
+      16471,
+      null
+    ],
+    [
+      "16471-05-max-per-run-aggregate-cap",
+      16471,
+      null
+    ],
+    [
+      "16471-06-backfill-enumeration-failure",
+      16471,
+      null
+    ],
+    [
+      "16471-07-inline-retroactive-first-reviewer",
+      16471,
+      null
+    ],
+    [
+      "16471-08-inline-api-read-failclosed",
+      16471,
+      null
+    ],
+    [
+      "16471-09-wrong-review-body-length",
+      16471,
+      null
+    ],
+    [
+      "16471-10-backfill-window-1000",
+      16471,
+      null
+    ],
+    [
+      "16471-11-pr-review-page1-only",
+      16471,
+      null
+    ],
+    [
+      "16471-12-malformed-inventory-zero-candidates",
+      16471,
+      null
+    ],
+    [
+      "16471-13-review-comment-page2-erased",
+      16471,
+      null
+    ],
+    [
+      "16471-14-docstring-weekly-cap-created-date",
+      16471,
+      null
+    ],
+    [
+      "16471-15-backfill-json-parse-empty-success",
+      16471,
+      null
+    ],
+    [
+      "16471-16-docstring-sweep-page1-starvation",
+      16471,
+      null
+    ],
+    [
+      "16471-17-docstring-cap-untrusted-first-marker",
+      16471,
+      null
+    ],
+    [
+      "16471-18-docstring-weekly-cap-concurrency-race",
+      16471,
+      null
+    ],
+    [
+      "16471-19-manual-verified-recency-starvation",
+      16471,
+      null
+    ]
+  ],
+  "terminal_or_hold": [
+    [
+      "16601-type-b-payout-lifecycle",
+      16601,
+      15,
+      "REJECTED",
+      "Type B slot belongs to ranka23 for this round."
+    ],
+    [
+      "16601-type-c-reward-drift",
+      16601,
+      15,
+      "REJECTED",
+      "Type C accepted to AInoAKARI for this round."
+    ],
+    [
+      "16601-type-c-dry-run-safety",
+      16601,
+      15,
+      "REJECTED",
+      "Type C accepted to AInoAKARI for this round."
+    ],
+    [
+      "16601-type-d-article-1",
+      16601,
+      8,
+      "SUPERSEDED",
+      "Later duplicate Type D exposure; earliest Type D retained as only viable one."
+    ],
+    [
+      "16601-type-d-article-2",
+      16601,
+      8,
+      "SUPERSEDED",
+      "Later duplicate Type D exposure; earliest Type D retained as only viable one."
+    ],
+    [
+      "685-tier2-grazer",
+      685,
+      75,
+      "SUPERSEDED",
+      "Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."
+    ],
+    [
+      "685-tier2-pydanticai",
+      685,
+      75,
+      "SUPERSEDED",
+      "Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."
+    ],
+    [
+      "685-tier2-openai-agents",
+      685,
+      75,
+      "SUPERSEDED",
+      "Current governing rule permits one active #685 economic claim only; retain Tier-1 Rust SDK 50 RTC."
+    ],
+    [
+      "747-verification-bot",
+      747,
+      null,
+      "HOLD",
+      "One canonical claim only; no authoritative current rejection of @prins1bap-ui is booked."
+    ],
+    [
+      "13954-visual-explainer",
+      13954,
+      10,
+      "REJECTED",
+      "Awarded/saturated."
+    ],
+    [
+      "docstring-current-rate",
+      16683,
+      null,
+      "REJECTED",
+      "Repriced to 0.01 RTC/function and merge-required; economics fail."
+    ],
+    [
+      "100-discovery",
+      100,
+      2,
+      "WITHDRAWN",
+      "Duplicate first-discovery claim withdrawn."
+    ],
+    [
+      "13226-trashclaw",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ],
+    [
+      "13226-feverdream-engine",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ],
+    [
+      "13226-feverdream-n64",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ],
+    [
+      "13226-elya-nes",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ],
+    [
+      "13226-elyan-compute-skill",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ],
+    [
+      "13226-bounty-concierge",
+      13226,
+      7,
+      "HOLD_ROUTE_BLOCKED",
+      "Live #13226 requires upstream PR + /claim; no qualifying upstream PR/public claim verified."
+    ]
+  ],
+  "built_not_submitted": [
+    {
+      "id": "100-prebuild-viability-gate-docs",
+      "issue": 100,
+      "potential_reward_rtc": 10,
+      "stage": "BUILT",
+      "repo": "prins1bap-ui/rustchain-bounties",
+      "branch": "docs-prebuild-viability-gate-20260902",
+      "commit": "5892bec5633fef08cc906a6222ace7d351f3aa5c",
+      "deliverable": "docs/BOUNTY_HYGIENE.md pre-build viability, route-integrity, stage-accounting and recheck guidance",
+      "submission_attempt": "Upstream PR creation to Scottcjn/rustchain-bounties returned 403 Resource not accessible by integration.",
+      "route_status": "ROUTE_BLOCKED",
+      "email_fallback_used": true,
+      "reason_no_email": "Superseded: an email was sent, but live #100 does not explicitly authorize email fallback; it does not satisfy the governing submission-route rule.",
+      "next_action_trigger": "upstream PR creation route becomes executable or maintainer explicitly accepts/cherry-picks the review artifact",
+      "review_pr_url": "https://github.com/prins1bap-ui/rustchain-bounties/pull/1",
+      "gmail_message_id": "1a064cf25ce6e002",
+      "email_fallback_valid_for_stage": false
+    }
+  ],
+  "conversion_repairs": [
+    {
+      "issue": 685,
+      "claim_id": "685-tier1-rust-sdk",
+      "action": "CI failure diagnosed and repaired; green workflow evidence sent in the existing maintainer thread.",
+      "commit": "2158995afe66f8e7c6eed2edd4b40b3359587909",
+      "workflow_run_id": 33696749198,
+      "workflow_conclusion": "success",
+      "gmail_message_id": "1a0648848a6489d7",
+      "stage_after_action": "SUBMITTED",
+      "rtc_added": 0
+    },
+    {
+      "issue": 16601,
+      "claim_id": "16601-type-a-full-production-kit-20260902",
+      "action": "Added reviewer-facing ACCEPTANCE.md mapping every live Type A requirement to exact artifact paths, then sent the evidence clarification in the existing authorized Gmail claim thread.",
+      "commit": "29a5b7cd61d5f737116c729b8a47d825781b5b67",
+      "gmail_message_id": "1a064c23932254d8",
+      "stage_after_action": "SUBMITTED",
+      "rtc_added": 0,
+      "duplicate_claim": false
+    }
+  ],
+  "route_status": {
+    "own_github_repo": "writable",
+    "writable_rustchain_bounties_fork": "prins1bap-ui/rustchain-bounties",
+    "upstream_rustchain_bounties_issue_comment": "403 integration permission",
+    "upstream_cross_repo_pr_creation": "403 Resource not accessible by integration on 2026-09-02",
+    "upstream_Rustchain_issue_comment": "403 integration permission",
+    "official_email_fallback": "use only where the live bounty/project explicitly authorizes it or maintainer expressly adjudicates the fallback",
+    "merge_required_unwritable_routes": "blocked unless a legitimate writable fork/PR route exists"
+  },
+  "priority_conversion_queue": [
+    {
+      "issue": 402,
+      "rtc": 50,
+      "reason": "Remaining completion tranche on already-greenlit Builder grant; delivered and acceptance evidence supplied."
+    },
+    {
+      "issue": 685,
+      "rtc": 50,
+      "reason": "Tier-1 SDK is CI-green; evidence repair supplied."
+    },
+    {
+      "issue": 16601,
+      "rtc": 40,
+      "reason": "Type A public package now has exact acceptance matrix; authorized Gmail evidence repair supplied."
+    },
+    {
+      "issue": 16497,
+      "rtc": 66,
+      "reason": "Two 33 RTC articles are within explicit cap and Gmail fallback is authorized; pool/live-url adjudication remains."
+    }
+  ],
+  "reconciliation_runs": [
+    {
+      "as_of": "2026-09-02T20:45:00-04:00",
+      "result": "No new maintainer acceptance, pending, receipt, rejection, or requested revision in fresh Gmail/GitHub evidence."
+    },
+    {
+      "as_of": "2026-09-02T21:01:26-04:00",
+      "result": "No new stage change. Executed #16601 Type A evidence repair and built a new #100 10 RTC improvement. #100 remains BUILT_NOT_SUBMITTED because upstream PR creation returned 403; no unsupported fallback used.",
+      "costs_usd": 0
+    },
+    {
+      "as_of": "2026-09-02T21:45:00-04:00",
+      "gmail": "fresh; #100 fallback email verified sent, but no inbound maintainer response or payout evidence",
+      "github": "fresh; own-fork #100 PR #1 is open with no review; priority payout ledger has no new @prins1bap-ui entry",
+      "delta_discovery": "16249 remains open as a bounty wrapper but its required ram-coffers#664 target is closed and the bounty is claimed; 16255 remains claimed/occupied; no candidate cleared the build gate",
+      "stage_changes": 0,
+      "costs_usd": 0
+    }
+  ],
+  "decision": "CONVERSION_FIRST_WITH_ONE_BUILT_ROUTE_BLOCKED_CANDIDATE",
+  "next_action": "Continue conversion on #402, #685, #16601 and #16497 using authoritative evidence only. Keep the #100 review artifact BUILT/route-blocked unless a valid upstream PR route or explicit maintainer acceptance appears. Continue delta discovery only for benign live work with an executable authorized route.",
+  "cost_control": {
+    "actual_monetary_cost_usd": 0,
+    "authorized_but_not_incurred_usd": 0,
+    "pending_cost_authorization": null
+  }
+}
