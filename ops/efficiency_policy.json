@@ -1,8 +1,8 @@
 {
-  "schema_version": 3,
-  "as_of": "2026-09-02T19:46:00-04:00",
+  "schema_version": 4,
+  "as_of": "2026-09-02T20:45:00-04:00",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
-  "mode_reason": "95 RTC is verified received, but 441 RTC of viable fixed-value submissions remain unadjudicated; maintainer adjudication is the binding constraint and no fixed-value work is currently accepted/queued or pending on-chain.",
+  "mode_reason": "95 RTC is verified received, but 399 RTC of viable fixed-value submissions remain unadjudicated; maintainer adjudication is the binding constraint and no fixed-value work is currently accepted/queued or pending on-chain.",
   "mode_switch": {
     "enter_settlement_adjudication_if": [
       "accepted_queued is overdue relative to authoritative settlement guidance",
@@ -133,5 +133,12 @@
     ],
     "current_actual_monetary_cost_usd": 0,
     "current_authorized_but_not_incurred_usd": 0
+  },
+  "latest_reconciliation": {
+    "as_of": "2026-09-02T20:45:00-04:00",
+    "stage_changes": 0,
+    "gmail_fresh": true,
+    "github_fresh": true,
+    "delta_candidates_clearing_gate": 0
   }
 }
