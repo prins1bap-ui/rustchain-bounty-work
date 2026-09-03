@@ -1,0 +1,86 @@
+name: Apify Precloud Live Smoke QA
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - '.github/workflows/apify-precloud-live-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Reconstruct scanner
+        working-directory: apify_actor
+        run: |
+          cat src/scanner_parts/part1.part src/scanner_parts/part2.part src/scanner_parts/part3.part src/scanner_parts/part4.part > src/scanner.py
+          echo "da1ed025db4551c69b3e42f3387a1036ec3be51507f026363f4d92fe30581865  src/scanner.py" | sha256sum -c -
+
+      - name: Install runtime dependencies
+        working-directory: apify_actor
+        run: pip install -r requirements.txt
+
+      - name: Run live public-network smoke test
+        working-directory: apify_actor
+        run: |
+          python - <<'PY'
+          import json
+          from src.scanner import audit_url
+          from src.public_transport import public_client_factory
+
+          success = audit_url('https://example.com', timeout_seconds=10, max_retries=0, client_factory=public_client_factory)
+          blocked = audit_url('http://127.0.0.1', timeout_seconds=3, max_retries=0, client_factory=public_client_factory)
+
+          safe_success = {
+              'requestedUrl': success.get('requestedUrl'),
+              'finalUrl': success.get('finalUrl'),
+              'statusCode': success.get('statusCode'),
+              'status': success.get('status'),
+              'errorCode': success.get('errorCode'),
+              'title': success.get('title'),
+              'contentType': success.get('contentType'),
+              'detectedTechnologies': success.get('detectedTechnologies'),
+              'emails': success.get('emails'),
+              'phones': success.get('phones'),
+              'socialProfiles': success.get('socialProfiles'),
+              'forms': success.get('forms'),
+              'https': success.get('https'),
+              'bytesRead': success.get('bytesRead'),
+          }
+          safe_blocked = {
+              'requestedUrl': blocked.get('requestedUrl'),
+              'status': blocked.get('status'),
+              'errorCode': blocked.get('errorCode'),
+              'errorMessage': blocked.get('errorMessage'),
+          }
+          result = {
+              'status': 'PASS' if success.get('status') == 'SUCCESS' and blocked.get('status') == 'ERROR' else 'FAIL',
+              'public_site': safe_success,
+              'blocked_private_target': safe_blocked,
+              'apify_cloud_calls_made': 0,
+              'paid_actions_made': 0,
+          }
+          with open('../apify_precloud_live_smoke_result.json', 'w', encoding='utf-8') as f:
+              json.dump(result, f, indent=2, sort_keys=True)
+          print(json.dumps(result, sort_keys=True))
+          if result['status'] != 'PASS':
+              raise SystemExit(1)
+          PY
+
+      - name: Upload sanitized smoke result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apify-precloud-live-smoke-result
+          path: apify_precloud_live_smoke_result.json
+          if-no-files-found: warn
+          retention-days: 1
