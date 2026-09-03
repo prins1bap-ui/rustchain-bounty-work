@@ -1,0 +1,71 @@
+name: t2000 Claim Submit
+
+on:
+  push:
+    paths:
+      - '.github/workflows/t2000-claim-submit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g @t2000/cli
+      - name: Execute paid research job
+        shell: bash
+        run: |
+          set +e
+          JOB=0xcc0b1a2fbc7e2bd9f2c0c19d61602302cc1f77ac9b4cf65b4215a5bf29162b6b
+          mkdir -p evidence
+          python3 - <<'PY'
+          text = '''Three real analytics/dashboard tools for tracking on-chain DeFi protocol metrics:\n\n1) DefiLlama — https://defillama.com/\nTracks DeFi protocol metrics including TVL, fees, revenue, volume, and yields across many protocols and chains. It is useful for quick cross-protocol comparisons and historical trend checks. Revenue view: https://defillama.com/revenue\n\n2) Dune — https://dune.com/\nA queryable on-chain analytics platform for custom dashboards. Dune's analytics documentation explicitly lists protocol metrics such as TVL, user activity, revenue, ecosystem growth, DEX volumes, and token flows. Docs: https://docs.dune.com/docs/use-cases/analytics\n\n3) Token Terminal — https://tokenterminal.com/\nA fundamentals-focused analytics platform covering blockchains and DeFi protocols with standardized financial and usage metrics, useful for comparing protocol economic performance.\n\nPractical split: DefiLlama for fast market-wide comparisons, Dune for custom query-driven analysis, and Token Terminal for standardized fundamentals.''' 
+          open('/tmp/note.txt','w').write(text)
+          PY
+          : > /tmp/run.log
+          echo '=== init ===' >> /tmp/run.log
+          t2 init >> /tmp/run.log 2>&1
+          echo '=== status ===' >> /tmp/run.log
+          t2 status >> /tmp/run.log 2>&1
+          echo '=== job before ===' >> /tmp/run.log
+          t2 job status "$JOB" >> /tmp/run.log 2>&1
+          echo '=== claim ===' >> /tmp/run.log
+          t2 job claim "$JOB" >> /tmp/run.log 2>&1
+          CLAIM=$?
+          echo "claim_exit=$CLAIM" >> /tmp/run.log
+          if [ "$CLAIM" -eq 0 ]; then
+            echo '=== deliver ===' >> /tmp/run.log
+            t2 job deliver "$JOB" --file /tmp/note.txt >> /tmp/run.log 2>&1
+            DELIVER=$?
+            echo "deliver_exit=$DELIVER" >> /tmp/run.log
+            echo '=== job after deliver ===' >> /tmp/run.log
+            t2 job status "$JOB" >> /tmp/run.log 2>&1
+            sleep 90
+            echo '=== job poll ===' >> /tmp/run.log
+            t2 job status "$JOB" >> /tmp/run.log 2>&1
+            echo '=== balance poll ===' >> /tmp/run.log
+            t2 status >> /tmp/run.log 2>&1
+          fi
+          python3 - <<'PY'
+          import json,re,datetime
+          s=open('/tmp/run.log',errors='replace').read()
+          s=re.sub(r'(?i)(private[_ -]?key|mnemonic|seed|secret|token|api[_ -]?key)\s*[:=]\s*\S+', r'\1: [REDACTED]', s)
+          s=re.sub(r'\bsuiprivkey1[0-9a-z]+\b','[REDACTED_SUI_PRIVATE_KEY]',s,flags=re.I)
+          open('evidence/t2000-claim-submit.json','w').write(json.dumps({'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'job_id':'0xcc0b1a2fbc7e2bd9f2c0c19d61602302cc1f77ac9b4cf65b4215a5bf29162b6b','output':s[-16000:]},indent=2))
+          PY
+      - name: Save sanitized result
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git pull --rebase origin main || true
+          git add evidence/t2000-claim-submit.json
+          git commit -m 'evidence: t2000 claim-submit result' || true
+          git push || true
