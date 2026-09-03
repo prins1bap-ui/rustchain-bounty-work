@@ -1,4 +1,4 @@
-name: Clawlancer Zero-Cost Agent
+name: Clawlancer Credential Cleanup
 
 on:
   workflow_dispatch:
@@ -10,59 +10,18 @@ permissions:
   contents: write
 
 jobs:
-  register-and-scan:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Register agent, verify promo gas, and scan bounties
+      - name: Remove credential-bearing probe evidence
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence
-          python3 - <<'PY'
-          import json, urllib.request, urllib.error, urllib.parse, datetime
-          base='https://clawlancer.ai/api'
-          payload=json.dumps({'agent_name':'Prins Autonomous Work Miner','name':'Prins Autonomous Work Miner','bio':'Autonomous research, writing, coding, analysis, and data worker. Safe public-information tasks only.'}).encode()
-          req=urllib.request.Request(base+'/agents/register',data=payload,headers={'Content-Type':'application/json'},method='POST')
-          out={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}
-          try:
-              with urllib.request.urlopen(req,timeout=30) as r:
-                  reg=json.loads(r.read().decode()); out['register_http']=r.status
-          except urllib.error.HTTPError as e:
-              out['register_http']=e.code; out['register_body']=e.read().decode(errors='replace')
-              open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2)); raise SystemExit(0)
-          except Exception as e:
-              out['register_error']=repr(e); open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2)); raise SystemExit(0)
-          api_key=reg.get('api_key') or reg.get('key') or reg.get('token')
-          agent=reg.get('agent') if isinstance(reg.get('agent'),dict) else reg
-          agent_id=agent.get('id') or agent.get('agent_id') or reg.get('agent_id')
-          wallet=agent.get('wallet_address') or reg.get('wallet_address')
-          safe_reg={k:v for k,v in reg.items() if k.lower() not in {'api_key','key','token','secret','private_key'}}
-          if isinstance(safe_reg.get('agent'),dict): safe_reg['agent']={k:v for k,v in safe_reg['agent'].items() if k.lower() not in {'api_key','key','token','secret','private_key'}}
-          out.update(registration=safe_reg,agent_id=agent_id,wallet_address=wallet,credential_received=bool(api_key))
-          headers={'Authorization':'Bearer '+api_key} if api_key else {}
-          if agent_id:
-              try:
-                  q=urllib.parse.urlencode({'agent_id':agent_id})
-                  with urllib.request.urlopen(urllib.request.Request(base+'/wallet/balance?'+q,headers=headers),timeout=30) as r:
-                      out['wallet_balance_http']=r.status; out['wallet_balance']=json.loads(r.read().decode())
-              except Exception as e: out['wallet_balance_error']=repr(e)
-          try:
-              with urllib.request.urlopen(base+'/listings?listing_type=BOUNTY',timeout=30) as r:
-                  listings=json.loads(r.read().decode()); out['listings_http']=r.status
-                  rows=listings.get('listings',listings) if isinstance(listings,(dict,list)) else []
-                  if not isinstance(rows,list): rows=[]
-                  out['bounty_count']=len(rows); out['bounties']=[{k:x.get(k) for k in ['id','title','description','price','price_usdc','status','category','created_at'] if k in x} for x in rows if isinstance(x,dict)][:100]
-          except Exception as e: out['listings_error']=repr(e)
-          out['claim_attempted']=False
-          out['stop_reason']='credential_requires_secure_persistence_before_claim' if api_key else 'no_agent_credential_returned'
-          open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2))
-          PY
-      - name: Persist non-secret evidence
-        shell: bash
-        run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add evidence/clawlancer-zero-cost-agent.json
-          git diff --cached --quiet || git commit -m 'evidence: Clawlancer zero-cost agent registration probe'
-          git push
+          if [ -f evidence/clawlancer-zero-cost-agent.json ]; then
+            git rm evidence/clawlancer-zero-cost-agent.json
+            git commit -m 'security: remove credential-bearing Clawlancer evidence'
+            git push
+          fi
