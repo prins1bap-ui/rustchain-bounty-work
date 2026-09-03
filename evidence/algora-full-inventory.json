@@ -1,0 +1,14 @@
+{
+  "checked_at_utc": "2026-09-03T14:34:15.557Z",
+  "platform": "Algora",
+  "money_spent": false,
+  "query": {
+    "status": "active",
+    "limit": 100,
+    "rewarded": true
+  },
+  "count": 0,
+  "next_cursor": null,
+  "items": [],
+  "error": null
+}
