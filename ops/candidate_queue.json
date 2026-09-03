@@ -1,1 +1,135 @@
-{"schema_version":9,"as_of":"2026-09-02T21:01:26-04:00","authority":"ops/rtc_ledger.json","authority_rule":"This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.","operating_mode":"SETTLEMENT_ADJUDICATION","active_build":null,"accounting_snapshot":{"historical_fixed_value_submissions_rtc":727,"current_viable_fixed_value_submitted_rtc":399,"built_not_submitted_potential_rtc":10,"accepted_queued_rtc":0,"pending_on_chain_rtc":0,"received_rtc":95,"gap_to_500_received_rtc":405,"verified_24h_receivable_ceiling_rtc":0,"snapshot_source":"ops/rtc_ledger.json schema v14"},"receivables_priority":[402,685,16601,16497,16471,2259,14014,293,102],"priority_basis":{"402":"50 RTC completion tranche on already-greenlit Builder grant; kickoff received and delivery acceptance evidence supplied.","685":"50 RTC Tier-1 SDK; CI green and green evidence sent in existing maintainer thread.","16601":"40 RTC Type A package; acceptance matrix added and sent in existing authorized Gmail thread. One-kit-per-type rule verified, so no duplicate package will be built.","16497":"Two 33 RTC articles remain within explicit cap and Gmail fallback is authorized; adjudication remains.","16471":"19 variable findings submitted; expansion frozen pending adjudication."},"receivable_mode_actions":["check authoritative stage changes","execute concrete maintainer-requested revisions","repair specific evidence gaps when found","do not send generic follow-ups","do not duplicate economic claims"],"candidates":[],"built_not_submitted":[{"issue":100,"id":"100-prebuild-viability-gate-docs","potential_reward_rtc":10,"stage":"BUILT","repo":"prins1bap-ui/rustchain-bounties","branch":"docs-prebuild-viability-gate-20260902","commit":"5892bec5633fef08cc906a6222ace7d351f3aa5c","status":"ROUTE_BLOCKED","blocker":"Cross-repo upstream PR creation returned 403 Resource not accessible by integration.","submission_attempted":true,"email_fallback_used":false,"reason_no_email":"#100 does not explicitly authorize email fallback under the governing route rule.","recheck_trigger":"upstream_pr_route_available_or_explicit_alternate_route_authorized"}],"rules":{"max_speculative_active_builds":1,"rank_metric":"expected_verified_rtc_adjusted_for_payment_probability_time_to_cash_owner_time_and_route_feasibility","route_first_screening":true,"delta_discovery_default":true,"terminal_rescan_without_trigger":false,"spend_authorization_required_before_cost":true},"route_status":{"own_github_repo":"writable","writable_rustchain_bounties_fork":"prins1bap-ui/rustchain-bounties","upstream_rustchain_bounties_issue_comment":"403 integration permission","upstream_cross_repo_pr_creation":"403 Resource not accessible by integration","upstream_Rustchain_issue_comment":"403 integration permission","official_email_fallback":"only where live bounty/project explicitly authorizes it or maintainer expressly adjudicates fallback"},"throttles":{"16471":"freeze additional findings pending adjudication/request unless exceptional distinct high-confidence finding materially changes expected value","docstring_bounties":"KILL: 0.01 RTC/function and merge-required","merge_required_unwritable_work":"BLOCKED unless legitimate writable fork/upstream PR route exists","duplicate_16601_types":"KILL: maintainer states one kit per type for this round"},"last_submission":{"issue":16601,"id":"16601-type-a-full-production-kit-20260902","stage":"SUBMITTED","route":"public GitHub branch package + explicit email route","email_message_id":"1a06368a74d516b9","rtc_booked_as_submitted_only":40},"last_build":{"issue":100,"id":"100-prebuild-viability-gate-docs","stage":"BUILT","branch":"docs-prebuild-viability-gate-20260902","commit":"5892bec5633fef08cc906a6222ace7d351f3aa5c","potential_reward_rtc":10,"submitted":false},"conversion_repairs":[{"issue":685,"at":"2026-09-02","action":"Patched browse-filter mock, verified CI green, sent evidence.","commit":"2158995afe66f8e7c6eed2edd4b40b3359587909","workflow_run_id":33696749198,"gmail_message_id":"1a0648848a6489d7","status":"CI_GREEN_EVIDENCE_SENT"},{"issue":16601,"at":"2026-09-02T21:00:00-04:00","action":"Added ACCEPTANCE.md mapping every Type A requirement to exact artifact paths and sent same-claim evidence clarification.","commit":"29a5b7cd61d5f737116c729b8a47d825781b5b67","gmail_message_id":"1a064c23932254d8","status":"EVIDENCE_REPAIR_SENT"}],"latest_reconciliation":{"as_of":"2026-09-02T21:01:26-04:00","result":"No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision. Executed one 40 RTC conversion repair and built one new 10 RTC improvement without falsely promoting it to SUBMITTED.","scoreboard_changed":false},"next_action":"Keep converting #402, #685, #16601 and #16497. Submit the already-built #100 improvement immediately if an authorized upstream PR route becomes executable. Continue route-first delta discovery for new benign payable work.","cost_control":{"actual_monetary_cost_usd":0,"authorized_but_not_incurred_usd":0,"pending_cost_authorization":null}}
+{
+  "schema_version": 9,
+  "as_of": "2026-09-02T21:45:00-04:00",
+  "authority": "ops/rtc_ledger.json",
+  "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
+  "operating_mode": "SETTLEMENT_ADJUDICATION",
+  "active_build": null,
+  "accounting_snapshot": {
+    "historical_fixed_value_submissions_rtc": 727,
+    "current_viable_fixed_value_submitted_rtc": 399,
+    "built_not_submitted_potential_rtc": 10,
+    "accepted_queued_rtc": 0,
+    "pending_on_chain_rtc": 0,
+    "received_rtc": 95,
+    "gap_to_500_received_rtc": 405,
+    "verified_24h_receivable_ceiling_rtc": 0,
+    "snapshot_source": "ops/rtc_ledger.json schema v14"
+  },
+  "receivables_priority": [
+    402,
+    685,
+    16601,
+    16497,
+    16471,
+    2259,
+    14014,
+    293,
+    102
+  ],
+  "priority_basis": {
+    "402": "50 RTC completion tranche on already-greenlit Builder grant; kickoff received and delivery acceptance evidence supplied.",
+    "685": "50 RTC Tier-1 SDK; CI green and green evidence sent in existing maintainer thread.",
+    "16471": "19 variable findings submitted; expansion frozen pending adjudication.",
+    "16497": "Two 33 RTC articles remain within explicit cap and Gmail fallback is authorized; adjudication remains.",
+    "16601": "40 RTC Type A package; acceptance matrix added and sent in existing authorized Gmail thread. One-kit-per-type rule verified, so no duplicate package will be built."
+  },
+  "receivable_mode_actions": [
+    "check authoritative stage changes",
+    "execute concrete maintainer-requested revisions",
+    "repair specific evidence gaps when found",
+    "do not send generic follow-ups",
+    "do not duplicate economic claims"
+  ],
+  "candidates": [],
+  "built_not_submitted": [
+    {
+      "issue": 100,
+      "id": "100-prebuild-viability-gate-docs",
+      "potential_reward_rtc": 10,
+      "stage": "BUILT",
+      "repo": "prins1bap-ui/rustchain-bounties",
+      "branch": "docs-prebuild-viability-gate-20260902",
+      "commit": "5892bec5633fef08cc906a6222ace7d351f3aa5c",
+      "status": "ROUTE_BLOCKED",
+      "blocker": "Cross-repo upstream PR creation returned 403. An own-fork review PR and email were sent, but #100 does not explicitly authorize email fallback.",
+      "submission_attempted": true,
+      "email_fallback_used": true,
+      "reason_no_email": "#100 does not explicitly authorize email fallback under the governing route rule.",
+      "recheck_trigger": "upstream_pr_route_available_or_maintainer_explicitly_accepts_or_cherrypicks_artifact",
+      "pr_url": "https://github.com/prins1bap-ui/rustchain-bounties/pull/1",
+      "gmail_message_id": "1a064cf25ce6e002",
+      "email_fallback_valid_for_stage": false
+    }
+  ],
+  "rules": {
+    "max_speculative_active_builds": 1,
+    "rank_metric": "expected_verified_rtc_adjusted_for_payment_probability_time_to_cash_owner_time_and_route_feasibility",
+    "route_first_screening": true,
+    "delta_discovery_default": true,
+    "terminal_rescan_without_trigger": false,
+    "spend_authorization_required_before_cost": true
+  },
+  "route_status": {
+    "own_github_repo": "writable",
+    "writable_rustchain_bounties_fork": "prins1bap-ui/rustchain-bounties",
+    "upstream_rustchain_bounties_issue_comment": "403 integration permission",
+    "upstream_cross_repo_pr_creation": "403 Resource not accessible by integration",
+    "upstream_Rustchain_issue_comment": "403 integration permission",
+    "official_email_fallback": "only where live bounty/project explicitly authorizes it or maintainer expressly adjudicates fallback"
+  },
+  "throttles": {
+    "16471": "freeze additional findings pending adjudication/request unless exceptional distinct high-confidence finding materially changes expected value",
+    "docstring_bounties": "KILL: 0.01 RTC/function and merge-required",
+    "merge_required_unwritable_work": "BLOCKED unless legitimate writable fork/upstream PR route exists",
+    "duplicate_16601_types": "KILL: maintainer states one kit per type for this round"
+  },
+  "last_submission": {
+    "issue": 16601,
+    "id": "16601-type-a-full-production-kit-20260902",
+    "stage": "SUBMITTED",
+    "route": "public GitHub branch package + explicit email route",
+    "email_message_id": "1a06368a74d516b9",
+    "rtc_booked_as_submitted_only": 40
+  },
+  "last_build": {
+    "issue": 100,
+    "id": "100-prebuild-viability-gate-docs",
+    "stage": "BUILT",
+    "branch": "docs-prebuild-viability-gate-20260902",
+    "commit": "5892bec5633fef08cc906a6222ace7d351f3aa5c",
+    "potential_reward_rtc": 10,
+    "submitted": false
+  },
+  "conversion_repairs": [
+    {
+      "issue": 685,
+      "at": "2026-09-02",
+      "action": "Patched browse-filter mock, verified CI green, sent evidence.",
+      "commit": "2158995afe66f8e7c6eed2edd4b40b3359587909",
+      "workflow_run_id": 33696749198,
+      "gmail_message_id": "1a0648848a6489d7",
+      "status": "CI_GREEN_EVIDENCE_SENT"
+    },
+    {
+      "issue": 16601,
+      "at": "2026-09-02T21:00:00-04:00",
+      "action": "Added ACCEPTANCE.md mapping every Type A requirement to exact artifact paths and sent same-claim evidence clarification.",
+      "commit": "29a5b7cd61d5f737116c729b8a47d825781b5b67",
+      "gmail_message_id": "1a064c23932254d8",
+      "status": "EVIDENCE_REPAIR_SENT"
+    }
+  ],
+  "latest_reconciliation": {
+    "as_of": "2026-09-02T21:45:00-04:00",
+    "result": "No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision.",
+    "delta": "#16249 target issue is closed and claimed; #16255 remains claimed/occupied; no route-executable candidate cleared the gate.",
+    "scoreboard_changed": false
+  },
+  "next_action": "Keep converting #402, #685, #16601 and #16497. Keep #100 at BUILT/route-blocked until an authorized upstream route or explicit maintainer acceptance exists.",
+  "cost_control": {
+    "actual_monetary_cost_usd": 0,
+    "authorized_but_not_incurred_usd": 0,
+    "pending_cost_authorization": null
+  }
+}
