@@ -14,7 +14,7 @@
   },
   "title": "Website Contact + Tech Snapshot",
   "description": "One-request public website enrichment: contacts, social profiles, 45+ tech fingerprints, metadata, JSON-LD, forms, and security-header signals.",
-  "defaultMemoryMbytes": 256,
+  "defaultMemoryMbytes": 128,
   "minMemoryMbytes": 128,
-  "maxMemoryMbytes": 512
+  "maxMemoryMbytes": 256
 }
