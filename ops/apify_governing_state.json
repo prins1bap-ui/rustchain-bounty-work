@@ -1,30 +1,29 @@
 {
-  "schema_version": 3,
-  "as_of": "2026-09-02T21:14:00-04:00",
+  "schema_version": 4,
+  "as_of": "2026-09-03T06:12:00-04:00",
   "authority": "SOLE_CURRENT_APIFY_GOVERNING_STATE",
   "objective": "Reach a successfully built and cloud-QA-verified private Apify Actor with zero unauthorized monetary spend, then prepare for Store publication without publishing until economics, safety, pricing, and validation gates pass.",
   "current_state": {
     "repository": "prins1bap-ui/rustchain-bounty-work",
     "branch": "apify-bridge-20260902",
-    "branch_head_before_state_commit": "471c7d28e2db59c62bfc8c725100fdaf090087ec",
     "actor_path": "apify_actor",
     "direct_git_source": "https://github.com/prins1bap-ui/rustchain-bounty-work#apify-bridge-20260902:apify_actor",
     "source_qa": "PASS",
-    "source_qa_run_id": 33702709867,
-    "source_qa_job_id": 100485226496,
-    "source_qa_head_sha": "471c7d28e2db59c62bfc8c725100fdaf090087ec",
+    "source_qa_run_id": 33742960608,
+    "source_qa_job_id": 100608873292,
+    "source_qa_head_sha": "4b4a7b9225d2e00259e78e7e6632d760c8594b4f",
     "deterministic_tests": {
       "status": "PASS",
-      "count": 32,
-      "duration_seconds": 0.25
+      "count": 37,
+      "duration_seconds": 0.31
     },
-    "scanner_sha256": "148c6a0a7f1d97c1d204f310c72afea5f0bd47a00b0ab572b6d2e71d4a3fcfff",
+    "scanner_sha256": "da1ed025db4551c69b3e42f3387a1036ec3be51507f026363f4d92fe30581865",
     "schema_validation_official_apify_cli": "PASS",
     "apify_cli_version": "1.10.0",
     "apify_cli_telemetry_disabled": true,
     "zero_secret_source_scan": "PASS",
     "docker_build": "PASS",
-    "docker_image_sha256": "1eeece58dafd818827060fc2bad5ab1501444fcf0881bee51e0ed3926bda17f7",
+    "docker_image_sha256": "3ec24c81d7e40e9d487b1a6128ab29cbfc75667439ef6968511fef022ebcd14a",
     "docker_base": "apify/actor-python:3.13@sha256:c04163f4586c0aa8b1c8f8656beb456d0bd725fcc796b51c4197e8b51b206caa",
     "runtime_dependency_pins": {
       "apify": "3.4.1",
@@ -32,12 +31,19 @@
       "httpcore": "1.0.9"
     },
     "github_checkout_action": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 (v7.0.1)",
+    "actor_memory_mbytes": {
+      "default": 128,
+      "minimum": 128,
+      "maximum": 256
+    },
+    "run_wallclock_safety_budget_seconds": 600.0,
     "store_readme_staged": true,
     "apify_console_authentication": "VERIFIED_BY_AUTHENTICATED_CONSOLE_SCREEN",
     "apify_current_month_usage_observed_usd": 0.0,
     "apify_actual_plan": "NOT_YET_VERIFIED",
     "apify_current_usage_limit": "NOT_YET_VERIFIED",
     "apify_overage_enabled": "NOT_YET_VERIFIED",
+    "apify_owned_actor_inventory": "NOT_YET_VERIFIED",
     "apify_actor_cloud_build": "NOT_YET_RUN",
     "apify_cloud_qa": "NOT_YET_RUN",
     "planned_price": "$0.001 per successful website audit ($1/1000)",
@@ -50,7 +56,7 @@
   "repaired_defects": [
     {
       "code": "ERROR_DATASET_SYNTHETIC_CHARGE_RISK",
-      "resolution": "Invalid/failed audit records now go to a separate aliased dataset rather than the default run dataset, preventing the default-dataset synthetic PPE event from billing errors.",
+      "resolution": "Invalid/failed audit records go to a separate aliased dataset rather than the default run dataset, preventing the default-dataset synthetic PPE event from billing errors.",
       "status": "REPAIRED_AND_QA_VERIFIED"
     },
     {
@@ -60,20 +66,36 @@
     },
     {
       "code": "AMBIGUOUS_CONTENT_TYPE_BILLING_RISK",
-      "resolution": "A response without a declared HTML Content-Type is downgraded to UNVERIFIED_CONTENT_TYPE and routed to the uncharged error dataset.",
+      "resolution": "A response without a declared HTML Content-Type is classified UNVERIFIED_CONTENT_TYPE and routed to the uncharged error dataset.",
       "status": "REPAIRED_AND_QA_VERIFIED"
     },
     {
       "code": "DNS_REBINDING_TOCTOU_SSRF_GAP",
-      "resolution": "Production transport re-resolves DNS at socket-connect time, rejects any host with a non-global answer, and connects to the validated literal public IP. Environment proxy inheritance is disabled. Full audit-path QA simulates a public-to-loopback DNS rebind and proves no socket is opened and the result is UNSAFE_URL.",
+      "resolution": "Production transport re-resolves DNS at socket-connect time, rejects any host with a non-global answer, and connects to the validated literal public IP. Environment proxy inheritance is disabled. Full audit-path QA simulates a public-to-loopback DNS rebind and proves no unsafe socket is opened.",
+      "status": "REPAIRED_AND_QA_VERIFIED"
+    },
+    {
+      "code": "UNCHARGED_RESPONSE_TRANSFER_AMPLIFICATION",
+      "resolution": "The scanner now decides billability from final status and Content-Type headers before consuming the response body. HTTP errors, non-HTML responses, missing Content-Type responses, and transient failed retry responses do not download discarded bodies. Dedicated exploding-stream tests prove body consumption does not occur on these uncharged paths.",
+      "status": "REPAIRED_AND_QA_VERIFIED"
+    },
+    {
+      "code": "UNCHARGED_FAILURE_COMPUTE_RUNAWAY",
+      "resolution": "The Actor stops starting new network requests after a 600-second run wall-clock safety budget. The budget clock is isolated as an imported monotonic callable so unit testing does not interfere with asyncio's own process-wide monotonic clock.",
+      "status": "REPAIRED_AND_QA_VERIFIED"
+    },
+    {
+      "code": "RUNTIME_BUDGET_TEST_CLOCK_POLLUTION",
+      "resolution": "The first wall-clock test patched the shared time.monotonic function and accidentally affected asyncio. Production code now imports monotonic directly and the test patches only src.main.monotonic. Final QA passes all 37 tests.",
       "status": "REPAIRED_AND_QA_VERIFIED"
     }
   ],
-  "public_billing_rules_verified_2026_09_02": {
-    "free_plan": "$0 subscription, $5 prepaid platform usage; no credit card required; services block when free prepaid usage is exhausted rather than entering paid overage.",
+  "public_billing_rules_verified_2026_09_03": {
+    "free_plan": "$0 subscription, prepaid platform usage, no credit card required; services block when free prepaid usage is exhausted rather than entering paid overage.",
     "paid_plans": "Use prepaid platform usage first; pay-as-you-go overage is possible only beyond prepaid usage when the account usage limit permits it.",
-    "limits": "Billing > Limits is the account source of truth for the current usage limit and overage exposure.",
-    "important_caveat": "These are public platform rules, not proof of this account's actual plan or current limit. Account-specific verification remains required before any Apify cloud build or run."
+    "limits": "Billing > Limits is the account source of truth for the current usage limit and overage exposure. maxMonthlyUsageUsd is the hard monthly platform-usage limit exposed by the API.",
+    "per_run_user_charge_cap": "For PPE runs, maxTotalChargeUsd / ACTOR_MAX_TOTAL_CHARGE_USD caps what a user can be charged for that individual run; it is not a substitute for the developer account's platform-usage limit or for controlling uncharged compute/transfer cost.",
+    "important_caveat": "Public platform rules do not prove this account's actual plan or current limit. Account-specific verification remains required before any Apify cloud build or run."
   },
   "bridge": {
     "workflow": ".github/workflows/apify-bridge-probe.yml",
@@ -101,7 +123,7 @@
     "assistant_can_proceed_without_owner": true,
     "cloud_actions_blocked_until_verified": true
   },
-  "next_action": "Continue zero-cost source/security/reproducibility review autonomously. When an assistant-controlled authenticated Apify route becomes available, verify Subscription + Limits + current usage + owned Actors, prevent duplication, then build exactly one private Actor only if the zero-spend gate is proven. Publication remains gated.",
+  "next_action": "Continue zero-cost source/economics/security review autonomously. When an assistant-controlled authenticated Apify route becomes available, verify Subscription + Limits + current usage + owned Actors, prevent duplication, then build exactly one private Actor only if the zero-spend gate is proven. Publication remains gated.",
   "failure_controls": [
     "Never expose APIFY_TOKEN in chat, logs, artifacts, source, or URLs.",
     "Never treat local/source QA as cloud Actor QA.",
