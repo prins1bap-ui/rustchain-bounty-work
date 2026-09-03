@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import asyncio
-import time
 from decimal import Decimal, InvalidOperation
+from time import monotonic
 
 from apify import Actor
 
@@ -109,7 +109,7 @@ async def main() -> None:
         # charges for invalid/failed targets. Fail closed if platform pricing
         # drifts from that contract.
         _assert_safe_pricing_configuration()
-        run_started_at = time.monotonic()
+        run_started_at = monotonic()
 
         actor_input = await Actor.get_input() or {}
         raw_urls = actor_input.get("urls") or []
@@ -130,7 +130,7 @@ async def main() -> None:
         error_count = 0
         error_dataset = None
         for raw_url in urls:
-            if time.monotonic() - run_started_at >= MAX_RUN_WALLCLOCK_SECONDS:
+            if monotonic() - run_started_at >= MAX_RUN_WALLCLOCK_SECONDS:
                 Actor.log.info(
                     "Run wall-clock safety budget reached; stopping before another network request."
                 )
