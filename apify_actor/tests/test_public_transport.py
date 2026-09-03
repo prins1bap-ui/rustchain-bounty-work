@@ -4,7 +4,7 @@ import httpcore
 import pytest
 
 from src.public_transport import PublicOnlyHTTPTransport, PublicOnlyNetworkBackend, public_client_factory
-from src.scanner import DnsResolutionError, UnsafeUrlError
+from src.scanner import DnsResolutionError, UnsafeUrlError, audit_url
 
 
 def _public_ipv4_info(host, port, proto=None):
@@ -70,6 +70,26 @@ def test_literal_private_target_is_rejected_without_dns(monkeypatch):
     )
     with pytest.raises(UnsafeUrlError):
         PublicOnlyNetworkBackend().connect_tcp("127.0.0.1", 80)
+
+
+def test_dns_rebinding_is_blocked_through_full_audit_path(monkeypatch):
+    # Scanner validation sees a public address first. At the later socket-connect
+    # boundary the same hostname has changed to loopback, simulating DNS rebinding.
+    monkeypatch.setattr("src.scanner.socket.getaddrinfo", _public_ipv4_info)
+
+    def rebound_private_info(host, port, proto=None):
+        return [(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP, "", ("127.0.0.1", 0))]
+
+    monkeypatch.setattr("src.public_transport.socket.getaddrinfo", rebound_private_info)
+    monkeypatch.setattr(
+        httpcore.SyncBackend,
+        "connect_tcp",
+        lambda *args, **kwargs: pytest.fail("Rebound private target must never reach a socket"),
+    )
+
+    result = audit_url("rebind.test", client_factory=public_client_factory)
+    assert result["status"] == "ERROR"
+    assert result["errorCode"] == "UNSAFE_URL"
 
 
 def test_public_client_factory_installs_hardened_backend_and_disables_proxy_inheritance():
