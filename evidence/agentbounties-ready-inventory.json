@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-09-03T14:42:59.289838+00:00",
+  "checked_at_utc": "2026-09-03T14:44:01.744992+00:00",
   "platform": "Agent Bounties",
   "money_spent": false,
   "wallet_created": false,
@@ -9,7 +9,7 @@
       "http_status": 200,
       "body": {
         "schema_version": "agent-bounties/opportunity-projection-v1",
-        "generated_at": "2026-09-03T14:42:59.604250601+00:00",
+        "generated_at": "2026-09-03T14:44:02.132173692+00:00",
         "network": "base-mainnet",
         "applied_view": "ready_to_earn",
         "degraded": false,

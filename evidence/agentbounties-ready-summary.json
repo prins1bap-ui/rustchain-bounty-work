@@ -1,0 +1,20 @@
+{
+  "checked_at_utc": "2026-09-03T14:44:01.744992+00:00",
+  "ready_item_count": 22,
+  "source_counts": {
+    "canonical_base": 22
+  },
+  "competition_mode_counts": {
+    "best_score": 15,
+    "exclusive_claim": 7
+  },
+  "zero_spend_count": 0,
+  "ordinary_noncompetition_count": 7,
+  "ordinary_zero_spend_count": 0,
+  "ordinary_zero_spend": [],
+  "zero_spend_top": [],
+  "claimable_feed_http_status": 200,
+  "claimable_feed_item_count": null,
+  "claimable_feed_top_level_keys": null,
+  "classification_note": "Zero-spend requires required_external_spend and refundable claim bond to be absent/zero. Ordinary excludes best_score/competition modes."
+}
