@@ -28,11 +28,16 @@ class _PricingInfo:
 
 
 class _ChargingManager:
-    def __init__(self, pricing_info):
+    def __init__(self, pricing_info, remaining_chargeable=None):
         self.pricing_info = pricing_info
+        self.remaining_chargeable = remaining_chargeable
 
     def get_pricing_info(self):
         return self.pricing_info
+
+    def calculate_max_event_charge_count_within_limit(self, event_name):
+        assert event_name == "website-audit"
+        return self.remaining_chargeable
 
 
 class _Dataset:
@@ -54,6 +59,7 @@ class _FakeActor:
         self.error_dataset = _Dataset()
         self.opened_aliases = []
         self.pricing_info = _PricingInfo(is_pay_per_event=False)
+        self.remaining_chargeable = None
 
     async def __aenter__(self):
         return self
@@ -75,7 +81,7 @@ class _FakeActor:
         return self.error_dataset
 
     def get_charging_manager(self):
-        return _ChargingManager(self.pricing_info)
+        return _ChargingManager(self.pricing_info, self.remaining_chargeable)
 
 
 def _load_main(fake_actor):
@@ -177,6 +183,26 @@ def test_duplicate_normalized_urls_are_processed_once(monkeypatch):
     assert calls == ["Example.com"]
     assert len(fake.pushes) == 1
     assert fake.pushes[0][1] == "website-audit"
+
+
+def test_ppe_zero_charge_budget_exits_before_network_work(monkeypatch):
+    fake = _FakeActor()
+    fake.pricing_info = _PricingInfo(
+        is_pay_per_event=True,
+        per_event_prices={"website-audit": Decimal("0.001")},
+    )
+    fake.remaining_chargeable = 0
+    module = _load_main(fake)
+
+    monkeypatch.setattr(
+        module,
+        "audit_url",
+        lambda *args, **kwargs: pytest.fail("Network work must not start without charge budget"),
+    )
+    asyncio.run(module.main())
+
+    assert fake.pushes == []
+    assert any("cannot fund one website audit" in m for m in fake.log.messages)
 
 
 def test_ppe_pricing_guard_accepts_exact_custom_price_without_synthetic_charges():
