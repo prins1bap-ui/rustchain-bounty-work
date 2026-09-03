@@ -1,0 +1,51 @@
+name: t2000 Job Readonly Forensics
+
+on:
+  push:
+    paths:
+      - '.github/workflows/t2000-job-readonly-forensics.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g @t2000/cli
+      - name: Inspect claimed job without creating a wallet
+        shell: bash
+        run: |
+          set +e
+          mkdir -p evidence
+          JOB='0xaa8e46b31ceac83085f534be4cab429ea809d6288020dbdabda2ff61f9600874'
+          {
+            echo '=== watch json ==='
+            t2 --json job watch "$JOB" --once
+            echo "watch_exit=$?"
+            echo '=== spec json ==='
+            t2 --json job spec "$JOB"
+            echo "spec_exit=$?"
+          } > /tmp/job-readonly.log 2>&1
+          python3 - <<'PY'
+          import json,re,datetime
+          s=open('/tmp/job-readonly.log',errors='replace').read()
+          s=re.sub(r'(?i)(private[_ -]?key|mnemonic|seed|secret|token|api[_ -]?key)\s*[:=]\s*\S+',r'\1: [REDACTED]',s)
+          s=re.sub(r'\bsuiprivkey1[0-9a-z]+\b','[REDACTED_SUI_PRIVATE_KEY]',s,flags=re.I)
+          open('evidence/t2000-job-readonly-forensics.json','w').write(json.dumps({'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'job_id':'0xaa8e46b31ceac83085f534be4cab429ea809d6288020dbdabda2ff61f9600874','sanitized_output':s[-30000:]},indent=2))
+          PY
+      - name: Persist sanitized evidence
+        shell: bash
+        run: |
+          set -e
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add evidence/t2000-job-readonly-forensics.json
+          git commit -m 'evidence: t2000 claimed-job read-only forensics' || exit 0
+          git push
