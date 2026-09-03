@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import time
 from decimal import Decimal, InvalidOperation
 
 from apify import Actor
@@ -9,6 +10,7 @@ from .public_transport import public_client_factory
 from .scanner import audit_url, deduplicate_urls
 
 MAX_URLS_PER_RUN = 500
+MAX_RUN_WALLCLOCK_SECONDS = 600.0
 CHARGED_EVENT = "website-audit"
 EXPECTED_EVENT_PRICE_USD = Decimal("0.001")
 ERROR_DATASET_ALIAS = "errors"
@@ -74,12 +76,7 @@ def _assert_safe_pricing_configuration() -> None:
 
 
 def _require_declared_html_content_type(result: dict) -> dict:
-    """Never charge a response whose server did not actually declare an HTML content type.
-
-    The scanner can parse a body when Content-Type is absent, but billing is intentionally
-    stricter than parsing. A missing type is ambiguous (it can be HTML or arbitrary binary
-    content), so the Actor fails closed and routes it to the uncharged error dataset.
-    """
+    """Defense in depth: never charge a response without a declared HTML content type."""
     if result.get("status") != "SUCCESS" or result.get("contentType"):
         return result
 
@@ -112,6 +109,7 @@ async def main() -> None:
         # charges for invalid/failed targets. Fail closed if platform pricing
         # drifts from that contract.
         _assert_safe_pricing_configuration()
+        run_started_at = time.monotonic()
 
         actor_input = await Actor.get_input() or {}
         raw_urls = actor_input.get("urls") or []
@@ -132,6 +130,12 @@ async def main() -> None:
         error_count = 0
         error_dataset = None
         for raw_url in urls:
+            if time.monotonic() - run_started_at >= MAX_RUN_WALLCLOCK_SECONDS:
+                Actor.log.info(
+                    "Run wall-clock safety budget reached; stopping before another network request."
+                )
+                break
+
             result = await asyncio.to_thread(
                 audit_url,
                 raw_url,
