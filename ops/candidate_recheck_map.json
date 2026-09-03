@@ -1,6 +1,6 @@
 {
-  "schema_version": 2,
-  "as_of": "2026-09-02T19:51:00-04:00",
+  "schema_version": 3,
+  "as_of": "2026-09-02T20:45:00-04:00",
   "policy": "Do not rescan screened-out candidates unless their trigger fires. New and materially updated issues are handled by delta discovery.",
   "groups": {
     "never": {
@@ -17,7 +17,8 @@
         121,
         16253,
         2274,
-        2868
+        2868,
+        441
       ]
     },
     "route_change": {
@@ -124,6 +125,12 @@
       "trigger": "external publication route became executable",
       "result": "Live Wix distribution published; evidence sent; claim moved to viable SUBMITTED in ledger v11.",
       "resolved_at": "2026-09-02T19:20:00-04:00"
+    },
+    {
+      "issue": 441,
+      "trigger": "material issue update observed in delta scan",
+      "result": "Closed/completed; requires Discord membership plus upstream PR/merge and does not clear the executable-route gate. Assigned never.",
+      "resolved_at": "2026-09-02T20:45:00-04:00"
     }
   ]
 }
