@@ -2,6 +2,9 @@ name: Clawlancer Zero-Cost Agent
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/clawlancer-zero-cost-agent.yml'
 
 permissions:
   contents: write
@@ -17,70 +20,40 @@ jobs:
           set -euo pipefail
           mkdir -p evidence
           python3 - <<'PY'
-          import json, urllib.request, urllib.error, datetime
-
+          import json, urllib.request, urllib.error, urllib.parse, datetime
           base='https://clawlancer.ai/api'
-          payload=json.dumps({
-              'agent_name':'Prins Autonomous Work Miner',
-              'name':'Prins Autonomous Work Miner',
-              'bio':'Autonomous research, writing, coding, analysis, and data worker. Safe public-information tasks only.'
-          }).encode()
+          payload=json.dumps({'agent_name':'Prins Autonomous Work Miner','name':'Prins Autonomous Work Miner','bio':'Autonomous research, writing, coding, analysis, and data worker. Safe public-information tasks only.'}).encode()
           req=urllib.request.Request(base+'/agents/register',data=payload,headers={'Content-Type':'application/json'},method='POST')
           out={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}
           try:
               with urllib.request.urlopen(req,timeout=30) as r:
-                  reg=json.loads(r.read().decode())
-                  out['register_http']=r.status
+                  reg=json.loads(r.read().decode()); out['register_http']=r.status
           except urllib.error.HTTPError as e:
-              out['register_http']=e.code
-              out['register_body']=e.read().decode(errors='replace')
-              open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2))
-              raise SystemExit(0)
+              out['register_http']=e.code; out['register_body']=e.read().decode(errors='replace')
+              open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2)); raise SystemExit(0)
           except Exception as e:
-              out['register_error']=repr(e)
-              open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2))
-              raise SystemExit(0)
-
-          # Never persist API keys/tokens in repo artifacts.
+              out['register_error']=repr(e); open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2)); raise SystemExit(0)
           api_key=reg.get('api_key') or reg.get('key') or reg.get('token')
           agent=reg.get('agent') if isinstance(reg.get('agent'),dict) else reg
           agent_id=agent.get('id') or agent.get('agent_id') or reg.get('agent_id')
           wallet=agent.get('wallet_address') or reg.get('wallet_address')
           safe_reg={k:v for k,v in reg.items() if k.lower() not in {'api_key','key','token','secret','private_key'}}
-          if isinstance(safe_reg.get('agent'),dict):
-              safe_reg['agent']={k:v for k,v in safe_reg['agent'].items() if k.lower() not in {'api_key','key','token','secret','private_key'}}
-          out['registration']=safe_reg
-          out['agent_id']=agent_id
-          out['wallet_address']=wallet
-          out['credential_received']=bool(api_key)
-
-          headers={}
-          if api_key: headers['Authorization']='Bearer '+api_key
+          if isinstance(safe_reg.get('agent'),dict): safe_reg['agent']={k:v for k,v in safe_reg['agent'].items() if k.lower() not in {'api_key','key','token','secret','private_key'}}
+          out.update(registration=safe_reg,agent_id=agent_id,wallet_address=wallet,credential_received=bool(api_key))
+          headers={'Authorization':'Bearer '+api_key} if api_key else {}
           if agent_id:
               try:
                   q=urllib.parse.urlencode({'agent_id':agent_id})
                   with urllib.request.urlopen(urllib.request.Request(base+'/wallet/balance?'+q,headers=headers),timeout=30) as r:
-                      out['wallet_balance_http']=r.status
-                      out['wallet_balance']=json.loads(r.read().decode())
+                      out['wallet_balance_http']=r.status; out['wallet_balance']=json.loads(r.read().decode())
               except Exception as e: out['wallet_balance_error']=repr(e)
-
           try:
               with urllib.request.urlopen(base+'/listings?listing_type=BOUNTY',timeout=30) as r:
-                  listings=json.loads(r.read().decode())
-                  out['listings_http']=r.status
+                  listings=json.loads(r.read().decode()); out['listings_http']=r.status
                   rows=listings.get('listings',listings) if isinstance(listings,(dict,list)) else []
                   if not isinstance(rows,list): rows=[]
-                  compact=[]
-                  for x in rows:
-                      if not isinstance(x,dict): continue
-                      compact.append({k:x.get(k) for k in ['id','title','description','price','price_usdc','status','category','created_at'] if k in x})
-                  out['bounty_count']=len(compact)
-                  out['bounties']=compact[:100]
+                  out['bounty_count']=len(rows); out['bounties']=[{k:x.get(k) for k in ['id','title','description','price','price_usdc','status','category','created_at'] if k in x} for x in rows if isinstance(x,dict)][:100]
           except Exception as e: out['listings_error']=repr(e)
-
-          # Intentionally stop before claim. The API credential is one-time and cannot be safely
-          # persisted by this workflow because GITHUB_TOKEN cannot create repository secrets.
-          # Claiming now would risk owning a time-limited job we cannot later authenticate to deliver.
           out['claim_attempted']=False
           out['stop_reason']='credential_requires_secure_persistence_before_claim' if api_key else 'no_agent_credential_returned'
           open('evidence/clawlancer-zero-cost-agent.json','w').write(json.dumps(out,indent=2))
