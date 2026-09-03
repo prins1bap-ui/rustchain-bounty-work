@@ -1,19 +1,19 @@
 {
   "schema_version": 8,
-  "as_of": "2026-09-02T19:51:00-04:00",
+  "as_of": "2026-09-02T20:45:00-04:00",
   "authority": "ops/rtc_ledger.json",
   "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
   "active_build": null,
   "accounting_snapshot": {
     "historical_fixed_value_submissions_rtc": 727,
-    "current_viable_fixed_value_submitted_rtc": 441,
+    "current_viable_fixed_value_submitted_rtc": 399,
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
     "gap_to_500_received_rtc": 405,
     "verified_24h_receivable_ceiling_rtc": 0,
-    "snapshot_source": "ops/rtc_ledger.json schema v11"
+    "snapshot_source": "ops/rtc_ledger.json schema v13"
   },
   "receivables_priority": [
     402,
@@ -64,7 +64,7 @@
     "email_message_id": "1a06368a74d516b9",
     "rtc_booked_as_submitted_only": 40
   },
-  "next_action": "Convert the 441 RTC viable fixed-value submitted backlog. #685 is CI-green and updated evidence has been supplied; watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions.",
+  "next_action": "Convert the 399 RTC viable fixed-value submitted backlog. #685 is CI-green and updated evidence has been supplied; watch first-party maintainer/Gmail evidence and act only on concrete adjudication or requested revisions.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
@@ -81,5 +81,10 @@
       "workflow_conclusion": "success",
       "gmail_message_id": "1a0648848a6489d7"
     }
-  ]
+  ],
+  "latest_reconciliation": {
+    "as_of": "2026-09-02T20:45:00-04:00",
+    "result": "No new acceptance, pending, receipt, rejection, or requested revision in fresh Gmail/GitHub evidence.",
+    "delta": "Scottcjn/rustchain-bounties#441 is closed/completed and fails the executable-route gate; no new candidate started."
+  }
 }
