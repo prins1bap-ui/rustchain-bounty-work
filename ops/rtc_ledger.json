@@ -1,6 +1,6 @@
 {
-  "schema_version": 12,
-  "as_of": "2026-09-02T19:51:00-04:00",
+  "schema_version": 13,
+  "as_of": "2026-09-02T20:45:00-04:00",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "record_schema": {
@@ -47,7 +47,8 @@
     "29_reconciliation": "The 10 RTC First Bounty Completed eligibility is evidenced, but the required public issue-comment route is blocked by 403; claim remains viable at reduced confidence under ROUTE_RISK.",
     "16497_reconciliation": "Two canonical 33 RTC Aug-30 tutorials remain viable. The live issue expressly authorizes Gmail fallback, but a later distribution/live-url-verified gate creates retroactivity ambiguity. A single same-claim clarification was sent 2026-09-02.",
     "wallet_reconciliation": "Fresh GitHub Actions wallet check completed successfully on 2026-09-02T23:44:06Z; balance remains 95 RTC with seven transactions.",
-    "685_ci_repair": "The existing 50 RTC Tier-1 SDK failed one browse-filter mock test because the mock did not specify forwarded query parameters. Commit 2158995 repaired the test; GitHub Actions run 33696749198 completed successfully. The green evidence was sent in the existing #685 Gmail thread as message 1a0648848a6489d7. This is evidence repair for the same claim, not a new submission."
+    "685_ci_repair": "The existing 50 RTC Tier-1 SDK failed one browse-filter mock test because the mock did not specify forwarded query parameters. Commit 2158995 repaired the test; GitHub Actions run 33696749198 completed successfully. The green evidence was sent in the existing #685 Gmail thread as message 1a0648848a6489d7. This is evidence repair for the same claim, not a new submission.",
+    "latest_authoritative_reconciliation": "2026-09-02 20:45 ET: fresh Gmail showed no maintainer response or payout evidence; Scottcjn/rustchain-bounties#104 contained no entry for @prins1bap-ui or wallet RTCc5449fe1b93385961152720c864c0f073dae5855; priority issue threads showed no acceptance, pending ID, transaction hash, rejection, or requested revision. Delta issue #441 is closed and requires Discord membership plus an upstream PR/merge route, so it is not executable."
   },
   "received": [
     {
@@ -633,7 +634,7 @@
     "Liquid USD execution value of native RTC is not verified; published reference rates are not equivalent to cash proceeds."
   ],
   "decision": "CONVERSION_FIRST; HOLD_NEW_SPECULATIVE_BUILDING",
-  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 441 RTC viable fixed-value submitted backlog. The #685 Tier-1 SDK is now CI-green with updated evidence supplied; act only on concrete adjudication or requested revisions.",
+  "next_action": "Monitor authoritative maintainer/Gmail stage changes for the 399 RTC viable fixed-value submitted backlog. The #685 Tier-1 SDK is CI-green with updated evidence supplied; act only on concrete adjudication or requested revisions.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
@@ -650,6 +651,16 @@
       "gmail_message_id": "1a0648848a6489d7",
       "stage_after_action": "SUBMITTED",
       "rtc_added": 0
+    }
+  ],
+  "reconciliation_runs": [
+    {
+      "as_of": "2026-09-02T20:45:00-04:00",
+      "gmail": "fresh; no new maintainer acceptance, payout, or requested-revision evidence",
+      "github": "fresh; no stage change for priority claims and no wallet/pending entry in #104",
+      "delta_discovery": "issue #441 changed but is closed/completed and route-ineligible; no candidate cleared the elevated build gate",
+      "stage_changes": 0,
+      "costs_usd": 0
     }
   ]
 }
