@@ -1,0 +1,131 @@
+{
+  "checked_at_utc": "2026-09-03T13:07:44.562485+00:00",
+  "homepage": {
+    "url": "https://bountymin.com/",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8"
+  },
+  "scripts": [
+    {
+      "url": "https://bountymin.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes": 1239
+    }
+  ],
+  "candidate_endpoints": {
+    "/api/bounties": {
+      "url": "https://bountymin.com/api/bounties",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/bounties?status=open": {
+      "url": "https://bountymin.com/api/bounties?status=open",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/bounties?state=open": {
+      "url": "https://bountymin.com/api/bounties?state=open",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/v1/bounties": {
+      "url": "https://bountymin.com/api/v1/bounties",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/v1/bounties?status=open": {
+      "url": "https://bountymin.com/api/v1/bounties?status=open",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/v1/bounties": {
+      "url": "https://bountymin.com/v1/bounties",
+      "status": 200,
+      "content_type": "application/json",
+      "body_preview": "{\"bounties\":null,\"data\":null,\"limit\":0,\"offset\":0,\"total\":0}\n"
+    },
+    "/v1/bounties?status=open": {
+      "url": "https://bountymin.com/v1/bounties?status=open",
+      "status": 200,
+      "content_type": "application/json",
+      "body_preview": "{\"bounties\":null,\"data\":null,\"limit\":0,\"offset\":0,\"total\":0}\n"
+    },
+    "/api/rewards": {
+      "url": "https://bountymin.com/api/rewards",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/issues": {
+      "url": "https://bountymin.com/api/issues",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/public/bounties": {
+      "url": "https://bountymin.com/api/public/bounties",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/api/bounty": {
+      "url": "https://bountymin.com/api/bounty",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/v1/bounties/": {
+      "url": "https://bountymin.com/v1/bounties/",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "body_preview": "404 page not found\n"
+    },
+    "/v1/bounties/quick-fund": {
+      "url": "https://bountymin.com/v1/bounties/quick-fund",
+      "status": 400,
+      "error": "HTTP Error 400: Bad Request",
+      "body_preview": "{\"error\":\"Invalid bounty UUID\"}\n"
+    },
+    "/v1/bounties?limit=50": {
+      "url": "https://bountymin.com/v1/bounties?limit=50",
+      "status": 200,
+      "content_type": "application/json",
+      "body_preview": "{\"bounties\":null,\"data\":null,\"limit\":50,\"offset\":0,\"total\":0}\n"
+    }
+  },
+  "discovered_strings": [
+    "/v1/activity/feed",
+    "/v1/auth/logout",
+    "/v1/bounties/",
+    "/v1/bounties/quick-fund",
+    "/v1/bounties?limit=50",
+    "/v1/me",
+    "/v1/tips",
+    "/v1/users/search?q=",
+    "Bounties",
+    "Bounties.filter",
+    "Bounties.length",
+    "Bounties.map",
+    "BountiesAvailable",
+    "BountiesPaid",
+    "bounties",
+    "bounties.filter",
+    "bounties.forEach",
+    "bounties/",
+    "bounties/quick-fund",
+    "bounties?limit=50",
+    "claims",
+    "claims.",
+    "claims:",
+    "https://bountymin.com/",
+    "https://bountymin.com/stripe_logo.png",
+    "https://github.com/apps/bountymin-bot",
+    "https://github.com/bountymin"
+  ]
+}
