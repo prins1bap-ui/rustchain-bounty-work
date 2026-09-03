@@ -19,20 +19,43 @@ jobs:
       - name: Query live Agent Economy
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           mkdir -p evidence
-          curl -ksS --fail-with-body --connect-timeout 15 --max-time 30 \
-            'https://50.28.86.131/agent/jobs' \
-            -o evidence/agent-economy-jobs.json
-          curl -ksS --fail-with-body --connect-timeout 15 --max-time 30 \
-            'https://50.28.86.131/agent/stats' \
-            -o evidence/agent-economy-stats.json
           python - <<'PY'
-          import json
+          import json, ssl, urllib.request, urllib.error
           from pathlib import Path
-          for p in [Path('evidence/agent-economy-jobs.json'), Path('evidence/agent-economy-stats.json')]:
-              data = json.loads(p.read_text())
-              p.write_text(json.dumps(data, indent=2, sort_keys=True) + '\n')
+
+          targets = {
+              'jobs_primary': 'https://50.28.86.131/agent/jobs',
+              'jobs_domain': 'https://rustchain.org/agent/jobs',
+              'stats_primary': 'https://50.28.86.131/agent/stats',
+              'stats_domain': 'https://rustchain.org/agent/stats',
+          }
+          ctx = ssl._create_unverified_context()
+          results = {}
+          for key, url in targets.items():
+              rec = {'url': url}
+              try:
+                  req = urllib.request.Request(url, headers={'User-Agent':'rustchain-bounty-work-readonly-scan/1.0'})
+                  with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+                      raw = r.read().decode('utf-8', errors='replace')
+                      rec['status'] = r.status
+                      try:
+                          rec['json'] = json.loads(raw)
+                      except Exception:
+                          rec['body'] = raw[:10000]
+              except urllib.error.HTTPError as e:
+                  rec['status'] = e.code
+                  rec['error'] = str(e)
+                  try:
+                      rec['body'] = e.read().decode('utf-8', errors='replace')[:10000]
+                  except Exception:
+                      pass
+              except Exception as e:
+                  rec['status'] = None
+                  rec['error'] = repr(e)
+              results[key] = rec
+          Path('evidence/agent-economy-scan.json').write_text(json.dumps(results, indent=2, sort_keys=True) + '\n')
           PY
       - name: Persist current evidence
         shell: bash
@@ -40,10 +63,10 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add evidence/agent-economy-jobs.json evidence/agent-economy-stats.json
+          git add evidence/agent-economy-scan.json
           if git diff --cached --quiet; then
             echo 'No evidence change.'
             exit 0
           fi
-          git commit -m 'Capture current Agent Economy funded jobs'
+          git commit -m 'Capture current Agent Economy endpoint scan'
           git push
