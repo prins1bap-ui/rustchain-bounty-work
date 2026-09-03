@@ -1,7 +1,14 @@
 import httpx
 import pytest
 
-from src.scanner import audit_url, deduplicate_urls, normalize_url, parse_html, validate_public_url
+from src.scanner import (
+    UnsafeUrlError,
+    audit_url,
+    deduplicate_urls,
+    normalize_url,
+    parse_html,
+    validate_public_url,
+)
 
 
 def test_parse_html_extracts_expected_signals():
@@ -45,6 +52,23 @@ def test_parse_html_extracts_expected_signals():
     assert "Google Tag Manager" in result["detectedTechnologies"]
     assert "Stripe" in result["detectedTechnologies"]
     assert "WordPress" in result["detectedTechnologies"]
+
+
+def test_wix_and_marketing_technology_detection():
+    html = """
+    <html><head>
+      <script src="https://static.wixstatic.com/sites/app.js"></script>
+      <script src="https://www.googletagmanager.com/gtag/js?id=G-ABC"></script>
+      <script src="https://connect.facebook.net/en_US/fbevents.js"></script>
+      <script src="https://js.hs-scripts.com/123.js"></script>
+    </head><body><form></form></body></html>
+    """
+    result = parse_html(html, base_url="https://builder.test/")
+    assert result["forms"] == 1
+    assert "Wix" in result["detectedTechnologies"]
+    assert "Google Analytics" in result["detectedTechnologies"]
+    assert "Meta Pixel" in result["detectedTechnologies"]
+    assert "HubSpot" in result["detectedTechnologies"]
 
 
 def test_normalize_and_deduplicate():
@@ -96,6 +120,13 @@ def _mock_client_factory(handler):
     return factory
 
 
+def _mock_client_factory_with_hooks(handler):
+    def factory(*args, **kwargs):
+        kwargs["transport"] = httpx.MockTransport(handler)
+        return httpx.Client(*args, **kwargs)
+    return factory
+
+
 def test_success_and_output_contract(monkeypatch):
     monkeypatch.setattr("src.scanner.validate_public_url", lambda url, resolve_dns=True: normalize_url(url))
 
@@ -122,6 +153,63 @@ def test_success_and_output_contract(monkeypatch):
     assert result["bytesRead"] > 0
     assert "strict-transport-security" in result["securityHeadersPresent"]
     assert "content-security-policy" in result["securityHeadersMissing"]
+
+
+def test_redirect_is_followed_and_counted(monkeypatch):
+    monkeypatch.setattr("src.scanner.validate_public_url", lambda url, resolve_dns=True: normalize_url(url))
+
+    def handler(request):
+        if str(request.url) == "https://redirect.test/":
+            return httpx.Response(302, headers={"location": "https://redirect.test/final"}, request=request)
+        return httpx.Response(
+            200,
+            headers={"content-type": "text/html"},
+            text="<html><title>Final</title></html>",
+            request=request,
+        )
+
+    result = audit_url("redirect.test", client_factory=_mock_client_factory(handler))
+    assert result["status"] == "SUCCESS"
+    assert result["redirectCount"] == 1
+    assert result["finalUrl"] == "https://redirect.test/final"
+    assert result["title"] == "Final"
+
+
+def test_private_redirect_is_blocked_before_transport(monkeypatch):
+    def controlled_validate(url, resolve_dns=True):
+        normalized = normalize_url(url)
+        if "127.0.0.1" in normalized:
+            raise UnsafeUrlError("Private redirect blocked")
+        return normalized
+
+    monkeypatch.setattr("src.scanner.validate_public_url", controlled_validate)
+    seen = []
+
+    def handler(request):
+        seen.append(str(request.url))
+        if str(request.url) == "https://safe.test/":
+            return httpx.Response(302, headers={"location": "http://127.0.0.1/secret"}, request=request)
+        pytest.fail("Private redirect reached the transport")
+
+    result = audit_url("safe.test", client_factory=_mock_client_factory_with_hooks(handler))
+    assert result["status"] == "ERROR"
+    assert result["errorCode"] == "UNSAFE_URL"
+    assert seen == ["https://safe.test/"]
+
+
+def test_timeout_is_structured_and_retried(monkeypatch):
+    monkeypatch.setattr("src.scanner.validate_public_url", lambda url, resolve_dns=True: normalize_url(url))
+    monkeypatch.setattr("src.scanner.time.sleep", lambda _: None)
+    calls = {"count": 0}
+
+    def handler(request):
+        calls["count"] += 1
+        raise httpx.ReadTimeout("too slow", request=request)
+
+    result = audit_url("slow.test", max_retries=1, client_factory=_mock_client_factory(handler))
+    assert calls["count"] == 2
+    assert result["status"] == "ERROR"
+    assert result["errorCode"] == "TIMEOUT"
 
 
 def test_http_error_is_structured_and_not_parsed(monkeypatch):

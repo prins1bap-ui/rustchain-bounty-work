@@ -95,7 +95,7 @@ def test_budget_boundary_counts_last_charged_success(monkeypatch):
 
     def audit(url, **kwargs):
         calls.append(url)
-        return {"status": "SUCCESS", "requestedUrl": url}
+        return {"status": "SUCCESS", "requestedUrl": url, "contentType": "text/html"}
 
     monkeypatch.setattr(module, "audit_url", audit)
     asyncio.run(module.main())
@@ -124,6 +124,59 @@ def test_errors_go_to_aliased_dataset_not_billable_default_dataset(monkeypatch):
     assert len(fake.error_dataset.pushes) == 1
     assert fake.error_dataset.pushes[0]["errorCode"] == "HTTP_404"
     assert any("Completed: 0 successful audit(s), 1 error record(s)." in m for m in fake.log.messages)
+
+
+def test_missing_content_type_is_downgraded_and_uncharged(monkeypatch):
+    fake = _FakeActor()
+    fake.input = {"urls": ["ambiguous.test"]}
+    fake.results = []
+    module = _load_main(fake)
+
+    monkeypatch.setattr(
+        module,
+        "audit_url",
+        lambda url, **kwargs: {
+            "status": "SUCCESS",
+            "requestedUrl": url,
+            "contentType": None,
+            "title": "Could be binary garbage",
+            "detectedTechnologies": ["WordPress"],
+            "forms": 3,
+            "emails": ["x@example.test"],
+        },
+    )
+    asyncio.run(module.main())
+
+    assert fake.pushes == []
+    assert fake.opened_aliases == ["errors"]
+    assert len(fake.error_dataset.pushes) == 1
+    item = fake.error_dataset.pushes[0]
+    assert item["status"] == "ERROR"
+    assert item["errorCode"] == "UNVERIFIED_CONTENT_TYPE"
+    assert item["title"] is None
+    assert item["detectedTechnologies"] == []
+    assert item["forms"] == 0
+    assert item["emails"] == []
+
+
+def test_duplicate_normalized_urls_are_processed_once(monkeypatch):
+    fake = _FakeActor()
+    fake.input = {"urls": ["Example.com", "https://example.com/"]}
+    fake.results = [_ChargeResult(1)]
+    module = _load_main(fake)
+
+    calls = []
+
+    def audit(url, **kwargs):
+        calls.append(url)
+        return {"status": "SUCCESS", "requestedUrl": url, "contentType": "text/html"}
+
+    monkeypatch.setattr(module, "audit_url", audit)
+    asyncio.run(module.main())
+
+    assert calls == ["Example.com"]
+    assert len(fake.pushes) == 1
+    assert fake.pushes[0][1] == "website-audit"
 
 
 def test_ppe_pricing_guard_accepts_exact_custom_price_without_synthetic_charges():

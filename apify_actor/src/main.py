@@ -72,6 +72,39 @@ def _assert_safe_pricing_configuration() -> None:
             )
 
 
+def _require_declared_html_content_type(result: dict) -> dict:
+    """Never charge a response whose server did not actually declare an HTML content type.
+
+    The scanner can parse a body when Content-Type is absent, but billing is intentionally
+    stricter than parsing. A missing type is ambiguous (it can be HTML or arbitrary binary
+    content), so the Actor fails closed and routes it to the uncharged error dataset.
+    """
+    if result.get("status") != "SUCCESS" or result.get("contentType"):
+        return result
+
+    safe = dict(result)
+    safe.update(
+        {
+            "status": "ERROR",
+            "errorCode": "UNVERIFIED_CONTENT_TYPE",
+            "errorMessage": "Response omitted Content-Type, so HTML could not be verified safely",
+            "title": None,
+            "metaDescription": None,
+            "generator": None,
+            "language": None,
+            "canonicalUrl": None,
+            "organizationName": None,
+            "structuredDataTypes": [],
+            "detectedTechnologies": [],
+            "forms": 0,
+            "emails": [],
+            "phones": [],
+            "socialProfiles": {},
+        }
+    )
+    return safe
+
+
 async def main() -> None:
     async with Actor:
         # The Store promise is one custom charge per successful audit and zero
@@ -104,6 +137,7 @@ async def main() -> None:
                 timeout_seconds=timeout_seconds,
                 max_retries=max_retries,
             )
+            result = _require_declared_html_content_type(result)
             if result["status"] == "SUCCESS":
                 charge_result = await Actor.push_data(result, charged_event_name=CHARGED_EVENT)
                 # `push_data(..., charged_event_name=...)` only writes items that fit
