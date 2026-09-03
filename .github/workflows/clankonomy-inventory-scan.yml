@@ -1,0 +1,42 @@
+name: Clankonomy Objective Bounty Scan
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/clankonomy-inventory-scan.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Query active Clankonomy bounties
+        run: |
+          python - <<'PY'
+          import json, urllib.request, urllib.error, datetime, os
+          url='https://api.clankonomy.com/bounties?status=active'
+          out={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'platform':'Clankonomy','money_spent':False,'wallet_created':False,'url':url}
+          req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'paid-work-inventory/1.0'})
+          try:
+            with urllib.request.urlopen(req,timeout=30) as r:
+              raw=r.read(1000000).decode('utf-8','replace'); out['http_status']=r.status
+              try: out['inventory']=json.loads(raw)
+              except Exception: out['raw_output']=raw[:200000]
+          except urllib.error.HTTPError as e:
+            out['http_status']=e.code; out['error']=e.read(100000).decode('utf-8','replace')[:100000]
+          except Exception as e:
+            out['error']=type(e).__name__+': '+str(e)
+          os.makedirs('evidence',exist_ok=True)
+          json.dump(out,open('evidence/clankonomy-inventory.json','w'),indent=2)
+          PY
+      - name: Persist evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/clankonomy-inventory.json
+          git diff --cached --quiet || git commit -m 'Refresh Clankonomy active bounty evidence'
+          git push
