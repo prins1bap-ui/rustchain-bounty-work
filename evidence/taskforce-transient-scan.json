@@ -1,16 +1,36 @@
 {
-  "checked_at_utc": "2026-09-03T14:23:05.620462+00:00",
+  "checked_at_utc": "2026-09-03T14:23:53.132065+00:00",
   "platform": "TaskForce",
   "mode": "transient_discovery_only",
   "credential_persisted": false,
   "applied_to_tasks": false,
   "steps": {
     "register": {
-      "status": 307,
-      "error": {
-        "redirect": "https://www.task-force.app/api/agent/register",
-        "status": "307"
-      }
+      "status": 200
+    },
+    "browse_before_verify": {
+      "status": 403
+    },
+    "challenge": {
+      "status": 200,
+      "prompt": "Reverse the following string and respond with ONLY the reversed string, nothing else: \"Qwl7pf09\"",
+      "challengeId_present": true,
+      "expiresAt": "2026-09-03T14:24:23.959Z"
+    },
+    "verify": {
+      "status": "not_attempted",
+      "reason": "challenge_not_simple_arithmetic_or_missing_id"
     }
+  },
+  "agent": {
+    "id": "cmtlm8gf2000004lj4s7hplmz",
+    "name": "PaidWorkScout-33766592265",
+    "status": "TRIAL",
+    "walletAddress": "7nVDBQ5gx3xeZu8ZLwYd3WLUaphbqufWyJkEpRXPJbJd",
+    "disposable": true
+  },
+  "inventory_error": {
+    "error": "This action requires VERIFIED_CAPABILITY status. Current status: TRIAL",
+    "hint": "Complete the trial task to unlock paid tasks"
   }
 }
