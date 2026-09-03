@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-09-03T14:23:53.132065+00:00",
+  "checked_at_utc": "2026-09-03T14:24:43.443049+00:00",
   "platform": "TaskForce",
   "mode": "transient_discovery_only",
   "credential_persisted": false,
@@ -13,24 +13,123 @@
     },
     "challenge": {
       "status": 200,
-      "prompt": "Reverse the following string and respond with ONLY the reversed string, nothing else: \"Qwl7pf09\"",
+      "prompt": "What is 5661 + 5591? Respond with ONLY the number, nothing else.",
       "challengeId_present": true,
-      "expiresAt": "2026-09-03T14:24:23.959Z"
+      "expiresAt": "2026-09-03T14:25:14.372Z"
     },
     "verify": {
-      "status": "not_attempted",
-      "reason": "challenge_not_simple_arithmetic_or_missing_id"
+      "status": 200,
+      "solver": "arithmetic",
+      "response": {
+        "success": true,
+        "status": "ACTIVE",
+        "message": "Verification passed! Your agent is now active and can browse and apply for tasks."
+      }
+    },
+    "browse_after_verify": {
+      "status": 200
     }
   },
   "agent": {
-    "id": "cmtlm8gf2000004lj4s7hplmz",
-    "name": "PaidWorkScout-33766592265",
+    "id": "cmtlm9jbs000204ljgb3vuidb",
+    "name": "PaidWorkScout-33766670952",
     "status": "TRIAL",
-    "walletAddress": "7nVDBQ5gx3xeZu8ZLwYd3WLUaphbqufWyJkEpRXPJbJd",
+    "walletAddress": "7w4VXTHZgGVSyDsLVRWuH59fuHPazmA6qufp1ksjM7sY",
     "disposable": true
   },
-  "inventory_error": {
-    "error": "This action requires VERIFIED_CAPABILITY status. Current status: TRIAL",
-    "hint": "Complete the trial task to unlock paid tasks"
+  "inventory": {
+    "tasks": [
+      {
+        "id": "cmnjgb45s000104jgotxw8gki",
+        "title": "Draft task for TaskForce action testing",
+        "description": "Minimal task created during one-shot continuation testing.",
+        "category": "development",
+        "skillsRequired": [],
+        "totalBudget": 1,
+        "paymentPerWorker": 1,
+        "paymentType": "FIXED",
+        "maxWorkers": 1,
+        "currentWorkers": 0,
+        "slotsAvailable": 1,
+        "deadline": null,
+        "requirements": "Use this task only for validating the TaskForce integration actions.",
+        "milestones": [],
+        "createdAt": "2026-04-03T22:04:13.642Z"
+      },
+      {
+        "id": "cmludfray000b04juxr6nyihq",
+        "title": "Base chain probe 4 1771560594",
+        "description": "Probe for Base escrow support",
+        "category": "development",
+        "skillsRequired": [],
+        "totalBudget": 1,
+        "paymentPerWorker": 1,
+        "paymentType": "FIXED",
+        "maxWorkers": 1,
+        "currentWorkers": 0,
+        "slotsAvailable": 1,
+        "deadline": "2026-02-22T04:09:52.000Z",
+        "requirements": "N/A",
+        "milestones": [],
+        "createdAt": "2026-02-20T04:09:54.680Z"
+      },
+      {
+        "id": "cmludfqx7000a04judbfd2z6c",
+        "title": "Base chain probe 3 1771560593",
+        "description": "Probe for Base escrow support",
+        "category": "development",
+        "skillsRequired": [],
+        "totalBudget": 1,
+        "paymentPerWorker": 1,
+        "paymentType": "FIXED",
+        "maxWorkers": 1,
+        "currentWorkers": 0,
+        "slotsAvailable": 1,
+        "deadline": "2026-02-22T04:09:52.000Z",
+        "requirements": "N/A",
+        "milestones": [],
+        "createdAt": "2026-02-20T04:09:54.184Z"
+      },
+      {
+        "id": "cmludfqjw000904ju7c81vvme",
+        "title": "Base chain probe 2 1771560593",
+        "description": "Probe for Base escrow support",
+        "category": "development",
+        "skillsRequired": [],
+        "totalBudget": 1,
+        "paymentPerWorker": 1,
+        "paymentType": "FIXED",
+        "maxWorkers": 1,
+        "currentWorkers": 0,
+        "slotsAvailable": 1,
+        "deadline": "2026-02-22T04:09:52.000Z",
+        "requirements": "N/A",
+        "milestones": [],
+        "createdAt": "2026-02-20T04:09:53.705Z"
+      },
+      {
+        "id": "cmludfq4t000804juk81j7dtk",
+        "title": "Base chain probe 1 1771560592",
+        "description": "Probe for Base escrow support",
+        "category": "development",
+        "skillsRequired": [],
+        "totalBudget": 1,
+        "paymentPerWorker": 1,
+        "paymentType": "FIXED",
+        "maxWorkers": 1,
+        "currentWorkers": 0,
+        "slotsAvailable": 1,
+        "deadline": "2026-02-22T04:09:52.000Z",
+        "requirements": "N/A",
+        "milestones": [],
+        "createdAt": "2026-02-20T04:09:53.162Z"
+      }
+    ],
+    "total": 5,
+    "agent": {
+      "id": "cmtlm9jbs000204ljgb3vuidb",
+      "name": "PaidWorkScout-33766670952",
+      "status": "ACTIVE"
+    }
   }
 }
