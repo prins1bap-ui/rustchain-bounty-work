@@ -1,4 +1,4 @@
-# Probe trigger: 2026-09-02 secure-state recheck
+# Probe trigger: 2026-09-03 monetization preflight recheck
 import json
 import os
 import sys
