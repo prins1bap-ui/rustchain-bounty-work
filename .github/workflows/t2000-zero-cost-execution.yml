@@ -20,35 +20,74 @@ jobs:
           node-version: '20'
       - name: Install t2000 CLI
         run: npm install -g @t2000/cli
-      - name: Initialize free wallet and Agent ID
+      - name: Claim, deliver, and poll zero-cost research job
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           mkdir -p evidence
+          JOB='0xcc0b1a2fbc7e2bd9f2c0c19d61602302cc1f77ac9b4cf65b4215a5bf29162b6b'
+          cat > /tmp/deliverable.txt <<'EOF'
+Three real analytics/dashboard tools for tracking on-chain DeFi protocol metrics:
+
+1) DefiLlama — https://defillama.com/
+A broad DeFi dashboard for comparing protocols and chains. It tracks metrics including total value locked (TVL), protocol fees, protocol revenue, DEX/derivatives volume, and yields. It is especially useful for fast cross-protocol comparisons and historical TVL/revenue trend checks. Example revenue dashboard: https://defillama.com/revenue
+
+2) Dune — https://dune.com/
+A programmable on-chain analytics platform where analysts query blockchain data and publish interactive dashboards. Dune's own analytics documentation explicitly lists protocol metrics such as TVL, user activity, revenue, and ecosystem growth, plus trading intelligence such as DEX volumes and token flows. Docs: https://docs.dune.com/docs/use-cases/analytics
+
+3) Token Terminal — https://tokenterminal.com/
+A fundamentals-focused analytics platform covering blockchains, DeFi protocols, and tokenized assets. Its strength is standardized protocol-level financial and usage metrics, making it useful for comparing economic performance across protocols rather than only inspecting raw transactions.
+
+Practical split: use DefiLlama for quick market-wide protocol comparisons, Dune when you need custom/queryable on-chain analysis, and Token Terminal for standardized fundamentals and cross-protocol financial comparison.
+EOF
           {
             echo '=== init ==='
             t2 init
-            echo '=== status ==='
+            echo '=== status-before ==='
             t2 status
-            echo '=== board ==='
-            t2 job board
-          } > /tmp/t2000.log 2>&1 || true
-          # Never persist private keys, mnemonics, auth tokens, or full CLI config.
+            echo '=== job-before ==='
+            t2 job status "$JOB" || true
+            echo '=== claim ==='
+            t2 job claim "$JOB"
+            CLAIM_RC=$?
+            echo "claim_exit=$CLAIM_RC"
+            echo '=== job-after-claim ==='
+            t2 job status "$JOB" || true
+            if [ "$CLAIM_RC" -eq 0 ]; then
+              echo '=== deliver ==='
+              t2 job deliver "$JOB" --file /tmp/deliverable.txt
+              DELIVER_RC=$?
+              echo "deliver_exit=$DELIVER_RC"
+              echo '=== job-after-deliver ==='
+              t2 job status "$JOB" || true
+              for i in 1 2 3 4 5; do
+                sleep 60
+                echo "=== poll-$i ==="
+                t2 job status "$JOB" || true
+                t2 status || true
+              done
+            fi
+          } > /tmp/t2000-exec.log 2>&1
           python - <<'PY'
           import json,re,datetime
-          s=open('/tmp/t2000.log',errors='replace').read()
-          # Aggressive redaction of secret-like material before evidence persistence.
+          s=open('/tmp/t2000-exec.log',errors='replace').read()
           s=re.sub(r'(?i)(private[_ -]?key|mnemonic|seed|secret|token|api[_ -]?key)\s*[:=]\s*\S+', r'\1: [REDACTED]', s)
-          s=re.sub(r'\b[0-9a-fA-F]{64}\b','[REDACTED_64HEX]',s)
-          out={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sanitized_cli_output':s[-12000:]}
+          # redact likely Sui private-key encodings while preserving public 0x addresses/job ids
+          s=re.sub(r'\bsuiprivkey1[0-9a-z]+\b','[REDACTED_SUI_PRIVATE_KEY]',s,flags=re.I)
+          out={
+            'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'job_id':'0xcc0b1a2fbc7e2bd9f2c0c19d61602302cc1f77ac9b4cf65b4215a5bf29162b6b',
+            'sanitized_cli_output':s[-20000:]
+          }
           open('evidence/t2000-zero-cost-execution.json','w').write(json.dumps(out,indent=2))
           PY
-      - name: Persist sanitized evidence only
+      - name: Persist sanitized execution evidence only
         shell: bash
         run: |
           set -euo pipefail
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git pull --rebase origin main || true
           git add evidence/t2000-zero-cost-execution.json
-          git commit -m 'evidence: t2000 zero-cost execution probe' || exit 0
+          git commit -m 'evidence: t2000 claim and delivery attempt' || exit 0
           git push
