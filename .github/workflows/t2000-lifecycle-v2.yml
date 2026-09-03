@@ -1,0 +1,93 @@
+name: t2000 Lifecycle V2
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/t2000-lifecycle-v2.yml'
+permissions:
+  contents: write
+jobs:
+  lifecycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install CLI
+        run: npm install -g @t2000/cli
+      - name: Inspect CLI then claim and deliver safe research job
+        shell: bash
+        run: |
+          set +e
+          mkdir -p evidence
+          LOG=/tmp/t2.log
+          : > "$LOG"
+          echo '=== CLI HELP ===' >> "$LOG"
+          t2 --help >> "$LOG" 2>&1
+          t2 job --help >> "$LOG" 2>&1
+          t2 job deliver --help >> "$LOG" 2>&1
+          t2 job claim --help >> "$LOG" 2>&1
+          t2 job watch --help >> "$LOG" 2>&1
+          echo '=== INIT ===' >> "$LOG"
+          t2 init >> "$LOG" 2>&1 || exit 1
+          echo '=== STATUS ===' >> "$LOG"
+          t2 status >> "$LOG" 2>&1
+          echo '=== BOARD ===' >> "$LOG"
+          t2 job board >> "$LOG" 2>&1
+          OPENING='0xcc0b1a2fbc7e2bd9f2c0c19d61602302cc1f77ac9b4cf65b4215a5bf29162b6b'
+          cat > /tmp/deliverable.txt <<'EOF'
+Three real analytics/dashboard tools for tracking on-chain DeFi protocol metrics:
+
+1) DefiLlama — https://defillama.com/
+DefiLlama is a broad DeFi analytics dashboard useful for comparing protocols and chains. It tracks total value locked (TVL), fees, revenue, DEX and derivatives volume, yields, and related protocol metrics. It is particularly useful for fast market-wide comparisons and historical trend checks. Revenue dashboard: https://defillama.com/revenue
+
+2) Dune — https://dune.com/
+Dune is a programmable on-chain analytics platform where analysts query blockchain data and publish interactive dashboards. It is useful when a predefined dashboard is not enough and custom analysis is required. Dune documents analytics use cases including protocol TVL, user activity, revenue, ecosystem growth, DEX volumes, and token flows: https://docs.dune.com/docs/use-cases/analytics
+
+3) Token Terminal — https://tokenterminal.com/
+Token Terminal focuses on standardized fundamentals for blockchains, DeFi protocols, and tokenized assets. Its standardized financial and usage metrics make it useful for comparing protocol economic performance across projects rather than only inspecting raw transactions.
+
+Practical split: use DefiLlama for quick market-wide protocol comparisons, Dune for custom query-driven on-chain analysis, and Token Terminal for standardized fundamentals and cross-protocol financial comparisons.
+EOF
+          echo '=== CLAIM ===' >> "$LOG"
+          CLAIM_OUT=$(t2 job claim "$OPENING" 2>&1)
+          CLAIM_RC=$?
+          printf '%s\n' "$CLAIM_OUT" >> "$LOG"
+          echo "claim_exit=$CLAIM_RC" >> "$LOG"
+          if [ "$CLAIM_RC" -ne 0 ]; then
+            echo 'Primary opening unavailable; no unsafe fallback will be claimed.' >> "$LOG"
+          else
+            JOB=$(printf '%s\n' "$CLAIM_OUT" | sed -nE 's/.*Job:[[:space:]]*(0x[0-9a-fA-F]+).*/\1/p' | head -1)
+            echo "assigned_job=$JOB" >> "$LOG"
+            if [ -n "$JOB" ]; then
+              echo '=== DELIVER ===' >> "$LOG"
+              t2 job deliver "$JOB" /tmp/deliverable.txt >> "$LOG" 2>&1
+              echo "deliver_exit=$?" >> "$LOG"
+              echo '=== WATCH ===' >> "$LOG"
+              timeout 120 t2 job watch "$JOB" >> "$LOG" 2>&1 || true
+              echo '=== FINAL STATUS ===' >> "$LOG"
+              t2 status >> "$LOG" 2>&1
+            fi
+          fi
+          python3 - <<'PY'
+          import json,re,datetime
+          s=open('/tmp/t2.log',errors='replace').read()
+          patterns=[
+            (r'(?i)(private[_ -]?key|mnemonic|seed|secret|bearer|api[_ -]?key|auth[_ -]?token)\s*[:=]\s*\S+',r'\1: [REDACTED]'),
+            (r'\bsuiprivkey1[0-9a-z]+\b','[REDACTED_SUI_PRIVATE_KEY]')]
+          for p,r in patterns:s=re.sub(p,r,s)
+          out={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'output':s[-30000:]}
+          open('evidence/t2000-lifecycle-v2.json','w').write(json.dumps(out,indent=2))
+          PY
+          rm -f ~/.t2000/wallet.key /tmp/deliverable.txt
+      - name: Persist sanitized evidence
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git pull --rebase origin main || true
+          git add evidence/t2000-lifecycle-v2.json
+          git commit -m 'evidence: t2000 lifecycle v2 result' || exit 0
+          git push
