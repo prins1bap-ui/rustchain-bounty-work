@@ -1,6 +1,6 @@
 {
-  "schema_version": 3,
-  "as_of": "2026-09-02T20:45:00-04:00",
+  "schema_version": 4,
+  "as_of": "2026-09-02T21:45:00-04:00",
   "policy": "Do not rescan screened-out candidates unless their trigger fires. New and materially updated issues are handled by delta discovery.",
   "groups": {
     "never": {
@@ -18,7 +18,8 @@
         16253,
         2274,
         2868,
-        441
+        441,
+        16249
       ]
     },
     "route_change": {
@@ -70,7 +71,6 @@
         1113,
         2890,
         16255,
-        16249,
         2291,
         2293,
         303,
@@ -131,6 +131,12 @@
       "trigger": "material issue update observed in delta scan",
       "result": "Closed/completed; requires Discord membership plus upstream PR/merge and does not clear the executable-route gate. Assigned never.",
       "resolved_at": "2026-09-02T20:45:00-04:00"
+    },
+    {
+      "issue": 16249,
+      "trigger": "material update surfaced in delta scan",
+      "result": "Bounty wrapper is claimed and required target Scottcjn/ram-coffers#664 is closed; no payable executable lane remains. Assigned never.",
+      "resolved_at": "2026-09-02T21:45:00-04:00"
     }
   ]
 }
