@@ -1,0 +1,54 @@
+name: t2000 Zero-Cost Execution
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/t2000-zero-cost-execution.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install t2000 CLI
+        run: npm install -g @t2000/cli
+      - name: Initialize free wallet and Agent ID
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          {
+            echo '=== init ==='
+            t2 init
+            echo '=== status ==='
+            t2 status
+            echo '=== board ==='
+            t2 job board
+          } > /tmp/t2000.log 2>&1 || true
+          # Never persist private keys, mnemonics, auth tokens, or full CLI config.
+          python - <<'PY'
+          import json,re,datetime
+          s=open('/tmp/t2000.log',errors='replace').read()
+          # Aggressive redaction of secret-like material before evidence persistence.
+          s=re.sub(r'(?i)(private[_ -]?key|mnemonic|seed|secret|token|api[_ -]?key)\s*[:=]\s*\S+', r'\1: [REDACTED]', s)
+          s=re.sub(r'\b[0-9a-fA-F]{64}\b','[REDACTED_64HEX]',s)
+          out={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sanitized_cli_output':s[-12000:]}
+          open('evidence/t2000-zero-cost-execution.json','w').write(json.dumps(out,indent=2))
+          PY
+      - name: Persist sanitized evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add evidence/t2000-zero-cost-execution.json
+          git commit -m 'evidence: t2000 zero-cost execution probe' || exit 0
+          git push
