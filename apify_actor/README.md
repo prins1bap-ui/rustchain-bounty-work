@@ -17,7 +17,7 @@ For every successfully fetched HTML page, the Actor returns:
 - HTML form count
 - requested/final URL, redirects, HTTP status, HTTPS status, server header, content type, and bytes read
 - presence/missing status for common HTTP security headers
-- structured, non-billable error records for invalid, blocked, failed, oversized, timed-out, or non-HTML targets
+- structured, non-billable error records for invalid, blocked, failed, oversized, timed-out, ambiguous-content-type, or non-HTML targets
 
 The Actor does **not** log in, solve CAPTCHAs, bypass access controls, crawl private networks, or claim to reveal technologies that are not observable from the returned homepage response.
 
@@ -34,7 +34,7 @@ The Actor does **not** log in, solve CAPTCHAs, bypass access controls, crawl pri
 }
 ```
 
-Duplicate normalized URLs are processed only once per run. Private, loopback, link-local, reserved, and other non-public network targets are rejected. Redirect destinations are checked using the same public-network rule.
+Duplicate normalized URLs are processed only once per run. Private, loopback, link-local, reserved, and other non-public network targets are rejected. Redirect destinations are checked using the same public-network rule. The production HTTP transport repeats DNS validation at socket-connection time and connects to the validated public IP directly, preventing a DNS change between validation and connection from redirecting a request into a private network.
 
 ## Output example
 
@@ -80,7 +80,7 @@ Duplicate normalized URLs are processed only once per run. Private, loopback, li
 
 **Planned launch price: $0.001 per successful website audit ($1.00 per 1,000).**
 
-A custom `website-audit` Pay-Per-Event event is intended to be charged only after a unique URL returns a successful HTML audit record. Invalid URLs, private-network targets, DNS/network failures, HTTP errors, unsupported content types, timeouts, and oversized responses are intended to remain uncharged.
+A custom `website-audit` Pay-Per-Event event is intended to be charged only after a unique URL returns a successful HTML audit record. Invalid URLs, private-network targets, DNS/network failures, HTTP errors, unsupported or unverifiable content types, timeouts, and oversized responses are intended to remain uncharged.
 
 The price shown in Apify Console is authoritative. Monetization configuration must be verified there before Store publication.
 
@@ -97,8 +97,9 @@ Contact extraction is limited to the fetched page in this validation version. It
 - 3–20 second configurable timeout
 - up to two retries for transient failures
 - 1.5 MB response cap
-- HTML content-type checks
-- localhost/private/reserved/non-global network blocking before requests and redirects
+- declared HTML content-type required for a billable success
+- localhost/private/reserved/non-global network blocking before requests, redirects, and again at socket connection time
+- DNS-to-IP pinning for the actual socket connection, with environment proxy inheritance disabled
 - deterministic output shape for success and error records
 - no OpenAI or other paid third-party API dependency
 

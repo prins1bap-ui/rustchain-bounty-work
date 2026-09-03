@@ -5,6 +5,7 @@ from decimal import Decimal, InvalidOperation
 
 from apify import Actor
 
+from .public_transport import public_client_factory
 from .scanner import audit_url, deduplicate_urls
 
 MAX_URLS_PER_RUN = 500
@@ -136,6 +137,7 @@ async def main() -> None:
                 raw_url,
                 timeout_seconds=timeout_seconds,
                 max_retries=max_retries,
+                client_factory=public_client_factory,
             )
             result = _require_declared_html_content_type(result)
             if result["status"] == "SUCCESS":
