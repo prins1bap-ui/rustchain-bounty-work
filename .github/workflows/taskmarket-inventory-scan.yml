@@ -1,0 +1,48 @@
+name: Daydreams Taskmarket Inventory Scan
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/taskmarket-inventory-scan.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Query production Taskmarket without wallet setup or spend
+        run: |
+          set +e
+          mkdir -p evidence
+          timeout 90s npx --yes @lucid-agents/taskmarket task list --status open > /tmp/taskmarket.out 2> /tmp/taskmarket.err
+          rc=$?
+          python - <<PY
+          import json, datetime
+          raw=open('/tmp/taskmarket.out').read().strip()
+          err=open('/tmp/taskmarket.err').read().strip()
+          out={
+            'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'platform':'Daydreams Taskmarket',
+            'network':'Base Mainnet',
+            'command':'task list --status open',
+            'wallet_initialized':False,
+            'money_spent':False,
+            'exit_code':int('$rc'),
+          }
+          try: out['inventory']=json.loads(raw)
+          except Exception: out['raw_output']=raw[:100000]
+          if err: out['stderr']=err[:10000]
+          json.dump(out,open('evidence/taskmarket-inventory.json','w'),indent=2)
+          PY
+          exit 0
+      - name: Persist evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/taskmarket-inventory.json
+          git diff --cached --quiet || git commit -m 'Refresh Daydreams Taskmarket inventory evidence'
+          git push
