@@ -1,0 +1,62 @@
+name: Algora Full Active Inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/algora-full-inventory.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Query Algora public SDK
+        run: |
+          mkdir -p /tmp/algora-scan evidence
+          cd /tmp/algora-scan
+          npm init -y >/dev/null 2>&1
+          npm install @algora/sdk >/dev/null 2>&1
+          node --input-type=module <<'JS'
+          import fs from 'fs';
+          import { algora } from '@algora/sdk';
+          const checkedAt = new Date().toISOString();
+          let result, error = null;
+          try {
+            result = await algora.bounty.list.query({ status:'active', limit:100, rewarded:true });
+          } catch (e) {
+            error = String(e?.stack || e);
+          }
+          const items = result?.items || [];
+          const normalized = items.map(b => ({
+            id: b.id ?? null,
+            reward_cents: b.reward?.amount ?? null,
+            reward_usd: b.reward?.amount != null ? b.reward.amount/100 : null,
+            reward_formatted: b.reward_formatted ?? null,
+            org_handle: b.org?.handle ?? null,
+            org_name: b.org?.display_name ?? null,
+            title: b.task?.title ?? null,
+            url: b.task?.url ?? null,
+            repo_name: b.task?.repo_name ?? null,
+            status: b.task?.status ?? null,
+            tech: b.tech ?? b.task?.tech ?? [],
+            created_at: b.task?.created_at ?? null,
+            updated_at: b.task?.updated_at ?? null,
+          }));
+          const out={checked_at_utc:checkedAt, platform:'Algora', money_spent:false, query:{status:'active',limit:100,rewarded:true}, count:normalized.length, next_cursor:result?.next_cursor ?? null, items:normalized, error};
+          fs.writeFileSync('/tmp/algora-inventory.json',JSON.stringify(out,null,2));
+          JS
+          cp /tmp/algora-inventory.json "$GITHUB_WORKSPACE/evidence/algora-full-inventory.json"
+      - name: Persist evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/algora-full-inventory.json
+          git diff --cached --quiet || git commit -m 'Refresh full Algora active bounty evidence'
+          git push
