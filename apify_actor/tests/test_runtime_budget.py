@@ -70,7 +70,7 @@ def test_wallclock_budget_stops_before_next_network_request(monkeypatch):
         }
 
     ticks = iter([100.0, 100.0, 701.0])
-    monkeypatch.setattr(module.time, "monotonic", lambda: next(ticks))
+    monkeypatch.setattr(module, "monotonic", lambda: next(ticks))
     monkeypatch.setattr(module, "audit_url", audit)
 
     asyncio.run(module.main())
