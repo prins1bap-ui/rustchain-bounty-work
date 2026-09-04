@@ -32,18 +32,19 @@ Never promote a claim merely because it was built, emailed, merged, or described
 
 ## Current conversion state
 
-As of 2026-09-02 20:45 ET:
+As of 2026-09-04 00:48 ET:
 
 - gross historical fixed-value `SUBMITTED`: **727 RTC**
 - viable fixed-value `SUBMITTED`: **399 RTC**
 - `ACCEPTED_QUEUED`: **0 RTC**
 - `PENDING_ON_CHAIN`: **0 RTC**
-- `RECEIVED`: **95 RTC**
-- `gap_to_500_received_rtc`: **405 RTC**
+- lifetime `RECEIVED`: **95 RTC**
+- rolling-24h `RECEIVED`: **0 RTC**
+- rolling-24h `gap_to_500_received_rtc`: **500 RTC**
 
 The prior 93 RTC accepted/queued backlog has cleared through authoritative wallet-history receipt evidence. Of 727 RTC in historical fixed submissions, 328 RTC is now terminal, superseded, or route-blocked. This includes six #13226 claims totaling 42 RTC: the live issue requires an upstream PR plus `/claim`, while no qualifying upstream PR/public claim or expressly authorized email fallback is verified. The remaining binding constraint is **maintainer adjudication of the 399 RTC viable submitted backlog**.
 
-Fresh reconciliation at 20:45 ET found no new maintainer acceptance, pending ID, transaction hash, rejection, or requested revision in Gmail or the priority GitHub threads. The updated #441 issue is closed/completed and requires Discord membership plus an upstream PR/merge route, so it does not clear the executable-route gate.
+Fresh reconciliation through 00:48 ET on September 4 found no new maintainer acceptance, pending ID, transaction hash, rejection, requested revision, or new route-executable payable opportunity in Gmail or the priority GitHub threads. The previously verified 95 RTC remains lifetime revenue but has aged out of the current rolling 24-hour production window.
 
 The structured ledger in `ops/rtc_ledger.json` remains authoritative for individual claims. `ops/efficiency_policy.json` is authoritative for mode, recheck triggers, and discovery policy.
 ## Mode switching
@@ -177,7 +178,7 @@ Track both:
 - `gap_to_500_received_rtc`
 - `verified_24h_receivable_ceiling_rtc`
 
-Current verified RECEIVED is 95 RTC, leaving a 405 RTC gap. With zero fixed-value claims presently at `ACCEPTED_QUEUED` or `PENDING_ON_CHAIN`, the directly receivable ceiling from already adjudicated work is currently 0 RTC. The **399 RTC viable submitted backlog** can support further progress only after new maintainer acceptance.
+Lifetime verified RECEIVED remains 95 RTC. The current rolling 24-hour window contains **0 RECEIVED RTC**, leaving a **500 RTC rolling gap**. With zero fixed-value claims presently at `ACCEPTED_QUEUED` or `PENDING_ON_CHAIN`, the directly receivable ceiling from already adjudicated work is currently 0 RTC. The **399 RTC viable submitted backlog** can support further progress only after new maintainer acceptance.
 
 Never imply the 500 RTC target is presently achievable unless authoritative evidence supports enough claims progressing through the required stages within the window.
 
