@@ -1,6 +1,6 @@
 {
-  "schema_version": 11,
-  "as_of": "2026-09-04T09:20:00-04:00",
+  "schema_version": 12,
+  "as_of": "2026-09-04T11:19:00-04:00",
   "authority": "ops/rtc_ledger.json",
   "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
@@ -24,8 +24,8 @@
     "402": "50 RTC completion tranche on already-greenlit Builder grant; kickoff is already RECEIVED and delivery remains awaiting maintainer acceptance.",
     "685": "50 RTC Tier-1 SDK; CI green and green evidence sent in existing maintainer thread.",
     "16471": "19 variable findings submitted; expansion frozen pending adjudication.",
-    "16497": "Two 33 RTC articles remain within explicit cap and Gmail fallback is authorized; adjudication remains.",
-    "16601": "40 RTC Type A package remains SUBMITTED via explicit email route. The live issue body still describes GitHub-package delivery, while later verifier-bot comments impose Live-URL requirements on some claims; treat as route-risk change, not acceptance evidence."
+    "16497": "Two 33 RTC articles remain within explicit cap and Gmail fallback is authorized; adjudication remains. Current verifier requires allowlisted off-platform Live-URL for newer claims; the two canonical Aug. 30 email-fallback claims predate that gate and a non-duplicate retroactivity clarification is already pending.",
+    "16601": "40 RTC Type A package remains SUBMITTED via explicit email route. The live issue body says agents deliver the publication-ready package on GitHub and Elyan publishes it; current Live-URL verifier behavior conflicts with that route. A specific same-claim clarification was sent 2026-09-04 asking adjudication under the live package-delivery terms."
   },
   "receivable_mode_actions": [
     "check authoritative stage changes",
@@ -130,16 +130,23 @@
       "commit": "29a5b7cd61d5f737116c729b8a47d825781b5b67",
       "gmail_message_id": "1a064c23932254d8",
       "status": "EVIDENCE_REPAIR_SENT"
+    },
+    {
+      "issue": 16601,
+      "at": "2026-09-04T11:19:00-04:00",
+      "action": "Sent a same-thread, non-duplicate route clarification after verifying the live issue still says agents deliver the package on GitHub and Elyan publishes it, while the current verifier is demanding an off-platform Live-URL. Requested adjudication under the live package-delivery terms only; no additional RTC claimed.",
+      "gmail_message_id": "1a06d0794d979cd6",
+      "status": "ROUTE_CONTRADICTION_REPAIR_SENT"
     }
   ],
   "latest_reconciliation": {
-    "as_of": "2026-09-04T09:20:00-04:00",
-    "result": "No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision in fresh Gmail/GitHub evidence. No incoming Sophia email was found in the current reconciliation window.",
-    "delta": "Both previously zero-job t2000 workflows were repaired and completed successfully. Fresh opportunity discovery found no new high-conversion non-security candidate with an executable route that clears the elevated build gate. #16497 article cap is already consumed; #16601 remains submitted with a newly observed verifier/body route contradiction; high-value PR-required work remains blocked by cross-repo 403/no writable Rustchain fork; publication/account and fund-movement routes remain excluded.",
+    "as_of": "2026-09-04T11:19:00-04:00",
+    "result": "No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision in fresh Gmail/GitHub evidence. No incoming Sophia email was found after 2026-09-04. #402 remains SUBMITTED after authoritative greenlight plus completed public delivery; #685 remains SUBMITTED after CI-green evidence; #16497 remains two canonical 33 RTC SUBMITTED claims pending retroactivity adjudication.",
+    "delta": "Concrete conversion repair executed for #16601 Type A: the live issue body still states agents deliver one public GitHub package and Elyan publishes accepted work, while current verifier behavior requests an off-platform Live-URL. A precise same-thread clarification was sent to the authorized email route without creating a new claim. No new build clears the elevated gate yet.",
     "scoreboard_changed": false,
     "scoreboard_change": "None. Rolling RECEIVED remains 0 RTC; ACCEPTED_QUEUED and PENDING_ON_CHAIN remain 0 RTC; rolling gap remains 500 RTC."
   },
-  "next_action": "Continue settlement adjudication for #402, #685, #16601 and #16497. Recheck route-blocked work only on a route/maintainer change; do not manufacture new low-conversion claims while maintainer saturation remains the binding constraint.",
+  "next_action": "Continue settlement adjudication for #402, #685, #16601 and #16497. Recheck #16601 for a maintainer ruling on the route contradiction before adding work. Continue delta discovery only for benign live work with an executable authorized route and recent settlement evidence.",
   "cost_control": {
     "actual_monetary_cost_usd": 0,
     "authorized_but_not_incurred_usd": 0,
