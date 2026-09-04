@@ -1,6 +1,6 @@
 {
-  "schema_version": 9,
-  "as_of": "2026-09-02T21:45:00-04:00",
+  "schema_version": 10,
+  "as_of": "2026-09-04T00:48:45-04:00",
   "authority": "ops/rtc_ledger.json",
   "authority_rule": "This file is an operational queue only. It must never override accounting or status in ops/rtc_ledger.json.",
   "operating_mode": "SETTLEMENT_ADJUDICATION",
@@ -12,9 +12,12 @@
     "accepted_queued_rtc": 0,
     "pending_on_chain_rtc": 0,
     "received_rtc": 95,
-    "gap_to_500_received_rtc": 405,
+    "gap_to_500_received_rtc": 500,
     "verified_24h_receivable_ceiling_rtc": 0,
-    "snapshot_source": "ops/rtc_ledger.json schema v14"
+    "snapshot_source": "ops/rtc_ledger.json schema v16",
+    "lifetime_received_rtc": 95,
+    "rolling_24h_received_rtc": 0,
+    "lifetime_gap_to_500_received_rtc": 405
   },
   "receivables_priority": [
     402,
@@ -121,10 +124,11 @@
     }
   ],
   "latest_reconciliation": {
-    "as_of": "2026-09-02T21:45:00-04:00",
-    "result": "No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision.",
-    "delta": "#16249 target issue is closed and claimed; #16255 remains claimed/occupied; no route-executable candidate cleared the gate.",
-    "scoreboard_changed": false
+    "as_of": "2026-09-04T00:48:45-04:00",
+    "result": "No new ACCEPTED_QUEUED, PENDING_ON_CHAIN, RECEIVED, rejection, or maintainer-requested revision in fresh Gmail/GitHub evidence.",
+    "delta": "No newly created route-executable payable opportunity cleared the build gate; #100 fork PR remains open without review or merge.",
+    "scoreboard_changed": true,
+    "scoreboard_change": "The previously verified 95 RTC remains lifetime RECEIVED but aged out of the current rolling 24-hour window. Rolling received is now 0 RTC and the rolling target gap is 500 RTC."
   },
   "next_action": "Keep converting #402, #685, #16601 and #16497. Keep #100 at BUILT/route-blocked until an authorized upstream route or explicit maintainer acceptance exists.",
   "cost_control": {
