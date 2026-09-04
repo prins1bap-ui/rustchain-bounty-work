@@ -1,0 +1,44 @@
+name: t2000 Publish Seller Service
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install t2000 CLI
+        run: npm install -g @t2000/cli@latest
+
+      - name: Require persisted seller wallet
+        env:
+          T2000_WALLET_KEY: ${{ secrets.T2000_WALLET_KEY }}
+        run: |
+          if [ -z "$T2000_WALLET_KEY" ]; then
+            echo "T2000_WALLET_KEY secret is required. Refusing to create a disposable wallet."
+            exit 2
+          fi
+          mkdir -p "$HOME/.t2000"
+          printf '%s\n' "$T2000_WALLET_KEY" | t2 init --import
+          chmod 600 "$HOME/.t2000/wallet.key"
+
+      - name: Verify identity
+        run: t2 status
+
+      - name: Publish 50 USDC service
+        run: |
+          t2 service create \
+            --name "Website Contact + Tech Snapshot" \
+            --slug "website-contact-tech-snapshot" \
+            --price 50 \
+            --sla 24h \
+            --description "Research a public business website and return publicly available business contact details plus a concise technology-stack snapshot. No private-data scraping, credential access, or bypassing access controls." \
+            --deliverable "Structured report containing public business contact information where available, detected website technology signals, source URLs, and explicit not-found/uncertain fields." \
+            --requirements '{"website":"Public website or domain to analyze"}' \
+            --category research
+
+      - name: Verify listing
+        run: t2 service list
