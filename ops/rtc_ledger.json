@@ -1,6 +1,6 @@
 {
-  "schema_version": 15,
-  "as_of": "2026-09-02T21:45:00-04:00",
+  "schema_version": 16,
+  "as_of": "2026-09-04T00:48:45-04:00",
   "authority": "SOLE_CURRENT_RTC_GOVERNING_STATE",
   "governing_objective": "Maximize verified received RTC from lawful, non-security, economically justified RustChain/Elyan work while minimizing owner labor and preventing duplicate or unsupported accounting.",
   "accounting_rules": [
@@ -20,19 +20,24 @@
     "variable_value_submissions_count": 21,
     "16471_submitted_findings_count": 19,
     "historical_fixed_value_removed_from_viable_rtc": 328,
-    "gap_to_500_received_rtc": 405,
+    "gap_to_500_received_rtc": 500,
     "verified_24h_receivable_ceiling_rtc": 0,
-    "actual_monetary_cost_usd": 0
+    "actual_monetary_cost_usd": 0,
+    "lifetime_received_rtc": 95,
+    "rolling_24h_received_rtc": 0,
+    "lifetime_gap_to_500_received_rtc": 405
   },
   "rolling_24h_scoreboard": {
-    "window_as_of": "2026-09-02T21:01:26-04:00",
-    "new_received_rtc": 95,
-    "new_pending_on_chain_rtc": 0,
+    "window_start": "2026-09-03T00:48:45-04:00",
+    "window_as_of": "2026-09-04T00:48:45-04:00",
+    "new_submitted_rtc": 0,
     "new_accepted_queued_rtc": 0,
+    "new_pending_on_chain_rtc": 0,
+    "new_received_rtc": 0,
     "current_viable_fixed_value_submitted_rtc": 399,
-    "gap_to_500_received_rtc": 405,
+    "gap_to_500_received_rtc": 500,
     "verified_24h_receivable_ceiling_rtc": 0,
-    "note": "95 RTC is verified in wallet history. No current claim is verified ACCEPTED_QUEUED or PENDING_ON_CHAIN."
+    "note": "The previously verified 95 RTC remains lifetime RECEIVED but predates this rolling 24-hour window. No later receipt, pending, or acceptance evidence was found in fresh Gmail/GitHub reconciliation."
   },
   "received": [
     {
