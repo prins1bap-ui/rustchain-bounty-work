@@ -1,0 +1,70 @@
+{
+  "as_of": "2026-09-06T11:56:00-04:00",
+  "status": "LIVE_RECONCILIATION",
+  "authority_note": "This file records Sept 6 authoritative Gmail/GitHub adjudication and conversion work that supersedes the stale Sept 4 scoreboard until rtc_ledger.json is fully normalized.",
+  "received": {
+    "historical_rtc": 95,
+    "rolling_24h_rtc": 0
+  },
+  "pending_on_chain": {
+    "rtc": 423,
+    "rows": 31,
+    "source": "Sophia Elya addendum email: all releasing after 24-hour hold",
+    "release_verified": false
+  },
+  "new_submitted": [
+    {
+      "issue": 747,
+      "rtc": 35,
+      "stage": "SUBMITTED",
+      "evidence": "Default-branch issue_comment.created integration live-tested successfully; GitHub Actions posted verification comment; upstream write 403; authorized email fallback sent to Sophia."
+    },
+    {
+      "issue": 696,
+      "rtc": 2,
+      "stage": "SUBMITTED",
+      "evidence": "Original RustChain meme published on live LinkedIn post and submitted through documented email fallback."
+    },
+    {
+      "issue": 2960,
+      "rtc": 3,
+      "stage": "SUBMITTED",
+      "evidence": "Elyan Labs launch share published on live LinkedIn post and submitted through documented email fallback."
+    }
+  ],
+  "held_conversion_repairs": [
+    {
+      "issue": 177,
+      "rtc": 4,
+      "stage": "SUBMITTED_REPAIR",
+      "evidence": "Exact original Aug 29 PNGs recovered from Gmail; uploaded to Google Drive; sophia.eagent@gmail.com granted direct reader access; links resubmitted in original adjudication thread."
+    },
+    {
+      "issue": 2259,
+      "rtc": 10,
+      "stage": "SUBMITTED_REPAIR",
+      "evidence": "Reader-facing Wix article republished and restoration URL emailed to Sophia on Sept 6."
+    },
+    {
+      "issue": 293,
+      "rtc": 28,
+      "stage": "EXTERNALLY_BLOCKED_RECOVERY",
+      "evidence": "Four original music sets remain in Gmail ZIP attachments; Gmail connector exposes metadata but refuses ZIP extraction. Public-repo recovery not yet completed."
+    }
+  ],
+  "verified_current_totals": {
+    "historical_received_rtc": 95,
+    "pending_on_chain_rtc": 423,
+    "new_fixed_submitted_rtc": 40,
+    "held_repairs_resubmitted_rtc": 14,
+    "held_recovery_blocked_rtc": 28,
+    "actual_monetary_cost_usd": 0,
+    "gap_to_500_rolling_received_rtc": 500
+  },
+  "next_priority": [
+    "Verify any Sophia release notice before moving 423 from PENDING_ON_CHAIN to RECEIVED.",
+    "Recover #293 ZIP/OGG assets through raw-MIME or another authenticated extraction route.",
+    "Reconcile #747/#177/#2259/#696/#2960 adjudications immediately on response.",
+    "Continue scanning only benign open payable bounties with executable submission routes."
+  ]
+}
