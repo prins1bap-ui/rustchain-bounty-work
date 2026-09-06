@@ -1,6 +1,9 @@
 name: t2000 Market Watch
 
 on:
+  push:
+    paths:
+      - '.github/workflows/t2000-market-watch.yml'
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
@@ -44,11 +47,9 @@ jobs:
           agent_text = textify(pages['agent'])
           service_text = textify(pages['service'])
 
-          # Pull visible dollar amounts from the public Open board and flag >= $40.
           amounts = [float(x) for x in re.findall(r'\$\s*([0-9]+(?:\.[0-9]{1,2})?)', jobs_text)]
           high_value = sorted({x for x in amounts if x >= 40.0}, reverse=True)
 
-          # Profile state signals. A direct hire should change throughput and/or settled/escrow text.
           throughput = None
           m = re.search(r'Throughput:\s*(\d+)\s*/\s*(\d+)', agent_text, re.I)
           if m:
