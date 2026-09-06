@@ -1,0 +1,45 @@
+name: Apify Controlled Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Perform private Actor create/update + build after zero-spend gate passes'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - 'ops/apify_controlled_deploy.py'
+      - '.github/workflows/apify-controlled-deploy.yml'
+
+permissions:
+  contents: read
+
+env:
+  APIFY_DEPLOY: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy && '1' || '0' }}
+
+jobs:
+  controlled-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Execute fail-closed account gate
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          python ops/apify_controlled_deploy.py
+
+      - name: Upload sanitized gate result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-controlled-deploy-result
+          path: apify_controlled_deploy_result.json
+          if-no-files-found: warn
+          retention-days: 3
