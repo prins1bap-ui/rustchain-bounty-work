@@ -1,4 +1,3 @@
-# Trigger refreshed 2026-09-03
 name: Apify Precloud Live Smoke QA
 
 on:
@@ -19,7 +18,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
       - name: Reconstruct scanner
         working-directory: apify_actor
@@ -31,7 +30,7 @@ jobs:
         working-directory: apify_actor
         run: pip install -r requirements.txt
 
-      - name: Run zero-cost pilot fulfillment
+      - name: Run zero-cost pilot fulfillment and assertions
         working-directory: apify_actor
         run: |
           python - <<'PY'
@@ -44,6 +43,49 @@ jobs:
           raw_urls = payload.get('urls') or []
           urls, duplicate_count = deduplicate_urls(raw_urls[:250])
           results = [audit_url(url, timeout_seconds=10, max_retries=1, client_factory=public_client_factory) for url in urls]
+          by_requested = {row['requestedUrl']: row for row in results}
+
+          failures = []
+          def require(condition, message):
+              if not condition:
+                  failures.append(message)
+
+          require(duplicate_count == 1, f'expected exactly one duplicate, got {duplicate_count}')
+
+          example = by_requested.get('https://example.com', {})
+          require(example.get('status') == 'SUCCESS' and example.get('statusCode') == 200,
+                  f'example.com ordinary HTML failed: {example}')
+
+          wordpress = by_requested.get('https://www.wordpress.org', {})
+          require(wordpress.get('status') == 'SUCCESS' and 'WordPress' in (wordpress.get('detectedTechnologies') or []),
+                  f'WordPress detection failed: {wordpress}')
+
+          shopify = by_requested.get('https://www.shopify.com', {})
+          require(shopify.get('status') == 'SUCCESS' and 'Shopify' in (shopify.get('detectedTechnologies') or []),
+                  f'Shopify detection failed: {shopify}')
+
+          wix = by_requested.get('https://www.wix.com', {})
+          require(
+              (wix.get('status') == 'SUCCESS' and 'Wix' in (wix.get('detectedTechnologies') or []))
+              or wix.get('errorCode') == 'RESPONSE_TOO_LARGE',
+              f'Wix/builder handling was neither successful detection nor bounded-size rejection: {wix}'
+          )
+
+          redirect = by_requested.get('https://httpbin.org/redirect/1', {})
+          require(redirect.get('redirectCount') == 1 and redirect.get('errorCode') == 'UNSUPPORTED_CONTENT_TYPE',
+                  f'redirect/non-HTML handling failed: {redirect}')
+
+          not_found = by_requested.get('https://httpbin.org/status/404', {})
+          require(not_found.get('statusCode') == 404 and not_found.get('errorCode') == 'HTTP_404' and not_found.get('bytesRead') == 0,
+                  f'404 handling/body suppression failed: {not_found}')
+
+          non_html = by_requested.get('https://httpbin.org/json', {})
+          require(non_html.get('errorCode') == 'UNSUPPORTED_CONTENT_TYPE' and non_html.get('bytesRead') == 0,
+                  f'non-HTML body suppression failed: {non_html}')
+
+          for unsafe in ('http://127.0.0.1', 'http://localhost', 'http://10.0.0.1'):
+              row = by_requested.get(unsafe, {})
+              require(row.get('errorCode') == 'UNSAFE_URL', f'unsafe target was not blocked: {unsafe}: {row}')
 
           out = Path('../pilot_output')
           out.mkdir(exist_ok=True)
@@ -63,23 +105,24 @@ jobs:
           success_count = sum(r.get('status') == 'SUCCESS' for r in results)
           error_count = len(results) - success_count
           summary = {
-              'status': 'PASS' if success_count >= 1 else 'FAIL',
+              'status': 'PASS' if not failures else 'FAIL',
               'processed_unique_count': len(results),
               'success_count': success_count,
               'error_count': error_count,
               'duplicate_count': duplicate_count,
+              'assertion_failures': failures,
               'apify_cloud_calls_made': 0,
               'paid_actions_made': 0
           }
           (out / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True), encoding='utf-8')
           print(json.dumps(summary, sort_keys=True))
-          if summary['status'] != 'PASS':
-              raise SystemExit(1)
+          if failures:
+              raise SystemExit('\n'.join(failures))
           PY
 
       - name: Upload sanitized pilot output
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: apify-precloud-live-smoke-result
           path: pilot_output/
