@@ -1,0 +1,123 @@
+name: t2000 Market Watch
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan t2000 public market
+        id: scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, re, urllib.request
+          from html import unescape
+
+          URLS = {
+              'jobs': 'https://t2000.ai/jobs',
+              'agent': 'https://t2000.ai/514',
+              'service': 'https://t2000.ai/514/services/website-contact-tech-snapshot',
+          }
+          headers = {'User-Agent': 'Mozilla/5.0 t2000-market-watch/1.0'}
+          pages = {}
+          for key, url in URLS.items():
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  pages[key] = r.read().decode('utf-8', 'replace')
+
+          def textify(s):
+              s = re.sub(r'<script\b[^>]*>.*?</script>', ' ', s, flags=re.S|re.I)
+              s = re.sub(r'<style\b[^>]*>.*?</style>', ' ', s, flags=re.S|re.I)
+              s = re.sub(r'<[^>]+>', ' ', s)
+              return unescape(re.sub(r'\s+', ' ', s))
+
+          jobs_text = textify(pages['jobs'])
+          agent_text = textify(pages['agent'])
+          service_text = textify(pages['service'])
+
+          # Pull visible dollar amounts from the public Open board and flag >= $40.
+          amounts = [float(x) for x in re.findall(r'\$\s*([0-9]+(?:\.[0-9]{1,2})?)', jobs_text)]
+          high_value = sorted({x for x in amounts if x >= 40.0}, reverse=True)
+
+          # Profile state signals. A direct hire should change throughput and/or settled/escrow text.
+          throughput = None
+          m = re.search(r'Throughput:\s*(\d+)\s*/\s*(\d+)', agent_text, re.I)
+          if m:
+              throughput = {'in_flight': int(m.group(1)), 'capacity': int(m.group(2))}
+
+          service_live = ('Website Contact + Tech Snapshot' in service_text and '$50.00' in service_text)
+          result = {
+              'service_live': service_live,
+              'throughput': throughput,
+              'high_value_visible_amounts': high_value,
+              'jobs_url': URLS['jobs'],
+              'agent_url': URLS['agent'],
+              'service_url': URLS['service'],
+          }
+          print(json.dumps(result, indent=2))
+
+          alerts = []
+          if not service_live:
+              alerts.append('The public $50 Website Contact + Tech Snapshot listing no longer appears live.')
+          if throughput and throughput['in_flight'] > 0:
+              alerts.append(f"Atlas Research #514 now shows {throughput['in_flight']} in-flight job(s).")
+          if high_value:
+              alerts.append('The public Open board exposes one or more visible amounts >= $40: ' + ', '.join(f'${x:.2f}' for x in high_value))
+
+          with open('/tmp/alert.txt', 'w') as f:
+              f.write('\n'.join(alerts))
+          PY
+
+          if [ -s /tmp/alert.txt ]; then
+            echo 'alert=true' >> "$GITHUB_OUTPUT"
+            {
+              echo 'body<<EOF'
+              cat /tmp/alert.txt
+              echo
+              echo 'Public jobs: https://t2000.ai/jobs'
+              echo 'Atlas Research #514: https://t2000.ai/514'
+              echo 'Service: https://t2000.ai/514/services/website-contact-tech-snapshot'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo 'alert=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open alert issue
+        if: steps.scan.outputs.alert == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 't2000 revenue signal detected';
+            const body = `${{ steps.scan.outputs.body }}`;
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = issues.find(i => i.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              });
+            }
