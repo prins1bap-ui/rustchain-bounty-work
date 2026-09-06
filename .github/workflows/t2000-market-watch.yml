@@ -32,7 +32,7 @@ jobs:
               'agent': BASE + '/514',
               'service': BASE + '/514/services/website-contact-tech-snapshot',
           }
-          HEADERS = {'User-Agent': 'Mozilla/5.0 t2000-market-watch/2.0'}
+          HEADERS = {'User-Agent': 'Mozilla/5.0 t2000-market-watch/3.0'}
           KEYWORDS = (
               'research', 'website', 'company', 'contact', 'technology', 'tech stack',
               'technical qa', 'qa', 'analysis', 'audit', 'data', 'structured', 'web',
@@ -52,7 +52,6 @@ jobs:
 
           pages = {k: fetch(v) for k, v in URLS.items()}
           jobs_html = pages['jobs']
-          jobs_text = textify(jobs_html)
           agent_text = textify(pages['agent'])
           service_text = textify(pages['service'])
 
@@ -66,14 +65,19 @@ jobs:
           if m:
               throughput = {'in_flight': int(m.group(1)), 'capacity': int(m.group(2))}
 
-          # Discover unique public job detail URLs from the board.
-          job_paths = []
-          seen = set()
-          for href in re.findall(r'href=["\']([^"\']+/jobs/0x[a-fA-F0-9]+)["\']', jobs_html):
-              url = urljoin(BASE, href)
-              if url not in seen:
-                  seen.add(url)
-                  job_paths.append(url)
+          # Discover public job detail URLs. Handles relative, absolute, and escaped hrefs.
+          normalized = jobs_html.replace('\\u002F', '/').replace('\\/', '/')
+          candidates = set()
+          patterns = (
+              r'href=["\']([^"\']*?/jobs/0x[a-fA-F0-9]+)["\']',
+              r'(https://t2000\.ai/jobs/0x[a-fA-F0-9]+)',
+              r'(/jobs/0x[a-fA-F0-9]+)',
+          )
+          for pattern in patterns:
+              for href in re.findall(pattern, normalized):
+                  candidates.add(urljoin(BASE, href))
+
+          job_paths = sorted(candidates)
 
           qualified = []
           inspected = 0
@@ -123,6 +127,8 @@ jobs:
               alerts.append('The public $50 Website Contact + Tech Snapshot listing no longer appears live.')
           if throughput and throughput['in_flight'] > 0:
               alerts.append(f"Atlas Research #514 now shows {throughput['in_flight']} in-flight job(s).")
+          if len(job_paths) == 0:
+              alerts.append('WATCHER HEALTH FAILURE: zero t2000 job links discovered. Treat market scan as invalid until repaired.')
           for job in qualified:
               alerts.append(
                   f"Qualified t2000 Open job: ${job['price']:.2f} | {job['title']} | {job['url']} | "
