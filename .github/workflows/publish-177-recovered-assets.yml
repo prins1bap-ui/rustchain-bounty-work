@@ -1,16 +1,16 @@
 name: publish-177-recovered-assets
 
 on:
-  issue_comment:
-    types: [created]
+  push:
+    paths:
+      - '.github/workflows/publish-177-recovered-assets.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
-  issues: read
 
 jobs:
   publish:
-    if: github.event.issue.number == 19 && startsWith(github.event.comment.body, 'publish-177-assets')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,28 +19,23 @@ jobs:
           python-version: '3.12'
       - name: Recover exact emailed PNGs
         env:
-          COMMENT_BODY: ${{ github.event.comment.body }}
+          URL1: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-a880-81f5-b250-32a852eb213a/raw?se=2026-09-06T16%3A15%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=578a6aab-b767-5d51-87e6-80b8ce13db21&skoid=d1cabc79-3240-4866-94fe-6005330cb49e&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-06T13%3A03%3A54Z&ske=2026-09-07T13%3A03%3A54Z&sks=b&skv=2026-02-06&sig=lKo5GsZ/%2B2L1alJ5NH8xKrxGjR8rkkW1ruvaPUmwvMk%3D'
+          URL2: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-4c30-81f5-a7a1-efe93ceed2e9/raw?se=2026-09-06T16%3A15%3A54Z&sp=r&sv=2026-02-06&sr=b&scid=b0643997-add0-5653-9c2e-ba3c77154ea5&skoid=d1cabc79-3240-4866-94fe-6005330cb49e&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-05T22%3A23%3A22Z&ske=2026-09-06T22%3A23%3A22Z&sks=b&skv=2026-02-06&sig=Obmzrrn0qP7W57sOgomPaY5ZQq95VZfZ8nEVRuNixvc%3D'
         run: |
           python - <<'PY'
           import hashlib, os, pathlib, urllib.request
-          body = os.environ['COMMENT_BODY']
-          vals = {}
-          for line in body.splitlines()[1:]:
-              if '=' in line:
-                  k, v = line.split('=', 1)
-                  vals[k.strip()] = v.strip()
-          expected = {
-              'url1': ('177-memes/rustchain_meme_seniority.png', 56474, '6c546c05eb7dab589aaa29c1d96e54ba14ddd678fe45fd603826136de6f527d4'),
-              'url2': ('177-memes/bottube_meme_captcha_tables.png', 53579, 'f6599a967754ecb4b9933ae891ab3bafb39dc4dc7b922775e1abe7d0a8f35ece'),
-          }
-          for key, (dest, size, sha) in expected.items():
-              url = vals[key]
-              with urllib.request.urlopen(url, timeout=30) as r:
+          expected = [
+              (os.environ['URL1'], '177-memes/rustchain_meme_seniority.png', 56474, '6c546c05eb7dab589aaa29c1d96e54ba14ddd678fe45fd603826136de6f527d4'),
+              (os.environ['URL2'], '177-memes/bottube_meme_captcha_tables.png', 53579, 'f6599a967754ecb4b9933ae891ab3bafb39dc4dc7b922775e1abe7d0a8f35ece'),
+          ]
+          for url, dest, size, sha in expected:
+              req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
+              with urllib.request.urlopen(req, timeout=30) as r:
                   data = r.read()
-              assert data.startswith(b'\x89PNG\r\n\x1a\n'), f'{key}: not PNG'
-              assert len(data) == size, f'{key}: size mismatch {len(data)} != {size}'
+              assert data.startswith(b'\x89PNG\r\n\x1a\n'), f'{dest}: not PNG'
+              assert len(data) == size, f'{dest}: size mismatch {len(data)} != {size}'
               actual = hashlib.sha256(data).hexdigest()
-              assert actual == sha, f'{key}: sha mismatch {actual} != {sha}'
+              assert actual == sha, f'{dest}: sha mismatch {actual} != {sha}'
               p = pathlib.Path(dest)
               p.parent.mkdir(parents=True, exist_ok=True)
               p.write_bytes(data)
