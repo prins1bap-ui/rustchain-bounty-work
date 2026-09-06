@@ -13,14 +13,15 @@ RESULT_PATH = "apify_controlled_deploy_result.json"
 ACTOR_NAME = "website-tech-contact-snapshot"
 ACTOR_TITLE = "Website Contact + Tech Snapshot"
 ACTOR_DESCRIPTION = (
-    "One-request public website enrichment: contacts, social profiles, technology "
-    "fingerprints, metadata, JSON-LD, forms, and security-header signals."
+    "Public website enrichment: contacts, social profiles, technology fingerprints, "
+    "metadata, JSON-LD, forms, and security-header signals."
 )
 VERSION = "0.1"
 GIT_REPO_URL = (
     "https://github.com/prins1bap-ui/rustchain-bounty-work"
     "#apify-bridge-20260902:apify_actor"
 )
+TERMINAL_BUILD_STATUSES = {"SUCCEEDED", "FAILED", "TIMED-OUT", "ABORTED"}
 
 
 def emit(payload: dict, code: int = 0) -> int:
@@ -38,18 +39,18 @@ def request_json(method: str, path: str, token: str, body: dict | None = None):
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {token}",
-        "User-Agent": "apify-controlled-deploy/0.1",
+        "User-Agent": "apify-controlled-deploy/0.2",
     }
     if body is not None:
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
     request = urllib.request.Request(BASE + path, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(request, timeout=45) as response:
+        with urllib.request.urlopen(request, timeout=70) as response:
             raw = response.read().decode("utf-8")
             return response.status, json.loads(raw) if raw else {}
     except urllib.error.HTTPError as exc:
-        # Do not echo response bodies because third-party errors can unexpectedly contain
+        # Never echo response bodies because third-party errors can unexpectedly contain
         # request material. Status and endpoint are sufficient for fail-closed diagnosis.
         return exc.code, {"error": {"type": "http_error", "status": exc.code}}
     except Exception as exc:  # pragma: no cover - defensive network boundary
@@ -92,15 +93,10 @@ def plan_is_zero_overage_safe(me: dict, limits_payload: dict) -> tuple[bool, dic
         evidence["reason"] = "Current usage exceeds the reported hard monthly limit; state is inconsistent."
         return False, evidence
 
-    # Free accounts have no pay-as-you-go overage. Their services suspend when prepaid
-    # credits are exhausted. Requiring a $0 base price and zero or positive prepaid credits
-    # prevents treating a paid plan as Free based on its name alone.
     if base_price == 0 and plan_id.lower() == "free":
         evidence["reason"] = "Free plan confirmed; no pay-as-you-go monetary overage path."
         return True, evidence
 
-    # On paid plans, no *additional* monetary charge can arise from platform usage only if
-    # the hard monthly usage ceiling is no greater than prepaid monthly usage credits.
     if max_usage <= prepaid:
         evidence["reason"] = "Hard monthly usage limit is at or below prepaid usage credits."
         return True, evidence
@@ -110,6 +106,16 @@ def plan_is_zero_overage_safe(me: dict, limits_payload: dict) -> tuple[bool, dic
         "is possible. Deployment is blocked."
     )
     return False, evidence
+
+
+def actor_summary(item: dict) -> dict:
+    return {
+        "id": item.get("id"),
+        "name": item.get("name"),
+        "title": item.get("title"),
+        "isPublic": item.get("isPublic"),
+        "actorPermissionLevel": item.get("actorPermissionLevel"),
+    }
 
 
 def main() -> int:
@@ -163,10 +169,7 @@ def main() -> int:
     inventory = {
         "owned_actor_count_returned": len(items),
         "matching_actor_count": len(matches),
-        "matching_actors": [
-            {"id": item.get("id"), "name": item.get("name"), "title": item.get("title")}
-            for item in matches
-        ],
+        "matching_actors": [actor_summary(item) for item in matches],
     }
 
     gate = {
@@ -218,6 +221,27 @@ def main() -> int:
                 "paid_actions_made": 0,
                 "gate": gate,
             }, 4)
+
+        # Explicitly force the existing Actor private before touching source or starting a build.
+        # A same-name Actor could have been published outside this workflow; assuming privacy from
+        # its name would violate the private-deployment contract.
+        actor_path = f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}"
+        status, _ = request_json("PUT", actor_path, token, {
+            "isPublic": False,
+            "title": ACTOR_TITLE,
+            "description": ACTOR_DESCRIPTION,
+        })
+        calls += 1
+        if status not in {200, 201}:
+            return emit({
+                "status": "PRIVATE_ACTOR_ENFORCEMENT_FAILED",
+                "network_calls_made": calls,
+                "paid_actions_made": 0,
+                "http_status": status,
+                "actor_id": actor_id,
+                "gate": gate,
+            }, 5)
+
         version_path = f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}/versions/{VERSION}"
         version_body = {
             "versionNumber": VERSION,
@@ -227,7 +251,6 @@ def main() -> int:
         status, _ = request_json("PUT", version_path, token, version_body)
         calls += 1
         if status not in {200, 201}:
-            # Version may not exist yet; create it explicitly.
             create_version_path = f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}/versions"
             status, _ = request_json("POST", create_version_path, token, version_body)
             calls += 1
@@ -238,13 +261,14 @@ def main() -> int:
                     "paid_actions_made": 0,
                     "http_status": status,
                     "gate": gate,
-                }, 5)
+                }, 6)
         actor_action = "UPDATED_EXISTING"
     else:
         create_body = {
             "name": ACTOR_NAME,
             "title": ACTOR_TITLE,
             "description": ACTOR_DESCRIPTION,
+            "isPublic": False,
             "versions": [{
                 "versionNumber": VERSION,
                 "sourceType": "GIT_REPO",
@@ -260,7 +284,7 @@ def main() -> int:
                 "paid_actions_made": 0,
                 "http_status": status,
                 "gate": gate,
-            }, 6)
+            }, 7)
         actor_id = (payload.get("data") or {}).get("id")
         if not actor_id:
             return emit({
@@ -268,11 +292,38 @@ def main() -> int:
                 "network_calls_made": calls,
                 "paid_actions_made": 0,
                 "gate": gate,
-            }, 7)
+            }, 8)
         actor_action = "CREATED_EXACTLY_ONE"
 
-    # Actor builds consume platform usage credits. This request is permitted only because
-    # the gate above proved there is no path to an *additional monetary* overage.
+    # Re-read the Actor and prove privacy from authoritative post-write state. Do not build if
+    # the platform ignored, transformed, or rejected the requested privacy state.
+    actor_path = f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}"
+    status, actor_payload = request_json("GET", actor_path, token)
+    calls += 1
+    if status != 200:
+        return emit({
+            "status": "PRIVATE_ACTOR_VERIFICATION_READ_FAILED",
+            "network_calls_made": calls,
+            "paid_actions_made": 0,
+            "http_status": status,
+            "actor_id": actor_id,
+            "actor_action": actor_action,
+            "gate": gate,
+        }, 9)
+    authoritative_actor = actor_payload.get("data") or {}
+    if authoritative_actor.get("isPublic") is not False:
+        return emit({
+            "status": "PRIVATE_ACTOR_VERIFICATION_FAILED",
+            "network_calls_made": calls,
+            "paid_actions_made": 0,
+            "actor_id": actor_id,
+            "actor_action": actor_action,
+            "actor": actor_summary(authoritative_actor),
+            "gate": gate,
+        }, 10)
+
+    # Actor builds consume platform usage credits. This request is permitted only because the
+    # gate above proved there is no path to an additional monetary overage.
     build_path = (
         f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}/builds"
         f"?version={urllib.parse.quote(VERSION)}&tag=latest&waitForFinish=60"
@@ -288,11 +339,45 @@ def main() -> int:
             "actor_id": actor_id,
             "actor_action": actor_action,
             "gate": gate,
-        }, 8)
+        }, 11)
 
     build = payload.get("data") or {}
+    build_id = build.get("id")
     build_status = build.get("status")
-    result_status = "PRIVATE_BUILD_SUCCEEDED" if build_status == "SUCCEEDED" else "PRIVATE_BUILD_STARTED_OR_INCOMPLETE"
+
+    # waitForFinish is capped at 60 seconds. A healthy build can therefore still be RUNNING.
+    # Continue waiting through the build API rather than falsely reporting a failure merely
+    # because the first synchronous window expired.
+    poll_count = 0
+    while build_id and build_status not in TERMINAL_BUILD_STATUSES and poll_count < 4:
+        poll_path = f"/v2/actor-builds/{urllib.parse.quote(build_id, safe='')}?waitForFinish=60"
+        poll_status, poll_payload = request_json("GET", poll_path, token)
+        calls += 1
+        poll_count += 1
+        if poll_status != 200:
+            return emit({
+                "status": "BUILD_STATUS_READ_FAILED",
+                "network_calls_made": calls,
+                "paid_actions_made": 1,
+                "http_status": poll_status,
+                "actor_id": actor_id,
+                "actor_action": actor_action,
+                "build_id": build_id,
+                "gate": gate,
+            }, 12)
+        build = poll_payload.get("data") or {}
+        build_status = build.get("status")
+
+    if build_status == "SUCCEEDED":
+        result_status = "PRIVATE_BUILD_SUCCEEDED"
+        code = 0
+    elif build_status in TERMINAL_BUILD_STATUSES:
+        result_status = "PRIVATE_BUILD_FAILED"
+        code = 13
+    else:
+        result_status = "PRIVATE_BUILD_STARTED_OR_INCOMPLETE"
+        code = 14
+
     return emit({
         "status": result_status,
         "apify_token_configured": True,
@@ -301,14 +386,18 @@ def main() -> int:
         "paid_actions_made": 1,
         "actor_id": actor_id,
         "actor_action": actor_action,
+        "actor": actor_summary(authoritative_actor),
         "build": {
-            "id": build.get("id"),
+            "id": build_id,
             "status": build_status,
             "startedAt": build.get("startedAt"),
             "finishedAt": build.get("finishedAt"),
+            "usageUsd": build.get("usageUsd"),
+            "usageTotalUsd": build.get("usageTotalUsd"),
+            "pollCount": poll_count,
         },
         "gate": gate,
-    }, 0 if build_status == "SUCCEEDED" else 9)
+    }, code)
 
 
 if __name__ == "__main__":
