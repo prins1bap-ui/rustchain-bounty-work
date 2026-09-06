@@ -1,6 +1,6 @@
 {
   "title": "Website Tech + Contact Snapshot input",
-  "description": "Enter public website URLs to scan. One lightweight HTML request is made per unique URL. Only successful HTML audits are billable.",
+  "description": "Enter public website URLs to scan. One homepage fetch is attempted per unique URL; redirects and configured transient retries can create additional HTTP requests. Only successful HTML audits are billable.",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
