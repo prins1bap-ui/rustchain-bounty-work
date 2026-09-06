@@ -24,43 +24,95 @@ jobs:
           python - <<'PY'
           import json, re, urllib.request
           from html import unescape
+          from urllib.parse import urljoin
 
+          BASE = 'https://t2000.ai'
           URLS = {
-              'jobs': 'https://t2000.ai/jobs',
-              'agent': 'https://t2000.ai/514',
-              'service': 'https://t2000.ai/514/services/website-contact-tech-snapshot',
+              'jobs': BASE + '/jobs',
+              'agent': BASE + '/514',
+              'service': BASE + '/514/services/website-contact-tech-snapshot',
           }
-          headers = {'User-Agent': 'Mozilla/5.0 t2000-market-watch/1.0'}
-          pages = {}
-          for key, url in URLS.items():
-              req = urllib.request.Request(url, headers=headers)
+          HEADERS = {'User-Agent': 'Mozilla/5.0 t2000-market-watch/2.0'}
+          KEYWORDS = (
+              'research', 'website', 'company', 'contact', 'technology', 'tech stack',
+              'technical qa', 'qa', 'analysis', 'audit', 'data', 'structured', 'web',
+              'verification', 'verify', 'prospect', 'business', 'competitive',
+          )
+
+          def fetch(url):
+              req = urllib.request.Request(url, headers=HEADERS)
               with urllib.request.urlopen(req, timeout=30) as r:
-                  pages[key] = r.read().decode('utf-8', 'replace')
+                  return r.read().decode('utf-8', 'replace')
 
           def textify(s):
               s = re.sub(r'<script\b[^>]*>.*?</script>', ' ', s, flags=re.S|re.I)
               s = re.sub(r'<style\b[^>]*>.*?</style>', ' ', s, flags=re.S|re.I)
               s = re.sub(r'<[^>]+>', ' ', s)
-              return unescape(re.sub(r'\s+', ' ', s))
+              return unescape(re.sub(r'\s+', ' ', s)).strip()
 
-          jobs_text = textify(pages['jobs'])
+          pages = {k: fetch(v) for k, v in URLS.items()}
+          jobs_html = pages['jobs']
+          jobs_text = textify(jobs_html)
           agent_text = textify(pages['agent'])
           service_text = textify(pages['service'])
 
-          amounts = [float(x) for x in re.findall(r'\$\s*([0-9]+(?:\.[0-9]{1,2})?)', jobs_text)]
-          high_value = sorted({x for x in amounts if x >= 40.0}, reverse=True)
+          service_live = (
+              'Website Contact + Tech Snapshot' in service_text and
+              ('$50.00' in service_text or '$50' in service_text)
+          )
 
           throughput = None
           m = re.search(r'Throughput:\s*(\d+)\s*/\s*(\d+)', agent_text, re.I)
           if m:
               throughput = {'in_flight': int(m.group(1)), 'capacity': int(m.group(2))}
 
-          service_live = ('Website Contact + Tech Snapshot' in service_text and '$50.00' in service_text)
+          # Discover unique public job detail URLs from the board.
+          job_paths = []
+          seen = set()
+          for href in re.findall(r'href=["\']([^"\']+/jobs/0x[a-fA-F0-9]+)["\']', jobs_html):
+              url = urljoin(BASE, href)
+              if url not in seen:
+                  seen.add(url)
+                  job_paths.append(url)
+
+          qualified = []
+          inspected = 0
+          for url in job_paths[:200]:
+              try:
+                  raw = fetch(url)
+              except Exception:
+                  continue
+              inspected += 1
+              text = textify(raw)
+              low = text.lower()
+              if 'open' not in low or 'claim' not in low:
+                  continue
+              amounts = [float(x) for x in re.findall(r'\$\s*([0-9]+(?:\.[0-9]{1,2})?)', text)]
+              if not amounts:
+                  continue
+              price = max(amounts)
+              if price < 40.0:
+                  continue
+              hits = sorted({kw for kw in KEYWORDS if kw in low})
+              if not hits:
+                  continue
+              title = ''
+              tm = re.search(r'<title>(.*?)</title>', raw, re.S|re.I)
+              if tm:
+                  title = unescape(re.sub(r'\s+', ' ', tm.group(1))).strip()
+              qualified.append({
+                  'price': price,
+                  'title': title or 't2000 open job',
+                  'url': url,
+                  'keyword_hits': hits[:8],
+              })
+
           result = {
               'service_live': service_live,
               'throughput': throughput,
-              'high_value_visible_amounts': high_value,
-              'jobs_url': URLS['jobs'],
+              'job_links_discovered': len(job_paths),
+              'job_pages_inspected': inspected,
+              'qualified_open_jobs_40_plus': qualified,
               'agent_url': URLS['agent'],
               'service_url': URLS['service'],
           }
@@ -71,8 +123,11 @@ jobs:
               alerts.append('The public $50 Website Contact + Tech Snapshot listing no longer appears live.')
           if throughput and throughput['in_flight'] > 0:
               alerts.append(f"Atlas Research #514 now shows {throughput['in_flight']} in-flight job(s).")
-          if high_value:
-              alerts.append('The public Open board exposes one or more visible amounts >= $40: ' + ', '.join(f'${x:.2f}' for x in high_value))
+          for job in qualified:
+              alerts.append(
+                  f"Qualified t2000 Open job: ${job['price']:.2f} | {job['title']} | {job['url']} | "
+                  f"matches: {', '.join(job['keyword_hits'])}"
+              )
 
           with open('/tmp/alert.txt', 'w') as f:
               f.write('\n'.join(alerts))
