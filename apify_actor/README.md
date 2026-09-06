@@ -1,6 +1,6 @@
 # Website Contact + Tech Snapshot — $1 / 1,000 successful audits
 
-**Enrich a public website from one lightweight HTTP request.** Submit up to 500 public HTTP/HTTPS URLs and receive one deterministic JSON record per unique URL with public contact signals, social profiles, technology fingerprints, metadata, structured-data signals, forms, redirects, server information, and common security-header presence.
+**Enrich a public website from a lightweight homepage fetch.** Submit up to 500 public HTTP/HTTPS URLs and receive one deterministic JSON record per unique URL with public contact signals, social profiles, technology fingerprints, metadata, structured-data signals, forms, redirects, server information, and common security-header presence. Redirects and configured transient retries can result in more than one HTTP request for a URL.
 
 Built for **lead enrichment, agency research, CRM preprocessing, technology discovery, and API/agent workflows** where a multi-page or browser crawl would add cost without being necessary.
 
@@ -88,7 +88,7 @@ The price shown in Apify Console is authoritative. Monetization configuration mu
 
 This is an evidence-based snapshot, not a full crawler or a BuiltWith-style historical database. Technology detection uses fingerprints observable in the returned HTML. It may miss server-side, dynamically injected, deliberately hidden, or page-specific technologies. A matching asset or string can occasionally create a false positive.
 
-Contact extraction is limited to the fetched page in this validation version. It does not follow contact/about/team pages. JavaScript-only content may not be visible because the Actor deliberately uses a standard HTTP request rather than a browser.
+Contact extraction is limited to the fetched page in this validation version. It does not follow contact/about/team pages. JavaScript-only content may not be visible because the Actor deliberately uses standard HTTP fetching rather than a browser.
 
 ## Reliability and safety controls
 
