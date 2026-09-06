@@ -1,6 +1,15 @@
 {
   "urls": [
     "https://example.com",
-    "http://127.0.0.1"
+    "https://www.wordpress.org",
+    "https://www.shopify.com",
+    "https://www.wix.com",
+    "https://httpbin.org/redirect/1",
+    "https://httpbin.org/status/404",
+    "https://httpbin.org/json",
+    "https://example.com",
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://10.0.0.1"
   ]
 }
