@@ -19,7 +19,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
-      - name: Bootstrap Apify OAuth device authorization securely
+      - name: Request Apify OAuth device authorization
         shell: bash
         run: |
           set -euo pipefail
@@ -40,17 +40,12 @@ jobs:
           -----END PUBLIC KEY-----
           PUB
           python - <<'PY'
-          import json, os, subprocess, time, urllib.request, urllib.parse, urllib.error
-
+          import json, os, subprocess, urllib.request, urllib.parse
           REG='https://console-backend.apify.com/oauth/apps'
           DEV='https://console-backend.apify.com/oauth/apps/devices'
-          TOK='https://console-backend.apify.com/oauth/apps/token'
-
           def post_json(url,obj):
-              req=urllib.request.Request(url,data=json.dumps(obj).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
-              with urllib.request.urlopen(req,timeout=20) as r:
-                  return r.status,json.loads(r.read().decode())
-
+              req=urllib.request.Request(url,data=json.dumps(obj).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'apify-device-bootstrap/2'},method='POST')
+              with urllib.request.urlopen(req,timeout=20) as r: return r.status,json.loads(r.read().decode())
           status,reg=post_json(REG,{
               'client_name':'ChatGPT GitHub Actions Apify Bootstrap',
               'redirect_uris':['https://github.com/prins1bap-ui/rustchain-bounty-work'],
@@ -59,52 +54,65 @@ jobs:
               'token_endpoint_auth_method':'none',
               'scope':'full_api_access',
           })
-          if status not in (200,201) or not reg.get('client_id'):
-              print('BOOTSTRAP_DCR_FAILED'); raise SystemExit(20)
-          client_id=reg['client_id']
+          client_id=reg.get('client_id')
+          if status not in (200,201) or not client_id: raise SystemExit('DCR_FAILED')
           form=urllib.parse.urlencode({'client_id':client_id,'scope':'full_api_access'}).encode()
-          req=urllib.request.Request(DEV,data=form,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
-          with urllib.request.urlopen(req,timeout=20) as r:
-              dev=json.loads(r.read().decode())
-          device_code=dev.get('device_code')
-          verification=dev.get('verification_uri_complete') or dev.get('verification_uri')
-          user_code=dev.get('user_code')
-          if not device_code or not verification:
-              print('BOOTSTRAP_DEVICE_REQUEST_FAILED'); raise SystemExit(21)
-          handoff={'verification_uri':verification,'user_code':user_code,'expires_in':dev.get('expires_in'),'interval':dev.get('interval')}
-          raw=json.dumps(handoff,separators=(',',':')).encode()
-          open('/tmp/handoff.json','wb').write(raw)
-          subprocess.run(['openssl','pkeyutl','-encrypt','-pubin','-inkey','/tmp/handoff_pub.pem','-in','/tmp/handoff.json','-out','/tmp/handoff.bin','-pkeyopt','rsa_padding_mode:oaep','-pkeyopt','rsa_oaep_md:sha256'],check=True)
-          enc=subprocess.check_output(['base64','-w0','/tmp/handoff.bin']).decode()
-          print('APIFY_DEVICE_HANDOFF_RSA_OAEP_SHA256='+enc,flush=True)
-          print('APIFY_DEVICE_AUTHORIZATION_WAITING',flush=True)
+          req=urllib.request.Request(DEV,data=form,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/2'},method='POST')
+          with urllib.request.urlopen(req,timeout=20) as r: dev=json.loads(r.read().decode())
+          device_code=dev.get('device_code'); verification=dev.get('verification_uri_complete') or dev.get('verification_uri')
+          if not device_code or not verification: raise SystemExit('DEVICE_REQUEST_FAILED')
+          for value in (device_code, reg.get('client_secret')):
+              if value: print('::add-mask::'+value)
+          env=os.environ['GITHUB_ENV']
+          with open(env,'a',encoding='utf-8') as f:
+              f.write('APIFY_OAUTH_CLIENT_ID='+client_id+'\n')
+              f.write('APIFY_OAUTH_DEVICE_CODE='+device_code+'\n')
+              f.write('APIFY_OAUTH_INTERVAL='+str(max(5,int(dev.get('interval') or 5)))+'\n')
+              f.write('APIFY_OAUTH_EXPIRES_IN='+str(int(dev.get('expires_in') or 300))+'\n')
+              if reg.get('client_secret'): f.write('APIFY_OAUTH_CLIENT_SECRET='+reg['client_secret']+'\n')
+          handoff={'verification_uri':verification,'user_code':dev.get('user_code'),'expires_in':dev.get('expires_in')}
+          open('/tmp/handoff.json','wb').write(json.dumps(handoff,separators=(',',':')).encode())
+          subprocess.run(['openssl','pkeyutl','-encrypt','-pubin','-inkey','/tmp/handoff_pub.pem','-in','/tmp/handoff.json','-out','apify-device-handoff.enc','-pkeyopt','rsa_padding_mode:oaep','-pkeyopt','rsa_oaep_md:sha256'],check=True)
+          print('APIFY_DEVICE_HANDOFF_READY')
+          PY
 
-          interval=max(5,int(dev.get('interval') or 5))
-          deadline=time.time()+int(dev.get('expires_in') or 300)
+      - name: Upload encrypted device handoff
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-device-handoff-encrypted
+          path: apify-device-handoff.enc
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+      - name: Wait for Apify account-owner authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, time, urllib.request, urllib.parse, urllib.error
+          TOK='https://console-backend.apify.com/oauth/apps/token'
+          client_id=os.environ['APIFY_OAUTH_CLIENT_ID']; device_code=os.environ['APIFY_OAUTH_DEVICE_CODE']
+          secret=os.environ.get('APIFY_OAUTH_CLIENT_SECRET',''); interval=int(os.environ.get('APIFY_OAUTH_INTERVAL','5'))
+          deadline=time.time()+int(os.environ.get('APIFY_OAUTH_EXPIRES_IN','300'))
           token=None
           while time.time()<deadline:
-              payload={'grant_type':'urn:ietf:params:oauth:grant-type:device_code','device_code':device_code,'client_id':client_id}
-              if reg.get('client_secret'):
-                  payload['client_secret']=reg['client_secret']
-              data=urllib.parse.urlencode(payload).encode()
-              treq=urllib.request.Request(TOK,data=data,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
+              p={'grant_type':'urn:ietf:params:oauth:grant-type:device_code','device_code':device_code,'client_id':client_id}
+              if secret: p['client_secret']=secret
+              req=urllib.request.Request(TOK,data=urllib.parse.urlencode(p).encode(),headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/2'},method='POST')
               try:
-                  with urllib.request.urlopen(treq,timeout=20) as r:
-                      tres=json.loads(r.read().decode())
-                      token=tres.get('access_token')
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      out=json.loads(r.read().decode()); token=out.get('access_token')
                       if token: break
               except urllib.error.HTTPError as e:
                   try: err=json.loads(e.read().decode()).get('error')
                   except Exception: err='unknown'
                   if err=='slow_down': interval+=5
-                  elif err not in ('authorization_pending','slow_down'):
-                      print('APIFY_DEVICE_TOKEN_TERMINAL_ERROR='+str(err)); raise SystemExit(22)
+                  elif err not in ('authorization_pending','slow_down'): raise SystemExit('TOKEN_TERMINAL_'+str(err))
               time.sleep(interval)
-          if not token:
-              print('APIFY_DEVICE_AUTHORIZATION_EXPIRED'); raise SystemExit(23)
+          if not token: raise SystemExit('DEVICE_AUTHORIZATION_EXPIRED')
           print('::add-mask::'+token)
-          with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as f:
-              f.write('APIFY_TOKEN='+token+'\n')
+          with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as f: f.write('APIFY_TOKEN='+token+'\n')
           print('APIFY_DEVICE_AUTHORIZATION_SUCCEEDED')
           PY
 
