@@ -1,0 +1,119 @@
+name: Apify PPE QA Resume
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - '.github/workflows/apify-ppe-qa-resume.yml'
+      - 'ops/apify_configure_ppe.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resume:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Request Apify OAuth device authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, urllib.request, urllib.parse
+          REG='https://console-backend.apify.com/oauth/apps'
+          DEV='https://console-backend.apify.com/oauth/apps/devices'
+          def post_json(url,obj):
+              req=urllib.request.Request(url,data=json.dumps(obj).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'apify-ppe-qa-resume/1'},method='POST')
+              with urllib.request.urlopen(req,timeout=20) as r: return r.status,json.loads(r.read().decode())
+          status,reg=post_json(REG,{
+              'client_name':'ChatGPT GitHub Actions Apify PPE QA Resume',
+              'redirect_uris':['https://github.com/prins1bap-ui/rustchain-bounty-work'],
+              'grant_types':['urn:ietf:params:oauth:grant-type:device_code','refresh_token'],
+              'response_types':[],
+              'token_endpoint_auth_method':'none',
+              'scope':'full_api_access',
+          })
+          client_id=reg.get('client_id')
+          if status not in (200,201) or not client_id: raise SystemExit('DCR_FAILED')
+          form=urllib.parse.urlencode({'client_id':client_id,'scope':'full_api_access'}).encode()
+          req=urllib.request.Request(DEV,data=form,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-ppe-qa-resume/1'},method='POST')
+          with urllib.request.urlopen(req,timeout=20) as r: dev=json.loads(r.read().decode())
+          device_code=dev.get('device_code'); verification=dev.get('verification_uri_complete') or dev.get('verification_uri')
+          if not device_code or not verification: raise SystemExit('DEVICE_REQUEST_FAILED')
+          for value in (device_code, reg.get('client_secret')):
+              if value: print('::add-mask::'+value)
+          with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as f:
+              f.write('APIFY_OAUTH_CLIENT_ID='+client_id+'\n')
+              f.write('APIFY_OAUTH_DEVICE_CODE='+device_code+'\n')
+              f.write('APIFY_OAUTH_INTERVAL='+str(max(5,int(dev.get('interval') or 5)))+'\n')
+              f.write('APIFY_OAUTH_EXPIRES_IN='+str(int(dev.get('expires_in') or 300))+'\n')
+              if reg.get('client_secret'): f.write('APIFY_OAUTH_CLIENT_SECRET='+reg['client_secret']+'\n')
+          with open('apify-device-handoff.json','w',encoding='utf-8') as f:
+              json.dump({'verification_uri':verification,'user_code':dev.get('user_code'),'expires_in':dev.get('expires_in') or 300},f,separators=(',',':'))
+          print('APIFY_DEVICE_AUTHORIZATION_WAITING')
+          PY
+
+      - name: Upload short-lived approval handoff
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-ppe-qa-approval-handoff
+          path: apify-device-handoff.json
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+      - name: Wait for Apify account-owner authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, time, urllib.request, urllib.parse, urllib.error
+          TOK='https://console-backend.apify.com/oauth/apps/token'
+          client_id=os.environ['APIFY_OAUTH_CLIENT_ID']; device_code=os.environ['APIFY_OAUTH_DEVICE_CODE']
+          secret=os.environ.get('APIFY_OAUTH_CLIENT_SECRET',''); interval=int(os.environ.get('APIFY_OAUTH_INTERVAL','5'))
+          deadline=time.time()+int(os.environ.get('APIFY_OAUTH_EXPIRES_IN','300'))
+          token=None
+          while time.time()<deadline:
+              p={'grant_type':'urn:ietf:params:oauth:grant-type:device_code','device_code':device_code,'client_id':client_id}
+              if secret: p['client_secret']=secret
+              req=urllib.request.Request(TOK,data=urllib.parse.urlencode(p).encode(),headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-ppe-qa-resume/1'},method='POST')
+              try:
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      out=json.loads(r.read().decode()); token=out.get('access_token')
+                      if token: break
+              except urllib.error.HTTPError as e:
+                  try: err=json.loads(e.read().decode()).get('error')
+                  except Exception: err='unknown'
+                  if err=='slow_down': interval+=5
+                  elif err not in ('authorization_pending','slow_down'): raise SystemExit('TOKEN_TERMINAL_'+str(err))
+              time.sleep(interval)
+          if not token: raise SystemExit('DEVICE_AUTHORIZATION_EXPIRED')
+          print('::add-mask::'+token)
+          with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as f: f.write('APIFY_TOKEN='+token+'\n')
+          print('APIFY_DEVICE_AUTHORIZATION_SUCCEEDED')
+          PY
+
+      - name: Configure exact PPE contract without billing or legal changes
+        run: python ops/apify_configure_ppe.py
+
+      - name: Run bounded cloud QA
+        env:
+          APIFY_CLOUD_QA: '1'
+        run: python ops/apify_cloud_qa.py
+
+      - name: Upload sanitized results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-ppe-qa-sanitized-results
+          path: |
+            apify_configure_ppe_result.json
+            apify_cloud_qa_result.json
+          if-no-files-found: ignore
+          retention-days: 3
