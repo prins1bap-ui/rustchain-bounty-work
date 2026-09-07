@@ -1,0 +1,80 @@
+name: Apify Device Flow Contract Probe
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - '.github/workflows/apify-device-flow-contract-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Register ephemeral OAuth client and probe device flow
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.request, urllib.parse, urllib.error
+
+          REG='https://console-backend.apify.com/oauth/apps'
+          DEV='https://console-backend.apify.com/oauth/apps/devices'
+          body={
+            'client_name':'github-actions-apify-device-contract-probe',
+            'redirect_uris':['https://github.com/prins1bap-ui/rustchain-bounty-work'],
+            'grant_types':['urn:ietf:params:oauth:grant-type:device_code','refresh_token'],
+            'response_types':[],
+            'token_endpoint_auth_method':'none',
+            'scope':'full_api_access',
+          }
+          req=urllib.request.Request(REG,data=json.dumps(body).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'apify-device-contract-probe/1'},method='POST')
+          try:
+            with urllib.request.urlopen(req,timeout=20) as r:
+              reg=json.loads(r.read().decode())
+              print('registration_http',r.status)
+          except urllib.error.HTTPError as e:
+            print('registration_http',e.code)
+            print('registration_failed')
+            raise SystemExit(0)
+          print('registration_keys',sorted(k for k in reg.keys() if k not in {'client_secret','registration_access_token'}))
+          client_id=reg.get('client_id')
+          if not client_id:
+            print('client_id_present',False); raise SystemExit(0)
+          print('client_id_present',True)
+          form=urllib.parse.urlencode({'client_id':client_id,'scope':'full_api_access'}).encode()
+          dreq=urllib.request.Request(DEV,data=form,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-contract-probe/1'},method='POST')
+          try:
+            with urllib.request.urlopen(dreq,timeout=20) as r:
+              dev=json.loads(r.read().decode())
+              print('device_http',r.status)
+          except urllib.error.HTTPError as e:
+            print('device_http',e.code)
+            dev={}
+          print('device_keys',sorted(dev.keys()))
+          print('verification_uri_present',bool(dev.get('verification_uri') or dev.get('verification_url')))
+          print('verification_uri_complete_present',bool(dev.get('verification_uri_complete')))
+          print('user_code_present',bool(dev.get('user_code')))
+          print('device_code_present',bool(dev.get('device_code')))
+          print('expires_in',dev.get('expires_in'))
+          print('interval',dev.get('interval'))
+
+          # Best-effort cleanup of the ephemeral DCR client if the server supplied RFC 7591
+          # registration management credentials. Never print those credentials.
+          uri=reg.get('registration_client_uri')
+          rat=reg.get('registration_access_token')
+          if uri and rat:
+            try:
+              creq=urllib.request.Request(uri,headers={'Authorization':'Bearer '+rat,'User-Agent':'apify-device-contract-probe/1'},method='DELETE')
+              with urllib.request.urlopen(creq,timeout=20) as r:
+                print('registration_cleanup_http',r.status)
+            except urllib.error.HTTPError as e:
+              print('registration_cleanup_http',e.code)
+          else:
+            print('registration_cleanup_supported',False)
+          PY
