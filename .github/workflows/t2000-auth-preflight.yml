@@ -1,0 +1,31 @@
+name: t2000 Auth Preflight
+
+on:
+  push:
+    paths:
+      - '.github/workflows/t2000-auth-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for existing persistent t2000 auth material
+        shell: bash
+        env:
+          HAS_WALLET_KEY: ${{ secrets.T2000_WALLET_KEY != '' }}
+          HAS_BEARER_TOKEN: ${{ secrets.T2000_BEARER_TOKEN != '' }}
+          HAS_PASSPORT_TOKEN: ${{ secrets.T2000_PASSPORT_TOKEN != '' }}
+        run: |
+          set -euo pipefail
+          printf 'T2000_WALLET_KEY_present=%s\n' "$HAS_WALLET_KEY"
+          printf 'T2000_BEARER_TOKEN_present=%s\n' "$HAS_BEARER_TOKEN"
+          printf 'T2000_PASSPORT_TOKEN_present=%s\n' "$HAS_PASSPORT_TOKEN"
+          if [ "$HAS_WALLET_KEY" = "true" ] || [ "$HAS_BEARER_TOKEN" = "true" ] || [ "$HAS_PASSPORT_TOKEN" = "true" ]; then
+            echo 'persistent_auth_available=true'
+          else
+            echo 'persistent_auth_available=false'
+          fi
