@@ -32,7 +32,7 @@ def request_json(method: str, path: str, token: str, body=None):
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {token}",
-        "User-Agent": "apify-cloud-qa/0.1",
+        "User-Agent": "apify-cloud-qa/0.2",
     }
     if body is not None:
         data = json.dumps(body).encode("utf-8")
@@ -139,7 +139,6 @@ def wait_run(run: dict, token: str, calls: int):
             return None, calls, polls, http
         run = payload.get("data") or {}
         status = run.get("status")
-    # Completed-run cost/event aggregates are eventually consistent. Re-read after 10s.
     if run_id and status in TERMINAL_RUN_STATUSES:
         time.sleep(10)
         http, payload = request_json("GET", f"/v2/actor-runs/{urllib.parse.quote(run_id, safe='')}", token)
@@ -152,8 +151,6 @@ def wait_run(run: dict, token: str, calls: int):
 
 
 def run_case(actor_id: str, token: str, input_payload: dict, calls: int):
-    # One successful audit costs exactly $0.001 under the verified PPE contract.
-    # This ceiling also prevents any accidental extra chargeable event from being accepted.
     path = (
         f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}/runs"
         "?build=latest&memory=128&timeout=120&maxTotalChargeUsd=0.001&waitForFinish=60"
@@ -198,17 +195,29 @@ def main() -> int:
             "message": "No APIFY_TOKEN was available. No Apify request was attempted.",
         })
 
-    actor_ref = urllib.parse.quote(ACTOR_NAME, safe="")
-    http, payload = request_json("GET", f"/v2/actors/{actor_ref}", token)
+    # Bare Actor names are not valid authenticated Actor identifiers for GET /actors/{actorId}.
+    # Discover owned Actors first, prevent duplicates, then re-read the exact Actor by ID.
+    http, payload = request_json("GET", "/v2/actors?my=1&limit=1000&desc=1", token)
     calls = 1
     if http != 200:
-        return emit({"status": "ACTOR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 0}, 1)
-    actor = payload.get("data") or {}
-    actor_id = actor.get("id")
+        return emit({"status": "ACTOR_INVENTORY_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 0}, 1)
+    items = (payload.get("data") or {}).get("items") or []
+    matches = [item for item in items if item.get("name") == ACTOR_NAME]
+    if len(matches) == 0:
+        return emit({"status": "ACTOR_NOT_FOUND", "network_calls_made": calls, "run_requests_made": 0}, 2)
+    if len(matches) > 1:
+        return emit({"status": "DUPLICATE_ACTOR_BLOCKED", "network_calls_made": calls, "run_requests_made": 0, "matching_actor_count": len(matches)}, 3)
+    actor_id = matches[0].get("id")
     if not actor_id:
-        return emit({"status": "ACTOR_ID_MISSING", "network_calls_made": calls, "run_requests_made": 0}, 2)
+        return emit({"status": "ACTOR_ID_MISSING", "network_calls_made": calls, "run_requests_made": 0}, 4)
+
+    http, payload = request_json("GET", f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}", token)
+    calls += 1
+    if http != 200:
+        return emit({"status": "ACTOR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 0, "actor_id": actor_id}, 5)
+    actor = payload.get("data") or {}
     if actor.get("isPublic") is not False:
-        return emit({"status": "PRIVATE_ACTOR_GATE_BLOCKED", "network_calls_made": calls, "run_requests_made": 0, "actor_id": actor_id}, 3)
+        return emit({"status": "PRIVATE_ACTOR_GATE_BLOCKED", "network_calls_made": calls, "run_requests_made": 0, "actor_id": actor_id}, 6)
 
     pricing_ok, pricing = pricing_gate(actor)
     if not pricing_ok:
@@ -218,7 +227,7 @@ def main() -> int:
             "run_requests_made": 0,
             "actor_id": actor_id,
             "pricing": pricing,
-        }, 4)
+        }, 7)
 
     if not execute:
         return emit({
@@ -230,24 +239,23 @@ def main() -> int:
         })
 
     cases = []
-
     valid, calls, http = run_case(actor_id, token, {"urls": ["https://example.com"]}, calls)
     if http != 200 or not valid:
-        return emit({"status": "VALID_QA_RUN_START_OR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 1, "pricing": pricing}, 5)
+        return emit({"status": "VALID_QA_RUN_START_OR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 1, "pricing": pricing}, 8)
     cases.append({"name": "valid_html", "run": safe_run_summary(valid)})
 
     valid_counts = valid.get("chargedEventCounts") or {}
     if valid.get("status") != "SUCCEEDED" or valid_counts.get(EXPECTED_EVENT) != 1:
-        return emit({"status": "VALID_QA_CHARGE_BOUNDARY_FAILED", "network_calls_made": calls, "run_requests_made": 1, "pricing": pricing, "cases": cases}, 6)
+        return emit({"status": "VALID_QA_CHARGE_BOUNDARY_FAILED", "network_calls_made": calls, "run_requests_made": 1, "pricing": pricing, "cases": cases}, 9)
 
     invalid, calls, http = run_case(actor_id, token, {"urls": ["http://127.0.0.1"]}, calls)
     if http != 200 or not invalid:
-        return emit({"status": "INVALID_QA_RUN_START_OR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 2, "pricing": pricing, "cases": cases}, 7)
+        return emit({"status": "INVALID_QA_RUN_START_OR_READ_FAILED", "http_status": http, "network_calls_made": calls, "run_requests_made": 2, "pricing": pricing, "cases": cases}, 10)
     cases.append({"name": "blocked_private_ip", "run": safe_run_summary(invalid)})
 
     invalid_counts = invalid.get("chargedEventCounts") or {}
     if invalid_counts.get(EXPECTED_EVENT, 0) != 0:
-        return emit({"status": "INVALID_QA_WAS_CHARGED", "network_calls_made": calls, "run_requests_made": 2, "pricing": pricing, "cases": cases}, 8)
+        return emit({"status": "INVALID_QA_WAS_CHARGED", "network_calls_made": calls, "run_requests_made": 2, "pricing": pricing, "cases": cases}, 11)
 
     valid_usage = dec(valid.get("usageTotalUsd")) or Decimal("0")
     invalid_usage = dec(invalid.get("usageTotalUsd")) or Decimal("0")
