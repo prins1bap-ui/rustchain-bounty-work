@@ -1,0 +1,33 @@
+name: Freelancer Bid Bridge Preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile bridge
+        run: python -m py_compile ops/freelancer_bid_bridge.py
+      - name: Install official Freelancer SDK
+        run: python -m pip install -r ops/freelancer_requirements.txt
+      - name: Verify fail-closed auth guard
+        run: |
+          set +e
+          output=$(env -u FLN_OAUTH_TOKEN python ops/freelancer_bid_bridge.py \
+            --project-id 40688162 \
+            --amount 15000 \
+            --period 4 \
+            --description-file ops/freelancer_oem_part_verification_bid.txt 2>&1)
+          code=$?
+          set -e
+          echo "$output"
+          test "$code" -ne 0
+          echo "$output" | grep -q 'FLN_OAUTH_TOKEN is not set'
