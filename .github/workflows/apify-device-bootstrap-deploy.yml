@@ -1,0 +1,130 @@
+name: Apify Device Bootstrap Deploy
+
+on:
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - '.github/workflows/apify-device-bootstrap-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Bootstrap Apify OAuth device authorization securely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/handoff_pub.pem <<'PUB'
+          -----BEGIN PUBLIC KEY-----
+          MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAq1jQfrb7M4Z0kMDwDyr3
+          z9sVVxoDp+yw6nWQ7MLzVy35mlvAtGLDAz9mYNaACOx9rLeb380SPCVgl0n5svRk
+          olmTC1dZldDSD43UEF84xqSbIRfwWdGSuQVNmJ9HV9TjEvNK7paFI5NepGQPjd1B
+          GKYZf+n6QFlumTmNjZKespe2mabrxoAPPPdr/60p5dcbJQUmNu2M47l1hR1RgkwD
+          V7bX9OBNcRFLrALsMa7dC4OP37LeF8oKftNHb6rTBlc3Gk9UHV71Cb3C7RTP6bH1
+          t/a0uUSiEt3mf8+jFu8O25eiyZtGZi7XE/TpM1dPKPGFb8Q7oaqpDw1hH+DvXb7z
+          hQVEKWNK/ytMuwufWM+80qPhS+Zg4rrhh4awrFfAYb5zlihe1AXmdl2mahcZ9kj/
+          B94GhGcVtVAwThodg5uSepv9vWJdWXK2GPw3HOtpgya6QTxZrzE0yRj+K/A1YI2c
+          rg64mrzXkllsoECJyZVaY/iPM0oPMii8Y+8k4rlhF30MoUvYefmmFyv+cERuD3sZ
+          FJ3nTJ+5x7PFIzTnBbfCwF2DVjmXPuQ8Is8hk/LbJ4a/1VfBT14N1Tft6WJWThZF
+          9E6zwpjJZI5pnIIR75tYVPvseI/ZByu+7G4QRkH1s19wg1rBU/jwREldNByQNeLE
+          A2hI81TvZSSid9ElP5bPsssCAwEAAQ==
+          -----END PUBLIC KEY-----
+          PUB
+          python - <<'PY'
+          import json, os, subprocess, time, urllib.request, urllib.parse, urllib.error
+
+          REG='https://console-backend.apify.com/oauth/apps'
+          DEV='https://console-backend.apify.com/oauth/apps/devices'
+          TOK='https://console-backend.apify.com/oauth/apps/token'
+
+          def post_json(url,obj):
+              req=urllib.request.Request(url,data=json.dumps(obj).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
+              with urllib.request.urlopen(req,timeout=20) as r:
+                  return r.status,json.loads(r.read().decode())
+
+          status,reg=post_json(REG,{
+              'client_name':'ChatGPT GitHub Actions Apify Bootstrap',
+              'redirect_uris':['https://github.com/prins1bap-ui/rustchain-bounty-work'],
+              'grant_types':['urn:ietf:params:oauth:grant-type:device_code','refresh_token'],
+              'response_types':[],
+              'token_endpoint_auth_method':'none',
+              'scope':'full_api_access',
+          })
+          if status not in (200,201) or not reg.get('client_id'):
+              print('BOOTSTRAP_DCR_FAILED'); raise SystemExit(20)
+          client_id=reg['client_id']
+          form=urllib.parse.urlencode({'client_id':client_id,'scope':'full_api_access'}).encode()
+          req=urllib.request.Request(DEV,data=form,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
+          with urllib.request.urlopen(req,timeout=20) as r:
+              dev=json.loads(r.read().decode())
+          device_code=dev.get('device_code')
+          verification=dev.get('verification_uri_complete') or dev.get('verification_uri')
+          user_code=dev.get('user_code')
+          if not device_code or not verification:
+              print('BOOTSTRAP_DEVICE_REQUEST_FAILED'); raise SystemExit(21)
+          handoff={'verification_uri':verification,'user_code':user_code,'expires_in':dev.get('expires_in'),'interval':dev.get('interval')}
+          raw=json.dumps(handoff,separators=(',',':')).encode()
+          open('/tmp/handoff.json','wb').write(raw)
+          subprocess.run(['openssl','pkeyutl','-encrypt','-pubin','-inkey','/tmp/handoff_pub.pem','-in','/tmp/handoff.json','-out','/tmp/handoff.bin','-pkeyopt','rsa_padding_mode:oaep','-pkeyopt','rsa_oaep_md:sha256'],check=True)
+          enc=subprocess.check_output(['base64','-w0','/tmp/handoff.bin']).decode()
+          print('APIFY_DEVICE_HANDOFF_RSA_OAEP_SHA256='+enc,flush=True)
+          print('APIFY_DEVICE_AUTHORIZATION_WAITING',flush=True)
+
+          interval=max(5,int(dev.get('interval') or 5))
+          deadline=time.time()+int(dev.get('expires_in') or 300)
+          token=None
+          while time.time()<deadline:
+              payload={'grant_type':'urn:ietf:params:oauth:grant-type:device_code','device_code':device_code,'client_id':client_id}
+              if reg.get('client_secret'):
+                  payload['client_secret']=reg['client_secret']
+              data=urllib.parse.urlencode(payload).encode()
+              treq=urllib.request.Request(TOK,data=data,headers={'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','User-Agent':'apify-device-bootstrap/1'},method='POST')
+              try:
+                  with urllib.request.urlopen(treq,timeout=20) as r:
+                      tres=json.loads(r.read().decode())
+                      token=tres.get('access_token')
+                      if token: break
+              except urllib.error.HTTPError as e:
+                  try: err=json.loads(e.read().decode()).get('error')
+                  except Exception: err='unknown'
+                  if err=='slow_down': interval+=5
+                  elif err not in ('authorization_pending','slow_down'):
+                      print('APIFY_DEVICE_TOKEN_TERMINAL_ERROR='+str(err)); raise SystemExit(22)
+              time.sleep(interval)
+          if not token:
+              print('APIFY_DEVICE_AUTHORIZATION_EXPIRED'); raise SystemExit(23)
+          print('::add-mask::'+token)
+          with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as f:
+              f.write('APIFY_TOKEN='+token+'\n')
+          print('APIFY_DEVICE_AUTHORIZATION_SUCCEEDED')
+          PY
+
+      - name: Run zero-spend gate and private deployment
+        env:
+          APIFY_DEPLOY: '1'
+        run: python ops/apify_controlled_deploy.py
+
+      - name: Run bounded cloud QA after successful build
+        env:
+          APIFY_CLOUD_QA: '1'
+        run: python ops/apify_cloud_qa.py
+
+      - name: Upload sanitized results only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-device-bootstrap-sanitized-results
+          path: |
+            apify_controlled_deploy_result.json
+            apify_cloud_qa_result.json
+          if-no-files-found: ignore
+          retention-days: 3
