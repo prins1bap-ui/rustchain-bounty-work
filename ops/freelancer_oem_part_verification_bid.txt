@@ -1,0 +1,7 @@
+I can complete this as a verification-first data project, not as a blind scrape.
+
+For each marketplace URL, I will research the missing OEM part number against the strongest available source, cross-check the number against the manufacturer’s format, and return a clean structured sheet with the verified part number, source-of-truth note, and supporting evidence link where available.
+
+I will explicitly exclude placeholders, duplicate codes, and uncertain matches rather than force a result. The workflow is designed around your 95%+ spot-check acceptance requirement and can use manufacturer catalogues, official PDFs, trusted storefront cross-references, and the contextual clues already present in each listing.
+
+I can also document any repeatable lookup patterns discovered during the batch so future verification can be accelerated without lowering accuracy.
