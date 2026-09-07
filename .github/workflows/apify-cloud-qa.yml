@@ -1,0 +1,45 @@
+name: Apify Cloud QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      execute_qa:
+        description: 'Run bounded private cloud QA after PPE/privacy gates pass'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches:
+      - apify-bridge-20260902
+    paths:
+      - 'ops/apify_cloud_qa.py'
+      - '.github/workflows/apify-cloud-qa.yml'
+
+permissions:
+  contents: read
+
+env:
+  APIFY_CLOUD_QA: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_qa && '1' || '0' }}
+
+jobs:
+  cloud-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Execute fail-closed cloud QA gate
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          python ops/apify_cloud_qa.py
+
+      - name: Upload sanitized cloud QA result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: apify-cloud-qa-result
+          path: apify_cloud_qa_result.json
+          if-no-files-found: warn
+          retention-days: 3
