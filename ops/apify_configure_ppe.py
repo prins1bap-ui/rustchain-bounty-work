@@ -13,6 +13,7 @@ ACTOR_NAME = "website-tech-contact-snapshot"
 RESULT_PATH = "apify_configure_ppe_result.json"
 EXPECTED_EVENT = "website-audit"
 EXPECTED_PRICE = Decimal("0.001")
+PAYOUT_BLOCKER = "cannot-monetize-without-payout-billing-info"
 
 
 def emit(payload: dict, code: int = 0) -> int:
@@ -127,6 +128,17 @@ def main() -> int:
     http, upp = request_json("PUT", f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}", token, body); calls += 1
     if http not in {200, 201}:
         err = (upp.get("error") or {}).get("type")
+        if err == PAYOUT_BLOCKER:
+            return emit({
+                "status": "PAYOUT_BILLING_INFO_REQUIRED",
+                "actor_id": actor_id,
+                "http_status": http,
+                "error_type": err,
+                "network_calls_made": calls,
+                "billing": billing,
+                "legal_or_payment_action_attempted": False,
+                "message": "Apify refuses monetization until payout billing details are completed. No billing, payout, KYC, legal, or payment-setting change was attempted."
+            }, 12)
         return emit({"status": "PPE_CONFIGURATION_BLOCKED", "actor_id": actor_id, "http_status": http,
                      "error_type": err, "network_calls_made": calls, "billing": billing,
                      "legal_or_payment_action_attempted": False}, 8)
