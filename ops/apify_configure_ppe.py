@@ -26,7 +26,7 @@ def emit(payload: dict, code: int = 0) -> int:
 
 def request_json(method: str, path: str, token: str, body=None):
     data = None
-    headers = {"Accept": "application/json", "Authorization": f"Bearer {token}", "User-Agent": "apify-ppe-config/0.1"}
+    headers = {"Accept": "application/json", "Authorization": f"Bearer {token}", "User-Agent": "apify-ppe-config/0.2"}
     if body is not None:
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
@@ -70,9 +70,11 @@ def main() -> int:
     http, limp = request_json("GET", "/v2/users/me/limits", token); calls += 1
     if http != 200:
         return emit({"status": "LIMITS_READ_FAILED", "http_status": http, "network_calls_made": calls}, 2)
-    limits = limp.get("data") or {}
+    limits_payload = limp.get("data") or {}
+    limits = limits_payload.get("limits") or {}
+    current = limits_payload.get("current") or {}
     max_usage = dec(limits.get("maxMonthlyUsageUsd"))
-    current_usage = dec(limits.get("monthlyUsageUsd"))
+    current_usage = dec(current.get("monthlyUsageUsd"))
     base = dec(plan.get("monthlyBasePriceUsd"))
     credits = dec(plan.get("monthlyUsageCreditsUsd"))
     plan_id = str(plan.get("id") or "").upper()
@@ -125,7 +127,6 @@ def main() -> int:
     http, upp = request_json("PUT", f"/v2/actors/{urllib.parse.quote(actor_id, safe='')}", token, body); calls += 1
     if http not in {200, 201}:
         err = (upp.get("error") or {}).get("type")
-        # Fail closed on legal/payment prerequisites. Never attempt to change billing or accept terms here.
         return emit({"status": "PPE_CONFIGURATION_BLOCKED", "actor_id": actor_id, "http_status": http,
                      "error_type": err, "network_calls_made": calls, "billing": billing,
                      "legal_or_payment_action_attempted": False}, 8)
