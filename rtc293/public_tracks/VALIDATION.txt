@@ -1,0 +1,32 @@
+# #293 public-track validation
+
+Generated: 2026-09-08T14:40:02Z
+
+## antiquity_drive_128.ogg
+codec_name=vorbis
+sample_rate=48000
+channels=1
+duration=200.000000
+9c5369167f3bbe70f2c0e15303b8df21476f23702d41c3cde55f9c4190f3a32b  rtc293/public_tracks/antiquity_drive_128.ogg
+
+## block_pulse_120.ogg
+codec_name=vorbis
+sample_rate=48000
+channels=1
+duration=192.000000
+18d8785ae2d0ac9c91155520d42f2b1932520839d6653556cc9fd062fd4ffecc  rtc293/public_tracks/block_pulse_120.ogg
+
+## epoch_runner_110.ogg
+codec_name=vorbis
+sample_rate=48000
+channels=1
+duration=210.000000
+7a32fbf192cc9436b7057a4a513b634fe580b9ae84a0ef710e8d64e7514cfb27  rtc293/public_tracks/epoch_runner_110.ogg
+
+## neon_validator_132.ogg
+codec_name=vorbis
+sample_rate=48000
+channels=1
+duration=190.000000
+cfdafaffeed2dbd4213434444db122ebc4c06f90f175a9a96f25a5292fe23341  rtc293/public_tracks/neon_validator_132.ogg
+
