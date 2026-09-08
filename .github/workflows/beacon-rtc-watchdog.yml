@@ -27,5 +27,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check beacon-skill pytest
       - name: Compile
         run: python -m py_compile rtc_watchdog.py test_rtc_watchdog.py
-      - name: Test
-        run: pytest -q
+      - name: Assessment tests
+        run: pytest -q test_rtc_watchdog.py -k 'pending_inside_window or stale_pending or settled_rows or invalid_snapshot or invalid_pending'
+      - name: Serialization integration test
+        run: pytest -q test_rtc_watchdog.py -k 'run_once_serializes'
