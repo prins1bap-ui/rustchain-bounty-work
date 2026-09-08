@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "County Deed Extraction Record",
+  "type": "object",
+  "required": [
+    "county",
+    "state",
+    "deal_date",
+    "sale_price",
+    "mortgage_term",
+    "property_type",
+    "instrument_number",
+    "parcel_id",
+    "grantor",
+    "grantee",
+    "source_url",
+    "source_system",
+    "extraction_status",
+    "notes"
+  ],
+  "properties": {
+    "county": {"type": "string", "minLength": 1},
+    "state": {"type": "string", "minLength": 2},
+    "deal_date": {"type": ["string", "null"], "format": "date"},
+    "sale_price": {"type": ["number", "null"], "minimum": 0},
+    "mortgage_term": {"type": ["string", "null"]},
+    "property_type": {"type": ["string", "null"]},
+    "instrument_number": {"type": ["string", "null"]},
+    "parcel_id": {"type": ["string", "null"]},
+    "grantor": {"type": ["string", "null"]},
+    "grantee": {"type": ["string", "null"]},
+    "source_url": {"type": "string", "format": "uri"},
+    "source_system": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "type": "string",
+      "enum": ["ok", "partial", "needs_review", "unsupported"]
+    },
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}
