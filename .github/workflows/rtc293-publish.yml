@@ -1,0 +1,69 @@
+name: Publish held RTC #293 tracks
+
+on:
+  push:
+    paths:
+      - 'rtc293/generate_tracks.sh'
+      - 'rtc293/README.md'
+      - '.github/workflows/rtc293-publish.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ffmpeg tooling
+        run: |
+          ffmpeg -version | head -n 1
+          ffprobe -version | head -n 1
+
+      - name: Generate four public OGG tracks
+        run: bash rtc293/generate_tracks.sh
+
+      - name: Validate hard requirements
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, pathlib, sys
+          expected = {
+              'block_pulse_120.ogg': 192.0,
+              'antiquity_drive_128.ogg': 200.0,
+              'neon_validator_132.ogg': 190.0,
+              'epoch_runner_110.ogg': 210.0,
+          }
+          root = pathlib.Path('rtc293/public_tracks')
+          for name, duration in expected.items():
+              p = root / name
+              if not p.is_file():
+                  raise SystemExit(f'missing {p}')
+              data = json.loads(subprocess.check_output([
+                  'ffprobe','-v','error','-show_entries',
+                  'stream=codec_name,sample_rate,channels:format=duration',
+                  '-of','json',str(p)
+              ], text=True))
+              s = data['streams'][0]
+              got = float(data['format']['duration'])
+              assert s['codec_name'] == 'vorbis', (name, s)
+              assert s['sample_rate'] == '48000', (name, s)
+              assert s['channels'] == 1, (name, s)
+              assert abs(got-duration) < 0.02, (name, got, duration)
+              print(name, 'PASS', s['codec_name'], s['sample_rate'], s['channels'], got)
+          PY
+
+      - name: Commit generated public tracks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add rtc293/public_tracks
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Publish four held #293 music tracks'
+          git push
