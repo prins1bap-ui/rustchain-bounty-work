@@ -2,17 +2,22 @@ name: 747-live-issue-comment-verifier
 
 on:
   issue_comment:
-    types: [created]
+    types: [created, edited]
   workflow_dispatch:
 
 permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: 747-verifier-${{ github.repository }}-${{ github.event.issue.number || 'qa' }}
+  cancel-in-progress: false
+
 jobs:
   verify-comment:
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: 747-bounty-verification-bot
@@ -23,7 +28,7 @@ jobs:
           python-version: '3.12'
       - name: Offline QA
         run: python -m unittest discover -s tests -v
-      - name: Process triggering claim comment and post result
+      - name: Process triggering claim comment and post payout-inert diagnostic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTCHAIN_NODE_URL: https://rustchain.org
@@ -32,6 +37,7 @@ jobs:
   qa-only:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: 747-bounty-verification-bot
