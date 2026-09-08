@@ -43,7 +43,7 @@ jobs:
 
       - name: Commit snapshot if changed
         run: |
-          if git diff --quiet -- ops/wallet_snapshot.json; then
+          if [ -z "$(git status --porcelain -- ops/wallet_snapshot.json)" ]; then
             echo 'Wallet snapshot unchanged.'
             exit 0
           fi
