@@ -1,0 +1,348 @@
+{
+  "balance": {
+    "amount_i64": 671000000,
+    "amount_rtc": 671.0,
+    "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855"
+  },
+  "history": {
+    "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855",
+    "ok": true,
+    "total": 37,
+    "transactions": [
+      {
+        "amount": 1.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816249,
+        "tx_hash": "82affe12eb1bf3fc26710f2ecd7a4307",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816244,
+        "tx_hash": "d1d6809eb90722f08bb16536740aaabb",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816238,
+        "tx_hash": "98a64ff8ffe911a5fe6868bf9dac9161",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 10.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816232,
+        "tx_hash": "5fc3d5a8dee1c359d78e19f0952f64ae",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816095,
+        "tx_hash": "1dcd0f6a025175907c78fe1efaaca89f",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1788816089,
+        "tx_hash": "d7290dec31b26f4851a8cf49e3e535ef",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:6f62f0ae6c1e317037d0168d0fe050d1",
+        "timestamp": 1788743401,
+        "tx_hash": "6f62f0ae6c1e317037d0168d0fe050d1",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:fe3cb8f2c0002ba13725d3ffde182982",
+        "timestamp": 1788743401,
+        "tx_hash": "fe3cb8f2c0002ba13725d3ffde182982",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:e701d6c7c9aa367f033624699409d7e3",
+        "timestamp": 1788743401,
+        "tx_hash": "e701d6c7c9aa367f033624699409d7e3",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:6f4c4a45ba9664fbac5e8491138be32d",
+        "timestamp": 1788743401,
+        "tx_hash": "6f4c4a45ba9664fbac5e8491138be32d",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:2fef0619262bca1cb316bbaa497804e9",
+        "timestamp": 1788743401,
+        "tx_hash": "2fef0619262bca1cb316bbaa497804e9",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:9c5e4a1b05872abd1e8ed93f45a876bc",
+        "timestamp": 1788743401,
+        "tx_hash": "9c5e4a1b05872abd1e8ed93f45a876bc",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:970179b9d3784af420b8b3bc39167cb5",
+        "timestamp": 1788743401,
+        "tx_hash": "970179b9d3784af420b8b3bc39167cb5",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:1980dfa50494a2e4b189edcf261ff56b",
+        "timestamp": 1788743401,
+        "tx_hash": "1980dfa50494a2e4b189edcf261ff56b",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:4c51133203f21faf77c19244cefc60e9",
+        "timestamp": 1788743401,
+        "tx_hash": "4c51133203f21faf77c19244cefc60e9",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 7.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:4efd63002859fa3ba2cba908318c52ac",
+        "timestamp": 1788743401,
+        "tx_hash": "4efd63002859fa3ba2cba908318c52ac",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 40.0,
+        "epoch": 39916,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:e1deb1e2b6c5bedf8230645d754cd9bf",
+        "timestamp": 1788743401,
+        "tx_hash": "e1deb1e2b6c5bedf8230645d754cd9bf",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 175.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:dd38e852dc100045519bc3f88c0bac28",
+        "timestamp": 1788742202,
+        "tx_hash": "dd38e852dc100045519bc3f88c0bac28",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 50.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:c60fdf92c43455e1d1e1fe9bab3751ee",
+        "timestamp": 1788742202,
+        "tx_hash": "c60fdf92c43455e1d1e1fe9bab3751ee",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 40.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:c1f7e42c0a053621ea5617887d8cd9d0",
+        "timestamp": 1788742202,
+        "tx_hash": "c1f7e42c0a053621ea5617887d8cd9d0",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 3.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:9dcb1cf7b38282b4daf4f04a34e5a330",
+        "timestamp": 1788742202,
+        "tx_hash": "9dcb1cf7b38282b4daf4f04a34e5a330",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 20.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:3d9ad8a5470c5ec381a32c0ab6315e4d",
+        "timestamp": 1788742202,
+        "tx_hash": "3d9ad8a5470c5ec381a32c0ab6315e4d",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 20.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:71996051154bfdb68736b694106f204b",
+        "timestamp": 1788742202,
+        "tx_hash": "71996051154bfdb68736b694106f204b",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:e05098de50e620e733efebd29e7d52c9",
+        "timestamp": 1788742202,
+        "tx_hash": "e05098de50e620e733efebd29e7d52c9",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 10.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:36e04e67923b4631bbcc8805b750ade1",
+        "timestamp": 1788742202,
+        "tx_hash": "36e04e67923b4631bbcc8805b750ade1",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 33.0,
+        "epoch": 39914,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:f9e996a6d6d95cbf57e75bea1cf8b203",
+        "timestamp": 1788742202,
+        "tx_hash": "f9e996a6d6d95cbf57e75bea1cf8b203",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 40.0,
+        "epoch": 39905,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:9e8796d90aef26c9a8511c82a7309534",
+        "timestamp": 1788736801,
+        "tx_hash": "9e8796d90aef26c9a8511c82a7309534",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 33.0,
+        "epoch": 39905,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:9edbe3fdec22c5b3196bd44c1c7f5a3f",
+        "timestamp": 1788736801,
+        "tx_hash": "9edbe3fdec22c5b3196bd44c1c7f5a3f",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 50.0,
+        "epoch": 39903,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:78d031766604192c595fb86a321a88b4",
+        "timestamp": 1788735601,
+        "tx_hash": "78d031766604192c595fb86a321a88b4",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 30.0,
+        "epoch": 39902,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:7d283f747098df0ff91560b5867413ac",
+        "timestamp": 1788735001,
+        "tx_hash": "7d283f747098df0ff91560b5867413ac",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 50.0,
+        "epoch": 38987,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:cc97fdad4bc3be6b51888fa0fa7ee40d",
+        "timestamp": 1788186001,
+        "tx_hash": "cc97fdad4bc3be6b51888fa0fa7ee40d",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 38984,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:d9cc7aebd0c7de3420da556409915721",
+        "timestamp": 1788184201,
+        "tx_hash": "d9cc7aebd0c7de3420da556409915721",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 38984,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:6848f7e22c06f3988017aba4525c8eaf",
+        "timestamp": 1788184201,
+        "tx_hash": "6848f7e22c06f3988017aba4525c8eaf",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 10.0,
+        "epoch": 38861,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:880cc5a2ec914186d9c0a04780e5adf7",
+        "timestamp": 1788110401,
+        "tx_hash": "880cc5a2ec914186d9c0a04780e5adf7",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 25.0,
+        "epoch": 38852,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:57a95396d1aeca0fc4e7c79b0831404f",
+        "timestamp": 1788105001,
+        "tx_hash": "57a95396d1aeca0fc4e7c79b0831404f",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 7.0,
+        "epoch": 38852,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:e6efbe5c21185ad7015ae0b65f366418",
+        "timestamp": 1788105001,
+        "tx_hash": "e6efbe5c21185ad7015ae0b65f366418",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 38852,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:447516f4e85887af8d52edadab984a2a",
+        "timestamp": 1788105001,
+        "tx_hash": "447516f4e85887af8d52edadab984a2a",
+        "type": "transfer_in"
+      }
+    ]
+  },
+  "wallet": "RTCc5449fe1b93385961152720c864c0f073dae5855"
+}
