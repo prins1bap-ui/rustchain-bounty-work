@@ -2,7 +2,7 @@ name: rustchain-bounty-verifier
 
 on:
   issue_comment:
-    types: [created]
+    types: [created, edited]
   workflow_dispatch:
     inputs:
       user:
@@ -16,10 +16,15 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: bounty-verifier-${{ github.repository }}-${{ github.event.issue.number || 'manual' }}
+  cancel-in-progress: false
+
 jobs:
   verify-comment:
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,12 +33,13 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL }}
+          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL || 'https://rustchain.org' }}
         run: python issue_comment_handler.py
 
   manual-check:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -42,5 +48,7 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL }}
-        run: python verifier.py --user '${{ inputs.user }}' --claim-text '${{ inputs.claim_text }}'
+          RUSTCHAIN_NODE_URL: ${{ vars.RUSTCHAIN_NODE_URL || 'https://rustchain.org' }}
+          VERIFY_USER: ${{ inputs.user }}
+          VERIFY_CLAIM_TEXT: ${{ inputs.claim_text }}
+        run: python verifier.py --user "$VERIFY_USER" --claim-text "$VERIFY_CLAIM_TEXT"
