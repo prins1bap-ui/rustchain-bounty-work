@@ -1,0 +1,54 @@
+name: RTC wallet snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/rtc-wallet-snapshot.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch authoritative wallet state
+        env:
+          RTC_WALLET: RTCc5449fe1b93385961152720c864c0f073dae5855
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          wallet = os.environ['RTC_WALLET']
+          base = 'https://rustchain.org/wallet'
+          def fetch(path):
+              url = f'{base}/{path}?miner_id={wallet}'
+              req = urllib.request.Request(url, headers={'User-Agent':'rtc-wallet-snapshot/1.0'})
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  return json.loads(r.read().decode('utf-8'))
+          out = {
+              'wallet': wallet,
+              'balance': fetch('balance'),
+              'history': fetch('history'),
+          }
+          os.makedirs('ops', exist_ok=True)
+          with open('ops/wallet_snapshot.json','w',encoding='utf-8') as f:
+              json.dump(out, f, indent=2, sort_keys=True)
+              f.write('\n')
+          PY
+
+      - name: Commit snapshot if changed
+        run: |
+          if git diff --quiet -- ops/wallet_snapshot.json; then
+            echo 'Wallet snapshot unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ops/wallet_snapshot.json
+          git commit -m 'Refresh authoritative RTC wallet snapshot'
+          git push
