@@ -1,0 +1,37 @@
+{
+  "notice": "Synthetic examples for schema demonstration only. These rows are not represented as live county records.",
+  "records": [
+    {
+      "county": "Example County",
+      "state": "MI",
+      "deal_date": "2026-08-14",
+      "sale_price": 1250000.0,
+      "mortgage_term": null,
+      "property_type": "commercial",
+      "instrument_number": "EXAMPLE-2026-001",
+      "parcel_id": "EXAMPLE-PARCEL-001",
+      "grantor": "Example Holdings LLC",
+      "grantee": "Example Acquisitions LLC",
+      "source_url": "https://example.gov/records/example-2026-001",
+      "source_system": "synthetic-demo",
+      "extraction_status": "partial",
+      "notes": "Mortgage term intentionally null because unsupported fields must not be guessed."
+    },
+    {
+      "county": "Sample County",
+      "state": "OH",
+      "deal_date": "2025-11-03",
+      "sale_price": 840000.0,
+      "mortgage_term": "120 months",
+      "property_type": "land",
+      "instrument_number": "SAMPLE-2025-117",
+      "parcel_id": "SAMPLE-PARCEL-117",
+      "grantor": "Sample Land Co",
+      "grantee": "Sample Development LLC",
+      "source_url": "https://example.gov/records/sample-2025-117",
+      "source_system": "synthetic-demo",
+      "extraction_status": "ok",
+      "notes": "Illustrative only."
+    }
+  ]
+}
