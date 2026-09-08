@@ -14,7 +14,20 @@ Best fit:
 - multi-source scraping
 - large structured datasets
 
-## 2. Website Contact + Tech Snapshot Actor
+## 2. Google Apps Script + PDF Extraction Pipeline
+
+Path: `portfolio/apps_script_pdf_pipeline/`
+
+Demonstrates a document-family adapter architecture for Google Apps Script workflows that ingest PDF-derived structured data into Google Sheets with deterministic record keys, safe reruns, validation, exception logging, source traceability, and explicit null handling.
+
+Best fit:
+- Google Apps Script automation
+- PDF/document extraction
+- Google Sheets workflows
+- Google Cloud Document AI / Form Parser integrations
+- repetitive statement processing
+
+## 3. Website Contact + Tech Snapshot Actor
 
 Existing project path on branch `apify-bridge-20260902`: `apify_actor/`
 
@@ -28,4 +41,4 @@ Best fit:
 
 ## Portfolio integrity
 
-These samples are engineering proofs, not fabricated client projects. Synthetic fixtures are labeled as synthetic. No claim is made that every target source, county, or vendor system is already supported.
+These samples are engineering proofs, not fabricated client projects. Synthetic fixtures are labeled as synthetic. No claim is made that every target source, county, carrier, or vendor system is already supported.
