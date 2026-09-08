@@ -27,7 +27,11 @@ jobs:
         run: python -m pip install --disable-pip-version-check beacon-skill pytest
       - name: Compile
         run: python -m py_compile rtc_watchdog.py test_rtc_watchdog.py
-      - name: Assessment tests
-        run: pytest -q test_rtc_watchdog.py -k 'pending_inside_window or stale_pending or settled_rows or invalid_snapshot or invalid_pending'
-      - name: Serialization integration test
+      - name: Pure wallet assessment
+        run: pytest -q test_rtc_watchdog.py -k 'settled_rows or invalid_snapshot or invalid_pending'
+      - name: Heartbeat signing
+        run: pytest -q test_rtc_watchdog.py -k 'pending_inside_window'
+      - name: Mayday signing
+        run: pytest -q test_rtc_watchdog.py -k 'stale_pending'
+      - name: Serialization integration
         run: pytest -q test_rtc_watchdog.py -k 'run_once_serializes'
