@@ -22,8 +22,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ops
-          source_url='https://50.28.86.131/agent/jobs'
+          source_url='https://rustchain.org/agent/jobs'
           curl -skfS --connect-timeout 10 --max-time 25 \
+            --resolve 'rustchain.org:443:50.28.86.131' \
             -H 'User-Agent: rtc-operator/1.0' \
             "$source_url" -o /tmp/agent_jobs.json
           python - <<'PY'
@@ -32,7 +33,8 @@ jobs:
               data=json.load(f)
           out={
               'fetched_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-              'source': 'https://50.28.86.131/agent/jobs',
+              'source': 'https://rustchain.org/agent/jobs',
+              'origin_ip': '50.28.86.131',
               'data': data,
           }
           with open('ops/agent_jobs_snapshot.json','w',encoding='utf-8') as f:
