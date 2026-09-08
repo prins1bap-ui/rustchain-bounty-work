@@ -1,0 +1,5 @@
+item_id,section,source_authority,requested_change,implementation,status,notes
+P1-DIM,Specification Table,Client verified dimensions,Update dimensions,Replace dimension values only from supplied source,ready,Sample workflow row
+P2-PHOTO,Identification,Client field photograph,Replace reference photo,Relink approved image and update caption if supplied,ready,Do not infer unseen product details
+P3-CLASS,Classification,Client revision brief,Revise classification label,Apply supplied classification consistently across text and tables,ready,Flag conflicts against legacy guide
+P4-HANDLE,Handling,Existing authoritative guide,Preserve handling rule,Retain wording unless client supplies revised language,ready,Safety-sensitive content not rewritten speculatively
