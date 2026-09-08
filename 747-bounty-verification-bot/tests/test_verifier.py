@@ -13,19 +13,23 @@ class TestVerifier(unittest.TestCase):
         self.assertEqual(w, "demo-wallet")
         self.assertIsNone(u)
 
-    def test_prior_payment_marker_detected(self):
-        comments = [{"body":"@alice accepted — 10 RTC queued; pending_id 42", "user":{"login":"maintainer"}}]
-        c = verifier.prior_payment_markers(comments, "alice", None)
-        self.assertFalse(c.ok)
-
-    def test_no_payment_marker(self):
-        comments = [{"body":"@alice thanks, under review", "user":{"login":"maintainer"}}]
+    def test_untrusted_paid_text_does_not_poison(self):
+        comments = [{"body":"@alice PAID payout pending_id:42", "user":{"login":"attacker"}}]
         c = verifier.prior_payment_markers(comments, "alice", None)
         self.assertTrue(c.ok)
 
-    def test_liveness_rejects_non_http(self):
-        c = verifier.url_liveness("file:///etc/passwd")
+    def test_trusted_structured_payment_marker_detected(self):
+        comments = [{"body":"@alice payout-status: paid; pending_id:42", "user":{"login":"Scottcjn"}}]
+        c = verifier.prior_payment_markers(comments, "alice", None)
         self.assertFalse(c.ok)
+
+    @patch("verifier._public_ips_for_host", return_value=True)
+    def test_hostname_substring_attack_rejected(self, _):
+        self.assertIsNone(verifier._validated_proof_url("https://medium.com.attacker.tld/post"))
+
+    @patch("verifier._public_ips_for_host", return_value=True)
+    def test_allowed_host_exact(self, _):
+        self.assertEqual(verifier._validated_proof_url("https://dev.to/a/b"), "https://dev.to/a/b")
 
     @patch("verifier._request")
     def test_follow_204(self, req):
@@ -50,10 +54,23 @@ class TestVerifier(unittest.TestCase):
         self.assertIn("12.5", c.detail)
 
     @patch("verifier._request")
-    def test_word_count(self, req):
-        req.return_value = (200, {}, ("<p>" + "word "*600 + "</p>").encode())
-        c = verifier.article_word_count("https://dev.to/a/b")
-        self.assertTrue(c.ok)
+    def test_wallet_non_json_200_is_indeterminate(self, req):
+        req.return_value = (200, {}, b"<html>ok</html>")
+        c = verifier.wallet_exists("alice-wallet", "https://node")
+        self.assertIsNone(c.ok)
+
+    @patch("verifier._request")
+    def test_wallet_json_without_wallet_signal_is_indeterminate(self, req):
+        req.return_value = (200, {}, b'{"ok": true}')
+        c = verifier.wallet_exists("alice-wallet", "https://node")
+        self.assertIsNone(c.ok)
+
+    def test_output_is_payout_inert(self):
+        v = verifier.Verification("alice", "wallet", [], 35)
+        text = v.to_markdown()
+        self.assertIn("PAYOUT-INERT", text)
+        self.assertNotIn("Suggested payout", text)
+        self.assertIn("not RTC", text)
 
 if __name__ == '__main__':
     unittest.main()
