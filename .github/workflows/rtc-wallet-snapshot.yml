@@ -2,6 +2,8 @@ name: RTC wallet snapshot
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
   push:
     paths:
       - '.github/workflows/rtc-wallet-snapshot.yml'
