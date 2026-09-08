@@ -1,7 +1,7 @@
 {
   "balance": {
-    "amount_i64": 671000000,
-    "amount_rtc": 671.0,
+    "amount_i64": 689000000,
+    "amount_rtc": 689.0,
     "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855"
   },
   "history": {
@@ -9,6 +9,60 @@
     "ok": true,
     "total": 41,
     "transactions": [
+      {
+        "amount": 2.0,
+        "epoch": 40181,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:d7290dec31b26f4851a8cf49e3e535ef",
+        "timestamp": 1788903001,
+        "tx_hash": "d7290dec31b26f4851a8cf49e3e535ef",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": 40181,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:1dcd0f6a025175907c78fe1efaaca89f",
+        "timestamp": 1788903001,
+        "tx_hash": "1dcd0f6a025175907c78fe1efaaca89f",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 10.0,
+        "epoch": 40182,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:5fc3d5a8dee1c359d78e19f0952f64ae",
+        "timestamp": 1788903001,
+        "tx_hash": "5fc3d5a8dee1c359d78e19f0952f64ae",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": 40182,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:98a64ff8ffe911a5fe6868bf9dac9161",
+        "timestamp": 1788903001,
+        "tx_hash": "98a64ff8ffe911a5fe6868bf9dac9161",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 40182,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:d1d6809eb90722f08bb16536740aaabb",
+        "timestamp": 1788903001,
+        "tx_hash": "d1d6809eb90722f08bb16536740aaabb",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 1.0,
+        "epoch": 40182,
+        "from": "founder_community",
+        "reason": "transfer_in:founder_community:82affe12eb1bf3fc26710f2ecd7a4307",
+        "timestamp": 1788903001,
+        "tx_hash": "82affe12eb1bf3fc26710f2ecd7a4307",
+        "type": "transfer_in"
+      },
       {
         "amount": 7.0,
         "epoch": null,
@@ -43,60 +97,6 @@
         "status": "pending",
         "timestamp": 1788896633,
         "tx_hash": "402dac767286fdc1460072bd3860c526",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 1.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816249,
-        "tx_hash": "82affe12eb1bf3fc26710f2ecd7a4307",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 1.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816244,
-        "tx_hash": "d1d6809eb90722f08bb16536740aaabb",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 2.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816238,
-        "tx_hash": "98a64ff8ffe911a5fe6868bf9dac9161",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 10.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816232,
-        "tx_hash": "5fc3d5a8dee1c359d78e19f0952f64ae",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 2.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816095,
-        "tx_hash": "1dcd0f6a025175907c78fe1efaaca89f",
-        "type": "transfer_in"
-      },
-      {
-        "amount": 2.0,
-        "epoch": null,
-        "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1788816089,
-        "tx_hash": "d7290dec31b26f4851a8cf49e3e535ef",
         "type": "transfer_in"
       },
       {
