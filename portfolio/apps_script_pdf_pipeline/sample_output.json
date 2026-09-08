@@ -1,0 +1,13 @@
+{
+  "synthetic": true,
+  "carrier": "ACME_INSURANCE",
+  "statementDate": "2026-08-31",
+  "accountNumber": "SYN-10482",
+  "grossAmount": 12840.55,
+  "commissionAmount": 1926.08,
+  "netAmount": 10914.47,
+  "sourceFileId": "synthetic-drive-file-id",
+  "sourceFileName": "synthetic_statement_august.pdf",
+  "processedAt": "2026-09-08T18:30:00.000Z",
+  "recordKey": "synthetic-example-key"
+}
