@@ -6,23 +6,23 @@ A concrete Beacon integration for rustchain-bounties #158. Instead of another ge
 
 1. Reads an authoritative RustChain wallet snapshot.
 2. Keeps `received` and `pending` RTC separate.
-3. Emits a cryptographically signed Beacon `HEARTBEAT` while settlement is healthy.
-4. Emits a cryptographically signed Beacon `MAYDAY` only when a pending transfer exceeds the configured settlement threshold.
+3. Emits a cryptographically signed Beacon `heartbeat` while settlement is healthy.
+4. Emits a cryptographically signed Beacon `mayday` only when a pending transfer exceeds the configured settlement threshold.
 5. Fails closed on malformed wallet/history data rather than fabricating a healthy state.
 
 The program never transfers funds or mutates a production RustChain endpoint.
 
 ## Beacon integration
 
-The implementation uses the current `beacon-skill` primitives directly:
+The implementation uses the current `beacon-skill` API directly:
 
-- `IdentityManager` generates/loads the Beacon Ed25519 identity.
-- `BeaconEnvelope` carries watchdog state.
-- `EnvelopeKind.HEARTBEAT` represents healthy operation.
-- `EnvelopeKind.MAYDAY` represents settlement that needs maintainer attention.
-- `envelope.sign(identity.keypair)` signs each emitted state.
+- `AgentIdentity.generate()` creates a Beacon Ed25519 identity.
+- `HeartbeatManager.build_heartbeat()` creates the normal-operation protocol payload.
+- `MaydayManager.build_mayday()` creates the escalation payload with `urgency=imminent`.
+- `AgentIdentity.sign_hex()` signs a canonical JSON representation of each emitted payload.
+- `AgentIdentity.verify()` verifies the signature in tests and in the returned result.
 
-This makes Beacon useful as an operational agent protocol rather than merely printing a canned hello message.
+Settlement-specific metrics are carried under `health` on heartbeat payloads and under `settlement` on mayday payloads. This makes Beacon useful as an operational agent protocol rather than merely printing a canned hello message.
 
 ## Run
 
@@ -41,11 +41,14 @@ Example healthy output contains:
     "pending_rtc": 18.0,
     "stale_count": 0
   },
-  "signature_present": true
+  "signature_valid": true,
+  "beacon": {
+    "kind": "heartbeat"
+  }
 }
 ```
 
-After the configured threshold, still-pending transfers produce a `mayday` envelope with `urgency=high` and `requested_help=maintainer settlement review`. Age never promotes RTC to received; only the input wallet snapshot can do that.
+After the configured threshold, still-pending transfers produce a `mayday` payload with `urgency=imminent` and `requested_help=maintainer settlement review`. Age never promotes RTC to received; only the input wallet snapshot can do that.
 
 ## Test
 
@@ -56,9 +59,10 @@ pytest -q
 Tests cover:
 - healthy pending state → signed heartbeat
 - stale pending state → signed mayday
+- Ed25519 signature verification
 - settled history excluded from pending totals
 - malformed history/balance/pending rows fail closed
-- serialized signed envelope output
+- serialized signed payload output
 
 ## Why this is distinct
 
