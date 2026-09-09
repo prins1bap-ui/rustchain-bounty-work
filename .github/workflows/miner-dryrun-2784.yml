@@ -17,6 +17,8 @@ jobs:
           git clone --depth 1 https://github.com/Scottcjn/Rustchain.git Rustchain
           cd Rustchain
           git rev-parse HEAD | tee ../miner-source-commit.txt
+      - name: Install runtime dependency
+        run: python3 -m pip install --user PyNaCl
       - name: Record environment
         run: |
           uname -a | tee miner-environment.txt
