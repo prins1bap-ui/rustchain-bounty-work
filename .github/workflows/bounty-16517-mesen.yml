@@ -1,0 +1,66 @@
+name: Bounty 16517 Mesen Independent Reproduction
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-2.0-0 unzip curl python3-pytest cc65 xvfb
+      - name: Clone exact Elya NES source
+        run: |
+          git clone https://github.com/Scottcjn/elya-nes.git elya-nes
+          cd elya-nes
+          git checkout 655ff72406601b203600a50d01daa4f38e9f598d
+          git rev-parse HEAD | tee ../source_commit.txt
+      - name: Download official Mesen 2.1.1 Linux x64
+        run: |
+          curl -fL --retry 3 -o mesen.zip https://github.com/SourMesen/Mesen2/releases/download/2.1.1/Mesen_2.1.1_Linux_x64.zip
+          echo '7a9947575cc198209f743fef83fb2b702b786ea705506bdf3f2aea01ab7c1ce9  mesen.zip' | sha256sum -c -
+          mkdir mesen && unzip -q mesen.zip -d mesen
+          find mesen -maxdepth 2 -type f -printf '%p\n'
+          MESEN=$(find mesen -type f -name Mesen -o -name Mesen2 | head -1)
+          chmod +x "$MESEN"
+          echo "MESEN_BIN=$PWD/$MESEN" >> "$GITHUB_ENV"
+          "$MESEN" --version || true
+      - name: Build exact benchmark ROM
+        working-directory: elya-nes
+        run: |
+          NES_AV_SHIFT=2 NES_SM_NORM=pow2 train/build_trained.sh runs/fac/dense_pow2_s1.npz 1
+          python3 tools/mesen_pad_mmc5.py out/nn.nes out/nn-mesen.nes
+          sha256sum out/nn.nes out/nn-mesen.nes | tee ../rom_hashes.txt
+      - name: Run independent Mesen measurement
+        working-directory: elya-nes
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: |
+          mkdir -p results
+          xvfb-run -a python3 tools/mesen_nes_bench.py out/nn-mesen.nes out/model/expected.json --source-rom out/nn.nes --output results/prins1bap_mesen_2.1.1.json
+          cat results/prins1bap_mesen_2.1.1.json
+      - name: Validate harness tests
+        working-directory: elya-nes
+        run: python3 -m pytest -q tools/test_mesen_nes_bench.py
+      - name: Produce evidence summary
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('elya-nes/results/prins1bap_mesen_2.1.1.json')
+          d=json.loads(p.read_text())
+          print(json.dumps(d, indent=2))
+          PY
+          uname -a | tee environment.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bounty-16517-mesen-evidence
+          path: |
+            elya-nes/results/prins1bap_mesen_2.1.1.json
+            source_commit.txt
+            rom_hashes.txt
+            environment.txt
