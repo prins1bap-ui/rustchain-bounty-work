@@ -1,11 +1,6 @@
 name: Apify Device Bootstrap Deploy
 
 on:
-  push:
-    branches:
-      - apify-bridge-20260902
-    paths:
-      - '.github/workflows/apify-device-bootstrap-deploy.yml'
   workflow_dispatch:
 
 permissions:
