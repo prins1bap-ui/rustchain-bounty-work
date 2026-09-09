@@ -1,0 +1,73 @@
+name: Upwork MCP Public Diagnostic
+
+on:
+  push:
+    paths:
+      - '.github/workflows/upwork-mcp-public-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe public OAuth metadata and unauthenticated MCP handshake
+        shell: bash
+        run: |
+          set -u
+          mkdir -p diag
+
+          probe_get() {
+            local name="$1"
+            local url="$2"
+            echo "===== GET $url ====="
+            curl -sS --max-time 20 -D "diag/${name}.headers" -o "diag/${name}.body" "$url" || true
+            echo "--- headers ---"
+            sed -E 's/(authorization:|cookie:|set-cookie:).*/\1 [REDACTED]/Ig' "diag/${name}.headers" || true
+            echo "--- body ---"
+            head -c 12000 "diag/${name}.body" || true
+            echo
+          }
+
+          probe_get protected_resource 'https://mcp.upwork.com/.well-known/oauth-protected-resource'
+          probe_get authorization_server 'https://mcp.upwork.com/.well-known/oauth-authorization-server'
+          probe_get mcp_get 'https://mcp.upwork.com/mcp'
+
+          echo '===== POST unauthenticated initialize ====='
+          cat > diag/initialize.json <<'JSON'
+          {
+            "jsonrpc":"2.0",
+            "id":1,
+            "method":"initialize",
+            "params":{
+              "protocolVersion":"2025-06-18",
+              "capabilities":{},
+              "clientInfo":{"name":"public-diagnostic","version":"1.0"}
+            }
+          }
+          JSON
+
+          curl -sS --max-time 20 \
+            -D diag/initialize.headers \
+            -o diag/initialize.body \
+            -H 'content-type: application/json' \
+            -H 'accept: application/json, text/event-stream' \
+            --data @diag/initialize.json \
+            'https://mcp.upwork.com/mcp' || true
+
+          echo '--- headers ---'
+          sed -E 's/(authorization:|cookie:|set-cookie:).*/\1 [REDACTED]/Ig' diag/initialize.headers || true
+          echo '--- body ---'
+          head -c 12000 diag/initialize.body || true
+          echo
+
+      - name: Upload diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: upwork-mcp-public-diagnostic
+          path: diag/
+          if-no-files-found: warn
+          retention-days: 1
