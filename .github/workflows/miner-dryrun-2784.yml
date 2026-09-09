@@ -1,0 +1,41 @@
+name: Miner Dry Run 2784
+
+on:
+  push:
+    branches: [chunkins-playtest-20260909]
+    paths:
+      - '.github/workflows/miner-dryrun-2784.yml'
+
+jobs:
+  dryrun:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone RustChain
+        run: |
+          git clone --depth 1 https://github.com/Scottcjn/Rustchain.git Rustchain
+          cd Rustchain
+          git rev-parse HEAD | tee ../miner-source-commit.txt
+      - name: Record environment
+        run: |
+          uname -a | tee miner-environment.txt
+          lscpu | tee -a miner-environment.txt
+          python3 --version | tee -a miner-environment.txt
+      - name: Run miner dry-run
+        run: |
+          cd Rustchain/miners/linux
+          set +e
+          python3 rustchain_linux_miner.py --dry-run --show-payload 2>&1 | tee ../../../miner-dryrun.log
+          echo ${PIPESTATUS[0]} > ../../../miner-dryrun-exit.txt
+          exit 0
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: miner-dryrun-2784
+          path: |
+            miner-source-commit.txt
+            miner-environment.txt
+            miner-dryrun.log
+            miner-dryrun-exit.txt
+          retention-days: 7
