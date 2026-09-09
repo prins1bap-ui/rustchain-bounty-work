@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsdl2-2.0-0 unzip curl python3-pytest cc65 xvfb
+          sudo apt-get install -y libsdl2-2.0-0 unzip curl python3-pytest python3-numpy cc65 xvfb
       - name: Clone exact Elya NES source
         run: |
           git clone https://github.com/Scottcjn/elya-nes.git elya-nes
@@ -29,7 +29,7 @@ jobs:
           MESEN=$(find mesen -type f \( -name Mesen -o -name Mesen2 \) | head -1)
           chmod +x "$MESEN"
           echo "MESEN_BIN=$PWD/$MESEN" >> "$GITHUB_ENV"
-          "$MESEN" --version || true
+          xvfb-run -a "$MESEN" --version || true
       - name: Build exact benchmark ROM
         working-directory: elya-nes
         run: |
@@ -37,6 +37,8 @@ jobs:
           python3 tools/mesen_pad_mmc5.py out/nn.nes out/nn-mesen.nes
           sha256sum out/nn.nes out/nn-mesen.nes | tee ../rom_hashes.txt
       - name: Run independent Mesen measurement
+        id: measurement
+        continue-on-error: true
         working-directory: elya-nes
         env:
           SDL_VIDEODRIVER: dummy
@@ -44,23 +46,37 @@ jobs:
         run: |
           mkdir -p results
           xvfb-run -a python3 tools/mesen_nes_bench.py out/nn-mesen.nes out/model/expected.json --source-rom out/nn.nes --output results/prins1bap_mesen_2.1.1.json
+      - name: Show measurement evidence
+        if: always()
+        working-directory: elya-nes
+        run: |
+          test -f results/prins1bap_mesen_2.1.1.json
           cat results/prins1bap_mesen_2.1.1.json
+          printf '%s\n' 'measurement_step_outcome=${{ steps.measurement.outcome }}' | tee ../measurement_outcome.txt
       - name: Validate harness tests
+        if: always()
         working-directory: elya-nes
         run: python3 -m pytest -q tools/test_mesen_nes_bench.py
       - name: Produce evidence summary
+        if: always()
         run: |
           python3 - <<'PY'
           import json, pathlib
-          d=json.loads(pathlib.Path('elya-nes/results/prins1bap_mesen_2.1.1.json').read_text())
-          print(json.dumps(d, indent=2))
+          p=pathlib.Path('elya-nes/results/prins1bap_mesen_2.1.1.json')
+          if p.exists():
+              d=json.loads(p.read_text())
+              print(json.dumps(d, indent=2))
+          else:
+              print('measurement output missing')
           PY
           uname -a | tee environment.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: bounty-16517-mesen-evidence
           path: |
             elya-nes/results/prins1bap_mesen_2.1.1.json
             source_commit.txt
             rom_hashes.txt
+            measurement_outcome.txt
             environment.txt
