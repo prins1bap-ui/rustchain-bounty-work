@@ -1,6 +1,8 @@
 name: Bounty 16517 Mesen Independent Reproduction
 on:
   workflow_dispatch:
+  push:
+    branches: [bounty-16517-mesen-20260909]
 permissions:
   contents: read
 jobs:
@@ -24,8 +26,7 @@ jobs:
           curl -fL --retry 3 -o mesen.zip https://github.com/SourMesen/Mesen2/releases/download/2.1.1/Mesen_2.1.1_Linux_x64.zip
           echo '7a9947575cc198209f743fef83fb2b702b786ea705506bdf3f2aea01ab7c1ce9  mesen.zip' | sha256sum -c -
           mkdir mesen && unzip -q mesen.zip -d mesen
-          find mesen -maxdepth 2 -type f -printf '%p\n'
-          MESEN=$(find mesen -type f -name Mesen -o -name Mesen2 | head -1)
+          MESEN=$(find mesen -type f \( -name Mesen -o -name Mesen2 \) | head -1)
           chmod +x "$MESEN"
           echo "MESEN_BIN=$PWD/$MESEN" >> "$GITHUB_ENV"
           "$MESEN" --version || true
@@ -51,8 +52,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, pathlib
-          p=pathlib.Path('elya-nes/results/prins1bap_mesen_2.1.1.json')
-          d=json.loads(p.read_text())
+          d=json.loads(pathlib.Path('elya-nes/results/prins1bap_mesen_2.1.1.json').read_text())
           print(json.dumps(d, indent=2))
           PY
           uname -a | tee environment.txt
