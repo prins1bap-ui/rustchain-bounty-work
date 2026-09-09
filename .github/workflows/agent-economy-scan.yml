@@ -1,21 +1,17 @@
 name: Agent Economy Funded Job Scan
 
 on:
-  push:
-    paths:
-      - '.github/workflows/agent-economy-scan.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Query live Agent Economy
         shell: bash
         run: |
@@ -57,16 +53,20 @@ jobs:
               results[key] = rec
           Path('evidence/agent-economy-scan.json').write_text(json.dumps(results, indent=2, sort_keys=True) + '\n')
           PY
-      - name: Persist current evidence
-        shell: bash
+      - name: Validate scan artifact
         run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add evidence/agent-economy-scan.json
-          if git diff --cached --quiet; then
-            echo 'No evidence change.'
-            exit 0
-          fi
-          git commit -m 'Capture current Agent Economy endpoint scan'
-          git push
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('evidence/agent-economy-scan.json')
+          data=json.loads(p.read_text())
+          assert {'jobs_primary','jobs_domain','stats_primary','stats_domain'} <= set(data)
+          print(json.dumps({k:v.get('status') for k,v in data.items()}, sort_keys=True))
+          PY
+      - name: Upload scan evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-economy-endpoint-scan
+          path: evidence/agent-economy-scan.json
+          if-no-files-found: error
+          retention-days: 7
