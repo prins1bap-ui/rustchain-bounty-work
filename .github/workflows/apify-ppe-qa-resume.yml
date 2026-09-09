@@ -1,12 +1,6 @@
 name: Apify PPE QA Resume
 
 on:
-  push:
-    branches:
-      - apify-bridge-20260902
-    paths:
-      - '.github/workflows/apify-ppe-qa-resume.yml'
-      - 'ops/apify_configure_ppe.py'
   workflow_dispatch:
 
 permissions:
