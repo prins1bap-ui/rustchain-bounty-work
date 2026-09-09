@@ -1,0 +1,93 @@
+name: CHUNKINS Playtest 14018
+
+on:
+  push:
+    branches: [chunkins-playtest-20260909]
+    paths:
+      - '.github/workflows/chunkins-playtest-14018.yml'
+      - 'ops/chunkins-playtest-trigger.txt'
+
+jobs:
+  playtest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout operator repo
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential autoconf automake libtool pkg-config \
+            libboost-all-dev libjpeg-dev libpng-dev libtiff-dev libopenexr-dev \
+            libx11-dev libxpm-dev libsm-dev libice-dev libsdl2-dev liblua5.4-dev \
+            povray povray-includes xvfb imagemagick
+
+      - name: Clone CHUNKINS source
+        run: |
+          git clone --depth 1 https://github.com/Scottcjn/feverdream-engine.git feverdream-engine
+          cd feverdream-engine
+          git rev-parse HEAD | tee ../chunkins-source-commit.txt
+
+      - name: Build Feverdream engine and game
+        run: |
+          cd feverdream-engine
+          ./tools/build_engine.sh 2>&1 | tee ../chunkins-build.log
+          make -C game 2>&1 | tee -a ../chunkins-build.log
+
+      - name: Run official verification suite
+        run: |
+          cd feverdream-engine/game
+          set +e
+          SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy ./test.sh 2>&1 | tee ../../chunkins-test.log
+          rc=${PIPESTATUS[0]}
+          echo "$rc" > ../../chunkins-test-exit.txt
+          exit 0
+
+      - name: Run per-world CHUNKINS gametests
+        run: |
+          cd feverdream-engine
+          SOCK=/tmp/chunkins-14018.sock
+          rm -f "$SOCK"
+          ( cd daemon && ./fd-daemon "$SOCK" > ../../chunkins-daemon.log 2>&1 & )
+          sleep 2
+          cd game
+          : > ../../chunkins-worlds.log
+          for level in chunkins1.lua chunkins2.lua chunkins3.lua chunkins4.lua chunkins5.lua chunkins_hazelnut_bridges.lua chunkins7.lua chunkins_bridge_garden.lua; do
+            echo "===== $level =====" | tee -a ../../chunkins-worlds.log
+            SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy ./fd-game --gametest 240 "$SOCK" "$level" 2>&1 | tee -a ../../chunkins-worlds.log || true
+          done
+          pkill -x fd-daemon || true
+
+      - name: Extract concise report
+        run: |
+          {
+            echo '# CHUNKINS #14018 automated playtest evidence'
+            echo
+            echo "Runner: $(uname -a)"
+            echo "CPU: $(lscpu | grep 'Model name' | head -1 | sed 's/^[[:space:]]*//')"
+            echo "Source commit: $(cat chunkins-source-commit.txt)"
+            echo
+            echo '## Official test suite'
+            grep -E '===|PASS|FAIL|ALL TESTS|FAILURES' chunkins-test.log || true
+            echo
+            echo '## Per-world result excerpts'
+            grep -E '=====|fps|FPS|score|lives|GAME LOGIC|highest|title|levels advanced|PASS|FAIL' chunkins-worlds.log || cat chunkins-worlds.log
+            echo
+            echo '## Build notes'
+            tail -80 chunkins-build.log || true
+          } > chunkins-report.md
+
+      - name: Upload playtest evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: chunkins-playtest-14018
+          path: |
+            chunkins-report.md
+            chunkins-build.log
+            chunkins-test.log
+            chunkins-test-exit.txt
+            chunkins-worlds.log
+            chunkins-daemon.log
+            chunkins-source-commit.txt
+          retention-days: 7
