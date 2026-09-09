@@ -32,7 +32,8 @@ jobs:
             echo
           }
 
-          probe_get protected_resource 'https://mcp.upwork.com/.well-known/oauth-protected-resource'
+          probe_get protected_resource_root 'https://mcp.upwork.com/.well-known/oauth-protected-resource'
+          probe_get protected_resource_mcp 'https://mcp.upwork.com/.well-known/oauth-protected-resource/mcp'
           probe_get authorization_server 'https://mcp.upwork.com/.well-known/oauth-authorization-server'
           probe_get mcp_get 'https://mcp.upwork.com/mcp'
 
