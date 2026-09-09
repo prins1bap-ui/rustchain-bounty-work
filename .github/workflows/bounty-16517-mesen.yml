@@ -27,9 +27,10 @@ jobs:
           echo '7a9947575cc198209f743fef83fb2b702b786ea705506bdf3f2aea01ab7c1ce9  mesen.zip' | sha256sum -c -
           mkdir mesen && unzip -q mesen.zip -d mesen
           MESEN=$(find mesen -type f \( -name Mesen -o -name Mesen2 \) | head -1)
+          test -n "$MESEN"
           chmod +x "$MESEN"
+          file "$MESEN"
           echo "MESEN_BIN=$PWD/$MESEN" >> "$GITHUB_ENV"
-          xvfb-run -a "$MESEN" --version || true
       - name: Build exact benchmark ROM
         working-directory: elya-nes
         run: |
