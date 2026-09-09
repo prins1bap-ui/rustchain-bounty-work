@@ -29,10 +29,11 @@ jobs:
           cd feverdream-engine
           git rev-parse HEAD | tee ../chunkins-source-commit.txt
 
-      - name: Build Feverdream engine and game
+      - name: Build Feverdream engine, daemon, and game
         run: |
           cd feverdream-engine
           ./tools/build_engine.sh 2>&1 | tee ../chunkins-build.log
+          make -C daemon fd-daemon 2>&1 | tee -a ../chunkins-build.log
           make -C game 2>&1 | tee -a ../chunkins-build.log
 
       - name: Run official verification suite
