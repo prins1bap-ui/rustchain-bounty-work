@@ -52,7 +52,6 @@ jobs:
           set -euxo pipefail
           docker pull ghcr.io/stephane-d/sgdk:latest
           chmod -R a+rwX genesis-hist/bench
-          ls -ld genesis-hist/bench genesis-hist/bench/src
           docker run --rm -v "$PWD/genesis-hist/bench:/src" ghcr.io/stephane-d/sgdk:latest
           test -s genesis-hist/bench/out/rom.bin
           test -s genesis-hist/bench/out/symbol.txt
@@ -84,14 +83,21 @@ jobs:
           git rev-parse HEAD | tee ../blastem-commit.txt
           python3 - "$WATCH_ADDR" <<'PY'
           from pathlib import Path
-          import sys
+          import re,sys
           watch=sys.argv[1]
           p=Path('m68k_util.c')
           s=p.read_text()
-          old='    int32_t address = context->scratch2 & context->opts->gen.address_mask;\n    uint32_t index = address >> 16;\n'
-          new=f'''    int32_t address = context->scratch2 & context->opts->gen.address_mask;\n    if ((address & 0xFFFFFF) == {watch}) {{\n        fprintf(stderr, "RTCWATCH value=0x%04X master_cycles=%u\\n", (unsigned)(context->scratch1 & 0xFFFF), (unsigned)context->cycles);\n        fflush(stderr);\n    }}\n    uint32_t index = address >> 16;\n'''
-          if old not in s: raise SystemExit('BlastEm write-16 insertion point missing')
-          p.write_text(s.replace(old,new,1))
+          if '#include <stdio.h>' not in s:
+              s=s.replace('#include <string.h>\n','#include <string.h>\n#include <stdio.h>\n',1)
+          pat=r'(void m68k_write_16\(m68k_context \*context\)\n\{\n\s*context->cycles \+= 4 \* context->opts->gen\.clock_divider;\n\s*int32_t address = context->scratch2 & context->opts->gen\.address_mask;\n)'
+          ins=rf'''\1\tif ((address & 0xFFFFFF) == {watch}) {{
+\t\tfprintf(stderr, "RTCWATCH value=0x%04X master_cycles=%u\\n", (unsigned)(context->scratch1 & 0xFFFF), (unsigned)context->cycles);
+\t\tfflush(stderr);
+\t}}
+'''
+          s2,n=re.subn(pat,ins,s,count=1)
+          if n != 1: raise SystemExit('BlastEm m68k_write_16 insertion point missing')
+          p.write_text(s2)
           PY
           make -j2
           (./blastem -v || true) 2>&1 | tee ../blastem-version.txt
@@ -149,7 +155,7 @@ jobs:
             echo '- Independent emulator: BlastEm; exact commit recorded in blastem-commit.txt'
             echo '- Marker address derived from generated symbol.txt; no hard-coded RAM address'
             echo '- Timing source: BlastEm 68000 context master-cycle counter, divided by hardware clock divider 7'
-            echo '- Correctness evidence is emitted after END and therefore does not affect the measured interval'
+            echo '- Correctness evidence emitted after END and outside measured interval'
             echo
             if test -f evidence/result.json; then cat evidence/result.json; else echo 'FAIL-CLOSED: no validated result.'; fi
           } > evidence/REPORT.md
