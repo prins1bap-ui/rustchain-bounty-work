@@ -1,0 +1,204 @@
+name: Bounty 16517 Genesis BlastEm
+
+on:
+  push:
+    branches:
+      - bounty-16517-genesis-blastem-20260910
+    paths:
+      - '.github/workflows/bounty-16517-genesis-blastem.yml'
+      - '16517-genesis-blastem/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install host dependencies
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y git make gcc g++ python3 libsdl2-dev libglew-dev zlib1g-dev libpng-dev libgtk-3-dev libzstd-dev
+
+      - name: Prepare exact Genesis source and benchmark shell
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/Scottcjn/legend-of-elya-genesis.git genesis-main
+          cp -a genesis-main genesis-hist
+          cd genesis-hist
+          git checkout 6b5ce98e44bb07e9156291ffd470ff7371e170e9
+          rm -rf bench
+          cp -a ../genesis-main/bench ./bench
+          # Current bench shell is measurement-only and symlinks the historical engine.
+          # Add token-evidence writes after the END marker so they do not affect measured cycles.
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('bench/src/bench_main.c')
+          s=p.read_text()
+          needle='    bench_status = 0x5A;\n    bench_marker = 4;                       /* results readable */\n'
+          repl='    bench_status = 0x5A;\n    for (u16 i = 0; i < BENCH_NTOK; i++) {\n        bench_marker = 0x8000u | ((u32)i << 8) | bench_tok[i];\n    }\n    bench_marker = 4;                       /* results readable */\n'
+          if needle not in s:
+              raise SystemExit('bench_main insertion point not found')
+          p.write_text(s.replace(needle,repl))
+          PY
+          cp res/elya_brain_w16.bin bench/res/model.bin
+          printf '%s\n' 'SOURCE_COMMIT=6b5ce98e44bb07e9156291ffd470ff7371e170e9' | tee ../source.txt
+          git rev-parse HEAD | tee -a ../source.txt
+
+      - name: Build historical benchmark ROM with SGDK container
+        run: |
+          set -euxo pipefail
+          docker pull ghcr.io/stephane-d/sgdk:latest
+          docker run --rm --entrypoint /bin/bash -v "$PWD/genesis-hist:/src" ghcr.io/stephane-d/sgdk:latest -lc '
+            set -euxo pipefail
+            GDK=$(dirname "$(find / -name makefile.gen -type f 2>/dev/null | head -1)")
+            test -f "$GDK/makefile.gen"
+            cd /src/bench
+            rm -rf out res/bench.h res/bench.rs
+            make -f "$GDK/makefile.gen"
+          '
+          test -s genesis-hist/bench/out/rom.bin
+          test -s genesis-hist/bench/out/symbol.txt
+          sha256sum genesis-hist/bench/out/rom.bin | tee rom-sha256.txt
+          grep -E 'bench_(marker|expert|status|ntok|tok)' genesis-hist/bench/out/symbol.txt | tee symbols.txt
+
+      - name: Resolve marker address
+        run: |
+          set -euxo pipefail
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          text=Path('genesis-hist/bench/out/symbol.txt').read_text(errors='replace')
+          lines=[ln for ln in text.splitlines() if 'bench_marker' in ln]
+          if not lines:
+              raise SystemExit('bench_marker not found in symbols')
+          line=lines[0]
+          vals=re.findall(r'(?i)(?:0x)?([0-9a-f]{6,8})', line)
+          if not vals:
+              raise SystemExit(f'could not parse marker address from {line!r}')
+          addr=int(vals[0],16) & 0xFFFFFF
+          low=(addr+2)&0xFFFFFF
+          Path('watch.env').write_text(f'MARKER_ADDR=0x{addr:06X}\nWATCH_ADDR=0x{low:06X}\n')
+          print(Path('watch.env').read_text(), end='')
+          PY
+
+      - name: Build independent BlastEm instrument
+        run: |
+          set -euxo pipefail
+          source watch.env
+          git clone --depth 1 --branch libretro https://github.com/libretro/blastem.git blastem
+          cd blastem
+          git rev-parse HEAD | tee ../blastem-commit.txt
+          python3 - "$WATCH_ADDR" <<'PY'
+          from pathlib import Path
+          import sys
+          watch=sys.argv[1]
+          p=Path('m68k_util.c')
+          s=p.read_text()
+          needle='    int32_t address = context->scratch2 & context->opts->gen.address_mask;\n    uint32_t index = address >> 16;\n'
+          repl=f'''    int32_t address = context->scratch2 & context->opts->gen.address_mask;\n    if ((address & 0xFFFFFF) == {watch}) {{\n        fprintf(stderr, "RTCWATCH value=0x%04X master_cycles=%u\\n", (unsigned)(context->scratch1 & 0xFFFF), (unsigned)context->cycles);\n        fflush(stderr);\n    }}\n    uint32_t index = address >> 16;\n'''
+          if needle not in s:
+              raise SystemExit('BlastEm m68k_write_16 insertion point not found')
+          p.write_text(s.replace(needle,repl,1))
+          PY
+          make -j2
+          ./blastem -v | tee ../blastem-version.txt || true
+
+      - name: Run three independent BlastEm measurements
+        run: |
+          set -euxo pipefail
+          mkdir -p evidence
+          for n in 1 2 3; do
+            SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy timeout 90s ./blastem/blastem -b 5000 genesis-hist/bench/out/rom.bin >"evidence/run${n}.stdout" 2>"evidence/run${n}.stderr" || rc=$?
+            rc=${rc:-0}
+            echo "exit=$rc" | tee "evidence/run${n}.exit"
+            grep RTCWATCH "evidence/run${n}.stderr" > "evidence/run${n}.watch" || true
+            unset rc
+          done
+
+      - name: Parse counts and enforce correctness gate
+        run: |
+          set -euxo pipefail
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          expected=[67,97,108,108,32,109,101,32,83,111,112,104,105,97,32,69,108,121,97,44,32,121,111,117]
+          published=142_972_761
+          results=[]
+          for n in range(1,4):
+              p=Path(f'evidence/run{n}.watch')
+              rows=[]
+              for line in p.read_text(errors='replace').splitlines():
+                  m=re.search(r'value=0x([0-9A-Fa-f]{4})\s+master_cycles=(\d+)',line)
+                  if m: rows.append((int(m.group(1),16),int(m.group(2))))
+              starts=[c for v,c in rows if v==1]
+              ends=[c for v,c in rows if v==2]
+              finals=[c for v,c in rows if v==4]
+              token_pairs=[]
+              for v,c in rows:
+                  if 0x8000 <= v <= 0x97FF:
+                      idx=(v>>8)&0x1F
+                      tok=v&0xFF
+                      token_pairs.append((idx,tok))
+              by_idx={i:t for i,t in token_pairs}
+              tokens=[by_idx[i] for i in range(24)] if all(i in by_idx for i in range(24)) else []
+              if not starts or not ends:
+                  raise SystemExit(f'run {n}: missing start/end markers; rows={len(rows)}')
+              master_delta=ends[0]-starts[0]
+              if master_delta % 7:
+                  raise SystemExit(f'run {n}: master delta not divisible by 7: {master_delta}')
+              cycles=master_delta//7
+              gate=tokens==expected
+              if not gate:
+                  raise SystemExit(f'run {n}: token gate failed: {tokens}')
+              results.append({'run':n,'start_master':starts[0],'end_master':ends[0],'master_delta':master_delta,'m68k_cycles':cycles,'tokens':tokens,'token_text':bytes(tokens).decode("ascii"),'final_marker_seen':bool(finals),'gate':gate,'delta_from_published':cycles-published,'pct_delta':(cycles-published)/published*100})
+          deterministic=len({r['m68k_cycles'] for r in results})==1
+          if not deterministic:
+              raise SystemExit(f'cycle counts not deterministic: {[r["m68k_cycles"] for r in results]}')
+          out={'source_commit':'6b5ce98e44bb07e9156291ffd470ff7371e170e9','published_m68k_cycles':published,'clock_divider':7,'expected_tokens':expected,'results':results,'deterministic':deterministic}
+          Path('evidence/result.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out,indent=2))
+          PY
+
+      - name: Write evidence summary
+        if: always()
+        run: |
+          {
+            echo '# #16517 Genesis → BlastEm reproduction evidence'
+            echo
+            echo '- Target repo: Scottcjn/legend-of-elya-genesis'
+            echo '- Historical target commit: 6b5ce98e44bb07e9156291ffd470ff7371e170e9'
+            echo '- Published target at that commit: 142,972,761 68000 cycles for 38 forward passes'
+            echo '- Independent emulator: BlastEm (libretro tracking source; exact commit in blastem-commit.txt)'
+            echo '- Instrument: BlastEm 68000 write-path marker logger, marker address derived from SGDK symbol.txt'
+            echo '- Timing: master-clock delta between bench_marker low-word writes 1 and 2, divided by the Genesis 68000 divider 7'
+            echo '- Token evidence: 24 token bytes emitted only after END marker, therefore outside measured region'
+            echo
+            if test -f evidence/result.json; then
+              echo '```json'
+              cat evidence/result.json
+              echo '```'
+            else
+              echo 'FAIL-CLOSED: result.json was not produced; inspect raw logs.'
+            fi
+          } > evidence/REPORT.md
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bounty-16517-genesis-blastem-evidence
+          path: |
+            evidence/
+            source.txt
+            symbols.txt
+            watch.env
+            rom-sha256.txt
+            blastem-version.txt
+            blastem-commit.txt
+            genesis-hist/bench/out/symbol.txt
+          if-no-files-found: warn
