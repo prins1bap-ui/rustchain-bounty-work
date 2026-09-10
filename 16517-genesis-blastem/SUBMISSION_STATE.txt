@@ -1,2 +1,6 @@
-BUILT_AND_VALIDATED
-GitHub submission attempt pending.
+SUBMITTED
+Requested tier: 15 RTC — independent emulator.
+Submission route: documented #16517 maintainer fallback after established GitHub App 403 limitation.
+Gmail sent message id: 1a08daa478b2a203
+Evidence run: 34541997819
+Do not duplicate this Genesis/BlastEm claim unless the maintainer requests a revision.
