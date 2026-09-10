@@ -1,0 +1,71 @@
+name: Bounty 16517 SNES bsnes
+
+on:
+  push:
+    branches: [bounty-16517-snes-bsnes-20260910]
+    paths:
+      - '.github/workflows/bounty-16517-snes-bsnes.yml'
+      - '16517-snes-bsnes/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build and emulator dependencies
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y cc65 bsnes xvfb xdotool python3
+          bsnes --help 2>&1 | tee bsnes-help.txt || true
+          bsnes --version 2>&1 | tee bsnes-version.txt || true
+          ca65 --version 2>&1 | tee cc65-version.txt || true
+      - name: Clone exact SNES source
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/Scottcjn/elya-snes.git upstream
+          cd upstream
+          git checkout 1464529b9bd92c75e2c21cebd65af104b8976e82
+          test "$(git rev-parse HEAD)" = '1464529b9bd92c75e2c21cebd65af104b8976e82'
+      - name: Build canonical profile ROMs
+        run: |
+          set -euxo pipefail
+          cd upstream
+          SNES_FAST=0 NAME=nnprof DEFS='-DPROFILE' ./build_nn.sh
+          SNES_FAST=1 NAME=nnfastprof DEFS='-DFASTROM=1 -DPROFILE' ./build_nn.sh
+          sha256sum out/nnprof.sfc out/nnfastprof.sfc | tee ../rom-sha256.txt
+      - name: Probe bsnes save-RAM behavior
+        run: |
+          set -euxo pipefail
+          mkdir -p "$HOME/.local/share/bsnes" probe
+          cp upstream/out/nnprof.sfc probe/nnprof.sfc
+          before=$(date +%s)
+          set +e
+          timeout --signal=INT --kill-after=5s 45s xvfb-run -a bsnes probe/nnprof.sfc >bsnes-run.log 2>&1
+          rc=$?
+          set -e
+          echo "bsnes_rc=$rc" | tee probe-status.txt
+          echo '--- possible save files ---' | tee -a probe-status.txt
+          find "$HOME" "$PWD/probe" -type f \( -name '*.srm' -o -name '*.ram' -o -name '*.sav' \) -printf '%p %s bytes %TY-%Tm-%TdT%TH:%TM:%TS\n' 2>/dev/null | tee -a probe-status.txt || true
+          echo '--- bsnes log ---' | tee -a probe-status.txt
+          tail -n 100 bsnes-run.log | tee -a probe-status.txt || true
+          # Diagnostic pass only. Fail if emulator itself was unavailable; a timeout is expected here.
+          if [ "$rc" -eq 127 ]; then exit 1; fi
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bounty-16517-snes-bsnes-diagnostic
+          path: |
+            bsnes-help.txt
+            bsnes-version.txt
+            cc65-version.txt
+            rom-sha256.txt
+            probe-status.txt
+            bsnes-run.log
+          if-no-files-found: warn
