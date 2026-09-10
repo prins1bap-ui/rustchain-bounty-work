@@ -33,12 +33,9 @@ jobs:
           git checkout 6b5ce98e44bb07e9156291ffd470ff7371e170e9
           rm -rf bench
           cp -a ../genesis-main/bench ./bench
-          # Current bench shell symlinks the engine. Replace the links with files from
-          # the exact historical commit so /src can be mounted standalone in SGDK.
           rm -f bench/src/elya_gpt.c bench/src/elya_gpt.h bench/src/elya_router.h
           cp src/elya_gpt.c src/elya_gpt.h src/elya_router.h bench/src/
           cp res/elya_brain_w16.bin bench/res/model.bin
-          # Emit token evidence after the END marker, outside the measured interval.
           python3 - <<'PY'
           from pathlib import Path
           p=Path('bench/src/bench_main.c')
@@ -54,8 +51,8 @@ jobs:
         run: |
           set -euxo pipefail
           docker pull ghcr.io/stephane-d/sgdk:latest
-          # The official image is a compiler image with its own entrypoint; mount the
-          # standalone SGDK project at /src exactly as documented by SGDK.
+          chmod -R a+rwX genesis-hist/bench
+          ls -ld genesis-hist/bench genesis-hist/bench/src
           docker run --rm -v "$PWD/genesis-hist/bench:/src" ghcr.io/stephane-d/sgdk:latest
           test -s genesis-hist/bench/out/rom.bin
           test -s genesis-hist/bench/out/symbol.txt
