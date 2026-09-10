@@ -70,7 +70,7 @@ jobs:
           vals=re.findall(r'(?i)(?:0x)?([0-9a-f]{6,8})', line)
           if not vals: raise SystemExit(f'cannot parse marker: {line}')
           addr=int(vals[0],16)&0xFFFFFF
-          Path('watch.env').write_text(f'MARKER_ADDR=0x{addr:06X}\nWATCH_ADDR=0x{(addr+2)&0xFFFFFF:06X}\n')
+          Path('watch.env').write_text(f'MARKER_ADDR=0x{addr:06X}\nWATCH_ADDR=0x{addr:06X}\n')
           print(Path('watch.env').read_text(),end='')
           PY
 
@@ -81,24 +81,9 @@ jobs:
           git clone --depth 1 https://github.com/libretro/blastem.git blastem
           cd blastem
           git rev-parse HEAD | tee ../blastem-commit.txt
-          python3 - "$WATCH_ADDR" <<'PY'
-          from pathlib import Path
-          import re,sys
-          watch=sys.argv[1]
-          p=Path('m68k_util.c')
-          s=p.read_text()
-          if '#include <stdio.h>' not in s:
-              s=s.replace('#include <string.h>\n','#include <string.h>\n#include <stdio.h>\n',1)
-          pat=r'(void m68k_write_16\(m68k_context \*context\)\n\{\n\s*context->cycles \+= 4 \* context->opts->gen\.clock_divider;\n\s*int32_t address = context->scratch2 & context->opts->gen\.address_mask;\n)'
-          ins=rf'''\1\tif ((address & 0xFFFFFF) == {watch}) {{
-\t\tfprintf(stderr, "RTCWATCH value=0x%04X master_cycles=%u\\n", (unsigned)(context->scratch1 & 0xFFFF), (unsigned)context->cycles);
-\t\tfflush(stderr);
-\t}}
-'''
-          s2,n=re.subn(pat,ins,s,count=1)
-          if n != 1: raise SystemExit('BlastEm m68k_write_16 insertion point missing')
-          p.write_text(s2)
-          PY
+          cd ..
+          python3 16517-genesis-blastem/instrument_blastem.py blastem/m68k_util.c "$WATCH_ADDR"
+          cd blastem
           make -j2
           (./blastem -v || true) 2>&1 | tee ../blastem-version.txt
 
@@ -127,7 +112,8 @@ jobs:
               for line in Path(f'evidence/run{n}.watch').read_text(errors='replace').splitlines():
                   m=re.search(r'value=0x([0-9A-Fa-f]{4})\s+master_cycles=(\d+)',line)
                   if m: rows.append((int(m.group(1),16),int(m.group(2))))
-              starts=[c for v,c in rows if v==1]; ends=[c for v,c in rows if v==2]
+              starts=[c for v,c in rows if v==1]
+              ends=[c for v,c in rows if v==2]
               if not starts or not ends: raise SystemExit(f'run {n}: missing timing markers, rows={len(rows)}')
               pairs={(v>>8)&0x1F:v&0xFF for v,c in rows if 0x8000<=v<=0x97FF}
               tokens=[pairs[i] for i in range(24)] if all(i in pairs for i in range(24)) else []
