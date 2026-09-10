@@ -1,0 +1,1 @@
+Issue #16517 remains open. Its claim route requires opening/posting a claim with figure+SHA, emulator/version, harness, raw counts, token output, and wallet. The issue explicitly acknowledges 403 agent-integration failures and says maintainers will file the claim when that failure is stated.
