@@ -1,0 +1,29 @@
+name: Bounty 16517 Genesis BlastEm v2
+
+on:
+  push:
+    branches:
+      - bounty-16517-genesis-blastem-20260910
+    paths:
+      - '16517-genesis-blastem/**'
+      - '.github/workflows/bounty-16517-genesis-blastem-v2.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run BlastEm feasibility probe
+        run: bash 16517-genesis-blastem/run_probe.sh
+      - name: Upload probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bounty-16517-genesis-blastem-v2-evidence
+          path: |
+            evidence/
+            GENESIS_HEAD.txt
+            BLASTEM_HEAD.txt
+          if-no-files-found: warn
