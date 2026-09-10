@@ -1,0 +1,1 @@
+The connected GitHub App previously returned 403 Resource not accessible by integration on #16517 for the NES/Mesen claim. Issue #16517 explicitly recognizes this failure mode and permits maintainer filing when stated in the claim. Avoiding another redundant permission probe; use the documented maintainer fallback for this distinct validated claim.
