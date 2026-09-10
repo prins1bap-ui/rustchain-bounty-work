@@ -1,0 +1,22 @@
+{
+  "bounty": 16517,
+  "claimant": "prins1bap-ui",
+  "wallet": "RTCc5449fe1b93385961152720c864c0f073dae5855",
+  "requested_rtc": 15,
+  "source_commit": "6b5ce98e44bb07e9156291ffd470ff7371e170e9",
+  "emulator": "BlastEm 0.6.3-pre",
+  "emulator_commit": "b4d75247ebad8852fd9bc385b423df704c6c5af5",
+  "published_cycles": 142972761,
+  "runs": [145355904, 145355904, 145355904],
+  "master_cycle_deltas": [1017491328, 1017491328, 1017491328],
+  "delta_cycles": 2383143,
+  "delta_percent": 1.6668510724221097,
+  "token_gate_pass": true,
+  "tokens": [67,97,108,108,32,109,101,32,83,111,112,104,105,97,32,69,108,121,97,44,32,121,111,117],
+  "token_text": "Call me Sophia Elya, you",
+  "deterministic": true,
+  "classification": "independent_emulator_disagreement_15_rtc_tier",
+  "workflow_run": 34541997819,
+  "artifact_id": 10177702757,
+  "artifact_sha256": "b31389c0c896fdfa3facb02da633909c4a5d11264876ec90b07868e8b13f4668"
+}
