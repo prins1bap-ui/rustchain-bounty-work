@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-labelledby="title desc">
+  <title id="title">RustChain Proof of Antiquity explainer</title>
+  <desc id="desc">A newcomer-friendly flowchart explaining one CPU one vote, antiquity weighting, six hardware fingerprint checks, anti-emulation, and the clawrtc install command.</desc>
+  <rect width="1200" height="1600" fill="#0b0f14"/>
+  <text x="600" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#f4f7fb">RustChain: Proof of Antiquity</text>
+  <text x="600" y="142" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#b8c2cc">One CPU = one vote, weighted by verified hardware age</text>
+
+  <rect x="100" y="220" width="1000" height="160" rx="28" fill="#18212b" stroke="#7dd3fc" stroke-width="4"/>
+  <text x="600" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#7dd3fc">1. Your machine identifies itself</text>
+  <text x="600" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" fill="#f4f7fb">The miner reports measurable hardware characteristics, not just a model name.</text>
+
+  <line x1="600" y1="380" x2="600" y2="445" stroke="#94a3b8" stroke-width="6"/>
+  <polygon points="600,468 584,438 616,438" fill="#94a3b8"/>
+
+  <rect x="100" y="475" width="1000" height="420" rx="28" fill="#18212b" stroke="#fbbf24" stroke-width="4"/>
+  <text x="600" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fbbf24">2. Six hardware-fingerprint checks</text>
+  <text x="160" y="605" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">1. Clock-skew &amp; oscillator drift</text>
+  <text x="160" y="660" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">2. Cache timing fingerprint</text>
+  <text x="160" y="715" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">3. SIMD unit identity</text>
+  <text x="160" y="770" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">4. Thermal drift entropy</text>
+  <text x="160" y="825" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">5. Instruction-path jitter</text>
+  <text x="160" y="880" font-family="Arial, sans-serif" font-size="28" fill="#f4f7fb">6. Anti-emulation detection</text>
+
+  <line x1="600" y1="895" x2="600" y2="960" stroke="#94a3b8" stroke-width="6"/>
+  <polygon points="600,983 584,953 616,953" fill="#94a3b8"/>
+
+  <rect x="100" y="990" width="470" height="250" rx="28" fill="#16321f" stroke="#86efac" stroke-width="4"/>
+  <text x="335" y="1050" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#86efac">REAL HARDWARE</text>
+  <text x="335" y="1105" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">Fingerprint is cross-checked.</text>
+  <text x="335" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">Older verified hardware can</text>
+  <text x="335" y="1190" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">receive a higher antiquity weight.</text>
+
+  <rect x="630" y="990" width="470" height="250" rx="28" fill="#35171b" stroke="#fca5a5" stroke-width="4"/>
+  <text x="865" y="1050" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#fca5a5">VM / EMULATOR</text>
+  <text x="865" y="1105" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">Anti-emulation and timing checks</text>
+  <text x="865" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">are designed to detect synthetic</text>
+  <text x="865" y="1190" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#f4f7fb">environments and heavily penalize them.</text>
+
+  <line x1="600" y1="1240" x2="600" y2="1300" stroke="#94a3b8" stroke-width="6"/>
+  <polygon points="600,1323 584,1293 616,1293" fill="#94a3b8"/>
+
+  <rect x="100" y="1330" width="1000" height="170" rx="28" fill="#18212b" stroke="#c4b5fd" stroke-width="4"/>
+  <text x="600" y="1390" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#c4b5fd">3. Consensus weight comes from verified hardware</text>
+  <text x="600" y="1440" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" fill="#f4f7fb">Same vote model, different antiquity multiplier. The point is preservation, not raw speed.</text>
+
+  <rect x="285" y="1530" width="630" height="52" rx="14" fill="#111827" stroke="#64748b" stroke-width="2"/>
+  <text x="600" y="1566" text-anchor="middle" font-family="monospace" font-size="28" fill="#f4f7fb">pip install clawrtc</text>
+</svg>
