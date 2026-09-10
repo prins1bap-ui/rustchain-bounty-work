@@ -70,7 +70,7 @@ jobs:
           vals=re.findall(r'(?i)(?:0x)?([0-9a-f]{6,8})', line)
           if not vals: raise SystemExit(f'cannot parse marker: {line}')
           addr=int(vals[0],16)&0xFFFFFF
-          Path('watch.env').write_text(f'MARKER_ADDR=0x{addr:06X}\nWATCH_ADDR=0x{addr:06X}\n')
+          Path('watch.env').write_text(f'MARKER_ADDR=0x{addr:06X}\n')
           print(Path('watch.env').read_text(),end='')
           PY
 
@@ -82,7 +82,7 @@ jobs:
           cd blastem
           git rev-parse HEAD | tee ../blastem-commit.txt
           cd ..
-          python3 16517-genesis-blastem/instrument_blastem.py blastem/m68k_util.c "$WATCH_ADDR"
+          python3 16517-genesis-blastem/instrument_blastem.py blastem/genesis.c "$MARKER_ADDR"
           cd blastem
           make -j2
           (./blastem -v || true) 2>&1 | tee ../blastem-version.txt
