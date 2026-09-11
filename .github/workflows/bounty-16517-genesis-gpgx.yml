@@ -81,6 +81,18 @@ jobs:
           grep -q 'work_ram' gpgx-instrumentation-surface.txt
           printf 'BUILD_QA=PASS: pinned independent core + historical benchmark + cycle/RAM instrumentation surface\n' | tee -a evidence.txt
 
+      - name: Execute benchmark in Genesis Plus GX and read work RAM
+        run: |
+          set -euxo pipefail
+          python3 16517-genesis-gpgx/run_libretro_bench.py \
+            --core gpgx/genesis_plus_gx_libretro.so \
+            --rom genesis-hist/bench/out/rom.bin \
+            --symbols genesis-hist/bench/out/symbol.txt \
+            --max-frames 36000 \
+            --out gpgx-execution.json | tee gpgx-execution.log
+          grep -q 'EXECUTION_QA=PASS' gpgx-execution.log
+          printf 'EXECUTION_QA=PASS: benchmark reached result marker in independent emulator with >=16 tokens\n' | tee -a evidence.txt
+
       - name: Upload pivot QA evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -90,6 +102,8 @@ jobs:
             evidence.txt
             symbols.txt
             gpgx-instrumentation-surface.txt
+            gpgx-execution.json
+            gpgx-execution.log
             genesis-hist/bench/out/rom.bin
             genesis-hist/bench/out/symbol.txt
             gpgx/genesis_plus_gx_libretro.so
