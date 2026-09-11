@@ -14,17 +14,25 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Install build and emulator dependencies
+      - name: Install build dependencies and resolve bsnes package
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y cc65 bsnes xvfb xdotool python3
-          bsnes --help 2>&1 | tee bsnes-help.txt || true
-          bsnes --version 2>&1 | tee bsnes-version.txt || true
-          ca65 --version 2>&1 | tee cc65-version.txt || true
+          sudo apt-get install -y cc65 xvfb xdotool python3 git build-essential pkg-config
+          apt-cache policy bsnes | tee bsnes-policy.txt || true
+          if apt-cache show bsnes >/dev/null 2>&1; then
+            sudo apt-get install -y bsnes
+          else
+            echo 'bsnes package unavailable in configured Ubuntu repositories' | tee -a bsnes-policy.txt
+            exit 42
+          fi
+          command -v bsnes | tee bsnes-command.txt
+          bsnes --help >bsnes-help.txt 2>&1 || true
+          bsnes --version >bsnes-version.txt 2>&1 || true
+          ca65 --version >cc65-version.txt 2>&1 || true
       - name: Clone exact SNES source
         run: |
           set -euxo pipefail
@@ -42,19 +50,17 @@ jobs:
       - name: Probe bsnes save-RAM behavior
         run: |
           set -euxo pipefail
-          mkdir -p "$HOME/.local/share/bsnes" probe
+          mkdir -p probe
           cp upstream/out/nnprof.sfc probe/nnprof.sfc
-          before=$(date +%s)
           set +e
           timeout --signal=INT --kill-after=5s 45s xvfb-run -a bsnes probe/nnprof.sfc >bsnes-run.log 2>&1
           rc=$?
           set -e
           echo "bsnes_rc=$rc" | tee probe-status.txt
           echo '--- possible save files ---' | tee -a probe-status.txt
-          find "$HOME" "$PWD/probe" -type f \( -name '*.srm' -o -name '*.ram' -o -name '*.sav' \) -printf '%p %s bytes %TY-%Tm-%TdT%TH:%TM:%TS\n' 2>/dev/null | tee -a probe-status.txt || true
+          find "$HOME" "$PWD/probe" -type f \( -name '*.srm' -o -name '*.ram' -o -name '*.sav' -o -name '*.bs' \) -printf '%p %s bytes %TY-%Tm-%TdT%TH:%TM:%TS\n' 2>/dev/null | tee -a probe-status.txt || true
           echo '--- bsnes log ---' | tee -a probe-status.txt
           tail -n 100 bsnes-run.log | tee -a probe-status.txt || true
-          # Diagnostic pass only. Fail if emulator itself was unavailable; a timeout is expected here.
           if [ "$rc" -eq 127 ]; then exit 1; fi
       - name: Upload diagnostic evidence
         if: always()
@@ -62,6 +68,8 @@ jobs:
         with:
           name: bounty-16517-snes-bsnes-diagnostic
           path: |
+            bsnes-policy.txt
+            bsnes-command.txt
             bsnes-help.txt
             bsnes-version.txt
             cc65-version.txt
