@@ -19,7 +19,7 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y build-essential git python3 xvfb libgtk2.0-dev libpulse-dev mesa-common-dev libgtksourceview2.0-dev libcairo2-dev libsdl2-dev libxv-dev libao-dev libopenal-dev libudev-dev zip
+          sudo apt-get install -y build-essential git python3 xvfb libgtk2.0-dev libpulse-dev mesa-common-dev libcairo2-dev libsdl2-dev libxv-dev libao-dev libopenal-dev libudev-dev zip
 
       - name: Build independent bsnes emulator
         shell: bash
