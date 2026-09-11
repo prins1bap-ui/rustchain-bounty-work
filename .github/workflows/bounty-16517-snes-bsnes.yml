@@ -9,27 +9,31 @@ on:
 jobs:
   bsnes-preflight:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout operator repo
         uses: actions/checkout@v4
 
-      - name: Install emulator and build dependencies
+      - name: Install bsnes source-build dependencies
         shell: bash
         run: |
           set -euxo pipefail
           sudo apt-get update
-          if apt-cache show bsnes >/dev/null 2>&1; then
-            sudo apt-get install -y bsnes git python3 xvfb
-            EMU=bsnes
-          elif apt-cache show higan >/dev/null 2>&1; then
-            sudo apt-get install -y higan git python3 xvfb
-            EMU=higan
-          else
-            echo 'Neither bsnes nor higan is available from the Ubuntu package index' >&2
-            exit 21
-          fi
-          echo "EMU=$EMU" >> "$GITHUB_ENV"
+          sudo apt-get install -y build-essential git python3 xvfb libgtk2.0-dev libpulse-dev mesa-common-dev libcairo2-dev libsdl2-dev libxv-dev libao-dev libopenal-dev libudev-dev zip
+
+      - name: Build independent bsnes emulator
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/libretro/bsnes.git upstream/bsnes
+          cd upstream/bsnes
+          BSNES_SHA=$(git rev-parse HEAD)
+          echo "BSNES_SHA=$BSNES_SHA" >> "$GITHUB_ENV"
+          make -C bsnes local=false -j2
+          test -x bsnes/out/bsnes
+          cp bsnes/out/bsnes ../../bsnes-bin
+          printf 'BSNES_SHA=%s\n' "$BSNES_SHA" | tee ../../snes-bsnes-preflight.txt
+          sha256sum bsnes/out/bsnes | tee -a ../../snes-bsnes-preflight.txt
 
       - name: Pin upstream SNES source
         shell: bash
@@ -39,35 +43,27 @@ jobs:
           cd upstream/elya-snes
           git checkout 0ed1aae3e9cc900da3bc6f88a9abf1bf612f669b
           test "$(git rev-parse HEAD)" = "0ed1aae3e9cc900da3bc6f88a9abf1bf612f669b"
-          printf 'SOURCE_SHA=%s\n' "$(git rev-parse HEAD)" | tee ../../snes-bsnes-preflight.txt
-          find . -maxdepth 3 -type f | sort | sed -n '1,250p' >> ../../snes-bsnes-preflight.txt
+          printf 'SOURCE_SHA=%s\n' "$(git rev-parse HEAD)" | tee -a ../../snes-bsnes-preflight.txt
 
-      - name: Verify ROM / discover deterministic build path
+      - name: Verify pinned benchmark ROM
         shell: bash
         run: |
           set -euxo pipefail
           cd upstream/elya-snes
-          if [ -f out/nn.sfc ]; then
-            sha256sum out/nn.sfc | tee -a ../../snes-bsnes-preflight.txt
-            cp out/nn.sfc ../../nn.sfc
-          else
-            echo 'out/nn.sfc absent at pinned commit; recording build files for repair pass' | tee -a ../../snes-bsnes-preflight.txt
-            find . -maxdepth 2 -type f \( -name 'Makefile' -o -name '*.sh' -o -name '*.py' -o -name '*.cfg' \) -print | sort | tee -a ../../snes-bsnes-preflight.txt
-            exit 22
-          fi
+          test -f out/nn.sfc
+          sha256sum out/nn.sfc | tee -a ../../snes-bsnes-preflight.txt
+          cp out/nn.sfc ../../nn.sfc
 
       - name: Emulator identity and headless smoke test
-        if: success()
         shell: bash
         run: |
           set -euxo pipefail
-          command -v "$EMU" | tee -a snes-bsnes-preflight.txt
-          ("$EMU" --help || true) 2>&1 | head -100 | tee -a snes-bsnes-preflight.txt
-          timeout 8s xvfb-run -a "$EMU" "$PWD/nn.sfc" > emulator-smoke.log 2>&1 || rc=$?
+          ./bsnes-bin --help > bsnes-help.txt 2>&1 || true
+          head -100 bsnes-help.txt | tee -a snes-bsnes-preflight.txt
+          timeout 8s xvfb-run -a ./bsnes-bin "$PWD/nn.sfc" > emulator-smoke.log 2>&1 || rc=$?
           rc=${rc:-0}
           echo "smoke_exit=$rc" | tee -a snes-bsnes-preflight.txt
-          cat emulator-smoke.log | tail -100 | tee -a snes-bsnes-preflight.txt
-          # Timeout is acceptable for an emulator that launched and stayed running.
+          tail -100 emulator-smoke.log | tee -a snes-bsnes-preflight.txt
           if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then
             exit "$rc"
           fi
@@ -80,5 +76,7 @@ jobs:
           path: |
             snes-bsnes-preflight.txt
             emulator-smoke.log
+            bsnes-help.txt
             nn.sfc
+            bsnes-bin
           if-no-files-found: ignore
