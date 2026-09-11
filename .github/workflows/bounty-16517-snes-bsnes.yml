@@ -17,22 +17,26 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Install build dependencies and resolve bsnes package
+      - name: Install build dependencies
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y cc65 xvfb xdotool python3 git build-essential pkg-config
-          apt-cache policy bsnes | tee bsnes-policy.txt || true
-          if apt-cache show bsnes >/dev/null 2>&1; then
-            sudo apt-get install -y bsnes
-          else
-            echo 'bsnes package unavailable in configured Ubuntu repositories' | tee -a bsnes-policy.txt
-            exit 42
-          fi
-          command -v bsnes | tee bsnes-command.txt
-          bsnes --help >bsnes-help.txt 2>&1 || true
-          bsnes --version >bsnes-version.txt 2>&1 || true
+          sudo apt-get install -y cc65 xvfb xdotool python3 git build-essential pkg-config libsdl2-dev libgtk-3-dev libgtksourceview-3.0-dev libao-dev libopenal-dev libx11-dev libxext-dev
           ca65 --version >cc65-version.txt 2>&1 || true
+      - name: Build pinned official bsnes
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/bsnes-emu/bsnes.git bsnes-src
+          cd bsnes-src
+          git checkout 7d5aa1e656b9171524d01b1b22917197d8121cb4
+          test "$(git rev-parse HEAD)" = '7d5aa1e656b9171524d01b1b22917197d8121cb4'
+          make -j2 -C bsnes local=false
+          test -x bsnes/out/bsnes
+          cp bsnes/out/bsnes ../bsnes-bin
+          cd ..
+          sha256sum bsnes-bin | tee bsnes-sha256.txt
+          echo 'bsnes commit 7d5aa1e656b9171524d01b1b22917197d8121cb4' | tee bsnes-version.txt
+          ./bsnes-bin --help >bsnes-help.txt 2>&1 || true
       - name: Clone exact SNES source
         run: |
           set -euxo pipefail
@@ -48,19 +52,22 @@ jobs:
           SNES_FAST=1 NAME=nnfastprof DEFS='-DFASTROM=1 -DPROFILE' ./build_nn.sh
           sha256sum out/nnprof.sfc out/nnfastprof.sfc | tee ../rom-sha256.txt
       - name: Probe bsnes save-RAM behavior
+        env:
+          SDL_AUDIODRIVER: dummy
         run: |
           set -euxo pipefail
-          mkdir -p probe
+          mkdir -p probe home
           cp upstream/out/nnprof.sfc probe/nnprof.sfc
+          export HOME="$PWD/home"
           set +e
-          timeout --signal=INT --kill-after=5s 45s xvfb-run -a bsnes probe/nnprof.sfc >bsnes-run.log 2>&1
+          timeout --signal=INT --kill-after=5s 60s xvfb-run -a ./bsnes-bin probe/nnprof.sfc >bsnes-run.log 2>&1
           rc=$?
           set -e
           echo "bsnes_rc=$rc" | tee probe-status.txt
           echo '--- possible save files ---' | tee -a probe-status.txt
           find "$HOME" "$PWD/probe" -type f \( -name '*.srm' -o -name '*.ram' -o -name '*.sav' -o -name '*.bs' \) -printf '%p %s bytes %TY-%Tm-%TdT%TH:%TM:%TS\n' 2>/dev/null | tee -a probe-status.txt || true
           echo '--- bsnes log ---' | tee -a probe-status.txt
-          tail -n 100 bsnes-run.log | tee -a probe-status.txt || true
+          tail -n 120 bsnes-run.log | tee -a probe-status.txt || true
           if [ "$rc" -eq 127 ]; then exit 1; fi
       - name: Upload diagnostic evidence
         if: always()
@@ -68,10 +75,9 @@ jobs:
         with:
           name: bounty-16517-snes-bsnes-diagnostic
           path: |
-            bsnes-policy.txt
-            bsnes-command.txt
             bsnes-help.txt
             bsnes-version.txt
+            bsnes-sha256.txt
             cc65-version.txt
             rom-sha256.txt
             probe-status.txt
