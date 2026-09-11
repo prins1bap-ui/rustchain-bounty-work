@@ -1,0 +1,84 @@
+name: Bounty 16517 SNES bsnes QA
+
+on:
+  push:
+    branches:
+      - bounty-16517-snes-bsnes-20260911
+  workflow_dispatch:
+
+jobs:
+  bsnes-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout operator repo
+        uses: actions/checkout@v4
+
+      - name: Install emulator and build dependencies
+        shell: bash
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          if apt-cache show bsnes >/dev/null 2>&1; then
+            sudo apt-get install -y bsnes git python3 xvfb
+            EMU=bsnes
+          elif apt-cache show higan >/dev/null 2>&1; then
+            sudo apt-get install -y higan git python3 xvfb
+            EMU=higan
+          else
+            echo 'Neither bsnes nor higan is available from the Ubuntu package index' >&2
+            exit 21
+          fi
+          echo "EMU=$EMU" >> "$GITHUB_ENV"
+
+      - name: Pin upstream SNES source
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/Scottcjn/elya-snes.git upstream/elya-snes
+          cd upstream/elya-snes
+          git checkout 0ed1aae3e9cc900da3bc6f88a9abf1bf612f669b
+          test "$(git rev-parse HEAD)" = "0ed1aae3e9cc900da3bc6f88a9abf1bf612f669b"
+          printf 'SOURCE_SHA=%s\n' "$(git rev-parse HEAD)" | tee ../../snes-bsnes-preflight.txt
+          find . -maxdepth 3 -type f | sort | sed -n '1,250p' >> ../../snes-bsnes-preflight.txt
+
+      - name: Verify ROM / discover deterministic build path
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd upstream/elya-snes
+          if [ -f out/nn.sfc ]; then
+            sha256sum out/nn.sfc | tee -a ../../snes-bsnes-preflight.txt
+            cp out/nn.sfc ../../nn.sfc
+          else
+            echo 'out/nn.sfc absent at pinned commit; recording build files for repair pass' | tee -a ../../snes-bsnes-preflight.txt
+            find . -maxdepth 2 -type f \( -name 'Makefile' -o -name '*.sh' -o -name '*.py' -o -name '*.cfg' \) -print | sort | tee -a ../../snes-bsnes-preflight.txt
+            exit 22
+          fi
+
+      - name: Emulator identity and headless smoke test
+        if: success()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          command -v "$EMU" | tee -a snes-bsnes-preflight.txt
+          ("$EMU" --help || true) 2>&1 | head -100 | tee -a snes-bsnes-preflight.txt
+          timeout 8s xvfb-run -a "$EMU" "$PWD/nn.sfc" > emulator-smoke.log 2>&1 || rc=$?
+          rc=${rc:-0}
+          echo "smoke_exit=$rc" | tee -a snes-bsnes-preflight.txt
+          cat emulator-smoke.log | tail -100 | tee -a snes-bsnes-preflight.txt
+          # Timeout is acceptable for an emulator that launched and stayed running.
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then
+            exit "$rc"
+          fi
+
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bounty-16517-snes-bsnes-preflight
+          path: |
+            snes-bsnes-preflight.txt
+            emulator-smoke.log
+            nn.sfc
+          if-no-files-found: ignore
