@@ -9,7 +9,7 @@ on:
 jobs:
   ares-preflight:
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 45
     steps:
       - name: Checkout operator repo
         uses: actions/checkout@v4
@@ -21,6 +21,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake ninja-build pkg-config git curl xvfb libgtk-3-dev libcanberra-gtk3-module libgl-dev libasound2-dev libao-dev libopenal-dev libpulse-dev libudev-dev
           cmake --version
+
+      - name: Build SDL3 using ares upstream CI recipe
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git clone --depth=1 https://github.com/libsdl-org/SDL.git upstream/SDL
+          cmake -S upstream/SDL -B upstream/SDL/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build upstream/SDL/build --parallel 2
+          sudo cmake --install upstream/SDL/build --prefix=/usr/local
+          pkg-config --modversion sdl3
 
       - name: Build independent ares SFC emulator
         shell: bash
