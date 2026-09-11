@@ -27,7 +27,7 @@ jobs:
         run: |
           set -euxo pipefail
           git clone --depth=1 https://github.com/libsdl-org/SDL.git upstream/SDL
-          cmake -S upstream/SDL -B upstream/SDL/build -DCMAKE_BUILD_TYPE=Release -DSDL_X11_XSCRNSAVER=OFF
+          cmake -S upstream/SDL -B upstream/SDL/build -DCMAKE_BUILD_TYPE=Release -DSDL_X11_XSCRNSAVER=OFF -DSDL_X11_XTEST=OFF -DSDL_X11_XFIXES=OFF -DSDL_X11_XRANDR=OFF
           cmake --build upstream/SDL/build --parallel 2
           sudo cmake --install upstream/SDL/build --prefix=/usr/local
           pkg-config --modversion sdl3
