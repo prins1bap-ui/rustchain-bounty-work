@@ -22,7 +22,8 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y git make gcc g++ python3 zlib1g-dev docker.io
+          sudo apt-get install -y git make gcc g++ python3 zlib1g-dev
+          docker --version
 
       - name: Prepare exact historical Genesis benchmark
         run: |
