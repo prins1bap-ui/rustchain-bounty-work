@@ -7,8 +7,17 @@
   "history": {
     "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855",
     "ok": true,
-    "total": 41,
+    "total": 42,
     "transactions": [
+      {
+        "amount": 15.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1789135976,
+        "tx_hash": "0ed8febe949fbbb0983029887fbb9d19",
+        "type": "transfer_in"
+      },
       {
         "amount": 7.0,
         "epoch": 40316,
