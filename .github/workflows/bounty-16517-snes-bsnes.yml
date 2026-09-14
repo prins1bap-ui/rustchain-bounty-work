@@ -21,7 +21,7 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y cc65 xvfb xdotool python3 python3-numpy git curl unzip ca-certificates libsdl2-2.0-0 libgtk-3-0 libao4 libopenal1
+          sudo apt-get install -y cc65 xvfb xdotool python3 python3-numpy git curl unzip ca-certificates libsdl2-2.0-0 libgtk-3-0 libao4 libopenal1 libxv1
           ca65 --version >cc65-version.txt 2>&1 || true
           python3 - <<'PY'
           import numpy as np
@@ -30,9 +30,6 @@ jobs:
       - name: Fetch pinned official bsnes nightly binary
         run: |
           set -euxo pipefail
-          # Official nightly release currently resolves to commit
-          # 7d5aa1e656b9171524d01b1b22917197d8121cb4. Pin both the asset URL
-          # and GitHub-published SHA-256 so the emulator binary is reproducible.
           curl -fL --retry 3 --retry-delay 2 \
             -o bsnes-ubuntu.zip \
             https://github.com/bsnes-emu/bsnes/releases/download/nightly/bsnes-ubuntu.zip
@@ -52,6 +49,8 @@ jobs:
           release asset: bsnes-ubuntu.zip
           release asset sha256: ccc3a2bb2c94c90bb443b1677f9f54db248d779e5e72e24a54d81ac3200c6c52
           EOF
+          ldd ./bsnes-bin | tee bsnes-ldd.txt
+          if grep -q 'not found' bsnes-ldd.txt; then exit 1; fi
           xvfb-run -a ./bsnes-bin --help >bsnes-help.txt 2>&1 || true
       - name: Clone exact SNES source
         run: |
@@ -95,6 +94,7 @@ jobs:
             bsnes-help.txt
             bsnes-version.txt
             bsnes-sha256.txt
+            bsnes-ldd.txt
             cc65-version.txt
             rom-sha256.txt
             probe-status.txt
