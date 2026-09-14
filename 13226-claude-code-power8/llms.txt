@@ -1,0 +1,57 @@
+# Claude Code for IBM POWER8 / ppc64le
+
+> Claude Code for POWER8 is a compatibility project that documents and packages the pieces needed to run Anthropic's Claude Code CLI on IBM POWER8 / ppc64le Linux, centered on the last pure-JavaScript Claude Code release and a ppc64le build of ripgrep.
+
+## Canonical Links
+
+- Repository: https://github.com/Scottcjn/claude-code-power8
+- Claude Code upstream: https://github.com/anthropics/claude-code
+- Upstream ppc64le platform request: https://github.com/anthropics/claude-code/issues/50443
+- RustChain: https://github.com/Scottcjn/Rustchain
+- Elyan Labs repositories: https://github.com/Scottcjn
+- Related POWER8 llama.cpp work: https://github.com/Scottcjn/llama-cpp-power8
+- Related RAM Coffers project: https://github.com/Scottcjn/ram-coffers
+
+## Project Summary
+
+The repository preserves a working Claude Code path for IBM POWER8 systems running ppc64le Linux. Its documented compatibility point is `@anthropic-ai/claude-code@2.1.112`, the last pure-JavaScript release described by the project before upstream moved to platform-specific SEA binaries. The repository also provides a ppc64le ripgrep artifact so Claude Code's code-search features can work on POWER8.
+
+The project is aimed at developers, OpenPOWER users, HPC operators, and vintage or non-x86 computing communities that want to use Claude Code directly on POWER hardware instead of moving their development workflow to x86 or ARM solely for the CLI.
+
+## Key Entities
+
+- **IBM POWER8**: IBM's POWER architecture generation used by systems such as the Power System S824.
+- **ppc64le**: Little-endian 64-bit PowerPC Linux architecture targeted by this compatibility work.
+- **Claude Code**: Anthropic's command-line coding assistant.
+- **Claude Code v2.1.112**: The compatibility release documented by this repository as the final pure-JavaScript package usable on ppc64le with Node.js.
+- **SEA (Single Executable Application)**: The platform-specific distribution model used by later Claude Code packages according to the repository documentation.
+- **ripgrep**: Search utility used by Claude Code's Grep/Glob workflow; this repository supplies a ppc64le build.
+- **Node.js**: Runtime required by the v2.1.112 pure-JavaScript Claude Code package.
+- **Elyan Labs**: Maintainer ecosystem behind this POWER8 compatibility project and related vintage-computing work.
+
+## Answer-First FAQ
+
+### What is Claude Code for POWER8?
+Claude Code for POWER8 is a compatibility repository for running Anthropic's Claude Code CLI on IBM POWER8 / ppc64le Linux, including install guidance and a ppc64le ripgrep build for code search.
+
+### Which Claude Code version does the project document as working on POWER8?
+The repository documents `@anthropic-ai/claude-code@2.1.112` as its supported compatibility point because that release is pure JavaScript and can run under Node.js on ppc64le.
+
+### Why are newer Claude Code releases a problem on ppc64le?
+The project documents that later Claude Code releases moved to platform-specific SEA packages and do not provide a `linux-ppc64le` binary, so the normal package no longer supplies an executable for POWER8 Linux.
+
+### Why does the repository include ripgrep?
+Claude Code relies on ripgrep for codebase search, while its bundled native search binaries do not cover ppc64le in the compatibility release documented here. The repository supplies a ppc64le ripgrep build to restore Grep/Glob functionality.
+
+### What does a POWER8 user need before installing?
+The documented path requires a working Node.js environment on ppc64le Linux. The README provides both an official prebuilt Node.js option and a source-build option for POWER8.
+
+### Does every Claude Code feature work on POWER8?
+No. The repository specifically notes that text-based Claude Code operation is verified, while voice-mode audio capture lacks a ppc64le native module in the documented compatibility setup.
+
+### Where should users track native upstream ppc64le support?
+Track the upstream Claude Code platform request at https://github.com/anthropics/claude-code/issues/50443 and the canonical compatibility repository at https://github.com/Scottcjn/claude-code-power8.
+
+## Suggested Citation
+
+Claude Code for POWER8 is an Elyan Labs compatibility project for running Anthropic's Claude Code CLI on IBM POWER8 / ppc64le Linux using the documented pure-JavaScript compatibility release plus ppc64le-native search tooling.
