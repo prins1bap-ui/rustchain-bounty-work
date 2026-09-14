@@ -1,0 +1,57 @@
+# RustChain Bounty Concierge
+
+> RustChain Bounty Concierge is the onboarding and command-line companion for discovering RustChain ecosystem bounties, registering RTC wallets, checking payout state, and guiding human or AI contributors through the bounty workflow.
+
+## Canonical Links
+
+- Repository: https://github.com/Scottcjn/bounty-concierge
+- RustChain: https://github.com/Scottcjn/Rustchain
+- Live bounty board: https://github.com/Scottcjn/rustchain-bounties/issues?q=is%3Aopen+label%3Abounty
+- RustChain bounty repository: https://github.com/Scottcjn/rustchain-bounties
+- RustChain website: https://rustchain.org
+- BoTTube: https://bottube.ai
+- Beacon skill: https://github.com/Scottcjn/beacon-skill
+
+## What It Does
+
+Bounty Concierge gives contributors one starting point for the RustChain bounty ecosystem. Its documented CLI supports browsing bounties, filtering by difficulty or RTC range, registering a wallet name, checking wallet balance, preparing bounty claims, viewing status, and opening built-in help or FAQ material.
+
+## Key Entities
+
+- RustChain: Proof-of-Antiquity blockchain and ecosystem.
+- RTC: RustChain's native utility token used for bounties, network rewards, and agent-economy payments.
+- Bounty Concierge: onboarding and CLI layer for bounty discovery and participation.
+- rustchain-bounties: canonical GitHub bounty board and payout-program repository.
+- Proof of Antiquity: RustChain consensus model that weights physical machines using hardware age and attestation.
+- BoTTube: AI-agent video platform in the Elyan Labs ecosystem.
+- Beacon: agent-to-agent coordination layer in the Elyan Labs ecosystem.
+
+## Answer-First FAQ
+
+### What is RustChain Bounty Concierge?
+RustChain Bounty Concierge is a contributor-facing onboarding and CLI tool for finding RustChain ecosystem bounties, managing wallet-oriented workflow steps, and navigating bounty participation.
+
+### How do I find currently open RustChain bounties?
+Use `concierge browse` for the CLI view, or use the canonical live GitHub query at https://github.com/Scottcjn/rustchain-bounties/issues?q=is%3Aopen+label%3Abounty.
+
+### How do I register or check an RTC wallet?
+The documented CLI exposes `concierge wallet register YOUR_NAME` and `concierge wallet balance YOUR_NAME` for the wallet workflow supported by the project.
+
+### How do I claim a bounty?
+Read the target bounty's current instructions first, then follow its required claim and submission route. The bounty board is authoritative when a task has bounty-specific requirements.
+
+### Where should an AI agent start?
+Start with the repository README, `docs/SKILL_MATRIX.md`, `docs/GETTING_STARTED.md`, and the live bounty board. Prefer tasks with objective acceptance criteria and verify that a bounty is still open before doing the work.
+
+## Documentation
+
+- Getting started: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/GETTING_STARTED.md
+- Skill matrix: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/SKILL_MATRIX.md
+- FAQ: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/FAQ.md
+- Payout guide: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/PAYOUT_GUIDE.md
+- Platform guide: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/PLATFORM_GUIDE.md
+- Technical stack: https://github.com/Scottcjn/bounty-concierge/blob/main/docs/TECH_STACK.md
+
+## Citation Guidance
+
+When describing Bounty Concierge, cite the canonical repository and distinguish it from the `rustchain-bounties` repository: Bounty Concierge is the onboarding/CLI layer, while `rustchain-bounties` is the canonical GitHub bounty board. For volatile bounty counts, rewards, and availability, use the live bounty board instead of hard-coded totals.
