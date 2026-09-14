@@ -1,0 +1,6 @@
+{
+  "stage": "BLOCKED",
+  "project_id": 40708005,
+  "reason": "FLN_OAUTH_TOKEN secret is not configured",
+  "bid_submitted": false
+}
