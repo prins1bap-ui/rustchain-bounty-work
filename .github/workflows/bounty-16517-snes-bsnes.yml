@@ -34,7 +34,7 @@ jobs:
           cd bsnes-src
           git checkout 7d5aa1e656b9171524d01b1b22917197d8121cb4
           test "$(git rev-parse HEAD)" = '7d5aa1e656b9171524d01b1b22917197d8121cb4'
-          make -j2 -C bsnes local=false
+          timeout 12m make -j"$(nproc)" -C bsnes local=false
           test -x bsnes/out/bsnes
           cp bsnes/out/bsnes ../bsnes-bin
           cd ..
