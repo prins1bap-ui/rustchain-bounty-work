@@ -21,10 +21,19 @@ jobs:
           set -euo pipefail
           mkdir -p ops/cash_probe
           curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/agent-feed' -o ops/cash_probe/vibes_agent_feed.json || true
-          curl -fsS --max-time 30 'https://vibes-coded.com/api/jobs?status=open' -o ops/cash_probe/vibes_jobs_alt.json || true
-          curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/jobs?status=open' -o ops/cash_probe/vibes_jobs_v1.json || true
+          curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/jobs-feed' -o ops/cash_probe/vibes_jobs_feed.json || true
+          curl -fsS --max-time 30 'https://vibes-coded.com/api/jobs/meta' -o ops/cash_probe/vibes_jobs_meta.json || true
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('ops/cash_probe/vibes_agent_feed.json')
+          if p.exists() and p.stat().st_size:
+              d=json.loads(p.read_text())
+              Path('ops/cash_probe/vibes_jobs_lane.json').write_text(json.dumps(d.get('jobs_lane',{}),indent=2)+'\n')
+          PY
           curl -fsS -D ops/cash_probe/reready_signin_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_in' || true
           curl -fsS -D ops/cash_probe/reready_signup_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_up' || true
+          : > ops/cash_probe/reready_safe_routes.tsv
           for p in '.git/config' '.env' 'rails/info/routes' 'sidekiq' 'admin' 'api-docs' 'openapi.json' 'swagger.json'; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "https://sandbox.reready.co/$p" || true)
             printf '%s\t%s\n' "$code" "$p" >> ops/cash_probe/reready_safe_routes.tsv
