@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">RustChain Hardware Job Interview meme</title>
+  <desc id="desc">A two-panel original meme. A modern GPU boasts about speed, while a 2003 PowerBook G4 wins the job interview because Proof of Antiquity treats hardware age like seniority.</desc>
+  <rect width="1200" height="675" fill="#111827"/>
+  <rect x="40" y="36" width="1120" height="92" rx="18" fill="#f9fafb"/>
+  <text x="600" y="94" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#111827">RUSTCHAIN HARDWARE JOB INTERVIEW</text>
+
+  <rect x="55" y="158" width="520" height="390" rx="24" fill="#f3f4f6"/>
+  <rect x="625" y="158" width="520" height="390" rx="24" fill="#f3f4f6"/>
+
+  <text x="315" y="212" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827">MODERN GPU</text>
+  <rect x="135" y="252" width="360" height="125" rx="18" fill="#dbeafe"/>
+  <text x="315" y="302" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#111827">“I’m absurdly fast.”</text>
+  <text x="315" y="342" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#4b5563">Interviewer: “Years of experience?”</text>
+  <text x="315" y="445" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#9ca3af">…</text>
+  <text x="315" y="500" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#6b7280">“I was released recently.”</text>
+
+  <text x="885" y="212" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827">POWERBOOK G4</text>
+  <rect x="705" y="252" width="360" height="125" rx="18" fill="#dcfce7"/>
+  <text x="885" y="300" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#111827">“Since 2003.”</text>
+  <text x="885" y="342" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#4b5563">Interviewer checks antiquity.</text>
+  <text x="885" y="438" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#166534">YOU’RE HIRED.</text>
+  <text x="885" y="492" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#374151">Seniority finally pays.</text>
+
+  <rect x="55" y="575" width="1090" height="65" rx="18" fill="#f59e0b"/>
+  <text x="600" y="617" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#111827">PROOF OF ANTIQUITY: WHEN “OBSOLETE” BECOMES SENIORITY</text>
+</svg>
