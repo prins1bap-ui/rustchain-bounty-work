@@ -1,6 +1,6 @@
 --- a/README.md
 +++ b/README.md
-@@ -4,6 +4,30 @@
+@@ -13,6 +13,30 @@
  
  A working install of Anthropic's Claude Code CLI for IBM POWER8 (ppc64le) Linux. Verified on an IBM Power System S824 (dual 8-core POWER8, 128 SMT threads, 512 GB RAM, Ubuntu 20.04) with a self-built Node.js v22.22.2.
  
