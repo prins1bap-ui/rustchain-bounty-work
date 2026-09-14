@@ -1,0 +1,7 @@
+I can make these workbooks publication-ready with an audit trail, not just visually cleaner.
+
+My workflow is verification-first: I will preserve the originals, define duplicate keys from your data dictionary, remove only confirmed duplicate rows, flag ambiguous near-duplicates instead of deleting them blindly, and fill missing values only when they are deterministically recoverable. Otherwise they stay clearly flagged for review.
+
+I will standardize dates, currency, percentages, casing, column names, and numeric precision across every workbook, then run consistency checks before delivery. You will receive each original filename with `_clean` appended plus a concise change log showing rows removed, values filled/flagged, and formatting changes by workbook/sheet.
+
+I can automate the repetitive work with Python/openpyxl or Power Query-style rules while still validating the final files for pivot-table and chart readiness. I can start immediately and keep the process reproducible so any rule can be rerun if you update the source files.
