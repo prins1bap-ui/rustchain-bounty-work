@@ -51,7 +51,11 @@ jobs:
           EOF
           ldd ./bsnes-bin | tee bsnes-ldd.txt
           if grep -q 'not found' bsnes-ldd.txt; then exit 1; fi
-          xvfb-run -a ./bsnes-bin --help >bsnes-help.txt 2>&1 || true
+          set +e
+          timeout --signal=INT --kill-after=2s 5s xvfb-run -a ./bsnes-bin --help >bsnes-help.txt 2>&1
+          help_rc=$?
+          set -e
+          echo "bsnes_help_probe_rc=$help_rc" >> bsnes-help.txt
       - name: Clone exact SNES source
         run: |
           set -euxo pipefail
