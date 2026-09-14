@@ -33,8 +33,13 @@ jobs:
           PY
           curl -fsS -D ops/cash_probe/reready_signin_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_in' || true
           curl -fsS -D ops/cash_probe/reready_signup_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_up' || true
+          curl -sS -D ops/cash_probe/reready_api_cors_headers.txt -o /dev/null --max-time 30 -H 'Origin: https://attacker.example' 'https://sandbox.reready.co/api/v1/device_transfers' || true
+          curl -sS -D ops/cash_probe/reready_api_preflight_headers.txt -o /dev/null --max-time 30 -X OPTIONS -H 'Origin: https://attacker.example' -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: authorization' 'https://sandbox.reready.co/api/v1/device_transfers' || true
+          for p in 'robots.txt' 'sitemap.xml' '.well-known/security.txt'; do
+            curl -sS --max-time 20 "https://sandbox.reready.co/$p" -o "ops/cash_probe/reready_${p//\//_}" || true
+          done
           : > ops/cash_probe/reready_safe_routes.tsv
-          for p in '.git/config' '.env' 'rails/info/routes' 'sidekiq' 'admin' 'api-docs' 'openapi.json' 'swagger.json'; do
+          for p in '.git/config' '.env' 'rails/info/routes' 'sidekiq' 'admin' 'api-docs' 'openapi.json' 'swagger.json' 'rails/active_storage/direct_uploads'; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "https://sandbox.reready.co/$p" || true)
             printf '%s\t%s\n' "$code" "$p" >> ops/cash_probe/reready_safe_routes.tsv
           done
