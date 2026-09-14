@@ -21,8 +21,12 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y cc65 xvfb xdotool python3 git build-essential pkg-config libsdl2-dev libgtk-3-dev libgtksourceview-3.0-dev libao-dev libopenal-dev libx11-dev libxext-dev
+          sudo apt-get install -y cc65 xvfb xdotool python3 python3-numpy git build-essential pkg-config libsdl2-dev libgtk-3-dev libgtksourceview-3.0-dev libao-dev libopenal-dev libx11-dev libxext-dev
           ca65 --version >cc65-version.txt 2>&1 || true
+          python3 - <<'PY'
+          import numpy as np
+          print(np.__version__)
+          PY
       - name: Build pinned official bsnes
         run: |
           set -euxo pipefail
@@ -36,7 +40,7 @@ jobs:
           cd ..
           sha256sum bsnes-bin | tee bsnes-sha256.txt
           echo 'bsnes commit 7d5aa1e656b9171524d01b1b22917197d8121cb4' | tee bsnes-version.txt
-          ./bsnes-bin --help >bsnes-help.txt 2>&1 || true
+          xvfb-run -a ./bsnes-bin --help >bsnes-help.txt 2>&1 || true
       - name: Clone exact SNES source
         run: |
           set -euxo pipefail
