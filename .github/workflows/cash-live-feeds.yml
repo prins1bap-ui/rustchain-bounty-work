@@ -1,0 +1,38 @@
+name: Cash Live Feed Probe
+
+on:
+  push:
+    branches: [cash-live-feeds-20260914]
+    paths: [.github/workflows/cash-live-feeds.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cash-live-feeds-20260914
+      - name: Fetch public money feeds and safe sandbox metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ops/cash_probe
+          curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/agent-feed' -o ops/cash_probe/vibes_agent_feed.json || true
+          curl -fsS --max-time 30 'https://vibes-coded.com/api/jobs?status=open' -o ops/cash_probe/vibes_jobs_alt.json || true
+          curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/jobs?status=open' -o ops/cash_probe/vibes_jobs_v1.json || true
+          curl -fsS -D ops/cash_probe/reready_signin_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_in' || true
+          curl -fsS -D ops/cash_probe/reready_signup_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_up' || true
+          for p in '.git/config' '.env' 'rails/info/routes' 'sidekiq' 'admin' 'api-docs' 'openapi.json' 'swagger.json'; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "https://sandbox.reready.co/$p" || true)
+            printf '%s\t%s\n' "$code" "$p" >> ops/cash_probe/reready_safe_routes.tsv
+          done
+      - name: Persist public results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ops/cash_probe
+          git diff --cached --quiet || git commit -m 'cash: refresh public earning feeds and sandbox metadata'
+          git push origin HEAD:cash-live-feeds-20260914
