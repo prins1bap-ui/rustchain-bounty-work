@@ -70,29 +70,94 @@ jobs:
           SNES_FAST=0 NAME=nnprof DEFS='-DPROFILE' ./build_nn.sh
           SNES_FAST=1 NAME=nnfastprof DEFS='-DFASTROM=1 -DPROFILE' ./build_nn.sh
           sha256sum out/nnprof.sfc out/nnfastprof.sfc | tee ../rom-sha256.txt
-      - name: Probe bsnes save-RAM behavior
+      - name: Run repeated SlowROM and FastROM profiles under bsnes
         env:
           SDL_AUDIODRIVER: dummy
         run: |
           set -euxo pipefail
-          mkdir -p probe home
-          cp upstream/out/nnprof.sfc probe/nnprof.sfc
-          export HOME="$PWD/home"
-          set +e
-          timeout --signal=INT --kill-after=5s 60s xvfb-run -a ./bsnes-bin probe/nnprof.sfc >bsnes-run.log 2>&1
-          rc=$?
-          set -e
-          echo "bsnes_rc=$rc" | tee probe-status.txt
-          echo '--- possible save files ---' | tee -a probe-status.txt
-          find "$HOME" "$PWD/probe" -type f \( -name '*.srm' -o -name '*.ram' -o -name '*.sav' -o -name '*.bs' \) -printf '%p %s bytes %TY-%Tm-%TdT%TH:%TM:%TS\n' 2>/dev/null | tee -a probe-status.txt || true
-          echo '--- bsnes log ---' | tee -a probe-status.txt
-          tail -n 120 bsnes-run.log | tee -a probe-status.txt || true
-          if [ "$rc" -eq 127 ]; then exit 1; fi
-      - name: Upload diagnostic evidence
+          mkdir -p evidence
+
+          run_profile() {
+            variant="$1"
+            rom="$2"
+            fastflag="$3"
+            idx="$4"
+            work="$PWD/evidence/${variant}-${idx}"
+            mkdir -p "$work/home"
+            cp "$rom" "$work/${variant}.sfc"
+            log="$work/bsnes.log"
+            save="$work/${variant}.srm"
+
+            set +e
+            HOME="$work/home" timeout --signal=INT --kill-after=5s 90s xvfb-run -a ./bsnes-bin "$work/${variant}.sfc" >"$log" 2>&1 &
+            runner=$!
+            set -e
+
+            done_seen=0
+            for sec in $(seq 1 85); do
+              if [ -f "$save" ]; then
+                if python3 - "$save" <<'PY'
+          import sys
+          p=sys.argv[1]
+          try:
+              d=open(p,'rb').read()
+          except OSError:
+              raise SystemExit(1)
+          raise SystemExit(0 if len(d) >= 12 and d[0:4] == b'ELYA' and d[8:12] == b'DONE' else 1)
+          PY
+                then
+                  done_seen=1
+                  echo "DONE ${variant} run ${idx} after ${sec}s" | tee "$work/status.txt"
+                  break
+                fi
+              fi
+              sleep 1
+            done
+
+            kill -INT "$runner" 2>/dev/null || true
+            wait "$runner" 2>/dev/null || true
+            test "$done_seen" -eq 1
+            test -f "$save"
+            cp "$save" "$PWD/evidence/${variant}-${idx}.srm"
+            sha256sum "$PWD/evidence/${variant}-${idx}.srm" | tee "$PWD/evidence/${variant}-${idx}.sha256"
+            python3 upstream/tools/check_nn.py "$PWD/evidence/${variant}-${idx}.srm" | tee "$PWD/evidence/${variant}-${idx}-check.txt"
+            if [ "$fastflag" = 1 ]; then
+              python3 upstream/tools/prof_nn.py "$PWD/evidence/${variant}-${idx}.srm" --fast | tee "$PWD/evidence/${variant}-${idx}-profile.txt"
+            else
+              python3 upstream/tools/prof_nn.py "$PWD/evidence/${variant}-${idx}.srm" | tee "$PWD/evidence/${variant}-${idx}-profile.txt"
+            fi
+          }
+
+          for i in 1 2 3; do
+            run_profile slow upstream/out/nnprof.sfc 0 "$i"
+          done
+          for i in 1 2 3; do
+            run_profile fast upstream/out/nnfastprof.sfc 1 "$i"
+          done
+
+          python3 - <<'PY' | tee evidence/summary.txt
+          import hashlib, pathlib, re, statistics
+          root=pathlib.Path('evidence')
+          for variant in ('slow','fast'):
+              vals=[]
+              hashes=[]
+              for i in (1,2,3):
+                  b=(root/f'{variant}-{i}.srm').read_bytes()
+                  hashes.append(hashlib.sha256(b).hexdigest())
+                  text=(root/f'{variant}-{i}-profile.txt').read_text()
+                  m=re.search(r'tokens/s\s+([0-9.]+)', text)
+                  if not m:
+                      raise SystemExit(f'missing tokens/s for {variant}-{i}')
+                  vals.append(float(m.group(1)))
+              print(f'{variant}: tokens/s={vals}; mean={statistics.mean(vals):.6f}; deterministic_sram={len(set(hashes)) == 1}')
+              if len(set(hashes)) != 1:
+                  raise SystemExit(f'{variant} SRAM differs across repeated runs')
+          PY
+      - name: Upload complete measurement evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bounty-16517-snes-bsnes-diagnostic
+          name: bounty-16517-snes-bsnes-measurement
           path: |
             bsnes-archive.txt
             bsnes-help.txt
@@ -101,6 +166,5 @@ jobs:
             bsnes-ldd.txt
             cc65-version.txt
             rom-sha256.txt
-            probe-status.txt
-            bsnes-run.log
-          if-no-files-found: warn
+            evidence/**
+          if-no-files-found: error
