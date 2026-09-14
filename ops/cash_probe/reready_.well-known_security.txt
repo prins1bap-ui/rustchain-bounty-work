@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sorry, we can&#39;t find that page</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/brand/reready-favicon-blue-6b177de8fd0ec00b790ec460a44bec7cb05534d8b7a39be09ba8e0cb9a750790.svg">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="/assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css" media="all" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="PhTmzXCk5SBZDcT85MB2xDPU0f1RDvu-5aEBMDOQdCFz7Akh_xkcuYSKhYjlUcs7_9bOPImFRfAIcFS9JEHm9A" />
+  <meta name="csp-nonce" content="EvJyKMIusjr2Kn6dUwuQzQ==" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="/assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css" />
+</head>
+
+<body>
+  <header>
+  <nav class="bg-secondary navbar navbar-dark navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img alt="ReReady logo" class="my-2" height="40" src="/assets/brand/reready-logo-white-5c532a15bf597125fc112346bb4088a5a5df02880e7423738cbf5cc8a7f8186e.svg" />
+</a>        <span class="text-danger">
+          TEST ONLY
+        </span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/#howItWorks">How it works</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/why-choose-reready-vs-competitor-laptop-return-services">Why it&#39;s better</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Customers
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/for-small-business">Small business</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-large-enterprise">Large enterprise</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-government">Government</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-education">Education</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-nonprofit">Nonprofit</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-isp">ISP</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-itad">ITAD</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/for-msp">MSP</a>
+                </li>
+                <!--
+                PEO
+                HR consulting/tech # especially offboarding/outplacement support firms
+                Device leasing
+                Reverse logistics
+                -->
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pricing">Pricing</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="ms-lg-5">
+              <a class="btn btn-outline-light my-3 mb-lg-none p-3 text-nowrap w-100 w-lg-auto" href="/users/sign_in">Log in</a>
+            </li>
+            <li class="ms-lg-3">
+              <a class="btn btn-primary my-3 mb-lg-none p-3 text-nowrap w-100 w-lg-auto" href="/users/sign_up">Open a free account</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+  <main>
+    <div id="content" class="container">
+      <div class="mt-3 row">
+        <div class="col-sm-8 offset-sm-2">
+          <h1 class="mb-4">
+            Sorry, we can&#39;t find that page<br/><small>(404 error)</small>
+          </h1>
+
+          
+<p>
+  The page you are looking for has either moved, or does not exist.
+</p>
+
+          <p>
+            Please <a href="javascript:history.back()">go back</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-light mt-5 py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 pe-5">
+        <img alt="ReReady logo" class="mb-3" height="50" src="/assets/brand/reready-logo-white-5c532a15bf597125fc112346bb4088a5a5df02880e7423738cbf5cc8a7f8186e.svg" />
+        <p class="mb-3">
+          The best way to retrieve devices from remote employees.
+        </p>
+      </div>
+      <div class="col-md-2">
+        <h3>Services</h3>
+        <p>
+          Our
+          <a class="link-light" href="/fully-managed-device-logistics">fully-managed</a>
+          device logistics are ideal for a wide variety of organizations.
+          In particular,
+          our laptop return service is
+          <a class="link-light" href="/why-choose-reready-vs-competitor-laptop-return-services">better</a>
+          than any competitor.
+        </p>
+      </div>
+      <div class="col-md-2">
+        <h3>Support</h3>
+        <p>
+          If you have a question, check our
+          <a class="link-light" href="/help">Help Center</a>
+          or
+          <a class="link-light" href="/support">contact support</a>.
+        </p>
+      </div>
+      <div class="col-md-2">
+        <h3>Links</h3>
+        <ul class="lh-lg list-unstyled">
+          <li>
+            <a class="link-light" href="/">Home</a>
+          </li>
+          <li>
+            <a class="link-light" href="/about">About</a>
+          </li>
+          <li>
+            <a class="link-light" href="/blog">Tips</a>
+          </li>
+          <li>
+            <a class="link-light" href="/pricing">Pricing</a>
+          </li>
+          <li>
+            <a class="link-light" href="/support">Support</a>
+          </li>
+          <li>
+            <a class="link-light" href="/rest-api-documentation">REST API</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="text-light"/>
+
+    <div class="mt-5 row">
+      <div class="col-lg-4">
+        <div class="mx-auto text-center text-lg-start">
+          <p class="mw-none small">
+            <a class="link-light" href="/privacy-policy">Privacy Policy</a>
+            <span class="mx-3">/</span>
+            <a class="link-light" href="/terms-of-service">Terms of Service</a>
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center">
+        <p class="mw-none small">
+          &copy; 2023-2026
+          <a target="_blank" class="link-light" href="https://www.addfour.co">Add Four LLC</a>
+          (DBA ReReady).<br/>
+          All rights reserved.
+        </p>
+      </div>
+      <div class="col-lg-4 text-center text-lg-end">
+        <p class="mw-none small">
+          <img alt="American English icon" class="me-2" src="/assets/icons/american-english-adab94a7d0685962ce34b7c778d8e607d43da14ca700706e169dbee57c8c9573.png" />
+          English
+        </p>
+      </div>
+    </div>
+</div></footer>
+
+</body>
+</html>

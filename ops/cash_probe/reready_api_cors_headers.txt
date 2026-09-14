@@ -1,0 +1,22 @@
+HTTP/2 401 
+server: nginx
+date: Mon, 14 Sep 2026 19:22:05 GMT
+content-type: application/json; charset=utf-8
+content-length: 41
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: strict-origin-when-cross-origin
+cross-origin-opener-policy: same-origin-allow-popups
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), geolocation=(), microphone=()
+strict-transport-security: max-age=63072000; includeSubDomains
+www-authenticate: Token realm="Application"
+vary: Accept,Accept-Encoding
+cache-control: no-cache
+content-security-policy: base-uri 'none'; connect-src 'self' https://ad.doubleclick.net https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; default-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-src 'self'; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; object-src 'none'; script-src 'self' 'strict-dynamic' 'nonce-TiqfFTNAwICnxODJEiSS6Q=='; style-src 'self' https://cdn.datatables.net https://fonts.googleapis.com
+set-cookie: _reready_session=2c1fbde1f8a4040eff09e973761cdd55; path=/; secure; httponly; samesite=lax
+x-request-id: f83d0625-5d59-43b6-8e6e-f7e1b4ec8ed2
+x-runtime: 0.034397
+

@@ -1,6 +1,6 @@
 HTTP/2 200 
 server: nginx
-date: Mon, 14 Sep 2026 19:20:20 GMT
+date: Mon, 14 Sep 2026 19:22:05 GMT
 content-type: text/html; charset=utf-8
 content-length: 13631
 vary: Accept-Encoding
@@ -13,12 +13,12 @@ cross-origin-opener-policy: same-origin-allow-popups
 cross-origin-resource-policy: same-origin
 permissions-policy: camera=(), geolocation=(), microphone=()
 strict-transport-security: max-age=63072000; includeSubDomains
-link: </assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush,<https://code.jquery.com/jquery-3.7.1.min.js>; rel=preload; as=script; crossorigin=anonymous; integrity=sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=; nonce=Dr67eti0k2GkVhJzgY/uQw==; nopush,<https://cdn.datatables.net/3.0.3/js/dataTables.min.js>; rel=preload; as=script; nonce=Dr67eti0k2GkVhJzgY/uQw==; nopush,</assets/datatables-873161fc81f8413d0b590b0c4139799e119dc7bcf02ad302322dbde5bef21ec6.js>; rel=preload; as=script; nonce=Dr67eti0k2GkVhJzgY/uQw==; nopush
+link: </assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush,<https://code.jquery.com/jquery-3.7.1.min.js>; rel=preload; as=script; crossorigin=anonymous; integrity=sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=; nonce=BfVvkCq3k9uytU7YDd3JOw==; nopush,<https://cdn.datatables.net/3.0.3/js/dataTables.min.js>; rel=preload; as=script; nonce=BfVvkCq3k9uytU7YDd3JOw==; nopush,</assets/datatables-873161fc81f8413d0b590b0c4139799e119dc7bcf02ad302322dbde5bef21ec6.js>; rel=preload; as=script; nonce=BfVvkCq3k9uytU7YDd3JOw==; nopush
 vary: Accept,Accept-Encoding
-etag: W/"8cceba5c66fb0c9aca2203bca9365e79"
+etag: W/"968a42f23e8585b902c3f8e445cc79b2"
 cache-control: max-age=0, private, must-revalidate
-content-security-policy: base-uri 'none'; default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; object-src 'none'; script-src 'self' 'strict-dynamic' 'nonce-Dr67eti0k2GkVhJzgY/uQw=='; style-src 'self' https://cdn.datatables.net https://fonts.googleapis.com; connect-src 'self' https://ad.doubleclick.net https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; frame-src 'self' https://www.google.com
-set-cookie: _reready_session=306cd7e26291362b8ac46e8f0c1a304f; path=/; secure; httponly; samesite=lax
-x-request-id: 85fc8792-8ef9-4b23-ad8d-8708453c3513
-x-runtime: 0.046254
+content-security-policy: base-uri 'none'; default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; object-src 'none'; script-src 'self' 'strict-dynamic' 'nonce-BfVvkCq3k9uytU7YDd3JOw=='; style-src 'self' https://cdn.datatables.net https://fonts.googleapis.com; connect-src 'self' https://ad.doubleclick.net https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; frame-src 'self' https://www.google.com
+set-cookie: _reready_session=e8a50193577306a089db669665d17c58; path=/; secure; httponly; samesite=lax
+x-request-id: b21d52d7-add9-4623-a008-39a101379933
+x-runtime: 0.043814
 

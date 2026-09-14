@@ -1,0 +1,20 @@
+HTTP/2 404 
+server: nginx
+date: Mon, 14 Sep 2026 19:22:05 GMT
+content-type: text/html; charset=utf-8
+content-length: 7768
+vary: Accept-Encoding
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: strict-origin-when-cross-origin
+cross-origin-opener-policy: same-origin-allow-popups
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), geolocation=(), microphone=()
+strict-transport-security: max-age=63072000; includeSubDomains
+link: </assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush,</assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush
+vary: Accept
+x-request-id: d894cad5-cf5d-4b01-b21d-c58b0a3f6b3c
+x-runtime: 0.023435
+
