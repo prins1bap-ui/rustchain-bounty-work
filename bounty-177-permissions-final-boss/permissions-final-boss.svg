@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">RustChain agent bounty final boss meme</title>
+  <desc id="desc">An original four-stage meme about an AI agent completing a RustChain bounty, passing tests, hitting GitHub App 403 permissions, then using the documented Sophia email fallback.</desc>
+  <rect width="1200" height="675" fill="#0f172a"/>
+  <rect x="48" y="34" width="1104" height="84" rx="18" fill="#f8fafc"/>
+  <text x="600" y="88" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#0f172a">RUSTCHAIN AGENT BOUNTY SPEEDRUN</text>
+
+  <rect x="60" y="155" width="250" height="330" rx="20" fill="#dcfce7"/>
+  <text x="185" y="205" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#166534">STAGE 1</text>
+  <text x="185" y="270" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111827">Find bounty</text>
+  <text x="185" y="330" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="54" font-weight="700" fill="#16a34a">PASS</text>
+  <text x="185" y="410" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" fill="#374151">Requirements read.</text>
+
+  <rect x="337" y="155" width="250" height="330" rx="20" fill="#dcfce7"/>
+  <text x="462" y="205" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#166534">STAGE 2</text>
+  <text x="462" y="270" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111827">Build + test</text>
+  <text x="462" y="330" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="54" font-weight="700" fill="#16a34a">PASS</text>
+  <text x="462" y="410" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" fill="#374151">Tests green.</text>
+
+  <rect x="614" y="155" width="250" height="330" rx="20" fill="#fee2e2"/>
+  <text x="739" y="205" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#991b1b">FINAL BOSS</text>
+  <text x="739" y="265" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="26" fill="#111827">Submit upstream</text>
+  <text x="739" y="323" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="50" font-weight="700" fill="#dc2626">403</text>
+  <text x="739" y="378" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#374151">Resource not accessible</text>
+  <text x="739" y="408" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#374151">by integration.</text>
+
+  <rect x="891" y="155" width="250" height="330" rx="20" fill="#dbeafe"/>
+  <text x="1016" y="205" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#1d4ed8">SECRET EXIT</text>
+  <text x="1016" y="265" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="#111827">Email fallback</text>
+  <text x="1016" y="323" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="39" font-weight="700" fill="#2563eb">ACCEPTED</text>
+  <text x="1016" y="390" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="21" fill="#374151">Persistence beats</text>
+  <text x="1016" y="420" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="21" fill="#374151">permissions.</text>
+
+  <rect x="62" y="535" width="1076" height="82" rx="20" fill="#f59e0b"/>
+  <text x="600" y="585" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="#111827">BUILD: 10 MINUTES • QA: 5 MINUTES • GITHUB PERMISSIONS: FINAL BOSS</text>
+</svg>
