@@ -1,0 +1,56 @@
+diff --git a/docs/WALLET_SETUP.md b/docs/WALLET_SETUP.md
+--- a/docs/WALLET_SETUP.md
++++ b/docs/WALLET_SETUP.md
+@@
+-On Linux, the installer saves the miner config here:
++On Linux, the config path depends on how you installed the miner.
++
++If you used the hosted installer shown above (`rustchain.org/install.sh`), the
++config is stored under `/opt`:
+ 
+ ```bash
+ cat /opt/rustchain-miner/config.json
+ ```
++
++If you cloned this repository and used `setup.sh` or `install-miner.sh`, the
++config is stored in your home directory instead:
++
++```bash
++cat ~/.rustchain/config.json
++```
++
++Use the path that matches your installation method. The `/opt` path may
++require elevated read permissions on some systems.
+ 
+ You should see a `wallet_id` field.
+@@
+-What to back up depends on how you created it:
++What to back up depends on how you created it:
+ 
+-- Miner install: save the printed wallet ID and copy `/opt/rustchain-miner/config.json`
++- Hosted miner install (`rustchain.org/install.sh`): save the printed wallet ID and copy `/opt/rustchain-miner/config.json`
++- Repo miner install (`setup.sh` / `install-miner.sh`): save the printed wallet ID and copy `~/.rustchain/config.json`
+ - Secure GUI: back up the 24-word seed phrase and `~/.rustchain/wallets/*.json`
+ - Programmatic wallet: back up the seed phrase and any encrypted keystore you create
+@@
+-Usually here:
++Usually here, depending on the installation method:
+ 
+-- Miner install: `/opt/rustchain-miner/config.json`
++- Hosted miner install (`rustchain.org/install.sh`): `/opt/rustchain-miner/config.json`
++- Repo miner install (`setup.sh` / `install-miner.sh`): `~/.rustchain/config.json`
+ - Running Linux miner: sometimes also `/tmp/local_miner_wallet.txt`
+ - Secure GUI and CLI keystores: `~/.rustchain/wallets/`
+ - Programmatic wallet: wherever you saved it
+@@
+ Try these in order:
+ 
+ ```bash
+ cat /opt/rustchain-miner/config.json
++cat ~/.rustchain/config.json
+ ls ~/.rustchain/wallets
+ curl -sk https://rustchain.org/api/miners
+ ```
++
++The first path is used by the hosted installer; the second is used by the
++repository installers.
