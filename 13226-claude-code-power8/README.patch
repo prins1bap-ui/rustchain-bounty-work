@@ -1,0 +1,33 @@
+--- a/README.md
++++ b/README.md
+@@ -4,6 +4,30 @@
+ 
+ A working install of Anthropic's Claude Code CLI for IBM POWER8 (ppc64le) Linux. Verified on an IBM Power System S824 (dual 8-core POWER8, 128 SMT threads, 512 GB RAM, Ubuntu 20.04) with a self-built Node.js v22.22.2.
+ 
++**Claude Code for POWER8 is a compatibility project for running Anthropic's Claude Code CLI directly on IBM POWER8 / ppc64le Linux, using the documented pure-JavaScript compatibility release plus ppc64le-native search tooling.**
++
++## Answer-first FAQ
++
++### What is Claude Code for POWER8?
++It is a compatibility repository for running Claude Code on IBM POWER8 / ppc64le Linux, with installation guidance and a ppc64le ripgrep build for Claude Code's Grep/Glob code-search workflow.
++
++### Which Claude Code version is the documented POWER8 compatibility point?
++The repository documents `@anthropic-ai/claude-code@2.1.112` as the compatibility release because it is the last pure-JavaScript version described here and can run under Node.js on ppc64le.
++
++### Why do later Claude Code releases fail on ppc64le?
++Starting with the platform-specific SEA distribution documented below, upstream does not provide a `linux-ppc64le` package, so the normal install lacks a native Claude Code executable for POWER8 Linux.
++
++### Why is a separate ppc64le ripgrep build needed?
++Claude Code uses ripgrep for codebase search. The compatibility release bundles search binaries for other architectures, so this repository supplies a ppc64le build to restore Grep/Glob functionality.
++
++### Does every Claude Code feature work on POWER8?
++No. Text-based Claude Code operation is documented as working, while voice-mode audio capture lacks a ppc64le native module in this setup.
++
++### Where can I track native upstream POWER support?
++Follow [anthropics/claude-code#50443](https://github.com/anthropics/claude-code/issues/50443) and this repository for changes to ppc64le support.
++
++For a compact machine-readable project profile and canonical links, see [`llms.txt`](llms.txt).
++
+ ---
+ 
+ ## ⚠️ Version ceiling: v2.1.112
