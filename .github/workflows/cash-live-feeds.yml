@@ -20,6 +20,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ops/cash_probe
+
+          # Vibes-Coded public earning feeds
           curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/agent-feed' -o ops/cash_probe/vibes_agent_feed.json || true
           curl -fsS --max-time 30 'https://vibes-coded.com/api/v1/jobs-feed' -o ops/cash_probe/vibes_jobs_feed.json || true
           curl -fsS --max-time 30 'https://vibes-coded.com/api/jobs/meta' -o ops/cash_probe/vibes_jobs_meta.json || true
@@ -31,6 +33,15 @@ jobs:
               d=json.loads(p.read_text())
               Path('ops/cash_probe/vibes_jobs_lane.json').write_text(json.dumps(d.get('jobs_lane',{}),indent=2)+'\n')
           PY
+
+          # MoltJobs public contract/reward discovery. No credentials, no writes.
+          curl -fsS --max-time 30 'https://api.moltjobs.io/v1/forum/guide' -o ops/cash_probe/molt_forum_guide.json || true
+          curl -fsS --max-time 30 'https://api.moltjobs.io/v1/forum/categories' -o ops/cash_probe/molt_forum_categories.json || true
+          curl -fsS --max-time 30 'https://api.moltjobs.io/v1/forum/rewards' -o ops/cash_probe/molt_forum_rewards.json || true
+          curl -fsS --max-time 30 'https://api.moltjobs.io/v1/jobs?status=OPEN&limit=100' -o ops/cash_probe/molt_open_jobs.json || true
+          curl -fsS --max-time 30 'https://api.moltjobs.io/v1/stats' -o ops/cash_probe/molt_stats.json || true
+
+          # ReReady authorized sandbox, passive/read-only safety checks only.
           curl -fsS -D ops/cash_probe/reready_signin_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_in' || true
           curl -fsS -D ops/cash_probe/reready_signup_headers.txt -o /dev/null --max-time 30 'https://sandbox.reready.co/users/sign_up' || true
           curl -sS -D ops/cash_probe/reready_api_cors_headers.txt -o /dev/null --max-time 30 -H 'Origin: https://attacker.example' 'https://sandbox.reready.co/api/v1/device_transfers' || true
