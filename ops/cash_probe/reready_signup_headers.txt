@@ -1,0 +1,24 @@
+HTTP/2 200 
+server: nginx
+date: Mon, 14 Sep 2026 19:19:39 GMT
+content-type: text/html; charset=utf-8
+content-length: 13631
+vary: Accept-Encoding
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: strict-origin-when-cross-origin
+cross-origin-opener-policy: same-origin-allow-popups
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), geolocation=(), microphone=()
+strict-transport-security: max-age=63072000; includeSubDomains
+link: </assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush,<https://code.jquery.com/jquery-3.7.1.min.js>; rel=preload; as=script; crossorigin=anonymous; integrity=sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=; nonce=zUP9VR6n3nImab8Wn7Qm2Q==; nopush,<https://cdn.datatables.net/3.0.3/js/dataTables.min.js>; rel=preload; as=script; nonce=zUP9VR6n3nImab8Wn7Qm2Q==; nopush,</assets/datatables-873161fc81f8413d0b590b0c4139799e119dc7bcf02ad302322dbde5bef21ec6.js>; rel=preload; as=script; nonce=zUP9VR6n3nImab8Wn7Qm2Q==; nopush
+vary: Accept,Accept-Encoding
+etag: W/"68f817f2936171548dbe41440e95f29a"
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: base-uri 'none'; default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; object-src 'none'; script-src 'self' 'strict-dynamic' 'nonce-zUP9VR6n3nImab8Wn7Qm2Q=='; style-src 'self' https://cdn.datatables.net https://fonts.googleapis.com; connect-src 'self' https://ad.doubleclick.net https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; frame-src 'self' https://www.google.com
+set-cookie: _reready_session=3fc9e92a97395b68282e8e5dbf0bdc88; path=/; secure; httponly; samesite=lax
+x-request-id: 849e0f72-68d6-4075-b2f2-0b20892500fc
+x-runtime: 0.044026
+

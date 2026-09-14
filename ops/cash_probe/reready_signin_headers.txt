@@ -1,0 +1,24 @@
+HTTP/2 200 
+server: nginx
+date: Mon, 14 Sep 2026 19:19:39 GMT
+content-type: text/html; charset=utf-8
+content-length: 11840
+vary: Accept-Encoding
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: strict-origin-when-cross-origin
+cross-origin-opener-policy: same-origin-allow-popups
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), geolocation=(), microphone=()
+strict-transport-security: max-age=63072000; includeSubDomains
+link: </assets/users_sessions-fb0141872a37f1e7c7ad396337776e718c28031534d26b42ad0673b5af77a535.js>; rel=preload; as=script; nonce=tce8qcsLJhFejG6FUCddFg==; nopush,</assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css>; rel=preload; as=style; nopush,<https://code.jquery.com/jquery-3.7.1.min.js>; rel=preload; as=script; crossorigin=anonymous; integrity=sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=; nonce=tce8qcsLJhFejG6FUCddFg==; nopush,<https://cdn.datatables.net/3.0.3/js/dataTables.min.js>; rel=preload; as=script; nonce=tce8qcsLJhFejG6FUCddFg==; nopush,</assets/datatables-873161fc81f8413d0b590b0c4139799e119dc7bcf02ad302322dbde5bef21ec6.js>; rel=preload; as=script; nonce=tce8qcsLJhFejG6FUCddFg==; nopush
+vary: Accept,Accept-Encoding
+etag: W/"a137672d4d7c4901abc796963dcfd9f6"
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: base-uri 'none'; connect-src 'self' https://ad.doubleclick.net https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; default-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-src 'self'; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://px.ads.linkedin.com; object-src 'none'; script-src 'self' 'strict-dynamic' 'nonce-tce8qcsLJhFejG6FUCddFg=='; style-src 'self' https://cdn.datatables.net https://fonts.googleapis.com
+set-cookie: _reready_session=5c925b95a02cad196ef0249e12e2b219; path=/; secure; httponly; samesite=lax
+x-request-id: dd7c60ef-c4d1-4a16-820a-6895e2af69a5
+x-runtime: 0.059451
+
