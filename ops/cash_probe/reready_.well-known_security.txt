@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="/assets/application-72e5c3cbe41da5477d988c8b6e7797347316c0550de373767ffa060db0421cf0.css" media="all" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="PhTmzXCk5SBZDcT85MB2xDPU0f1RDvu-5aEBMDOQdCFz7Akh_xkcuYSKhYjlUcs7_9bOPImFRfAIcFS9JEHm9A" />
-  <meta name="csp-nonce" content="EvJyKMIusjr2Kn6dUwuQzQ==" />
+<meta name="csrf-token" content="4VgSYxcFBAqw0SW3g-3MLEZQXEseNgaRe_Q954h4CKsq7niDtEkiDLgTfIuu5YXZt86-t6wamtR04mb3tBwjHg" />
+  <meta name="csp-nonce" content="ab8betZWLOuRiBR6PWL1Ig==" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
