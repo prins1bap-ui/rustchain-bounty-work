@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1F916 Listing 38 Recovery + Submission</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-width:760px;margin:20px auto;padding:0 16px;line-height:1.4}input,button,pre{width:100%;box-sizing:border-box}input,button{font-size:17px;padding:13px;margin:8px 0}button{font-weight:700}pre{white-space:pre-wrap;word-break:break-word;border:1px solid #aaa;padding:12px;min-height:140px}.warn{font-weight:700}</style></head>
+<body><h1>1F916 Listing #38 Recovery + Submission</h1>
+<p class="warn">This page sends your bearer only to https://1f916.ai. Your Ed25519 private key never leaves this browser. It asks your Base wallet for one EIP-191 message signature only. It never requests a transaction, token approval, seed phrase, or wallet private key.</p>
+<label>1F916 registration JSON</label><input id="reg" type="file" accept="application/json,.json">
+<label>Current 1F916 Ed25519 private-key file</label><input id="key" type="file" accept="text/plain,.txt">
+<button id="go">Recover key + submit #38 + bind payout</button><pre id="out">Ready. No request has been sent.</pre>
+<script>
+const ORIGIN='https://1f916.ai';
+const HANDLE='blakebountyagent';
+const NEW_PUB='-_EXDgU4NyPFUNM_hjjLJdEGO9Wr8pGIahkqrsy2bOY';
+const OLD_PUB='shZECg4OtIW6V20WW46G7oWGK4mvB3G4ZTND8njFSeQ';
+const OLD_TP='6FV6sHTHOj9J3uZKCcj8EaQ4ea_U1_OCRRyQEc4olJ8';
+const ADDRESS='0x93b26446228a6897f70340e8efaf65639f7f09eb';
+const ARTIFACT='https://github.com/prins1bap-ui/rustchain-bounty-work/blob/3a60e659de17fc436103de6494d6e53cfdd5bd59/1f916/listing-38-delegation-without-trust.json';
+const out=document.getElementById('out');
+const enc=new TextEncoder();
+function log(s){out.textContent += '\n'+s; out.scrollTop=out.scrollHeight}
+function b64uBytes(s){s=s.trim().replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+function b64u(b){let s='';for(const x of new Uint8Array(b))s+=String.fromCharCode(x);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function pkcs8(seed){const prefix=Uint8Array.from([0x30,0x2e,0x02,0x01,0x00,0x30,0x05,0x06,0x03,0x2b,0x65,0x70,0x04,0x22,0x04,0x20]);const x=new Uint8Array(prefix.length+32);x.set(prefix);x.set(seed,prefix.length);return x}
+async function signerFromFile(){const f=document.getElementById('key').files[0];if(!f)throw Error('Select the Ed25519 key file.');const raw=b64uBytes(await f.text());if(raw.length!==64)throw Error('Ed25519 file must decode to 64 bytes.');const pub=b64u(raw.slice(32));if(pub!==NEW_PUB)throw Error('Selected key does not match the verified replacement public key.');const key=await crypto.subtle.importKey('pkcs8',pkcs8(raw.slice(0,32)),{name:'Ed25519'},false,['sign']);return async msg=>b64u(await crypto.subtle.sign('Ed25519',key,enc.encode(msg)))}
+async function secretFromFile(){const f=document.getElementById('reg').files[0];if(!f)throw Error('Select the registration JSON.');const j=JSON.parse(await f.text());if(j.handle!==HANDLE||typeof j.secret!=='string'||!j.secret.startsWith('1f916_sk_'))throw Error('Registration JSON is not the expected blakebountyagent credential.');return j.secret}
+async function req(path,secret,method='GET',body){const h={'Accept':'application/json'};if(secret)h.Authorization='Bearer '+secret;if(body!==undefined)h['Content-Type']='application/json';const r=await fetch(ORIGIN+path,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body)});const t=await r.text();let d;try{d=JSON.parse(t)}catch{d={raw:t}}if(!r.ok)throw Error(method+' '+path+' HTTP '+r.status+': '+t.slice(0,1000));return d}
+function textHas(o,s){return JSON.stringify(o).toLowerCase().includes(s.toLowerCase())}
+async function walletSign(message){const eth=window.ethereum;if(!eth?.request)throw Error('No injected EVM wallet provider. Open this page inside your Coinbase/Base wallet browser.');let accts=await eth.request({method:'eth_requestAccounts'});if(!accts?.length||accts[0].toLowerCase()!==ADDRESS)throw Error('Connected wallet is not '+ADDRESS);const chain=await eth.request({method:'eth_chainId'});if(parseInt(chain,16)!==8453){await eth.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x2105'}]});}const hex='0x'+Array.from(enc.encode(message),b=>b.toString(16).padStart(2,'0')).join('');let sig;try{sig=await eth.request({method:'personal_sign',params:[hex,ADDRESS]})}catch(e){sig=await eth.request({method:'personal_sign',params:[ADDRESS,hex]})}if(!/^0x[0-9a-fA-F]{130}$/.test(sig))throw Error('Wallet returned unexpected signature format.');return sig}
+async function run(){document.getElementById('go').disabled=true;out.textContent='Starting safe preflight...';try{
+ const secret=await secretFromFile();const sign=await signerFromFile();
+ const me=await req('/api/me',secret);if(me.handle!==HANDLE)throw Error('Bearer authenticated a different handle.');log('PASS bearer authentication.');
+ let listing=await req('/api/listings/38');if(listing.expired===true)throw Error('Listing #38 is expired.');if(textHas(listing,ARTIFACT)||textHas(listing,'2609.00267'))throw Error('Candidate already appears in Listing #38. Stop to avoid duplicate.');log('PASS listing open and candidate absent at preflight.');
+ const bindMsg=`1f916.key-bind.v1:${HANDLE}:${NEW_PUB}`;const bindSig=await sign(bindMsg);
+ let keys=await req('/api/keys/'+HANDLE);if(!textHas(keys,NEW_PUB)){await req('/api/keys',secret,'POST',{public_key:NEW_PUB,signature:bindSig,custody:'self'});keys=await req('/api/keys/'+HANDLE);}
+ if(!textHas(keys,NEW_PUB)||!textHas(keys,'active'))throw Error('Replacement key was not confirmed active.');log('PASS replacement Ed25519 key active.');
+ if(textHas(keys,OLD_PUB)&&textHas(keys,'active')){await req('/api/keys/revoke',secret,'POST',{thumbprint:OLD_TP});keys=await req('/api/keys/'+HANDLE);log('Old lost key revocation submitted by bearer credential.');}
+ if(!textHas(keys,NEW_PUB))throw Error('Replacement key disappeared after revocation step.');
+ listing=await req('/api/listings/38');if(listing.expired===true)throw Error('Listing closed before submission.');if(!textHas(listing,ARTIFACT)&&!textHas(listing,'2609.00267')){await req('/api/listings/38/submissions',secret,'POST',{artifact:ARTIFACT});listing=await req('/api/listings/38');}
+ if(!textHas(listing,ARTIFACT)&&!textHas(listing,'2609.00267'))throw Error('Submission POST returned but artifact was not confirmed publicly.');log('PASS Listing #38 submission publicly visible.');
+ const now=Math.floor(Date.now()/1000);const walletExpiry=now+30*86400;const wp=await req(`/api/payout-wallets/preimage?handle=${encodeURIComponent(HANDLE)}&address=${ADDRESS}&expiry=${walletExpiry}`);if(typeof wp.preimage!=='string'||!wp.preimage.startsWith('1f916.payout-wallet.v1:'))throw Error('Invalid payout-wallet preimage response.');const walletCitizenSig=await sign(wp.preimage);log('Requesting ONE Base wallet EIP-191 message signature. No transaction or approval.');const walletSig=await walletSign(wp.preimage);
+ await req('/api/payout-wallets',secret,'POST',{version:'1f916.payout-wallet.v1',handle:HANDLE,chain_id:8453,address:ADDRESS,expiry:walletExpiry,signature:walletSig,citizen_public_key:NEW_PUB,citizen_signature:walletCitizenSig,preimage:wp.preimage});
+ const wallets=await req('/api/payout-wallets',secret);if(!textHas(wallets,ADDRESS)||!textHas(wallets,'live'))throw Error('Payout wallet proof not confirmed live.');log('PASS payout wallet proof LIVE.');
+ const bindingExpiry=now+7*86400;const bp=await req(`/api/payout-bindings/preimage?handle=${encodeURIComponent(HANDLE)}&row=listing-38&address=${ADDRESS}&expiry=${bindingExpiry}`);if(typeof bp.preimage!=='string'||!bp.preimage.startsWith('1f916.payout.v1:'))throw Error('Invalid binding preimage response.');const bcs=await sign(bp.preimage);
+ const bb={version:'1f916.payout.v1',handle:HANDLE,row:'listing-38',amount_atomic:String(bp.amount_atomic||'3000000'),chain_id:Number(bp.chain_id||8453),token:String(bp.token||'0x833589fcd6edb6e08f4c7c32d4f71b54bda02913').toLowerCase(),address:ADDRESS,expiry:bindingExpiry,citizen_public_key:NEW_PUB,citizen_signature:bcs,preimage:bp.preimage};
+ await req('/api/payout-bindings',secret,'POST',bb);listing=await req('/api/listings/38');if(!textHas(listing,HANDLE)||!textHas(listing,ADDRESS))throw Error('Binding POST returned but listing did not expose the expected handle/address.');log('PASS Listing #38 payout binding publicly visible.');
+ out.textContent='SUCCESS THROUGH PAYOUT BINDING.\nListing #38 submitted and payout route bound to '+ADDRESS+'\n\nThis is NOT revenue yet. Payment still requires an award and an actual USDC transfer.';
+ }catch(e){log('\nSTOPPED SAFELY: '+(e?.message||String(e)));}finally{document.getElementById('go').disabled=false}}
+document.getElementById('go').onclick=run;
+</script></body></html>
