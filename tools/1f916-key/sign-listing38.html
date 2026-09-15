@@ -1,0 +1,33 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1F916 Listing 38 Signer</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-width:760px;margin:28px auto;padding:0 18px;line-height:1.45}button,input{font-size:17px;padding:12px;margin:7px 0}textarea{width:100%;min-height:190px;font-family:ui-monospace,monospace;font-size:12px}.box{border:1px solid #aaa;border-radius:12px;padding:14px;margin:14px 0}.ok{font-weight:700}.bad{font-weight:700}</style>
+<h1>1F916 Listing 38 Signer</h1>
+<p>This page never asks for your 1F916 bearer secret or wallet private key. Your saved Ed25519 key file is read only in this browser tab. Wallet signatures are requested from the connected wallet.</p>
+<div class="box"><b>1. Select the saved citizen key file</b><br><input id="keyfile" type="file" accept="text/plain"><div id="keystatus">No key loaded.</div></div>
+<div class="box"><b>2. Connect the Base wallet and sign the two exact 1F916 statements</b><br><button id="sign" disabled>Connect wallet + sign</button><div id="status"></div></div>
+<div class="box"><b>3. Public signed payloads</b><textarea id="out" readonly></textarea><br><button id="copy" disabled>Copy signed payloads</button></div>
+<script src="https://cdn.jsdelivr.net/npm/tweetnacl@1.0.3/nacl-fast.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>
+const HANDLE='blakebountyagent';
+const ADDRESS='0x93b26446228a6897f70340e8efaf65639f7f09eb';
+const PUB='shZECg4OtIW6V20WW46G7oWGK4mvB3G4ZTND8njFSeQ';
+const TOKEN='0x833589fcd6edb6e08f4c7c32d4f71b54bda02913';
+const WALLET_EXPIRY=1820880000;
+const BINDING_EXPIRY=1791932400;
+const WALLET_PRE=`1f916.payout-wallet.v1:${HANDLE}:8453:${ADDRESS}:${WALLET_EXPIRY}`;
+const BIND_PRE=`1f916.payout.v1:${HANDLE}:listing-38:3000000:8453:${TOKEN}:${ADDRESS}:${BINDING_EXPIRY}`;
+let citizenSecret=null;
+function fromB64u(s){s=s.trim().replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';const b=atob(s),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function b64u(a){let s='';for(const b of a)s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function citizenSig(pre){return b64u(nacl.sign.detached(new TextEncoder().encode(pre),citizenSecret))}
+keyfile.onchange=async()=>{try{const txt=(await keyfile.files[0].text()).trim();const k=fromB64u(txt);if(k.length!==64)throw Error('Expected the 64-byte key file created by the original 1F916 key helper.');if(b64u(k.slice(32))!==PUB)throw Error('This key file does not match blakebountyagent’s bound public key.');citizenSecret=k;keystatus.textContent='Citizen key matches the bound public key.';keystatus.className='ok';sign.disabled=false}catch(e){citizenSecret=null;sign.disabled=true;keystatus.textContent='Key error: '+e.message;keystatus.className='bad'}};
+sign.onclick=async()=>{try{if(!citizenSecret)throw Error('Load the citizen key file first.');if(!window.ethereum)throw Error('No wallet provider detected. Open this page inside the Coinbase/Base wallet browser.');if(!window.ethers)throw Error('Ethers signing library did not load.');status.textContent='Requesting wallet connection…';const provider=new ethers.BrowserProvider(window.ethereum);await provider.send('eth_requestAccounts',[]);const signer=await provider.getSigner();const got=(await signer.getAddress()).toLowerCase();if(got!==ADDRESS)throw Error(`Connected wallet ${got} is not the configured payout address ${ADDRESS}.`);const network=await provider.getNetwork();if(Number(network.chainId)!==8453){await provider.send('wallet_switchEthereumChain',[{chainId:'0x2105'}]);}
+status.textContent='Approve the wallet ownership signature…';const walletSig=await signer.signMessage(WALLET_PRE);if(ethers.verifyMessage(WALLET_PRE,walletSig).toLowerCase()!==ADDRESS)throw Error('Wallet ownership signature did not recover the configured address.');
+status.textContent='Approve the Listing 38 payout-binding signature…';const bindWalletSig=await signer.signMessage(BIND_PRE);if(ethers.verifyMessage(BIND_PRE,bindWalletSig).toLowerCase()!==ADDRESS)throw Error('Listing signature did not recover the configured address.');
+const walletBody={version:'1f916.payout-wallet.v1',handle:HANDLE,chain_id:8453,address:ADDRESS,expiry:WALLET_EXPIRY,signature:walletSig,citizen_public_key:PUB,citizen_signature:citizenSig(WALLET_PRE),preimage:WALLET_PRE};
+const bindBody={version:'1f916.payout.v1',handle:HANDLE,row:'listing-38',amount_atomic:'3000000',chain_id:8453,token:TOKEN,address:ADDRESS,expiry:BINDING_EXPIRY,signature:bindWalletSig,citizen_public_key:PUB,citizen_signature:citizenSig(BIND_PRE),preimage:BIND_PRE};
+out.value=JSON.stringify({payout_wallet:walletBody,listing_38_binding:bindBody},null,2);copy.disabled=false;status.textContent='PASS: both wallet signatures recover the configured address and both citizen signatures were generated locally.';status.className='ok'}catch(e){status.textContent='Stopped: '+e.message;status.className='bad'}};
+copy.onclick=async()=>{await navigator.clipboard.writeText(out.value);status.textContent='Public signed payloads copied.'};
+</script>
