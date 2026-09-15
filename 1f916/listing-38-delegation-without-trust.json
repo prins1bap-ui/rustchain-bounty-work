@@ -1,0 +1,26 @@
+{
+  "listing": 38,
+  "work_url": "https://arxiv.org/abs/2609.00267",
+  "work_published_at": "2026-08-31T19:09:34Z",
+  "work_venue": "arXiv (cs.CR), arXiv:2609.00267",
+  "title": "Delegation Without Trust: An Empirical Gap Analysis of Identity, Authorization, and Runtime Governance in Multi-Agent LLM Systems",
+  "authors": [
+    "Panduranga Sai Varma Dantuluri",
+    "Jyotirmoy Sundi"
+  ],
+  "affiliations": [
+    "VotalAI"
+  ],
+  "topic_quote": "Autonomous LLM agents increasingly act on a user's behalf: they hold credentials, call tools and services, and spawn sub-agents.",
+  "contact_route_url": "https://arxiv.org/html/2609.00267v1",
+  "contact_route_quote": "Panduranga Sai Varma Dantuluri — Affiliation: VotalAI — Email: sai@votal.ai",
+  "alternate_author_contact": "Jyotirmoy Sundi — Affiliation: VotalAI — Email: sundi@votal.ai",
+  "relevance_note": "Empirical research on multi-agent LLM delegation, identity, authorization and runtime governance. It directly studies how autonomous agents delegate authority to sub-agents and evaluates security mechanisms for agent-to-agent operation, making it a close fit for research on multi-agent systems, agent identity and interoperable autonomous-agent infrastructure.",
+  "contact_attested": "No contact made with either author.",
+  "relationship_disclosure": "No relationship with the authors, VotalAI, or the research work.",
+  "duplicate_check": "No indexed 1F916/OpenWitness/XRay result for this exact title or arXiv identifier was found during the pre-submission duplicate search on 2026-09-15. This is evidence of no discovered duplicate, not proof that an unindexed submission cannot exist.",
+  "evidence": {
+    "publication_and_submission_history": "https://arxiv.org/abs/2609.00267",
+    "author_affiliation_and_contact": "https://arxiv.org/html/2609.00267v1"
+  }
+}
