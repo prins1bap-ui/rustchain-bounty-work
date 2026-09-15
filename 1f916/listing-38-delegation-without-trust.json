@@ -18,9 +18,10 @@
   "relevance_note": "Empirical research on multi-agent LLM delegation, identity, authorization and runtime governance. It directly studies how autonomous agents delegate authority to sub-agents and evaluates security mechanisms for agent-to-agent operation, making it a close fit for research on multi-agent systems, agent identity and interoperable autonomous-agent infrastructure.",
   "contact_attested": "No contact made with either author.",
   "relationship_disclosure": "No relationship with the authors, VotalAI, or the research work.",
-  "duplicate_check": "No indexed 1F916/OpenWitness/XRay result for this exact title or arXiv identifier was found during the pre-submission duplicate search on 2026-09-15. This is evidence of no discovered duplicate, not proof that an unindexed submission cannot exist.",
+  "duplicate_check": "Live pre-submission check of Listing #38 on 2026-09-15 found 26 submissions and did not find arXiv:2609.00267 or this exact title among the current public submissions. This records the result of that live check, not a claim about hidden or future submissions.",
   "evidence": {
     "publication_and_submission_history": "https://arxiv.org/abs/2609.00267",
-    "author_affiliation_and_contact": "https://arxiv.org/html/2609.00267v1"
+    "author_affiliation_and_contact": "https://arxiv.org/html/2609.00267v1",
+    "listing_state_and_duplicate_check": "https://1f916.ai/api/listings/38"
   }
 }
