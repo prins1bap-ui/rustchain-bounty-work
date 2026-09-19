@@ -1,7 +1,7 @@
 {
   "balance": {
-    "amount_i64": 732000000,
-    "amount_rtc": 732.0,
+    "amount_i64": 747000000,
+    "amount_rtc": 747.0,
     "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855"
   },
   "history": {
@@ -11,10 +11,10 @@
     "transactions": [
       {
         "amount": 15.0,
-        "epoch": null,
+        "epoch": 41660,
         "from": "founder_community",
-        "status": "pending",
-        "timestamp": 1789703017,
+        "reason": "transfer_in:founder_community:70e988cbde2c93e9ce7a88cc65d0d2bb",
+        "timestamp": 1789789802,
         "tx_hash": "70e988cbde2c93e9ce7a88cc65d0d2bb",
         "type": "transfer_in"
       },
