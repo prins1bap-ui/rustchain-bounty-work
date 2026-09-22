@@ -1,0 +1,66 @@
+name: GBC Emulicious independent benchmark setup
+on:
+  push:
+    branches: [bounty-16517-gbc-emulicious-20260922]
+  workflow_dispatch:
+jobs:
+  setup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl unzip xvfb openjdk-17-jre-headless
+      - name: Checkout exact published-figure commit
+        run: |
+          git clone https://github.com/maddiedreese/gbc-transformer.git target
+          git -C target checkout 69e9a4f
+          git -C target rev-parse HEAD | tee target-sha.txt
+      - name: Install GBDK 4.5.0
+        run: |
+          curl -fL https://github.com/gbdk-2020/gbdk-2020/releases/download/4.5.0/gbdk-linux64.tar.gz -o gbdk.tar.gz
+          mkdir -p gbdk
+          tar -xzf gbdk.tar.gz -C gbdk --strip-components=1
+          test -x gbdk/bin/lcc
+      - name: Build exact-commit GBC ROM
+        run: |
+          cd target
+          make clean
+          make quantize
+          make GBDK_HOME="$GITHUB_WORKSPACE/gbdk" gbc-rom
+          sha256sum build/TINYSTORY.GB | tee ../rom-sha256.txt
+          ls -lh build/TINYSTORY.GB | tee ../rom-info.txt
+      - name: Download official Emulicious
+        run: |
+          curl -fL 'https://emulicious.net/download/emulicious/?wpdmdl=205' -o emulicious.zip
+          unzip -q emulicious.zip -d emulicious
+          find emulicious -maxdepth 2 -type f -print | tee emulicious-files.txt
+          JAR="$(find emulicious -name 'Emulicious.jar' -print -quit)"
+          test -n "$JAR"
+          unzip -p "$JAR" META-INF/MANIFEST.MF | tee emulicious-manifest.txt || true
+          (timeout 8s xvfb-run -a java -jar "$JAR" -help || true) > emulicious-help.txt 2>&1
+          cat emulicious-help.txt
+      - name: Smoke boot exact ROM under Emulicious
+        run: |
+          JAR="$(find emulicious -name 'Emulicious.jar' -print -quit)"
+          set +e
+          timeout 20s xvfb-run -a java -jar "$JAR" -turbo target/build/TINYSTORY.GB > emulicious-boot.log 2>&1
+          code=$?
+          set -e
+          echo "exit_code=$code" | tee emulicious-boot-status.txt
+          tail -200 emulicious-boot.log
+          test "$code" -eq 124 -o "$code" -eq 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gbc-emulicious-setup
+          path: |
+            target-sha.txt
+            rom-sha256.txt
+            rom-info.txt
+            emulicious-files.txt
+            emulicious-manifest.txt
+            emulicious-help.txt
+            emulicious-boot.log
+            emulicious-boot-status.txt
