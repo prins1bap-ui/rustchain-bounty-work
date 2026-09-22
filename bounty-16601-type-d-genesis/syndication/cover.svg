@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" role="img" aria-labelledby="t d">
+<title id="t">Elya Genesis deterministic router walkthrough</title>
+<desc id="d">Syndication cover for the deterministic Elya Genesis router walkthrough by prins1bap-ui.</desc>
+<rect width="1000" height="420" fill="#0a0f16"/>
+<rect x="34" y="34" width="932" height="352" rx="18" fill="none" stroke="#78dce8" stroke-width="3"/>
+<text x="70" y="130" fill="#78dce8" font-family="monospace" font-size="28">RUSTCHAIN / ELYA GENESIS</text>
+<text x="70" y="205" fill="#ffffff" font-family="monospace" font-size="42" font-weight="700">DETERMINISTIC ROUTER</text>
+<text x="70" y="260" fill="#ffffff" font-family="monospace" font-size="42" font-weight="700">REPRODUCIBLE WALKTHROUGH</text>
+<text x="70" y="330" fill="#78dce8" font-family="monospace" font-size="22">author: @prins1bap-ui  |  generate • checksum • verify</text>
+</svg>
