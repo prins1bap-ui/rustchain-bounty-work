@@ -1,0 +1,40 @@
+name: N64 cen64 feasibility
+on:
+  push:
+    branches: [bounty-16517-n64-cen64-20260922]
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake pkg-config libsdl2-dev libgl1-mesa-dev libglew-dev             libx11-dev libxext-dev libxrandr-dev libxi-dev curl jq git
+      - name: Build cen64
+        run: |
+          git clone --depth 1 https://github.com/n64dev/cen64.git cen64-src
+          echo "CEN64_SHA=$(git -C cen64-src rev-parse HEAD)" | tee cen64-meta.txt
+          cmake -S cen64-src -B cen64-build -DCMAKE_BUILD_TYPE=Release
+          cmake --build cen64-build -j2
+          find cen64-build -type f -perm -111 -maxdepth 3 -print | tee -a cen64-meta.txt
+          (cen64-build/cen64 --help || true) 2>&1 | tee cen64-help.txt
+      - name: Inspect target repo and release assets
+        run: |
+          git clone --depth 1 https://github.com/Scottcjn/legend-of-elya-n64.git target
+          git -C target rev-parse HEAD | tee target-sha.txt
+          curl -fsSL https://api.github.com/repos/Scottcjn/legend-of-elya-n64/releases | jq -r '.[] | [.tag_name,.name,([.assets[].browser_download_url]|join(" "))] | @tsv' | tee releases.tsv || true
+          find target -maxdepth 3 -type f \( -name '*.z64' -o -name '*.n64' -o -name '*.v64' \) -print | tee rom-files.txt
+          grep -RIn --exclude-dir=.git -E 'RATE_PROBE|RATE_DONE|RATE A_|RATE B_|Call me Sophia Elya' target | head -200 | tee rate-grep.txt || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n64-cen64-feasibility
+          path: |
+            cen64-meta.txt
+            cen64-help.txt
+            target-sha.txt
+            releases.tsv
+            rom-files.txt
+            rate-grep.txt
