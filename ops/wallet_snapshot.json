@@ -7,8 +7,44 @@
   "history": {
     "miner_id": "RTCc5449fe1b93385961152720c864c0f073dae5855",
     "ok": true,
-    "total": 43,
+    "total": 47,
     "transactions": [
+      {
+        "amount": 2.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1790114081,
+        "tx_hash": "12f1830cd1f206085e6c9baa638bd4fd",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 2.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1790114075,
+        "tx_hash": "a6487e12d9f96fff051bb02b5df673e2",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 10.0,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1790114070,
+        "tx_hash": "0df0d6cd00914c479067f2f208a8a5d1",
+        "type": "transfer_in"
+      },
+      {
+        "amount": 0.1,
+        "epoch": null,
+        "from": "founder_community",
+        "status": "pending",
+        "timestamp": 1790113948,
+        "tx_hash": "c62e2332eb7ea80100df7043091c712e",
+        "type": "transfer_in"
+      },
       {
         "amount": 15.0,
         "epoch": 41660,
