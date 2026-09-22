@@ -12,7 +12,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake pkg-config libsdl2-dev libgl1-mesa-dev libglew-dev             libx11-dev libxext-dev libxrandr-dev libxi-dev curl jq git
+          sudo apt-get install -y build-essential cmake pkg-config libsdl2-dev libgl1-mesa-dev libglew-dev libopenal-dev libx11-dev libxext-dev libxrandr-dev libxi-dev curl jq git
       - name: Build cen64
         run: |
           git clone --depth 1 https://github.com/n64dev/cen64.git cen64-src
